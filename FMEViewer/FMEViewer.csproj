@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
+    <PackageReference Include="MahApps.Metro" Version="2.4.9" />
+    <PackageReference Include="MaterialDesignThemes" Version="4.7.1" />
+    <PackageReference Include="MaterialDesignThemes.MahApps" Version="0.2.7" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="MvvmDialogs" Version="9.1.0" />
+    <PackageReference Include="ReactiveUI" Version="18.4.1" />
+    <PackageReference Include="ReactiveUI.Fody" Version="18.4.1" />
+    <PackageReference Include="ReactiveUI.WPF" Version="18.4.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FMELibrary\FMELibrary.csproj" />
+  </ItemGroup>
+
+</Project>
