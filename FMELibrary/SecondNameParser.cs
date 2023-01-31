@@ -32,10 +32,6 @@ namespace FMELibrary
         {
             byte[] bytes = await File.ReadAllBytesAsync(FilePath);
 
-            //var c = bytes.Skip(8).Take(4).ToArray();
-            //var d = BitConverter.ToInt32(c);
-            //var e = BitConverter.GetBytes(d);
-
             Header = bytes.Take(8).ToArray();
             Count = ConvertToInt(bytes, 8);
             Names = new List<Name>();
@@ -45,19 +41,19 @@ namespace FMELibrary
                 Name name = new()
                 {
                     Id = ConvertToInt(bytes, i + 4),
-                    Nation = bytes.Skip(i + 8).Take(4).ToArray(),
-                    Length = ConvertToInt(bytes, i + 16),
-                    Others = bytes.Skip(i + 12).Take(4).ToArray(),
+                    Nation = Convert.ToHexString(bytes.Skip(i + 8).Take(4).ToArray()),
+                    Others = Convert.ToHexString(bytes.Skip(i + 12).Take(4).ToArray()),
                 };
 
+                var length = ConvertToInt(bytes, i + 16);
                 name.Value = Encoding.UTF8
                     .GetString(bytes.Skip(i + 20)
-                    .Take(name.Length)
+                    .Take(length)
                     .ToArray());
 
                 Names.Add(name);
 
-                i += 19 + name.Length;
+                i += 19 + length;
                 if (Names.Count == Count) break;
             }
 
@@ -67,17 +63,11 @@ namespace FMELibrary
         public async Task Save(string? filepath = null)
         {
             List<byte> bytes = new(Header);
-
             bytes.AddRange(BitConverter.GetBytes(Names.Count));
 
             foreach (var name in Names)
             {
-                bytes.AddRange(new byte[] { 0x00, 0x00, 0x00, 0x00 });
-                bytes.AddRange(BitConverter.GetBytes(name.Id));
-                bytes.AddRange(new byte[] { 0x00, 0x71, 0x00, 0x00 });
-                bytes.AddRange(new byte[] { 0x00, 0x02, 0x00, 0xff });
-                bytes.AddRange(BitConverter.GetBytes(name.Length));
-                bytes.AddRange(Encoding.UTF8.GetBytes(name.Value));
+                bytes.AddRange(name.ToBytes());
             }
 
             await File.WriteAllBytesAsync(filepath ?? FilePath, bytes.ToArray());

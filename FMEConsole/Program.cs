@@ -1,7 +1,7 @@
 ﻿using FMELibrary;
 using System.Text;
 
-var file = "D:\\Downloads\\database\\second_names.dat";
+var file = "D:\\Downloads\\Google Play\\second_names.dat";
 var secondName = new SecondNameParser(file);
 await secondName.Parse();
 

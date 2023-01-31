@@ -165,82 +165,162 @@
             </StatusBarItem>
         </StatusBar>
 
-        <DataGrid
-            x:Name="dataGrid1"
-            md:DataGridAssist.SelectedCellBorderBrush="Transparent"
-            AutoGenerateColumns="False"
-            BorderThickness="1"
-            CanUserAddRows="false"
-            CanUserReorderColumns="False"
-            CanUserResizeRows="False"
-            FontSize="12.5"
-            GridLinesVisibility="All"
-            IsSynchronizedWithCurrentItem="True"
-            ItemsSource="{Binding Names}"
-            RowHeight="33"
-            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-            SelectedItem="{Binding SelectedName}"
-            SelectionMode="Single">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
 
-            <DataGrid.Columns>
+            <DataGrid
+                Grid.Column="0"
+                md:DataGridAssist.SelectedCellBorderBrush="Transparent"
+                AutoGenerateColumns="False"
+                BorderThickness="1"
+                CanUserAddRows="True"
+                CanUserReorderColumns="False"
+                CanUserResizeRows="False"
+                FontSize="12.5"
+                GridLinesVisibility="All"
+                IsSynchronizedWithCurrentItem="True"
+                ItemsSource="{Binding Names}"
+                RowHeight="33"
+                ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                SelectedItem="{Binding SelectedName}"
+                SelectionMode="Single">
 
-                <DataGridTextColumn
-                    Width="75"
-                    MinWidth="75"
-                    MaxWidth="75"
-                    Binding="{Binding Id}"
-                    CanUserReorder="False"
-                    ElementStyle="{StaticResource centerHeaderColumnStyle}"
-                    Header="Id"
-                    IsReadOnly="True">
-                    <DataGridTextColumn.HeaderStyle>
-                        <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
-                            <Setter Property="HorizontalContentAlignment" Value="Center" />
-                        </Style>
-                    </DataGridTextColumn.HeaderStyle>
-                </DataGridTextColumn>
+                <DataGrid.Columns>
 
-                <DataGridTextColumn
-                    Width="105"
-                    MinWidth="105"
-                    MaxWidth="105"
-                    Binding="{Binding NationValue}"
-                    CanUserReorder="False"
-                    ElementStyle="{StaticResource centerHeaderColumnStyle}"
-                    Header="Nation"
-                    IsReadOnly="True">
-                    <DataGridTextColumn.HeaderStyle>
-                        <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
-                            <Setter Property="HorizontalContentAlignment" Value="Center" />
-                        </Style>
-                    </DataGridTextColumn.HeaderStyle>
-                </DataGridTextColumn>
+                    <DataGridTextColumn
+                        Width="75"
+                        MinWidth="75"
+                        MaxWidth="75"
+                        Binding="{Binding Id}"
+                        CanUserReorder="False"
+                        ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                        Header="Id"
+                        IsReadOnly="True">
+                        <DataGridTextColumn.HeaderStyle>
+                            <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                            </Style>
+                        </DataGridTextColumn.HeaderStyle>
+                    </DataGridTextColumn>
 
-                <DataGridTextColumn
-                    Width="105"
-                    MinWidth="105"
-                    MaxWidth="105"
-                    Binding="{Binding OthersValue}"
-                    CanUserReorder="False"
-                    ElementStyle="{StaticResource centerHeaderColumnStyle}"
-                    Header="Unknown"
-                    IsReadOnly="True">
-                    <DataGridTextColumn.HeaderStyle>
-                        <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
-                            <Setter Property="HorizontalContentAlignment" Value="Center" />
-                        </Style>
-                    </DataGridTextColumn.HeaderStyle>
-                </DataGridTextColumn>
+                    <DataGridTextColumn
+                        Width="105"
+                        MinWidth="105"
+                        MaxWidth="105"
+                        Binding="{Binding Nation}"
+                        CanUserReorder="False"
+                        ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                        Header="Nation">
+                        <DataGridTextColumn.HeaderStyle>
+                            <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                            </Style>
+                        </DataGridTextColumn.HeaderStyle>
+                    </DataGridTextColumn>
 
-                <DataGridTextColumn
-                    Width="*"
-                    Binding="{Binding Value}"
-                    CanUserReorder="False"
-                    ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
-                    Header="Name" />
+                    <DataGridTextColumn
+                        Width="105"
+                        MinWidth="105"
+                        MaxWidth="105"
+                        Binding="{Binding Others}"
+                        CanUserReorder="False"
+                        ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                        Header="Unknown">
+                        <DataGridTextColumn.HeaderStyle>
+                            <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                            </Style>
+                        </DataGridTextColumn.HeaderStyle>
+                    </DataGridTextColumn>
 
-            </DataGrid.Columns>
-        </DataGrid>
+                    <DataGridTextColumn
+                        Width="*"
+                        Binding="{Binding Value}"
+                        CanUserReorder="False"
+                        ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                        Header="Name" />
+
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <DataGrid
+                Grid.Column="1"
+                md:DataGridAssist.SelectedCellBorderBrush="Transparent"
+                AutoGenerateColumns="False"
+                BorderThickness="1"
+                CanUserAddRows="True"
+                CanUserReorderColumns="False"
+                CanUserResizeRows="False"
+                FontSize="12.5"
+                GridLinesVisibility="All"
+                IsSynchronizedWithCurrentItem="True"
+                ItemsSource="{Binding Names}"
+                RowHeight="33"
+                ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                SelectedItem="{Binding SelectedName}"
+                SelectionMode="Single">
+
+                <DataGrid.Columns>
+
+                    <DataGridTextColumn
+                        Width="75"
+                        MinWidth="75"
+                        MaxWidth="75"
+                        Binding="{Binding Id}"
+                        CanUserReorder="False"
+                        ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                        Header="Id"
+                        IsReadOnly="True">
+                        <DataGridTextColumn.HeaderStyle>
+                            <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                            </Style>
+                        </DataGridTextColumn.HeaderStyle>
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn
+                        Width="105"
+                        MinWidth="105"
+                        MaxWidth="105"
+                        Binding="{Binding Nation}"
+                        CanUserReorder="False"
+                        ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                        Header="Nation">
+                        <DataGridTextColumn.HeaderStyle>
+                            <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                            </Style>
+                        </DataGridTextColumn.HeaderStyle>
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn
+                        Width="105"
+                        MinWidth="105"
+                        MaxWidth="105"
+                        Binding="{Binding Others}"
+                        CanUserReorder="False"
+                        ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                        Header="Unknown">
+                        <DataGridTextColumn.HeaderStyle>
+                            <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                            </Style>
+                        </DataGridTextColumn.HeaderStyle>
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn
+                        Width="*"
+                        Binding="{Binding Value}"
+                        CanUserReorder="False"
+                        ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                        Header="Name" />
+
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
         <Grid />
     </DockPanel>
 </ma:MetroWindow>

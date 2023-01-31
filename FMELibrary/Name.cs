@@ -5,13 +5,9 @@ namespace FMELibrary
     public class Name
     {
         public int Id { get; set; }
-        public byte[] Nation { get; set; } = Array.Empty<byte>();
-        public byte[] Others { get; set; } = Array.Empty<byte>();
-        public int Length { get; set; }
+        public string Nation { get; set; } = string.Empty;
+        public string Others { get; set; } = string.Empty;
         public string Value { get; set; } = string.Empty;
-
-        public string NationValue => BitConverter.ToString(Nation);
-        public string OthersValue => BitConverter.ToString(Others);
 
         public override string ToString()
         {
@@ -20,12 +16,13 @@ namespace FMELibrary
 
         public byte[] ToBytes()
         {
+            var name = Encoding.UTF8.GetBytes(Value);
             var bytes = new List<byte> { 0x00, 0x00, 0x00, 0x00 };
             bytes.AddRange(BitConverter.GetBytes(Id));
-            bytes.AddRange(Nation);
-            bytes.AddRange(Others);
-            bytes.AddRange(BitConverter.GetBytes(Length));
-            bytes.AddRange(Encoding.UTF8.GetBytes(Value));
+            bytes.AddRange(Convert.FromHexString(Nation));
+            bytes.AddRange(Convert.FromHexString(Others));
+            bytes.AddRange(BitConverter.GetBytes(name.Length));
+            bytes.AddRange(name);
             return bytes.ToArray();
         }
     }

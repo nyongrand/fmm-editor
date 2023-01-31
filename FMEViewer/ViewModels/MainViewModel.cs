@@ -16,7 +16,6 @@ namespace FMEViewer.ViewModels
 {
     public class MainViewModel : ReactiveObject
     {
-
         public extern bool ShowSearch { [ObservableAsProperty] get; }
         [Reactive] public string SearchQuery { get; set; } = "";
 
@@ -44,8 +43,8 @@ namespace FMEViewer.ViewModels
                 {
                     return string.IsNullOrEmpty(SearchQuery)
                     || name.Value.Contains(SearchQuery)
-                    || name.NationValue.Contains(SearchQuery)
-                    || name.OthersValue.Contains(SearchQuery);
+                    || name.Nation.Contains(SearchQuery)
+                    || name.Others.Contains(SearchQuery);
                 }
 
                 return true;
