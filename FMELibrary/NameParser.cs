@@ -2,7 +2,7 @@
 
 namespace FMELibrary
 {
-    public class SecondNameParser
+    public class NameParser
     {
         public string FilePath { get; set; }
         public int Count { get; set; }
@@ -23,7 +23,7 @@ namespace FMELibrary
 
         private List<Name>? names = null;
 
-        public SecondNameParser(string file)
+        public NameParser(string file)
         {
             FilePath = file;
         }

@@ -2,7 +2,7 @@
 using System.Text;
 
 var file = "D:\\Downloads\\Google Play\\second_names.dat";
-var secondName = new SecondNameParser(file);
+var secondName = new NameParser(file);
 await secondName.Parse();
 
 var bytes = (await File.ReadAllBytesAsync(file)).ToList();

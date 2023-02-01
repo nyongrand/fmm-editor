@@ -92,7 +92,7 @@
 
                         <Button
                             Grid.Column="1"
-                            Command="{Binding HideResult}"
+                            Command="{Binding ClearSearch}"
                             Style="{StaticResource MaterialDesignToolButton}"
                             Visibility="{Binding SearchQuery, Converter={StaticResource visibility}, ConverterParameter=Text}">
                             <md:PackIcon Kind="Close" Opacity=".56" />
@@ -129,14 +129,28 @@
 
                         <StackPanel>
                             <Button
-                                Command="{Binding Load}"
-                                Content="Load File"
+                                Command="{Binding Load1}"
+                                Content="Load File 1"
                                 FontSize="16" />
 
                             <Button
-                                Command="{Binding Save}"
+                                Command="{Binding Save1}"
                                 Content="Save File"
                                 FontSize="16" />
+
+                            <Separator />
+
+                            <Button
+                                Command="{Binding Load2}"
+                                Content="Load File 2"
+                                FontSize="16" />
+
+                            <Button
+                                Command="{Binding Save2}"
+                                Content="Save File"
+                                FontSize="16" />
+
+                            <Separator />
 
                             <Button
                                 Click="Exit_Click"
@@ -156,12 +170,25 @@
             <StatusBar.Background>
                 <SolidColorBrush Color="{DynamicResource MahApps.Colors.Flyout}" />
             </StatusBar.Background>
+
             <StatusBarItem>
-                <TextBlock Text="{Binding FilePath}" />
+                <TextBlock Text="{Binding FilePath1}" />
             </StatusBarItem>
 
             <StatusBarItem>
-                <TextBlock Text="{Binding Names.Count}" />
+                <TextBlock Text="{Binding Names1.Count}" />
+            </StatusBarItem>
+
+            <StatusBarItem>
+                <TextBlock Text="|" />
+            </StatusBarItem>
+
+            <StatusBarItem>
+                <TextBlock Text="{Binding FilePath2}" />
+            </StatusBarItem>
+
+            <StatusBarItem>
+                <TextBlock Text="{Binding Names2.Count}" />
             </StatusBarItem>
         </StatusBar>
 
@@ -182,10 +209,9 @@
                 FontSize="12.5"
                 GridLinesVisibility="All"
                 IsSynchronizedWithCurrentItem="True"
-                ItemsSource="{Binding Names}"
+                ItemsSource="{Binding Names1}"
                 RowHeight="33"
                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                SelectedItem="{Binding SelectedName}"
                 SelectionMode="Single">
 
                 <DataGrid.Columns>
@@ -257,10 +283,9 @@
                 FontSize="12.5"
                 GridLinesVisibility="All"
                 IsSynchronizedWithCurrentItem="True"
-                ItemsSource="{Binding Names}"
+                ItemsSource="{Binding Names2}"
                 RowHeight="33"
                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                SelectedItem="{Binding SelectedName}"
                 SelectionMode="Single">
 
                 <DataGrid.Columns>
