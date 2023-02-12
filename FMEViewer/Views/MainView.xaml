@@ -135,7 +135,7 @@
 
                             <Button
                                 Command="{Binding Save1}"
-                                Content="Save File"
+                                Content="Save File 1"
                                 FontSize="16" />
 
                             <Separator />
@@ -147,7 +147,7 @@
 
                             <Button
                                 Command="{Binding Save2}"
-                                Content="Save File"
+                                Content="Save File 2"
                                 FontSize="16" />
 
                             <Separator />

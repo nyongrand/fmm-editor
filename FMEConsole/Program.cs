@@ -1,35 +1,37 @@
 ﻿using FMELibrary;
 using System.Text;
 
-var file = "D:\\Downloads\\Google Play\\second_names.dat";
-var secondName = new NameParser(file);
-await secondName.Parse();
+
+var file = "D:\\Downloads\\database\\competition.dat";
+var parser = new CompetitionParser(file);
+//await parser.ParseAsync();
 
 var bytes = (await File.ReadAllBytesAsync(file)).ToList();
-var count = secondName.Count;
+var count = parser.Count;
 
-while (true)
-{
-    //Console.WriteLine("Enter new name to add!");
+//while (true)
+//{
+//    //Console.WriteLine("Enter new name to add!");
 
-    var name = Console.ReadLine();
-    if (string.IsNullOrEmpty(name))
-        break;
+//    var name = Console.ReadLine();
+//    if (string.IsNullOrEmpty(name))
+//        break;
 
-    //var bytes = new List<byte> { 0, 0, 0, 0 };
-    bytes.AddRange(new byte[] { 0x00, 0x00, 0x00, 0x00 });
-    bytes.AddRange(BitConverter.GetBytes(count++));
-    bytes.AddRange(new byte[] { 0x00, 0x71, 0x00, 0x00 });
-    bytes.AddRange(new byte[] { 0x00, 0x02, 0x00, 0xff });
-    bytes.AddRange(BitConverter.GetBytes(name.Length));
-    bytes.AddRange(Encoding.UTF8.GetBytes(name));
+//    //var bytes = new List<byte> { 0, 0, 0, 0 };
+//    bytes.AddRange(new byte[] { 0x00, 0x00, 0x00, 0x00 });
+//    bytes.AddRange(BitConverter.GetBytes(count++));
+//    bytes.AddRange(new byte[] { 0x00, 0x71, 0x00, 0x00 });
+//    bytes.AddRange(new byte[] { 0x00, 0x02, 0x00, 0xff });
+//    bytes.AddRange(BitConverter.GetBytes(name.Length));
+//    bytes.AddRange(Encoding.UTF8.GetBytes(name));
 
-    //hex += BitConverter.ToString(bytes.ToArray()).Replace("-", " ") + " ";
-    //var hex = BitConverter.ToString(bytes.ToArray()).Replace("-", " ");
-    //Console.WriteLine(hex);
+//    //hex += BitConverter.ToString(bytes.ToArray()).Replace("-", " ") + " ";
+//    //var hex = BitConverter.ToString(bytes.ToArray()).Replace("-", " ");
+//    //Console.WriteLine(hex);
 
-    //var h = "            ^^                                  ^^          ";
-    //Console.WriteLine(h.PadRight(hex.Length, '^'));
-}
+//    //var h = "            ^^                                  ^^          ";
+//    //Console.WriteLine(h.PadRight(hex.Length, '^'));
+//}
 
-await File.WriteAllBytesAsync(file.Replace(".dat", "_new.dat"), bytes.ToArray());
+//await File.WriteAllBytesAsync(file.Replace(".dat", "_new.dat"), bytes.ToArray());
+
