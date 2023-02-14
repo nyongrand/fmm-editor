@@ -2,8 +2,8 @@
 using System.Text;
 
 
-var file = "D:\\Downloads\\database\\competition.dat";
-var parser = new CompetitionParser(file);
+var file = "D:\\Downloads\\database\\club.dat";
+var parser = new ClubParser(file);
 //await parser.ParseAsync();
 
 var bytes = (await File.ReadAllBytesAsync(file)).ToList();
