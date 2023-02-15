@@ -50,14 +50,24 @@ namespace FMELibrary
         public byte Reserves { get; set; }
 
         public short League { get; set; }
-        public short Unknown5 { get; set; }
-        public byte Unknown6 { get; set; }
+        public short Unknown4 { get; set; }
+        public byte Unknown5 { get; set; }
         public short Stadium { get; set; }
         public short LastLeague { get; set; }
+
+        public byte[] Unknown6 { get; set; }
+
         public byte LeaguePos { get; set; }
         public short Reputation { get; set; }
 
-        public byte[] Unknown7 { get; set; } = Array.Empty<byte>();
+        public byte[] Unknown7 { get; set; }
+        public Affiliate[] Affiliates { get; set; }
+        public int[] Players { get; set; }
+        public int[] Unknown8 { get; set; }
+        public int MainClub { get; set; }
+        public int IsNational { get; set; }
+        public byte[] Unknown9 { get; set; }
+        public byte[] Unknown10 { get; set; }
 
         public override string ToString()
         {
@@ -92,32 +102,42 @@ namespace FMELibrary
             AttMin = reader.ReadInt16();
             AttMax = reader.ReadInt16();
             Reserves = reader.ReadByte();
-
             League = reader.ReadInt16();
 
-            Unknown5 = reader.ReadInt16();
-            Unknown6 = reader.ReadByte();
+            Unknown4 = reader.ReadInt16();
+            Unknown5 = reader.ReadByte();
             Stadium = reader.ReadInt16();
             LastLeague = reader.ReadInt16();
+
+            Unknown6 = reader.ReadBytes(12);
+
             LeaguePos = reader.ReadByte();
             Reputation = reader.ReadInt16();
             Unknown7 = reader.ReadBytes(20);
 
-            /*
-                     self.partners = [
-                        file.readObject(self.Partner(self.db))
-                        for _ in range(file.readObject(Int2))
-                        ]
-            self.players = [
-                file.readObject(Int4) for _ in range(file.readObject(Int2))
-            ]
-            self.unk8 = [file.readObject(Int4) for _ in range(11)]
-            self.mainClub = ClubKey(self.db)
-            self.mainClub.ID = file.readObject(Int4)
-            self.isNational = file.readObject(Int2)
-            self.unk9 = [file.readObject(Int1) for _ in range(33)]
-            self.unk10 = [file.readObject(Int4) for _ in range(10)]
-             */
+            Affiliates = new Affiliate[reader.ReadInt16()];
+            for (int i = 0; i < Affiliates.Length; i++)
+            {
+                Affiliates[i] = new Affiliate(reader);
+            }
+
+            Players = new int[reader.ReadInt16()];
+            for (int i = 0; i < Players.Length; i++)
+            {
+                Players[i] = reader.ReadInt32();
+            }
+
+            Unknown8 = new int[11];
+            for (int i = 0; i < Unknown8.Length; i++)
+            {
+                Unknown8[i] = reader.ReadInt32();
+            }
+
+            MainClub = reader.ReadInt32();
+            IsNational = reader.ReadInt16();
+
+            Unknown9 = reader.ReadBytes(33);
+            Unknown10 = reader.ReadBytes(40);
         }
 
         public byte[] ToBytes()
