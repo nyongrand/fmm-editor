@@ -2,12 +2,23 @@
 using System.Text;
 
 
-var file = "D:\\Downloads\\database\\club.dat";
-var parser = new ClubParser(file);
-//await parser.ParseAsync();
+var compParser = new CompetitionParser("D:\\Downloads\\database\\competition.dat");
+var clubParser = new ClubParser("D:\\Downloads\\database\\club.dat");
 
-var bytes = (await File.ReadAllBytesAsync(file)).ToList();
-var count = parser.Count;
+var competitions = compParser.Items;
+var clubs = compParser.Items;
+
+var q = from comp in compParser.Items
+        join club in clubParser.Items on comp.Id equals club.League into grouping
+        select new { Competition = comp, Clubs = grouping.ToList() };
+
+Console.WriteLine("");
+//var file = "D:\\Downloads\\database\\club.dat";
+//var parser = new ClubParser(file);
+////await parser.ParseAsync();
+
+//var bytes = (await File.ReadAllBytesAsync(file)).ToList();
+//var count = parser.Count;
 
 //while (true)
 //{

@@ -41,8 +41,6 @@
                     var d = Items.Last().ToString();
                     break;
                 }
-
-                if (Items.Count == Count) break;
             }
         }
     }

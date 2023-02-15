@@ -4,43 +4,17 @@ namespace FMELibrary
 {
     public class Club
     {
-        /// <summary>
-        /// 4 bytes
-        /// </summary>
         public int Id { get; set; }
-
-        /// <summary>
-        /// 4 bytes
-        /// </summary>
         public int Uid { get; set; }
-
         public string FullName { get; set; }
         public byte Unknown1 { get; set; }
-
         public string ShortName { get; set; }
         public byte Unknown2 { get; set; }
-
         public string CodeName { get; set; }
-
-        /// <summary>
-        /// 2 bytes
-        /// </summary>
         public short Based { get; set; }
-        /// <summary>
-        /// 2 bytes
-        /// </summary>
         public short Nation { get; set; }
-
-        /// <summary>
-        /// 2x6 bytes
-        /// </summary>
         public byte[] Colors { get; set; }
-
-        /// <summary>
-        /// 10x6 bytes
-        /// </summary>
         public Kit[] Kits { get; set; }
-
         public byte Status { get; set; }
         public byte Academy { get; set; }
         public byte Facilities { get; set; }
@@ -48,26 +22,22 @@ namespace FMELibrary
         public short AttMin { get; set; }
         public short AttMax { get; set; }
         public byte Reserves { get; set; }
-
         public short League { get; set; }
-        public short Unknown4 { get; set; }
-        public byte Unknown5 { get; set; }
+        public short Unknown3 { get; set; }
+        public byte Unknown4 { get; set; }
         public short Stadium { get; set; }
         public short LastLeague { get; set; }
-
-        public byte[] Unknown6 { get; set; }
-
+        public byte[] Unknown5 { get; set; }
         public byte LeaguePos { get; set; }
         public short Reputation { get; set; }
-
-        public byte[] Unknown7 { get; set; }
+        public byte[] Unknown6 { get; set; }
         public Affiliate[] Affiliates { get; set; }
         public int[] Players { get; set; }
-        public int[] Unknown8 { get; set; }
+        public int[] Unknown7 { get; set; }
         public int MainClub { get; set; }
         public int IsNational { get; set; }
+        public byte[] Unknown8 { get; set; }
         public byte[] Unknown9 { get; set; }
-        public byte[] Unknown10 { get; set; }
 
         public override string ToString()
         {
@@ -104,16 +74,16 @@ namespace FMELibrary
             Reserves = reader.ReadByte();
             League = reader.ReadInt16();
 
-            Unknown4 = reader.ReadInt16();
-            Unknown5 = reader.ReadByte();
+            Unknown3 = reader.ReadInt16();
+            Unknown4 = reader.ReadByte();
             Stadium = reader.ReadInt16();
             LastLeague = reader.ReadInt16();
 
-            Unknown6 = reader.ReadBytes(12);
+            Unknown5 = reader.ReadBytes(12);
 
             LeaguePos = reader.ReadByte();
             Reputation = reader.ReadInt16();
-            Unknown7 = reader.ReadBytes(20);
+            Unknown6 = reader.ReadBytes(20);
 
             Affiliates = new Affiliate[reader.ReadInt16()];
             for (int i = 0; i < Affiliates.Length; i++)
@@ -127,17 +97,17 @@ namespace FMELibrary
                 Players[i] = reader.ReadInt32();
             }
 
-            Unknown8 = new int[11];
-            for (int i = 0; i < Unknown8.Length; i++)
+            Unknown7 = new int[11];
+            for (int i = 0; i < Unknown7.Length; i++)
             {
-                Unknown8[i] = reader.ReadInt32();
+                Unknown7[i] = reader.ReadInt32();
             }
 
             MainClub = reader.ReadInt32();
             IsNational = reader.ReadInt16();
 
-            Unknown9 = reader.ReadBytes(33);
-            Unknown10 = reader.ReadBytes(40);
+            Unknown8 = reader.ReadBytes(33);
+            Unknown9 = reader.ReadBytes(40);
         }
 
         public byte[] ToBytes()
