@@ -1,4 +1,4 @@
-﻿using System.Text;
+﻿using System.Drawing;
 
 namespace FMELibrary
 {
@@ -13,7 +13,7 @@ namespace FMELibrary
         public string CodeName { get; set; }
         public short Based { get; set; }
         public short Nation { get; set; }
-        public byte[] Colors { get; set; }
+        public Color[] Colors { get; set; }
         public Kit[] Kits { get; set; }
         public byte Status { get; set; }
         public byte Academy { get; set; }
@@ -35,14 +35,9 @@ namespace FMELibrary
         public int[] Players { get; set; }
         public int[] Unknown7 { get; set; }
         public int MainClub { get; set; }
-        public int IsNational { get; set; }
+        public short IsNational { get; set; }
         public byte[] Unknown8 { get; set; }
         public byte[] Unknown9 { get; set; }
-
-        public override string ToString()
-        {
-            return $"{Id} {FullName}";
-        }
 
         public Club(BinaryReader reader)
         {
@@ -58,7 +53,12 @@ namespace FMELibrary
             Based = reader.ReadInt16();
             Nation = reader.ReadInt16();
 
-            Colors = reader.ReadBytes(12);
+            Colors = new Color[6];
+            for (int i = 0; i < Colors.Length; i++)
+            {
+                Colors[i] = reader.ReadColor();
+            }
+
             Kits = new Kit[6];
             for (int i = 0; i < Kits.Length; i++)
             {
@@ -112,22 +112,73 @@ namespace FMELibrary
 
         public byte[] ToBytes()
         {
-            var bytes = new List<byte>();
-            bytes.AddRange(BitConverter.GetBytes(Id));
-            bytes.AddRange(BitConverter.GetBytes(Uid));
+            using var stream = new MemoryStream();
+            using var writer = new BinaryWriter(stream);
+            Write(writer);
+            return stream.ToArray();
+        }
 
-            bytes.AddRange(BitConverter.GetBytes(Encoding.UTF8.GetBytes(FullName).Length));
-            bytes.AddRange(Encoding.UTF8.GetBytes(FullName));
-            bytes.Add(0x00);
+        public void Write(BinaryWriter writer)
+        {
+            writer.Write(Id);
+            writer.Write(Uid);
 
-            bytes.AddRange(BitConverter.GetBytes(Encoding.UTF8.GetBytes(ShortName).Length));
-            bytes.AddRange(Encoding.UTF8.GetBytes(ShortName));
-            bytes.Add(0x00);
+            writer.WriteEx(FullName);
+            writer.Write(Unknown1);
+            writer.WriteEx(ShortName);
+            writer.Write(Unknown2);
+            writer.WriteEx(CodeName);
 
-            bytes.AddRange(BitConverter.GetBytes(Encoding.UTF8.GetBytes(CodeName).Length));
-            bytes.AddRange(Encoding.UTF8.GetBytes(CodeName));
+            writer.Write(Based);
+            writer.Write(Nation);
 
-            return bytes.ToArray();
+            for (int i = 0; i < Colors.Length; i++)
+                writer.WriteEx(Colors[i]);
+
+            for (int i = 0; i < Kits.Length; i++)
+                Kits[i].Write(writer);
+
+            writer.Write(Status);
+            writer.Write(Academy);
+            writer.Write(Facilities);
+            writer.Write(AttAvg);
+            writer.Write(AttMin);
+            writer.Write(AttMax);
+            writer.Write(Reserves);
+            writer.Write(League);
+
+            writer.Write(Unknown3);
+            writer.Write(Unknown4);
+            writer.Write(Stadium);
+            writer.Write(LastLeague);
+
+            writer.Write(Unknown5);
+
+            writer.Write(LeaguePos);
+            writer.Write(Reputation);
+            writer.Write(Unknown6);
+
+            writer.Write((short)Affiliates.Length);
+            for (int i = 0; i < Affiliates.Length; i++)
+                Affiliates[i].Write(writer);
+
+            writer.Write((short)Players.Length);
+            for (int i = 0; i < Players.Length; i++)
+                writer.Write(Players[i]);
+
+            for (int i = 0; i < Unknown7.Length; i++)
+                writer.Write(Unknown7[i]);
+
+            writer.Write(MainClub);
+            writer.Write(IsNational);
+
+            writer.Write(Unknown8);
+            writer.Write(Unknown9);
+        }
+
+        public override string ToString()
+        {
+            return $"{Id} {FullName}";
         }
     }
 }

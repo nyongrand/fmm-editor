@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System.Buffers.Binary;
+using System.Drawing;
 using System.Text;
 
 namespace FMELibrary
@@ -10,24 +11,30 @@ namespace FMELibrary
             return Encoding.UTF8.GetString(reader.ReadBytes(length));
         }
 
-        public static byte[] GetBytes(this string text)
+        public static Color ReadColor(this BinaryReader reader)
         {
-            var bytes = Encoding.UTF8.GetBytes(text);
-            return BitConverter.GetBytes(bytes.Length).Concat(bytes).ToArray();
+            short color = reader.ReadInt16();
+            int red = color >> 10;
+            int green = (color >> 5) & 0x1F;
+            int blue = color & 0x1F;
+
+            return Color.FromArgb(red << 3, green << 3, blue << 3);
         }
 
-        //public static Color ReadColor(this BinaryReader reader)
-        //{
-        //    int color = reader.ReadInt16();
-        //    return Color.FromArgb(color / (1 << 10), color % (1 << 10) / (1 << 5), color % (1 << 5));
-        //}
+        public static void WriteEx(this BinaryWriter writer, string text)
+        {
+            var bytes = Encoding.UTF8.GetBytes(text);
+            writer.Write(bytes.Length);
+            writer.Write(bytes);
+        }
 
-        //public static byte[] GetBytes(this Color color)
-        //{
-        //    short s = (color.R << 10) | (color.G << 5) | color.B;
-
-        //    var bytes = Encoding.UTF8.GetBytes(text);
-        //    return BitConverter.GetBytes(bytes.Length).Concat(bytes).ToArray();
-        //}
+        public static void WriteEx(this BinaryWriter writer, Color color)
+        {
+            int red = color.R >> 3;
+            int green = color.G >> 3;
+            int blue = color.B >> 3;
+            short s = (short)((red << 10) | (green << 5) | blue);
+            writer.Write(s);
+        }
     }
 }

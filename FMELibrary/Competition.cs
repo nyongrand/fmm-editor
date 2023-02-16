@@ -1,6 +1,4 @@
 ﻿using System.Drawing;
-using System.Reflection.PortableExecutable;
-using System.Text;
 
 namespace FMELibrary
 {
@@ -20,9 +18,8 @@ namespace FMELibrary
 
         public short Continent { get; set; }
         public short Nation { get; set; }
-        public byte[] Colors { get; set; }
-        //public Color Color1 { get; set; }
-        //public Color Color2 { get; set; }
+        public Color Color1 { get; set; }
+        public Color Color2 { get; set; }
         public short Reputation { get; set; }
         public byte Level { get; set; }
         public short MainComp { get; set; }
@@ -49,9 +46,8 @@ namespace FMELibrary
             Type = reader.ReadByte();
             Continent = reader.ReadInt16();
             Nation = reader.ReadInt16();
-            Colors = reader.ReadBytes(4);
-            //Color1 = reader.ReadColor();
-            //Color2 = reader.ReadColor();
+            Color1 = reader.ReadColor();
+            Color2 = reader.ReadColor();
             Reputation = reader.ReadInt16();
             Level = reader.ReadByte();
             MainComp = reader.ReadInt16();
@@ -74,39 +70,45 @@ namespace FMELibrary
 
         public byte[] ToBytes()
         {
-            var bytes = new List<byte>();
-            bytes.AddRange(BitConverter.GetBytes(Id));
-            bytes.AddRange(BitConverter.GetBytes(Uid));
+            using var stream = new MemoryStream();
+            using var writer = new BinaryWriter(stream);
+            Write(writer);
+            return stream.ToArray();
+        }
 
-            bytes.AddRange(FullName.GetBytes());
-            bytes.Add(Unknown1);
-            bytes.AddRange(ShortName.GetBytes());
-            bytes.Add(Unknown2);
-            bytes.AddRange(CodeName.GetBytes());
+        public void Write(BinaryWriter writer)
+        {
+            writer.Write(Id);
+            writer.Write(Uid);
 
-            bytes.Add(Type);
-            bytes.AddRange(BitConverter.GetBytes(Continent));
-            bytes.AddRange(BitConverter.GetBytes(Nation));
-            bytes.AddRange(Colors);
-            bytes.AddRange(BitConverter.GetBytes(Reputation));
-            bytes.Add(Level);
-            bytes.AddRange(BitConverter.GetBytes(MainComp));
+            writer.WriteEx(FullName);
+            writer.Write(Unknown1);
+            writer.WriteEx(ShortName);
+            writer.Write(Unknown2);
+            writer.WriteEx(CodeName);
 
-            bytes.AddRange(BitConverter.GetBytes(Qualifiers.Length));
+            writer.Write(Type);
+            writer.Write(Continent);
+            writer.Write(Nation);
+            writer.WriteEx(Color1);
+            writer.WriteEx(Color2);
+            writer.Write(Reputation);
+            writer.Write(Level);
+            writer.Write(MainComp);
+
+            writer.Write(Qualifiers.Length);
             for (int i = 0; i < Qualifiers.Length; i++)
             {
-                bytes.AddRange(Qualifiers[i]);
+                writer.Write(Qualifiers[i]);
             }
 
-            bytes.AddRange(BitConverter.GetBytes(Rank1));
-            bytes.AddRange(BitConverter.GetBytes(Rank2));
-            bytes.AddRange(BitConverter.GetBytes(Rank3));
-            bytes.AddRange(BitConverter.GetBytes(Year1));
-            bytes.AddRange(BitConverter.GetBytes(Year2));
-            bytes.AddRange(BitConverter.GetBytes(Year3));
-            bytes.Add(Unknown3);
-
-            return bytes.ToArray();
+            writer.Write(Rank1);
+            writer.Write(Rank2);
+            writer.Write(Rank3);
+            writer.Write(Year1);
+            writer.Write(Year2);
+            writer.Write(Year3);
+            writer.Write(Unknown3);
         }
 
         public override string ToString()

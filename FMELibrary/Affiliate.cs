@@ -1,4 +1,6 @@
-﻿namespace FMELibrary
+﻿using System.Reflection.PortableExecutable;
+
+namespace FMELibrary
 {
     public class Affiliate
     {
@@ -21,6 +23,18 @@
             EndDay = reader.ReadInt16();
             EndYear = reader.ReadInt16();
             Unknown2 = reader.ReadByte();
+        }
+
+        public void Write(BinaryWriter writer)
+        {
+            writer.Write(Unknown1);
+            writer.Write(Club1Id);
+            writer.Write(Club2Id);
+            writer.Write(StartDay);
+            writer.Write(StartYear);
+            writer.Write(EndDay);
+            writer.Write(EndYear);
+            writer.Write(Unknown2);
         }
     }
 }

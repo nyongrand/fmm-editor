@@ -1,24 +1,36 @@
 ﻿using FMELibrary;
-using System.Text;
 
 
-var compParser = new CompetitionParser("D:\\Downloads\\database\\competition.dat");
-var clubParser = new ClubParser("D:\\Downloads\\database\\club.dat");
+//var compParser = new CompetitionParser("D:\\Downloads\\database\\competition.dat");
+//var clubParser = new ClubParser("D:\\Downloads\\database\\club.dat");
 
-var competitions = compParser.Items;
-var clubs = compParser.Items;
+//var competitions = compParser.Items;
+//var clubs = compParser.Items;
 
-var q = from comp in compParser.Items
-        join club in clubParser.Items on comp.Id equals club.League into grouping
-        select new { Competition = comp, Clubs = grouping.ToList() };
+//var q = from comp in compParser.Items
+//        join club in clubParser.Items on comp.Id equals club.League into grouping
+//        select new { Competition = comp, Clubs = grouping.ToList() };
 
-Console.WriteLine("");
-//var file = "D:\\Downloads\\database\\club.dat";
-//var parser = new ClubParser(file);
-////await parser.ParseAsync();
+//Console.WriteLine("");
 
-//var bytes = (await File.ReadAllBytesAsync(file)).ToList();
-//var count = parser.Count;
+
+var file = "D:\\Downloads\\database\\club.dat";
+var parser = new ClubParser(file);
+//await parser.ParseAsync();
+
+var bytes1 = parser.ToBytes();
+var bytes2 = await File.ReadAllBytesAsync(file);
+
+for (int i = 0; i < bytes2.Length; i++)
+{
+    if (bytes1[i] != bytes2[i])
+    {
+
+    }
+}
+
+var equal = bytes1.SequenceEqual(bytes2);
+var count = parser.Count;
 
 //while (true)
 //{

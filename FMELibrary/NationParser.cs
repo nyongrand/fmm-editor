@@ -1,6 +1,6 @@
 ﻿namespace FMELibrary
 {
-    public class ClubParser
+    public class NationParser
     {
         /// <summary>
         /// File path
@@ -15,28 +15,28 @@
         /// <summary>
         /// Item count
         /// </summary>
-        public int Count { get; set; }
+        public short Count { get; set; }
 
         /// <summary>
         /// List of all items
         /// </summary>
-        public List<Club> Items { get; set; }
+        public List<Nation> Items { get; set; }
 
-        public ClubParser(string path)
+        public NationParser(string path)
         {
             using var file = File.OpenRead(path);
             using var reader = new BinaryReader(file);
 
             FilePath = path;
             Header = reader.ReadBytes(8);
-            Count = reader.ReadInt32();
-            Items = new List<Club>();
+            Count = reader.ReadInt16();
+            Items = new List<Nation>();
 
             while (file.Position < file.Length)
             {
                 try
                 {
-                    var item = new Club(reader);
+                    var item = new Nation(reader);
                     Items.Add(item);
                 }
                 catch
@@ -53,7 +53,7 @@
             using var writer = new BinaryWriter(stream);
 
             writer.Write(Header);
-            writer.Write(Items.Count);
+            writer.Write((short)Items.Count);
             foreach (var item in Items)
             {
                 item.Write(writer);
