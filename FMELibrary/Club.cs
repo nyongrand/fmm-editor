@@ -11,8 +11,8 @@ namespace FMELibrary
         public string ShortName { get; set; }
         public byte Unknown2 { get; set; }
         public string CodeName { get; set; }
-        public short Based { get; set; }
-        public short Nation { get; set; }
+        public short BasedId { get; set; }
+        public short NationId { get; set; }
         public Color[] Colors { get; set; }
         public Kit[] Kits { get; set; }
         public byte Status { get; set; }
@@ -22,7 +22,7 @@ namespace FMELibrary
         public short AttMin { get; set; }
         public short AttMax { get; set; }
         public byte Reserves { get; set; }
-        public short League { get; set; }
+        public short LeagueId { get; set; }
         public short Unknown3 { get; set; }
         public byte Unknown4 { get; set; }
         public short Stadium { get; set; }
@@ -39,6 +39,13 @@ namespace FMELibrary
         public byte[] Unknown8 { get; set; }
         public byte[] Unknown9 { get; set; }
 
+        #region Extra
+
+        public string Based { get; set; } = string.Empty;
+        public string Nation { get; set; } = string.Empty;
+
+        #endregion
+
         public Club(BinaryReader reader)
         {
             Id = reader.ReadInt32();
@@ -50,8 +57,8 @@ namespace FMELibrary
             Unknown2 = reader.ReadByte();
             CodeName = reader.ReadString(reader.ReadInt32());
 
-            Based = reader.ReadInt16();
-            Nation = reader.ReadInt16();
+            BasedId = reader.ReadInt16();
+            NationId = reader.ReadInt16();
 
             Colors = new Color[6];
             for (int i = 0; i < Colors.Length; i++)
@@ -72,7 +79,7 @@ namespace FMELibrary
             AttMin = reader.ReadInt16();
             AttMax = reader.ReadInt16();
             Reserves = reader.ReadByte();
-            League = reader.ReadInt16();
+            LeagueId = reader.ReadInt16();
 
             Unknown3 = reader.ReadInt16();
             Unknown4 = reader.ReadByte();
@@ -129,8 +136,8 @@ namespace FMELibrary
             writer.Write(Unknown2);
             writer.WriteEx(CodeName);
 
-            writer.Write(Based);
-            writer.Write(Nation);
+            writer.Write(BasedId);
+            writer.Write(NationId);
 
             for (int i = 0; i < Colors.Length; i++)
                 writer.WriteEx(Colors[i]);
@@ -145,7 +152,7 @@ namespace FMELibrary
             writer.Write(AttMin);
             writer.Write(AttMax);
             writer.Write(Reserves);
-            writer.Write(League);
+            writer.Write(LeagueId);
 
             writer.Write(Unknown3);
             writer.Write(Unknown4);

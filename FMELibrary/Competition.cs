@@ -6,18 +6,14 @@ namespace FMELibrary
     {
         public short Id { get; set; }
         public int Uid { get; set; }
-
-        public string FullName { get; set; } = string.Empty;
+        public string FullName { get; set; }
         public byte Unknown1 { get; set; }
-
-        public string ShortName { get; set; } = string.Empty;
+        public string ShortName { get; set; }
         public byte Unknown2 { get; set; }
-
-        public string CodeName { get; set; } = string.Empty;
+        public string CodeName { get; set; }
         public byte Type { get; set; }
-
-        public short Continent { get; set; }
-        public short Nation { get; set; }
+        public short ContinentId { get; set; }
+        public short NationId { get; set; }
         public Color Color1 { get; set; }
         public Color Color2 { get; set; }
         public short Reputation { get; set; }
@@ -32,6 +28,12 @@ namespace FMELibrary
         public short Year3 { get; set; }
         public byte Unknown3 { get; set; }
 
+        #region Extra
+
+        public string Nation { get; set; } = string.Empty;
+
+        #endregion
+
         public Competition(BinaryReader reader)
         {
             Id = reader.ReadInt16();
@@ -44,8 +46,8 @@ namespace FMELibrary
             CodeName = reader.ReadString(reader.ReadInt32());
 
             Type = reader.ReadByte();
-            Continent = reader.ReadInt16();
-            Nation = reader.ReadInt16();
+            ContinentId = reader.ReadInt16();
+            NationId = reader.ReadInt16();
             Color1 = reader.ReadColor();
             Color2 = reader.ReadColor();
             Reputation = reader.ReadInt16();
@@ -88,8 +90,8 @@ namespace FMELibrary
             writer.WriteEx(CodeName);
 
             writer.Write(Type);
-            writer.Write(Continent);
-            writer.Write(Nation);
+            writer.Write(ContinentId);
+            writer.Write(NationId);
             writer.WriteEx(Color1);
             writer.WriteEx(Color2);
             writer.Write(Reputation);

@@ -1,14 +1,16 @@
 ﻿using DynamicData;
 using FMELibrary;
 using MvvmDialogs;
-using MvvmDialogs.FrameworkDialogs.OpenFile;
+using MvvmDialogs.FrameworkDialogs.FolderBrowser;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Reactive;
+using System.Reactive.Linq;
 using System.Threading.Tasks;
 using System.Windows.Data;
 
@@ -18,24 +20,26 @@ namespace FMEViewer.ViewModels
     {
         public extern bool ShowSearch { [ObservableAsProperty] get; }
         [Reactive] public string SearchQuery { get; set; } = "";
+        [Reactive] public Competition? SelectedCompetition { get; set; }
         public ReactiveCommand<Unit, Unit> ClearSearch { get; private set; }
 
-        public extern string? FilePath1 { [ObservableAsProperty] get; }
-        public extern string? FilePath2 { [ObservableAsProperty] get; }
-        public extern NameParser? NameParser1 { [ObservableAsProperty] get; }
-        public extern NameParser? NameParser2 { [ObservableAsProperty] get; }
-        public ObservableCollection<Name> Names1 { get; }
-        public ObservableCollection<Name> Names2 { get; }
+        public extern string? FolderPath { [ObservableAsProperty] get; }
 
-        public ReactiveCommand<Unit, string?> Load1 { get; private set; }
-        public ReactiveCommand<Unit, string?> Load2 { get; private set; }
-        public ReactiveCommand<Unit, Unit> Save1 { get; private set; }
-        public ReactiveCommand<Unit, Unit> Save2 { get; private set; }
-        public ReactiveCommand<string, NameParser> Parse1 { get; private set; }
-        public ReactiveCommand<string, NameParser> Parse2 { get; private set; }
+        public extern NationParser? NationParser { [ObservableAsProperty] get; }
+        public extern CompetitionParser? CompParser { [ObservableAsProperty] get; }
+        public extern ClubParser? ClubParser { [ObservableAsProperty] get; }
+        public ObservableCollection<Competition> Comps { get; }
+        public ObservableCollection<Club> Clubs { get; }
 
-        private readonly ICollectionView names1View;
-        private readonly ICollectionView names2View;
+        public ReactiveCommand<Unit, string?> Load { get; private set; }
+        public ReactiveCommand<Unit, Unit> Save { get; private set; }
+        public ReactiveCommand<Unit, Unit> SaveAs { get; private set; }
+        public ReactiveCommand<string, NationParser> ParseNation { get; private set; }
+        public ReactiveCommand<string, CompetitionParser> ParseComp { get; private set; }
+        public ReactiveCommand<string, ClubParser> ParseClub { get; private set; }
+
+        private readonly ICollectionView compsView;
+        private readonly ICollectionView clubsView;
         private readonly IDialogService dialogService;
 
         public MainViewModel(IDialogService dialogService)
@@ -44,128 +48,153 @@ namespace FMEViewer.ViewModels
 
             ClearSearch = ReactiveCommand.Create(() => { SearchQuery = ""; });
 
-            #region Left Part
-
-            Names1 = new ObservableCollection<Name>();
-            names1View = CollectionViewSource.GetDefaultView(Names1);
-            names1View.Filter = obj =>
+            Comps = new ObservableCollection<Competition>();
+            compsView = CollectionViewSource.GetDefaultView(Comps);
+            compsView.Filter = obj =>
             {
-                if (obj is Name name)
+                if (obj is Competition competition)
                 {
                     return string.IsNullOrEmpty(SearchQuery)
-                    || name.Value.Contains(SearchQuery)
-                    || name.Nation.Contains(SearchQuery)
-                    || name.Others.Contains(SearchQuery);
+                    || competition.FullName.ToLowerInvariant().Contains(SearchQuery.ToLowerInvariant())
+                    || competition.Nation.ToLowerInvariant().Contains(SearchQuery.ToLowerInvariant());
                 }
 
                 return true;
             };
 
-            Load1 = ReactiveCommand.Create(LoadImpl);
-            Load1.ToPropertyEx(this, vm => vm.FilePath1);
-
-            Parse1 = ReactiveCommand.CreateFromTask<string, NameParser>(ParseImpl);
-            Parse1.ToPropertyEx(this, vm => vm.NameParser1);
-
-            Save1 = ReactiveCommand.CreateFromTask(SaveImpl);
-
-            this.WhenAnyValue(vm => vm.FilePath1)
-                .WhereNotNull()
-                .InvokeCommand(Parse1);
-
-            this.WhenAnyValue(vm => vm.NameParser1)
-                .WhereNotNull()
-                .Subscribe(x =>
-                {
-                    Names1.Clear();
-                    Names1.AddRange(x.Names);
-                });
-
-            this.WhenAnyValue(vm => vm.SearchQuery)
-                .Subscribe(x =>
-                {
-                    names1View.Refresh();
-                });
-
-            #endregion
-
-            #region Right Part
-
-            Names2 = new ObservableCollection<Name>();
-            names2View = CollectionViewSource.GetDefaultView(Names2);
-            names2View.Filter = obj =>
+            Clubs = new ObservableCollection<Club>();
+            clubsView = CollectionViewSource.GetDefaultView(Clubs);
+            clubsView.Filter = obj =>
             {
-                if (obj is Name name)
-                {
-                    return string.IsNullOrEmpty(SearchQuery)
-                    || name.Value.Contains(SearchQuery)
-                    || name.Nation.Contains(SearchQuery)
-                    || name.Others.Contains(SearchQuery);
-                }
+                if (obj is not Club club)
+                    return false;
 
-                return true;
+                return club.LeagueId == SelectedCompetition?.Id;
             };
 
-            Load2 = ReactiveCommand.Create(LoadImpl);
-            Load2.ToPropertyEx(this, vm => vm.FilePath2);
+            Load = ReactiveCommand.Create(LoadImpl);
+            Load.ToPropertyEx(this, vm => vm.FolderPath);
 
-            Parse2 = ReactiveCommand.CreateFromTask<string, NameParser>(ParseImpl);
-            Parse2.ToPropertyEx(this, vm => vm.NameParser2);
+            ParseNation = ReactiveCommand.Create<string, NationParser>((path) => new NationParser(path));
+            ParseNation.ToPropertyEx(this, vm => vm.NationParser);
 
-            Save2 = ReactiveCommand.CreateFromTask(SaveImpl);
+            ParseComp = ReactiveCommand.Create<string, CompetitionParser>((path) => new CompetitionParser(path));
+            ParseComp.ToPropertyEx(this, vm => vm.CompParser);
 
-            this.WhenAnyValue(vm => vm.FilePath2)
+            ParseClub = ReactiveCommand.Create<string, ClubParser>((path) => new ClubParser(path));
+            ParseClub.ToPropertyEx(this, vm => vm.ClubParser);
+
+            Save = ReactiveCommand.CreateFromTask(SaveImpl);
+            SaveAs = ReactiveCommand.CreateFromTask(SaveAsImpl);
+
+            this.WhenAnyValue(vm => vm.FolderPath)
                 .WhereNotNull()
-                .InvokeCommand(Parse2);
+                .Select(x => x + "\\nation.dat")
+                .InvokeCommand(ParseNation);
 
-            this.WhenAnyValue(vm => vm.NameParser2)
+            this.WhenAnyValue(vm => vm.FolderPath)
                 .WhereNotNull()
-                .Subscribe(x =>
+                .Select(x => x + "\\competition.dat")
+                .InvokeCommand(ParseComp);
+
+            this.WhenAnyValue(vm => vm.FolderPath)
+                .WhereNotNull()
+                .Select(x => x + "\\club.dat")
+                .InvokeCommand(ParseClub);
+
+            this.WhenAnyValue(vm => vm.CompParser, vm => vm.NationParser)
+                .Subscribe(pair =>
                 {
-                    Names2.Clear();
-                    Names2.AddRange(x.Names);
+                    Comps.Clear();
+
+                    var competitions = pair.Item1?.Items;
+                    if (competitions != null)
+                    {
+                        competitions.ForEach(x =>
+                        {
+                            x.Nation = GetNationName(pair.Item2?.Items, x.NationId);
+                        });
+
+                        Comps.AddRange(competitions);
+                    }
+                });
+
+            this.WhenAnyValue(vm => vm.ClubParser, vm => vm.NationParser, vm => vm.SelectedCompetition)
+                .Where(pair => pair.Item1 != null)
+                .Subscribe(pair =>
+                {
+                    Clubs.Clear();
+
+                    var clubs = pair.Item1?.Items;
+                    if (clubs != null && clubs.Any())
+                    {
+                        clubs.ForEach(x =>
+                        {
+                            x.Based = GetNationName(pair.Item2?.Items, x.BasedId);
+                            x.Nation = GetNationName(pair.Item2?.Items, x.NationId);
+                        });
+
+                        Clubs.AddRange(clubs);
+                    }
                 });
 
             this.WhenAnyValue(vm => vm.SearchQuery)
                 .Subscribe(x =>
                 {
-                    names2View.Refresh();
+                    compsView.Refresh();
                 });
 
-            #endregion
-        }
-
-        private async Task SaveImpl()
-        {
-            if (NameParser1 != null)
-            {
-                NameParser1.Count = Names1.Count;
-                NameParser1.Names = Names1.ToList();
-
-                await NameParser1.Save();
-            }
-
-            if (NameParser2 != null)
-            {
-                NameParser2.Count = Names2.Count;
-                NameParser2.Names = Names2.ToList();
-
-                await NameParser2.Save();
-            }
+            this.WhenAnyValue(vm => vm.SelectedCompetition)
+                .Subscribe(x =>
+                {
+                    clubsView.Refresh();
+                });
         }
 
         private string? LoadImpl()
         {
-            var dialog = new OpenFileDialogSettings { Filter = "FM22 File (*.dat)|*.dat" };
-            bool? success = dialogService.ShowOpenFileDialog(this, dialog);
-            return (success == true) ? dialog.FileName : null;
+            var settings = new FolderBrowserDialogSettings();
+            bool? success = dialogService.ShowFolderBrowserDialog(this, settings);
+            return (success == true) ? settings.SelectedPath : null;
         }
 
-        private async Task<NameParser> ParseImpl(string file)
+        private async Task SaveImpl()
         {
-            var parser = new NameParser(file);
-            await parser.Parse();
-            return parser;
+            if (ClubParser != null)
+            {
+                ClubParser.Count = Clubs.Count;
+                ClubParser.Items = Clubs.ToList();
+
+                await ClubParser.Save();
+            }
+        }
+
+        private async Task SaveAsImpl()
+        {
+            try
+            {
+                var settings = new FolderBrowserDialogSettings();
+                bool? success = dialogService.ShowFolderBrowserDialog(this, settings);
+                if (success == true)
+                {
+                    if (ClubParser != null)
+                    {
+                        ClubParser.Count = Clubs.Count;
+                        ClubParser.Items = Clubs.ToList();
+
+                        await ClubParser.Save(settings.SelectedPath + "\\club.dat");
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+
+            }
+        }
+
+        private static string GetNationName(IEnumerable<Nation>? nations, int id)
+        {
+            return nations?.FirstOrDefault(x => x.Id == id)?.Name ?? "-";
         }
     }
 }
