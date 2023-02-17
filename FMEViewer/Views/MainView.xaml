@@ -40,145 +40,213 @@
         </Style>
     </Window.Resources>
 
-    <DockPanel
-        Margin="0,0,0,0"
-        HorizontalAlignment="Stretch"
-        VerticalAlignment="Stretch"
-        Background="{DynamicResource MaterialDesignPaper}">
+    <md:DialogHost IsOpen="{Binding ShowSwitchDialog}">
+        <md:DialogHost.DialogContent>
 
-        <md:ColorZone
-            Height="56"
-            DockPanel.Dock="Top"
-            Mode="PrimaryMid">
+            <Grid Width="400" Height="280">
+                <StackPanel Margin="16,0" Orientation="Vertical">
+                    <TextBlock
+                        Margin="16,12,16,8"
+                        FontSize="18"
+                        Text="SWITCH CLUB"
+                        TextAlignment="Center" />
 
-            <Grid HorizontalAlignment="Stretch">
+                    <TextBlock
+                        FontSize="18"
+                        Text="{Binding SelectedClub.FullName}"
+                        TextAlignment="Center" />
 
-                <!--  Search Box  -->
-                <md:ColorZone
-                    Margin="10,8,0,8"
-                    Padding="10,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Stretch"
-                    Panel.ZIndex="1"
-                    md:ElevationAssist.Elevation="Dp0"
-                    CornerRadius="2"
-                    Mode="Standard">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
+                    <TextBlock FontSize="14" TextAlignment="Center">
+                        <Run Text="{Binding SelectedClub.Based}" />
+                        <Run Text=" - " />
+                        <Run Text="{Binding SelectedClub.Nation}" />
+                    </TextBlock>
 
-                        <TextBox
-                            Width="335"
-                            Padding="0,0,8,0"
-                            VerticalAlignment="Stretch"
-                            VerticalContentAlignment="Center"
-                            md:HintAssist.Hint="Search Competition Name / Nation"
-                            md:TextFieldAssist.DecorationVisibility="Hidden"
-                            BorderThickness="0"
-                            FontSize="16"
-                            MaxLines="1"
-                            TabIndex="0"
-                            Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}" />
+                    <TextBlock
+                        Margin="0,8,0,0"
+                        FontSize="14"
+                        Text="with"
+                        TextAlignment="Center" />
+
+                    <ComboBox
+                        Margin="0,8,0,0"
+                        md:HintAssist.Hint="Filter club by nation"
+                        DisplayMemberPath="Name"
+                        
+                        FontSize="16"
+                        ItemsSource="{Binding Nations}"
+                        SelectedItem="{Binding FilterSwitchNation}"
+                        Style="{DynamicResource MaterialDesignFloatingHintComboBox}" />
+
+                    <ComboBox
+                        Margin="0,8,0,0"
+                        md:HintAssist.Hint="Club to switch"
+                        DisplayMemberPath="FullName"
+                        FontSize="16"
+                        ItemsSource="{Binding Switchs}"
+                        SelectedItem="{Binding SwitchedWithClub}"
+                        Style="{DynamicResource MaterialDesignFloatingHintComboBox}" />
+
+                    <StackPanel
+                        Margin="0,8,0,0"
+                        HorizontalAlignment="Right"
+                        Orientation="Horizontal">
 
                         <Button
-                            Grid.Column="1"
-                            IsEnabled="False"
-                            Style="{StaticResource MaterialDesignToolButton}"
-                            Visibility="{Binding SearchQuery, Converter={StaticResource visibility}, ConverterParameter=TextInvert}">
-                            <md:PackIcon Kind="Search" />
-                        </Button>
+                            Width="90"
+                            Height="35"
+                            Margin="0,16,0,0"
+                            HorizontalAlignment="Right"
+                            Command="{Binding CancelSwitch}"
+                            Content="CANCEL"
+                            FontSize="14"
+                            Style="{DynamicResource MaterialDesignFlatButton}" />
 
                         <Button
-                            Grid.Column="1"
-                            Command="{Binding ClearSearch}"
-                            Style="{StaticResource MaterialDesignToolButton}"
-                            Visibility="{Binding SearchQuery, Converter={StaticResource visibility}, ConverterParameter=Text}">
-                            <md:PackIcon Kind="Close" Opacity=".56" />
-                        </Button>
-                    </Grid>
-                </md:ColorZone>
+                            Width="90"
+                            Height="35"
+                            Margin="0,16,0,0"
+                            HorizontalAlignment="Right"
+                            Command="{Binding SaveSwitch}"
+                            Content="SWITCH"
+                            FontSize="14"
+                            Style="{DynamicResource MaterialDesignFlatButton}" />
 
-                <TextBlock
-                    Grid.Column="1"
-                    Margin="5"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    FontSize="18"
-                    FontWeight="Bold"
-                    Text="FM Editor" />
-
-                <!--  Toolbar Menu  -->
-                <StackPanel
-                    Margin="0,0,16,0"
-                    HorizontalAlignment="Right"
-                    Orientation="Horizontal">
-
-                    <md:PopupBox
-                        Margin="4"
-                        PlacementMode="BottomAndAlignRightEdges"
-                        StaysOpen="False">
-                        <md:PopupBox.ToggleContent>
-                            <md:PackIcon
-                                Width="21"
-                                Height="21"
-                                Foreground="{DynamicResource MaterialDesignDarkBackground}"
-                                Kind="Menu" />
-                        </md:PopupBox.ToggleContent>
-
-                        <StackPanel>
-                            <Button
-                                Command="{Binding Load}"
-                                Content="Load Database"
-                                FontSize="16" />
-
-                            <Button
-                                Command="{Binding Save}"
-                                Content="Save"
-                                FontSize="16" />
-
-                            <Button
-                                Command="{Binding SaveAs}"
-                                Content="Save As..."
-                                FontSize="16" />
-
-                            <Separator />
-
-                            <Button
-                                Click="Exit_Click"
-                                Content="Exit"
-                                FontSize="16" />
-                        </StackPanel>
-                    </md:PopupBox>
+                    </StackPanel>
                 </StackPanel>
-
             </Grid>
-        </md:ColorZone>
 
-        <StatusBar
-            Height="24"
-            DockPanel.Dock="Bottom"
-            FontSize="12">
-            <StatusBar.Background>
-                <SolidColorBrush Color="{DynamicResource MahApps.Colors.Flyout}" />
-            </StatusBar.Background>
+        </md:DialogHost.DialogContent>
 
-            <StatusBarItem>
-                <TextBlock Text="{Binding FolderPath}" />
-            </StatusBarItem>
-        </StatusBar>
+        <DockPanel
+            Margin="0,0,0,0"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Background="{DynamicResource MaterialDesignPaper}">
 
-        <md:DialogHost IsOpen="True">
-            <md:DialogHost.DialogContent>
-                <!--  put your dialog content here  -->
-                <Grid
-                    Grid.ColumnSpan="2"
-                    Width="100"
-                    Height="100"
-                    Background="AliceBlue" />
-            </md:DialogHost.DialogContent>
-            <!--  put the content over which the dialog is shown here (e.g. your main window grid)  -->
+            <md:ColorZone
+                Height="56"
+                DockPanel.Dock="Top"
+                Mode="PrimaryMid">
+
+                <Grid HorizontalAlignment="Stretch">
+
+                    <!--  Search Box  -->
+                    <md:ColorZone
+                        Margin="10,8,0,8"
+                        Padding="10,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Stretch"
+                        Panel.ZIndex="1"
+                        md:ElevationAssist.Elevation="Dp0"
+                        CornerRadius="2"
+                        Mode="Standard">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBox
+                                Width="335"
+                                Padding="0,0,8,0"
+                                VerticalAlignment="Stretch"
+                                VerticalContentAlignment="Center"
+                                md:HintAssist.Hint="Search Competition Name / Nation"
+                                md:TextFieldAssist.DecorationVisibility="Hidden"
+                                BorderThickness="0"
+                                FontSize="16"
+                                MaxLines="1"
+                                TabIndex="0"
+                                Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}" />
+
+                            <Button
+                                Grid.Column="1"
+                                IsEnabled="False"
+                                Style="{StaticResource MaterialDesignToolButton}"
+                                Visibility="{Binding SearchQuery, Converter={StaticResource visibility}, ConverterParameter=TextInvert}">
+                                <md:PackIcon Kind="Search" />
+                            </Button>
+
+                            <Button
+                                Grid.Column="1"
+                                Command="{Binding ClearSearch}"
+                                Style="{StaticResource MaterialDesignToolButton}"
+                                Visibility="{Binding SearchQuery, Converter={StaticResource visibility}, ConverterParameter=Text}">
+                                <md:PackIcon Kind="Close" Opacity=".56" />
+                            </Button>
+                        </Grid>
+                    </md:ColorZone>
+
+                    <TextBlock
+                        Grid.Column="1"
+                        Margin="5"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontSize="18"
+                        FontWeight="Bold"
+                        Text="FM Editor" />
+
+                    <!--  Toolbar Menu  -->
+                    <StackPanel
+                        Margin="0,0,16,0"
+                        HorizontalAlignment="Right"
+                        Orientation="Horizontal">
+
+                        <md:PopupBox
+                            Margin="4"
+                            PlacementMode="BottomAndAlignRightEdges"
+                            StaysOpen="False">
+                            <md:PopupBox.ToggleContent>
+                                <md:PackIcon
+                                    Width="21"
+                                    Height="21"
+                                    Foreground="{DynamicResource MaterialDesignDarkBackground}"
+                                    Kind="Menu" />
+                            </md:PopupBox.ToggleContent>
+
+                            <StackPanel>
+                                <Button
+                                    Command="{Binding Load}"
+                                    Content="Load Database"
+                                    FontSize="16" />
+
+                                <Button
+                                    Command="{Binding Save}"
+                                    Content="Save"
+                                    FontSize="16" />
+
+                                <Button
+                                    Command="{Binding SaveAs}"
+                                    Content="Save As..."
+                                    FontSize="16" />
+
+                                <Separator />
+
+                                <Button
+                                    Click="Exit_Click"
+                                    Content="Exit"
+                                    FontSize="16" />
+                            </StackPanel>
+                        </md:PopupBox>
+                    </StackPanel>
+
+                </Grid>
+            </md:ColorZone>
+
+            <StatusBar
+                Height="24"
+                DockPanel.Dock="Bottom"
+                FontSize="12">
+                <StatusBar.Background>
+                    <SolidColorBrush Color="{DynamicResource MahApps.Colors.Flyout}" />
+                </StatusBar.Background>
+
+                <StatusBarItem>
+                    <TextBlock Text="{Binding FolderPath}" />
+                </StatusBarItem>
+            </StatusBar>
+
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*" />
@@ -269,13 +337,27 @@
                     CanUserAddRows="True"
                     CanUserReorderColumns="False"
                     CanUserResizeRows="False"
+                    ContextMenu="{DynamicResource menu}"
                     FontSize="12.5"
                     GridLinesVisibility="All"
                     IsSynchronizedWithCurrentItem="True"
                     ItemsSource="{Binding Clubs}"
                     RowHeight="33"
                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                    SelectionMode="Single">
+                    SelectedItem="{Binding SelectedClub}"
+                    SelectionMode="Single"
+                    SelectionUnit="FullRow">
+
+                    <DataGrid.Resources>
+                        <ContextMenu x:Key="menu">
+
+                            <MenuItem
+                                Command="{Binding SwitchClub}"
+                                CommandParameter="{Binding SelectedClub}"
+                                Header="Switch Club" />
+
+                        </ContextMenu>
+                    </DataGrid.Resources>
 
                     <DataGrid.Columns>
 
@@ -338,8 +420,8 @@
                 </DataGrid>
 
             </Grid>
-        </md:DialogHost>
 
-        <Grid />
-    </DockPanel>
+            <Grid />
+        </DockPanel>
+    </md:DialogHost>
 </ma:MetroWindow>

@@ -12,6 +12,7 @@ using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Data;
 
 namespace FMEViewer.ViewModels
@@ -23,13 +24,23 @@ namespace FMEViewer.ViewModels
         [Reactive] public Competition? SelectedCompetition { get; set; }
         public ReactiveCommand<Unit, Unit> ClearSearch { get; private set; }
 
+        [Reactive] public bool ShowSwitchDialog { get; set; }
+        [Reactive] public Club? SelectedClub { get; set; }
+        [Reactive] public Nation? FilterSwitchNation { get; set; }
+        [Reactive] public Club? SwitchedWithClub { get; set; }
+        public ReactiveCommand<Club, Unit> SwitchClub { get; private set; }
+        public ReactiveCommand<Unit, Unit> CancelSwitch { get; private set; }
+        public ReactiveCommand<Unit, Unit> SaveSwitch { get; private set; }
+
         public extern string? FolderPath { [ObservableAsProperty] get; }
 
         public extern NationParser? NationParser { [ObservableAsProperty] get; }
         public extern CompetitionParser? CompParser { [ObservableAsProperty] get; }
         public extern ClubParser? ClubParser { [ObservableAsProperty] get; }
+        public ObservableCollection<Nation> Nations { get; }
         public ObservableCollection<Competition> Comps { get; }
         public ObservableCollection<Club> Clubs { get; }
+        public ObservableCollection<Club> Switchs { get; }
 
         public ReactiveCommand<Unit, string?> Load { get; private set; }
         public ReactiveCommand<Unit, Unit> Save { get; private set; }
@@ -40,6 +51,7 @@ namespace FMEViewer.ViewModels
 
         private readonly ICollectionView compsView;
         private readonly ICollectionView clubsView;
+        private readonly ICollectionView switchsView;
         private readonly IDialogService dialogService;
 
         public MainViewModel(IDialogService dialogService)
@@ -47,6 +59,8 @@ namespace FMEViewer.ViewModels
             this.dialogService = dialogService;
 
             ClearSearch = ReactiveCommand.Create(() => { SearchQuery = ""; });
+
+            Nations = new ObservableCollection<Nation>();
 
             Comps = new ObservableCollection<Competition>();
             compsView = CollectionViewSource.GetDefaultView(Comps);
@@ -72,6 +86,16 @@ namespace FMEViewer.ViewModels
                 return club.LeagueId == SelectedCompetition?.Id;
             };
 
+            Switchs = new ObservableCollection<Club>();
+            switchsView = CollectionViewSource.GetDefaultView(Switchs);
+            switchsView.Filter = obj =>
+            {
+                if (obj is not Club club)
+                    return false;
+
+                return club.NationId == FilterSwitchNation?.Id;
+            };
+
             Load = ReactiveCommand.Create(LoadImpl);
             Load.ToPropertyEx(this, vm => vm.FolderPath);
 
@@ -83,6 +107,26 @@ namespace FMEViewer.ViewModels
 
             ParseClub = ReactiveCommand.Create<string, ClubParser>((path) => new ClubParser(path));
             ParseClub.ToPropertyEx(this, vm => vm.ClubParser);
+
+            SwitchClub = ReactiveCommand.CreateFromTask<Club>(SwitchClubImpl);
+            CancelSwitch = ReactiveCommand.Create(() => { ShowSwitchDialog = false; });
+            SaveSwitch = ReactiveCommand.Create(() =>
+            {
+                ShowSwitchDialog = false;
+
+                if (SelectedClub is Club club1 && SwitchedWithClub is Club club2)
+                {
+                    var based1 = club1.BasedId;
+                    var based2 = club2.BasedId;
+                    var league1 = club1.LeagueId;
+                    var league2 = club2.LeagueId;
+
+                    SelectedClub.BasedId = based2;
+                    SwitchedWithClub.BasedId = based1;
+                    SelectedClub.LeagueId = league2;
+                    SwitchedWithClub.LeagueId = league1;
+                }
+            });
 
             Save = ReactiveCommand.CreateFromTask(SaveImpl);
             SaveAs = ReactiveCommand.CreateFromTask(SaveAsImpl);
@@ -101,6 +145,14 @@ namespace FMEViewer.ViewModels
                 .WhereNotNull()
                 .Select(x => x + "\\club.dat")
                 .InvokeCommand(ParseClub);
+
+            this.WhenAnyValue(vm => vm.NationParser)
+                .WhereNotNull()
+                .Subscribe(x =>
+                {
+                    Nations.Clear();
+                    Nations.AddRange(x.Items.OrderBy(y => y.Name));
+                });
 
             this.WhenAnyValue(vm => vm.CompParser, vm => vm.NationParser)
                 .Subscribe(pair =>
@@ -124,6 +176,7 @@ namespace FMEViewer.ViewModels
                 .Subscribe(pair =>
                 {
                     Clubs.Clear();
+                    Switchs.Clear();
 
                     var clubs = pair.Item1?.Items;
                     if (clubs != null && clubs.Any())
@@ -135,20 +188,18 @@ namespace FMEViewer.ViewModels
                         });
 
                         Clubs.AddRange(clubs);
+                        Switchs.AddRange(clubs);
                     }
                 });
 
             this.WhenAnyValue(vm => vm.SearchQuery)
-                .Subscribe(x =>
-                {
-                    compsView.Refresh();
-                });
+                .Subscribe(x => compsView.Refresh());
 
             this.WhenAnyValue(vm => vm.SelectedCompetition)
-                .Subscribe(x =>
-                {
-                    clubsView.Refresh();
-                });
+                .Subscribe(x => clubsView.Refresh());
+
+            this.WhenAnyValue(vm => vm.FilterSwitchNation)
+                .Subscribe(x => switchsView.Refresh());
         }
 
         private string? LoadImpl()
@@ -158,14 +209,29 @@ namespace FMEViewer.ViewModels
             return (success == true) ? settings.SelectedPath : null;
         }
 
+        private async Task SwitchClubImpl(Club arg)
+        {
+            FilterSwitchNation = null;
+            SwitchedWithClub = null;
+            ShowSwitchDialog = true;
+        }
+
         private async Task SaveImpl()
         {
-            if (ClubParser != null)
+            try
             {
-                ClubParser.Count = Clubs.Count;
-                ClubParser.Items = Clubs.ToList();
+                if (ClubParser != null)
+                {
+                    ClubParser.Count = Clubs.Count;
+                    ClubParser.Items = Clubs.ToList();
 
-                await ClubParser.Save();
+                    await ClubParser.Save();
+                    dialogService.ShowMessageBox(this, "Save success", "Save As", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            }
+            catch (Exception e)
+            {
+                dialogService.ShowMessageBox(this, $"Save error: {e.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -179,16 +245,24 @@ namespace FMEViewer.ViewModels
                 {
                     if (ClubParser != null)
                     {
-                        ClubParser.Count = Clubs.Count;
-                        ClubParser.Items = Clubs.ToList();
+                        var result = dialogService.ShowMessageBox(this,
+                            "There is already data on this folder, do you want to overwrite it?", "Overwrite",
+                            MessageBoxButton.YesNo, MessageBoxImage.Question);
 
-                        await ClubParser.Save(settings.SelectedPath + "\\club.dat");
+                        if (result == MessageBoxResult.Yes)
+                        {
+                            ClubParser.Count = Clubs.Count;
+                            ClubParser.Items = Clubs.ToList();
+
+                            await ClubParser.Save(settings.SelectedPath + "\\club.dat");
+                            dialogService.ShowMessageBox(this, "Save success", "Save As", MessageBoxButton.OK, MessageBoxImage.Information);
+                        }
                     }
                 }
             }
             catch (Exception e)
             {
-
+                dialogService.ShowMessageBox(this, $"Save error: {e.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
