@@ -28,7 +28,7 @@ namespace FMEViewer.ViewModels
         [Reactive] public Club? SelectedClub { get; set; }
         [Reactive] public Nation? FilterSwitchNation { get; set; }
         [Reactive] public Club? SwitchedWithClub { get; set; }
-        public ReactiveCommand<Club, Unit> SwitchClub { get; private set; }
+        public ReactiveCommand<Unit, Unit> SwitchClub { get; private set; }
         public ReactiveCommand<Unit, Unit> CancelSwitch { get; private set; }
         public ReactiveCommand<Unit, Unit> SaveSwitch { get; private set; }
 
@@ -108,7 +108,7 @@ namespace FMEViewer.ViewModels
             ParseClub = ReactiveCommand.Create<string, ClubParser>((path) => new ClubParser(path));
             ParseClub.ToPropertyEx(this, vm => vm.ClubParser);
 
-            SwitchClub = ReactiveCommand.CreateFromTask<Club>(SwitchClubImpl);
+            SwitchClub = ReactiveCommand.Create(SwitchClubImpl);
             CancelSwitch = ReactiveCommand.Create(() => { ShowSwitchDialog = false; });
             SaveSwitch = ReactiveCommand.Create(() =>
             {
@@ -209,7 +209,7 @@ namespace FMEViewer.ViewModels
             return (success == true) ? settings.SelectedPath : null;
         }
 
-        private async Task SwitchClubImpl(Club arg)
+        private void SwitchClubImpl()
         {
             FilterSwitchNation = null;
             SwitchedWithClub = null;
