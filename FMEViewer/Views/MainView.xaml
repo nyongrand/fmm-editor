@@ -28,7 +28,7 @@
 
     <Window.Resources>
         <converter:BytesConverter x:Key="bytes" />
-        <converter:VisibilityConverter x:Key="visibility" />
+        <converter:VisibilityConverter x:Key="Visibility" />
 
         <Style
             x:Key="centerHeaderColumnStyle"
@@ -40,388 +40,502 @@
         </Style>
     </Window.Resources>
 
-    <md:DialogHost IsOpen="{Binding ShowSwitchDialog}">
-        <md:DialogHost.DialogContent>
+    <Grid>
+        <md:DialogHost IsOpen="{Binding ShowDialog}">
+            <md:DialogHost.DialogContent>
 
-            <Grid Width="400" Height="280">
-                <StackPanel Margin="16,0" Orientation="Vertical">
-                    <TextBlock
-                        Margin="16,12,16,8"
-                        FontSize="18"
-                        Text="SWITCH CLUB"
-                        TextAlignment="Center" />
+                <Grid Width="400" Height="260">
+                    <StackPanel
+                        Margin="16,0"
+                        Orientation="Vertical"
+                        Visibility="{Binding ShowMoveDialog, Converter={StaticResource Visibility}}">
 
-                    <TextBlock
-                        FontSize="18"
-                        Text="{Binding SelectedClub.FullName}"
-                        TextAlignment="Center" />
+                        <TextBlock
+                            Margin="16,12,16,8"
+                            FontSize="18"
+                            Text="MOVE CLUB"
+                            TextAlignment="Center" />
 
-                    <TextBlock FontSize="14" TextAlignment="Center">
-                        <Run Text="{Binding SelectedClub.Based}" />
-                        <Run Text=" - " />
-                        <Run Text="{Binding SelectedClub.Nation}" />
-                    </TextBlock>
+                        <TextBlock
+                            FontSize="14"
+                            Text="to"
+                            TextAlignment="Center" />
 
-                    <TextBlock
-                        Margin="0,8,0,0"
-                        FontSize="14"
-                        Text="with"
-                        TextAlignment="Center" />
+                        <TextBlock
+                            Margin="0,8,0,0"
+                            FontSize="18"
+                            Foreground="{DynamicResource PrimaryHueDarkBrush}"
+                            Text="{Binding SelectedCompetition.FullName}"
+                            TextAlignment="Center" />
 
-                    <ComboBox
-                        Margin="0,8,0,0"
-                        md:HintAssist.Hint="Filter club by nation"
-                        DisplayMemberPath="Name"
-                        
-                        FontSize="16"
-                        ItemsSource="{Binding Nations}"
-                        SelectedItem="{Binding FilterSwitchNation}"
-                        Style="{DynamicResource MaterialDesignFloatingHintComboBox}" />
+                        <ComboBox
+                            Margin="0,8,0,0"
+                            md:HintAssist.Hint="Filter club by nation"
+                            DisplayMemberPath="Name"
+                            FontSize="16"
+                            ItemsSource="{Binding Nations}"
+                            SelectedItem="{Binding FilterSwitchNation}"
+                            Style="{DynamicResource MaterialDesignFloatingHintComboBox}" />
 
-                    <ComboBox
-                        Margin="0,8,0,0"
-                        md:HintAssist.Hint="Club to switch"
-                        DisplayMemberPath="FullName"
-                        FontSize="16"
-                        ItemsSource="{Binding Switchs}"
-                        SelectedItem="{Binding SwitchedWithClub}"
-                        Style="{DynamicResource MaterialDesignFloatingHintComboBox}" />
+                        <ComboBox
+                            Margin="0,8,0,0"
+                            md:HintAssist.Hint="Club to switch"
+                            DisplayMemberPath="FullName"
+                            FontSize="16"
+                            ItemsSource="{Binding Switchs}"
+                            SelectedItem="{Binding SwitchedWithClub}"
+                            Style="{DynamicResource MaterialDesignFloatingHintComboBox}" />
+
+                        <StackPanel
+                            Margin="0,8,0,0"
+                            HorizontalAlignment="Right"
+                            Orientation="Horizontal">
+
+                            <Button
+                                Width="90"
+                                Height="35"
+                                Margin="0,16,0,0"
+                                HorizontalAlignment="Right"
+                                Command="{Binding CancelSwitch}"
+                                Content="CANCEL"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFlatButton}" />
+
+                            <Button
+                                Width="90"
+                                Height="35"
+                                Margin="0,16,0,0"
+                                HorizontalAlignment="Right"
+                                Command="{Binding ConfirmMove}"
+                                Content="MOVE"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFlatButton}" />
+
+                        </StackPanel>
+                    </StackPanel>
 
                     <StackPanel
-                        Margin="0,8,0,0"
-                        HorizontalAlignment="Right"
-                        Orientation="Horizontal">
+                        Margin="16,0"
+                        Orientation="Vertical"
+                        Visibility="{Binding ShowSwitchDialog, Converter={StaticResource Visibility}}">
 
-                        <Button
-                            Width="90"
-                            Height="35"
-                            Margin="0,16,0,0"
-                            HorizontalAlignment="Right"
-                            Command="{Binding CancelSwitch}"
-                            Content="CANCEL"
+                        <TextBlock
+                            Margin="16,12,16,8"
+                            FontSize="18"
+                            Text="SWITCH CLUB"
+                            TextAlignment="Center" />
+
+                        <TextBlock
+                            FontSize="18"
+                            Foreground="{DynamicResource PrimaryHueDarkBrush}"
+                            Text="{Binding SelectedClub.FullName}"
+                            TextAlignment="Center" />
+
+                        <TextBlock
+                            Margin="0,8,0,0"
                             FontSize="14"
-                            Style="{DynamicResource MaterialDesignFlatButton}" />
+                            Text="with"
+                            TextAlignment="Center" />
 
-                        <Button
-                            Width="90"
-                            Height="35"
-                            Margin="0,16,0,0"
+                        <ComboBox
+                            Margin="0,8,0,0"
+                            md:HintAssist.Hint="Filter club by nation"
+                            DisplayMemberPath="Name"
+                            FontSize="16"
+                            ItemsSource="{Binding Nations}"
+                            SelectedItem="{Binding FilterSwitchNation}"
+                            Style="{DynamicResource MaterialDesignFloatingHintComboBox}" />
+
+                        <ComboBox
+                            Margin="0,8,0,0"
+                            md:HintAssist.Hint="Club to switch"
+                            DisplayMemberPath="FullName"
+                            FontSize="16"
+                            ItemsSource="{Binding Switchs}"
+                            SelectedItem="{Binding SwitchedWithClub}"
+                            Style="{DynamicResource MaterialDesignFloatingHintComboBox}" />
+
+                        <StackPanel
+                            Margin="0,8,0,0"
                             HorizontalAlignment="Right"
-                            Command="{Binding SaveSwitch}"
-                            Content="SWITCH"
-                            FontSize="14"
-                            Style="{DynamicResource MaterialDesignFlatButton}" />
+                            Orientation="Horizontal">
 
+                            <Button
+                                Width="90"
+                                Height="35"
+                                Margin="0,16,0,0"
+                                HorizontalAlignment="Right"
+                                Command="{Binding CancelSwitch}"
+                                Content="CANCEL"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFlatButton}" />
+
+                            <Button
+                                Width="90"
+                                Height="35"
+                                Margin="0,16,0,0"
+                                HorizontalAlignment="Right"
+                                Command="{Binding ConfirmSwitch}"
+                                Content="SWITCH"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFlatButton}" />
+
+                        </StackPanel>
                     </StackPanel>
-                </StackPanel>
-            </Grid>
+                </Grid>
 
-        </md:DialogHost.DialogContent>
+            </md:DialogHost.DialogContent>
 
-        <DockPanel
-            Margin="0,0,0,0"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            Background="{DynamicResource MaterialDesignPaper}">
+            <DockPanel
+                Margin="0,0,0,0"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Background="{DynamicResource MaterialDesignPaper}">
 
-            <md:ColorZone
-                Height="56"
-                DockPanel.Dock="Top"
-                Mode="PrimaryMid">
+                <md:ColorZone
+                    Height="56"
+                    DockPanel.Dock="Top"
+                    Mode="PrimaryMid">
 
-                <Grid HorizontalAlignment="Stretch">
+                    <Grid HorizontalAlignment="Stretch">
 
-                    <!--  Search Box  -->
-                    <md:ColorZone
-                        Margin="10,8,0,8"
-                        Padding="10,0"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Stretch"
-                        Panel.ZIndex="1"
-                        md:ElevationAssist.Elevation="Dp0"
-                        CornerRadius="2"
-                        Mode="Standard">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
+                        <!--  Search Box  -->
+                        <md:ColorZone
+                            Margin="10,8,0,8"
+                            Padding="10,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Stretch"
+                            Panel.ZIndex="1"
+                            md:ElevationAssist.Elevation="Dp0"
+                            CornerRadius="2"
+                            Mode="Standard">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
 
-                            <TextBox
-                                Width="335"
-                                Padding="0,0,8,0"
-                                VerticalAlignment="Stretch"
-                                VerticalContentAlignment="Center"
-                                md:HintAssist.Hint="Search Competition Name / Nation"
-                                md:TextFieldAssist.DecorationVisibility="Hidden"
-                                BorderThickness="0"
-                                FontSize="16"
-                                MaxLines="1"
-                                TabIndex="0"
-                                Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}" />
+                                <TextBox
+                                    Width="335"
+                                    Padding="0,0,8,0"
+                                    VerticalAlignment="Stretch"
+                                    VerticalContentAlignment="Center"
+                                    md:HintAssist.Hint="Search Competition Name / Nation"
+                                    md:TextFieldAssist.DecorationVisibility="Hidden"
+                                    BorderThickness="0"
+                                    FontSize="16"
+                                    MaxLines="1"
+                                    TabIndex="0"
+                                    Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}" />
 
-                            <Button
-                                Grid.Column="1"
-                                IsEnabled="False"
-                                Style="{StaticResource MaterialDesignToolButton}"
-                                Visibility="{Binding SearchQuery, Converter={StaticResource visibility}, ConverterParameter=TextInvert}">
-                                <md:PackIcon Kind="Search" />
-                            </Button>
+                                <Button
+                                    Grid.Column="1"
+                                    IsEnabled="False"
+                                    Style="{StaticResource MaterialDesignToolButton}"
+                                    Visibility="{Binding SearchQuery, Converter={StaticResource Visibility}, ConverterParameter=TextInvert}">
+                                    <md:PackIcon Kind="Search" />
+                                </Button>
 
-                            <Button
-                                Grid.Column="1"
-                                Command="{Binding ClearSearch}"
-                                Style="{StaticResource MaterialDesignToolButton}"
-                                Visibility="{Binding SearchQuery, Converter={StaticResource visibility}, ConverterParameter=Text}">
-                                <md:PackIcon Kind="Close" Opacity=".56" />
-                            </Button>
-                        </Grid>
-                    </md:ColorZone>
+                                <Button
+                                    Grid.Column="1"
+                                    Command="{Binding ClearSearch}"
+                                    Style="{StaticResource MaterialDesignToolButton}"
+                                    Visibility="{Binding SearchQuery, Converter={StaticResource Visibility}, ConverterParameter=Text}">
+                                    <md:PackIcon Kind="Close" Opacity=".56" />
+                                </Button>
+                            </Grid>
+                        </md:ColorZone>
 
-                    <TextBlock
+                        <TextBlock
+                            Grid.Column="1"
+                            Margin="5"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="18"
+                            FontWeight="Bold"
+                            Foreground="{DynamicResource MaterialDesignLightBackground}"
+                            Text="FM22 DB Editor" />
+
+                        <!--  Toolbar Menu  -->
+                        <StackPanel
+                            Margin="0,0,16,0"
+                            HorizontalAlignment="Right"
+                            Orientation="Horizontal">
+
+                            <md:PopupBox
+                                Margin="4"
+                                Padding="0"
+                                PlacementMode="BottomAndAlignRightEdges"
+                                StaysOpen="False">
+                                <md:PopupBox.ToggleContent>
+                                    <md:PackIcon
+                                        Width="21"
+                                        Height="21"
+                                        Foreground="{DynamicResource MaterialDesignLightBackground}"
+                                        Kind="Menu" />
+                                </md:PopupBox.ToggleContent>
+
+                                <StackPanel>
+                                    <Button
+                                        Command="{Binding Load}"
+                                        Content="Load Database"
+                                        FontSize="16" />
+
+                                    <Button
+                                        Command="{Binding Save}"
+                                        Content="Save"
+                                        FontSize="16" />
+
+                                    <Button
+                                        Command="{Binding SaveAs}"
+                                        Content="Save As..."
+                                        FontSize="16" />
+
+                                    <Separator />
+
+                                    <Button
+                                        Click="Exit_Click"
+                                        Content="Exit"
+                                        FontSize="16" />
+                                </StackPanel>
+                            </md:PopupBox>
+                        </StackPanel>
+
+                    </Grid>
+                </md:ColorZone>
+
+                <StatusBar
+                    Height="24"
+                    DockPanel.Dock="Bottom"
+                    FontSize="12">
+                    <StatusBar.Background>
+                        <SolidColorBrush Color="{DynamicResource MahApps.Colors.Flyout}" />
+                    </StatusBar.Background>
+
+                    <StatusBarItem>
+                        <TextBlock Text="{Binding FolderPath}" />
+                    </StatusBarItem>
+
+                    <StatusBarItem>
+                        <TextBlock Text="{Binding Clubs}" />
+                    </StatusBarItem>
+                </StatusBar>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="2*" />
+                    </Grid.ColumnDefinitions>
+
+                    <DataGrid
+                        Grid.Column="0"
+                        md:DataGridAssist.SelectedCellBorderBrush="Transparent"
+                        AutoGenerateColumns="False"
+                        BorderThickness="1"
+                        CanUserAddRows="True"
+                        CanUserReorderColumns="False"
+                        CanUserResizeRows="False"
+                        FontSize="12.5"
+                        GridLinesVisibility="All"
+                        IsSynchronizedWithCurrentItem="True"
+                        ItemsSource="{Binding Comps}"
+                        RowHeight="33"
+                        ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                        SelectedItem="{Binding SelectedCompetition}"
+                        SelectionMode="Single">
+
+                        <DataGrid.Columns>
+
+                            <!--<DataGridTextColumn
+                                Width="65"
+                                MinWidth="65"
+                                MaxWidth="65"
+                                Binding="{Binding Id}"
+                                CanUserReorder="False"
+                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                Header="Id"
+                                IsReadOnly="True">
+                                <DataGridTextColumn.HeaderStyle>
+                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                    </Style>
+                                </DataGridTextColumn.HeaderStyle>
+                            </DataGridTextColumn>-->
+
+                            <DataGridTextColumn
+                                Width="100"
+                                MinWidth="100"
+                                Binding="{Binding Nation}"
+                                CanUserReorder="False"
+                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                Header="Nation"
+                                IsReadOnly="True">
+                                <DataGridTextColumn.HeaderStyle>
+                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                    </Style>
+                                </DataGridTextColumn.HeaderStyle>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn
+                                Width="*"
+                                Binding="{Binding FullName}"
+                                CanUserReorder="False"
+                                ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                                Header="Competition Name"
+                                IsReadOnly="True" />
+
+                            <!--<DataGridTextColumn
+                                Width="*"
+                                Binding="{Binding ShortName}"
+                                CanUserReorder="False"
+                                ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                                Header="Competition Name"
+                                IsReadOnly="False" />
+
+                            <DataGridTextColumn
+                                Width="*"
+                                Binding="{Binding CodeName}"
+                                CanUserReorder="False"
+                                ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                                Header="Competition Name"
+                                IsReadOnly="False" />-->
+
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <DataGrid
                         Grid.Column="1"
-                        Margin="5"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        FontSize="18"
-                        FontWeight="Bold"
-                        Text="FM Editor" />
+                        md:DataGridAssist.SelectedCellBorderBrush="Transparent"
+                        AutoGenerateColumns="False"
+                        BorderThickness="1"
+                        CanUserAddRows="True"
+                        CanUserReorderColumns="False"
+                        CanUserResizeRows="False"
+                        ContextMenu="{DynamicResource menu}"
+                        FontSize="12.5"
+                        GridLinesVisibility="All"
+                        HeadersVisibility="All"
+                        IsSynchronizedWithCurrentItem="True"
+                        ItemsSource="{Binding Clubs}"
+                        LoadingRow="DataGrid_LoadingRow"
+                        RowHeaderWidth="40"
+                        RowHeight="33"
+                        ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                        SelectedItem="{Binding SelectedClub}"
+                        SelectionMode="Single"
+                        SelectionUnit="FullRow">
 
-                    <!--  Toolbar Menu  -->
-                    <StackPanel
-                        Margin="0,0,16,0"
-                        HorizontalAlignment="Right"
-                        Orientation="Horizontal">
+                        <DataGrid.RowHeaderStyle>
+                            <Style BasedOn="{StaticResource MaterialDesignDataGridRowHeader}" TargetType="DataGridRowHeader">
+                                <Setter Property="Padding" Value="8,0" />
+                            </Style>
+                        </DataGrid.RowHeaderStyle>
 
-                        <md:PopupBox
-                            Margin="4"
-                            PlacementMode="BottomAndAlignRightEdges"
-                            StaysOpen="False">
-                            <md:PopupBox.ToggleContent>
-                                <md:PackIcon
-                                    Width="21"
-                                    Height="21"
-                                    Foreground="{DynamicResource MaterialDesignDarkBackground}"
-                                    Kind="Menu" />
-                            </md:PopupBox.ToggleContent>
+                        <DataGrid.Resources>
+                            <ContextMenu x:Key="menu">
 
-                            <StackPanel>
-                                <Button
-                                    Command="{Binding Load}"
-                                    Content="Load Database"
-                                    FontSize="16" />
+                                <MenuItem Command="{Binding MoveClub}">
+                                    <MenuItem.Header>
+                                        <TextBlock>
+                                            <Run Text="Move club to" />
+                                            <Run Text="{Binding SelectedCompetition.ShortName}" />
+                                        </TextBlock>
+                                    </MenuItem.Header>
+                                </MenuItem>
 
-                                <Button
-                                    Command="{Binding Save}"
-                                    Content="Save"
-                                    FontSize="16" />
+                                <MenuItem Command="{Binding RemoveClub}">
+                                    <MenuItem.Header>
+                                        <TextBlock>
+                                            <Run Text="Remove club from" />
+                                            <Run Text="{Binding SelectedCompetition.ShortName}" />
+                                        </TextBlock>
+                                    </MenuItem.Header>
+                                </MenuItem>
 
-                                <Button
-                                    Command="{Binding SaveAs}"
-                                    Content="Save As..."
-                                    FontSize="16" />
+                                <MenuItem Command="{Binding SwitchClub}">
+                                    <MenuItem.Header>
+                                        <TextBlock>
+                                            <Run Text="Switch" />
+                                            <Run Text="{Binding SelectedClub.ShortName}" />
+                                            <Run Text="with..." />
+                                        </TextBlock>
+                                    </MenuItem.Header>
+                                </MenuItem>
 
-                                <Separator />
+                            </ContextMenu>
+                        </DataGrid.Resources>
 
-                                <Button
-                                    Click="Exit_Click"
-                                    Content="Exit"
-                                    FontSize="16" />
-                            </StackPanel>
-                        </md:PopupBox>
-                    </StackPanel>
+                        <DataGrid.Columns>
+
+                            <!--<DataGridTextColumn
+                                Width="75"
+                                MinWidth="75"
+                                MaxWidth="75"
+                                Binding="{Binding Id}"
+                                CanUserReorder="False"
+                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                Header="Id"
+                                IsReadOnly="True">
+                                <DataGridTextColumn.HeaderStyle>
+                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                    </Style>
+                                </DataGridTextColumn.HeaderStyle>
+                            </DataGridTextColumn>-->
+
+                            <DataGridTextColumn
+                                Width="105"
+                                MinWidth="105"
+                                MaxWidth="105"
+                                Binding="{Binding Nation}"
+                                CanUserReorder="False"
+                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                Header="Nation"
+                                IsReadOnly="True">
+                                <DataGridTextColumn.HeaderStyle>
+                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                    </Style>
+                                </DataGridTextColumn.HeaderStyle>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn
+                                Width="105"
+                                MinWidth="105"
+                                MaxWidth="105"
+                                Binding="{Binding Reputation}"
+                                CanUserReorder="False"
+                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                Header="Reputation"
+                                IsReadOnly="True">
+                                <DataGridTextColumn.HeaderStyle>
+                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                    </Style>
+                                </DataGridTextColumn.HeaderStyle>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn
+                                Width="*"
+                                Binding="{Binding FullName}"
+                                CanUserReorder="False"
+                                ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                                Header="Name" />
+
+                        </DataGrid.Columns>
+                    </DataGrid>
 
                 </Grid>
-            </md:ColorZone>
 
-            <StatusBar
-                Height="24"
-                DockPanel.Dock="Bottom"
-                FontSize="12">
-                <StatusBar.Background>
-                    <SolidColorBrush Color="{DynamicResource MahApps.Colors.Flyout}" />
-                </StatusBar.Background>
+            </DockPanel>
 
-                <StatusBarItem>
-                    <TextBlock Text="{Binding FolderPath}" />
-                </StatusBarItem>
-            </StatusBar>
+        </md:DialogHost>
 
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*" />
-                    <ColumnDefinition Width="1*" />
-                </Grid.ColumnDefinitions>
-
-                <DataGrid
-                    Grid.Column="0"
-                    md:DataGridAssist.SelectedCellBorderBrush="Transparent"
-                    AutoGenerateColumns="False"
-                    BorderThickness="1"
-                    CanUserAddRows="True"
-                    CanUserReorderColumns="False"
-                    CanUserResizeRows="False"
-                    FontSize="12.5"
-                    GridLinesVisibility="All"
-                    IsSynchronizedWithCurrentItem="True"
-                    ItemsSource="{Binding Comps}"
-                    RowHeight="33"
-                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                    SelectedItem="{Binding SelectedCompetition}"
-                    SelectionMode="Single">
-
-                    <DataGrid.Columns>
-
-                        <DataGridTextColumn
-                            Width="65"
-                            MinWidth="65"
-                            MaxWidth="65"
-                            Binding="{Binding Id}"
-                            CanUserReorder="False"
-                            ElementStyle="{StaticResource centerHeaderColumnStyle}"
-                            Header="Id"
-                            IsReadOnly="True">
-                            <DataGridTextColumn.HeaderStyle>
-                                <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
-                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                </Style>
-                            </DataGridTextColumn.HeaderStyle>
-                        </DataGridTextColumn>
-
-                        <DataGridTextColumn
-                            Width="160"
-                            MinWidth="160"
-                            MaxWidth="160"
-                            Binding="{Binding Nation}"
-                            CanUserReorder="False"
-                            ElementStyle="{StaticResource centerHeaderColumnStyle}"
-                            Header="Competition Nation"
-                            IsReadOnly="True">
-                            <DataGridTextColumn.HeaderStyle>
-                                <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
-                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                </Style>
-                            </DataGridTextColumn.HeaderStyle>
-                        </DataGridTextColumn>
-
-                        <!--<DataGridTextColumn
-                        Width="105"
-                        MinWidth="105"
-                        MaxWidth="105"
-                        Binding="{Binding CodeName}"
-                        CanUserReorder="False"
-                        ElementStyle="{StaticResource centerHeaderColumnStyle}"
-                        Header="Unknown">
-                        <DataGridTextColumn.HeaderStyle>
-                            <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
-                                <Setter Property="HorizontalContentAlignment" Value="Center" />
-                            </Style>
-                        </DataGridTextColumn.HeaderStyle>
-                    </DataGridTextColumn>-->
-
-                        <DataGridTextColumn
-                            Width="*"
-                            Binding="{Binding FullName}"
-                            CanUserReorder="False"
-                            ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
-                            Header="Competition Name" />
-
-                    </DataGrid.Columns>
-                </DataGrid>
-
-                <DataGrid
-                    Grid.Column="1"
-                    md:DataGridAssist.SelectedCellBorderBrush="Transparent"
-                    AutoGenerateColumns="False"
-                    BorderThickness="1"
-                    CanUserAddRows="True"
-                    CanUserReorderColumns="False"
-                    CanUserResizeRows="False"
-                    ContextMenu="{DynamicResource menu}"
-                    FontSize="12.5"
-                    GridLinesVisibility="All"
-                    IsSynchronizedWithCurrentItem="True"
-                    ItemsSource="{Binding Clubs}"
-                    RowHeight="33"
-                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                    SelectedItem="{Binding SelectedClub}"
-                    SelectionMode="Single"
-                    SelectionUnit="FullRow">
-
-                    <DataGrid.Resources>
-                        <ContextMenu x:Key="menu">
-
-                            <MenuItem
-                                Command="{Binding SwitchClub}"
-                                CommandParameter="{Binding SelectedClub}"
-                                Header="Switch Club" />
-
-                        </ContextMenu>
-                    </DataGrid.Resources>
-
-                    <DataGrid.Columns>
-
-                        <DataGridTextColumn
-                            Width="75"
-                            MinWidth="75"
-                            MaxWidth="75"
-                            Binding="{Binding Id}"
-                            CanUserReorder="False"
-                            ElementStyle="{StaticResource centerHeaderColumnStyle}"
-                            Header="Id"
-                            IsReadOnly="True">
-                            <DataGridTextColumn.HeaderStyle>
-                                <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
-                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                </Style>
-                            </DataGridTextColumn.HeaderStyle>
-                        </DataGridTextColumn>
-
-                        <DataGridTextColumn
-                            Width="105"
-                            MinWidth="105"
-                            MaxWidth="105"
-                            Binding="{Binding Based}"
-                            CanUserReorder="False"
-                            ElementStyle="{StaticResource centerHeaderColumnStyle}"
-                            Header="Based"
-                            IsReadOnly="True">
-                            <DataGridTextColumn.HeaderStyle>
-                                <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
-                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                </Style>
-                            </DataGridTextColumn.HeaderStyle>
-                        </DataGridTextColumn>
-
-                        <DataGridTextColumn
-                            Width="105"
-                            MinWidth="105"
-                            MaxWidth="105"
-                            Binding="{Binding Nation}"
-                            CanUserReorder="False"
-                            ElementStyle="{StaticResource centerHeaderColumnStyle}"
-                            Header="Nation"
-                            IsReadOnly="True">
-                            <DataGridTextColumn.HeaderStyle>
-                                <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
-                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                </Style>
-                            </DataGridTextColumn.HeaderStyle>
-                        </DataGridTextColumn>
-
-                        <DataGridTextColumn
-                            Width="*"
-                            Binding="{Binding FullName}"
-                            CanUserReorder="False"
-                            ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
-                            Header="Name" />
-
-                    </DataGrid.Columns>
-                </DataGrid>
-
-            </Grid>
-
-            <Grid />
-        </DockPanel>
-    </md:DialogHost>
+        <md:Snackbar
+            Grid.ColumnSpan="2"
+            Margin="1"
+            HorizontalAlignment="Right"
+            MessageQueue="{Binding MessageQueue}" />
+    </Grid>
 </ma:MetroWindow>

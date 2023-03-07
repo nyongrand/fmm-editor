@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using MvvmDialogs;
 using FMEViewer.ViewModels;
+using MaterialDesignThemes.Wpf;
 
 namespace FMEViewer
 {
@@ -16,6 +17,7 @@ namespace FMEViewer
             Ioc.Default.ConfigureServices(
                 new ServiceCollection()
                     .AddSingleton<IDialogService, DialogService>()
+                    .AddSingleton<ISnackbarMessageQueue, SnackbarMessageQueue>()
                     .AddTransient<MainViewModel>()
                     .BuildServiceProvider());
         }
