@@ -7,10 +7,11 @@ namespace FMELibrary
         public int Id { get; set; }
         public int Uid { get; set; }
         public string FullName { get; set; }
-        public byte Unknown1 { get; set; }
+        public byte Unknown0 { get; set; }
         public string ShortName { get; set; }
-        public byte Unknown2 { get; set; }
-        public string CodeName { get; set; }
+        public byte Unknown1 { get; set; }
+        public string CodeName1 { get; set; }
+        public string CodeName2 { get; set; }
         public short BasedId { get; set; }
         public short NationId { get; set; }
         public Color[] Colors { get; set; }
@@ -23,10 +24,12 @@ namespace FMELibrary
         public short AttMax { get; set; }
         public byte Reserves { get; set; }
         public short LeagueId { get; set; }
-        public short Unknown3 { get; set; }
-        public byte Unknown4 { get; set; }
+        public short Unknown2 { get; set; }
+        public byte Unknown3 { get; set; }
         public short Stadium { get; set; }
         public short LastLeague { get; set; }
+        public byte Unknown4Type { get; set; }
+        public byte[] Unknown4 { get; set; }
         public byte[] Unknown5 { get; set; }
         public byte LeaguePos { get; set; }
         public short Reputation { get; set; }
@@ -52,10 +55,11 @@ namespace FMELibrary
             Uid = reader.ReadInt32();
 
             FullName = reader.ReadString(reader.ReadInt32());
-            Unknown1 = reader.ReadByte();
+            Unknown0 = reader.ReadByte();
             ShortName = reader.ReadString(reader.ReadInt32());
-            Unknown2 = reader.ReadByte();
-            CodeName = reader.ReadString(reader.ReadInt32());
+            Unknown1 = reader.ReadByte();
+            CodeName1 = reader.ReadString(reader.ReadInt32());
+            CodeName2 = reader.ReadString(reader.ReadInt32());
 
             BasedId = reader.ReadInt16();
             NationId = reader.ReadInt16();
@@ -81,12 +85,19 @@ namespace FMELibrary
             Reserves = reader.ReadByte();
             LeagueId = reader.ReadInt16();
 
-            Unknown3 = reader.ReadInt16();
-            Unknown4 = reader.ReadByte();
+            Unknown2 = reader.ReadInt16();
+            Unknown3 = reader.ReadByte();
             Stadium = reader.ReadInt16();
             LastLeague = reader.ReadInt16();
 
-            Unknown5 = reader.ReadBytes(12);
+            Unknown4Type = reader.ReadByte();
+            if (Unknown4Type == 1)
+                Unknown4 = reader.ReadBytes(66);
+            else
+                Unknown4 = Array.Empty<byte>();
+
+            Unknown5 = new byte[reader.ReadInt32()];
+            Unknown5 = reader.ReadBytes(Unknown5.Length);
 
             LeaguePos = reader.ReadByte();
             Reputation = reader.ReadInt16();
@@ -131,10 +142,11 @@ namespace FMELibrary
             writer.Write(Uid);
 
             writer.WriteEx(FullName);
-            writer.Write(Unknown1);
+            writer.Write(Unknown0);
             writer.WriteEx(ShortName);
-            writer.Write(Unknown2);
-            writer.WriteEx(CodeName);
+            writer.Write(Unknown1);
+            writer.WriteEx(CodeName1);
+            writer.WriteEx(CodeName2);
 
             writer.Write(BasedId);
             writer.Write(NationId);
@@ -154,11 +166,16 @@ namespace FMELibrary
             writer.Write(Reserves);
             writer.Write(LeagueId);
 
+            writer.Write(Unknown2);
             writer.Write(Unknown3);
-            writer.Write(Unknown4);
             writer.Write(Stadium);
             writer.Write(LastLeague);
 
+            writer.Write(Unknown4Type);
+            if (Unknown4Type == 1)
+                writer.Write(Unknown4);
+
+            writer.Write(Unknown5.Length);
             writer.Write(Unknown5);
 
             writer.Write(LeaguePos);

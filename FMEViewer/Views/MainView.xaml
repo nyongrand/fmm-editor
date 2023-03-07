@@ -254,7 +254,7 @@
                             FontSize="18"
                             FontWeight="Bold"
                             Foreground="{DynamicResource MaterialDesignLightBackground}"
-                            Text="FM22 DB Editor" />
+                            Text="FM23 DB Editor" />
 
                         <!--  Toolbar Menu  -->
                         <StackPanel
@@ -317,7 +317,7 @@
                     </StatusBarItem>
 
                     <StatusBarItem>
-                        <TextBlock Text="{Binding Clubs}" />
+                        <TextBlock Text="{Binding Clubs.Count}" />
                     </StatusBarItem>
                 </StatusBar>
 

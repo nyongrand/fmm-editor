@@ -14,7 +14,7 @@
 //Console.WriteLine("");
 
 
-var file = "D:\\Downloads\\database\\club.dat";
+var file = "D:\\Downloads\\database23\\club.dat";
 var parser = new ClubParser(file);
 //await parser.ParseAsync();
 

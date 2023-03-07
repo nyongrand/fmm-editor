@@ -279,13 +279,13 @@ namespace FMEViewer.ViewModels
             if (SelectedClub is Club club1 && SwitchedWithClub is Club club2)
             {
                 var based1 = club1.BasedId;
-                var based2 = club2.BasedId;
                 var league1 = club1.LeagueId;
+                var based2 = club2.BasedId;
                 var league2 = club2.LeagueId;
 
-                SelectedClub.BasedId = SelectedClub.NationId;
-                SwitchedWithClub.BasedId = based1;
+                SelectedClub.BasedId = based2;
                 SelectedClub.LeagueId = league2;
+                SwitchedWithClub.BasedId = based1;
                 SwitchedWithClub.LeagueId = league1;
 
                 clubsView.Refresh();
