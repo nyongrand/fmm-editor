@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:FMEditor"
     xmlns:views="clr-namespace:FMEditor.Views"
+    xmlns:vm="clr-namespace:FMEditor.ViewModels"
     Shell.FlyoutBehavior="Flyout">
 
     <FlyoutItem Title="Load" FlyoutIcon="{StaticResource IconOne}">
@@ -17,7 +18,7 @@
     <FlyoutItem
         Title="Nation"
         FlyoutIcon="{StaticResource IconTwo}"
-        IsEnabled="False">
+        IsEnabled="{Binding EnableNation}">
         <ShellContent
             Title="Nation"
             ContentTemplate="{DataTemplate views:MainPage}"
@@ -27,7 +28,7 @@
     <FlyoutItem
         Title="Competition"
         FlyoutIcon="{StaticResource IconThree}"
-        IsEnabled="False">
+        IsEnabled="{Binding EnableCompetition}">
         <ShellContent
             Title="Competition"
             ContentTemplate="{DataTemplate views:MainPage}"
@@ -37,7 +38,7 @@
     <FlyoutItem
         Title="Club"
         FlyoutIcon="{StaticResource IconFour}"
-        IsEnabled="False">
+        IsEnabled="{Binding EnableClub}">
         <ShellContent
             Title="Club"
             ContentTemplate="{DataTemplate views:MainPage}"

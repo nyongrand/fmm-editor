@@ -1,9 +1,13 @@
-﻿namespace FMEditor;
+﻿using FMEditor.ViewModels;
+
+namespace FMEditor;
 
 public partial class AppShell : Shell
 {
-    public AppShell()
+    public AppShell(MainViewModel viewModel)
     {
+        BindingContext = viewModel;
+
         InitializeComponent();
     }
 }

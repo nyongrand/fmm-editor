@@ -1,9 +1,13 @@
-﻿namespace FMEditor.Views;
+﻿using FMEditor.ViewModels;
+
+namespace FMEditor.Views;
 
 public partial class MainPage : ContentPage
 {
-    public MainPage()
+    public MainPage(MainViewModel viewModel)
     {
+        BindingContext = viewModel;
+
         InitializeComponent();
     }
 }

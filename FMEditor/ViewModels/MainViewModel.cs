@@ -1,5 +1,4 @@
-﻿using DynamicData;
-using FMELibrary;
+﻿using FMELibrary;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System.Collections.ObjectModel;
@@ -12,11 +11,15 @@ namespace FMEditor.ViewModels
     {
         public extern string FolderPath { [ObservableAsProperty] get; }
 
+        public extern bool EnableNation { [ObservableAsProperty] get; }
+        public extern bool EnableCompetition { [ObservableAsProperty] get; }
+        public extern bool EnableClub { [ObservableAsProperty] get; }
+
         public extern NationParser NationParser { [ObservableAsProperty] get; }
-        public extern CompetitionParser CompParser { [ObservableAsProperty] get; }
+        public extern CompetitionParser CompetitionParser { [ObservableAsProperty] get; }
         public extern ClubParser ClubParser { [ObservableAsProperty] get; }
         public ObservableCollection<Nation> Nations { get; }
-        public ObservableCollection<Competition> Comps { get; }
+        public ObservableCollection<Competition> Competitions { get; }
         public ObservableCollection<Club> Clubs { get; }
 
         public ReactiveCommand<Unit, string> Load { get; private set; }
@@ -27,7 +30,7 @@ namespace FMEditor.ViewModels
         public MainViewModel()
         {
             Nations = new ObservableCollection<Nation>();
-            Comps = new ObservableCollection<Competition>();
+            Competitions = new ObservableCollection<Competition>();
             Clubs = new ObservableCollection<Club>();
 
             Load = ReactiveCommand.Create(LoadImpl);
@@ -40,7 +43,7 @@ namespace FMEditor.ViewModels
             });
 
             ParseComp = ReactiveCommand.Create<string, CompetitionParser>((path) => new CompetitionParser(path));
-            ParseComp.ToPropertyEx(this, vm => vm.CompParser);
+            ParseComp.ToPropertyEx(this, vm => vm.CompetitionParser);
             ParseComp.ThrownExceptions.Subscribe(x =>
             {
             });
@@ -63,54 +66,23 @@ namespace FMEditor.ViewModels
 
             this.WhenAnyValue(vm => vm.FolderPath)
                 .WhereNotNull()
-                .Select(x => Path.Combine(x, "club.dat"))
+                .Select(x => Path.Combine(x, "clubu.dat"))
                 .InvokeCommand(ParseClub);
 
             this.WhenAnyValue(vm => vm.NationParser)
-                .WhereNotNull()
-                .Subscribe(x =>
-                {
-                    Nations.Clear();
-                    Nations.AddRange(x.Items.OrderBy(y => y.Name));
-                });
+                .Select(x => x != null && x.Items.Any())
+                .ToPropertyEx(this, vm => vm.EnableNation);
 
-            this.WhenAnyValue(vm => vm.CompParser, vm => vm.NationParser)
-                .Subscribe(pair =>
-                {
-                    Comps.Clear();
+            this.WhenAnyValue(vm => vm.CompetitionParser)
+                .Select(x => x != null && x.Items.Any())
+                .ToPropertyEx(this, vm => vm.EnableCompetition);
 
-                    var competitions = pair.Item1?.Items;
-                    if (competitions != null)
-                    {
-                        competitions.ForEach(x =>
-                        {
-                            x.Nation = GetNationName(pair.Item2?.Items, x.NationId);
-                        });
-
-                        Comps.AddRange(competitions);
-                    }
-                });
-
-            this.WhenAnyValue(vm => vm.ClubParser, vm => vm.NationParser)
-                .Where(pair => pair.Item1 != null)
-                .Subscribe(pair =>
-                {
-                    Clubs.Clear();
-
-                    var clubs = pair.Item1?.Items;
-                    if (clubs != null && clubs.Any())
-                    {
-                        clubs.ForEach(x =>
-                        {
-                            x.Based = GetNationName(pair.Item2?.Items, x.BasedId);
-                            x.Nation = GetNationName(pair.Item2?.Items, x.NationId);
-                        });
-
-                        Clubs.AddRange(clubs);
-                    }
-                });
-
+            this.WhenAnyValue(vm => vm.ClubParser)
+                .Select(x => x != null && x.Items.Any())
+                .ToPropertyEx(this, vm => vm.EnableClub);
         }
+
+        #region Private Methods
 
         private string LoadImpl()
         {
@@ -125,13 +97,6 @@ namespace FMEditor.ViewModels
             //var settings = new FolderBrowserDialogSettings();
             //bool? success = dialogService.ShowFolderBrowserDialog(this, settings);
             //return (success == true) ? settings.SelectedPath : null;
-        }
-
-        #region Private Methods
-
-        private static string GetNationName(IEnumerable<Nation> nations, int id)
-        {
-            return nations?.FirstOrDefault(x => x.Id == id)?.Name ?? "-";
         }
 
         #endregion
