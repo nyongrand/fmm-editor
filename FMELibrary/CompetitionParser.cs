@@ -25,7 +25,11 @@
         public CompetitionParser(string path)
         {
             using var file = File.OpenRead(path);
-            using var reader = new BinaryReader(file);
+            using var memoryStream = new MemoryStream();
+            file.CopyTo(memoryStream);
+            memoryStream.Position = 0;
+
+            using var reader = new BinaryReader(memoryStream);
 
             FilePath = path;
             Header = reader.ReadBytes(8);
@@ -34,16 +38,8 @@
 
             while (file.Position < file.Length)
             {
-                try
-                {
-                    var item = new Competition(reader);
-                    Items.Add(item);
-                }
-                catch
-                {
-                    var d = Items.Last().ToString();
-                    break;
-                }
+                var item = new Competition(reader);
+                Items.Add(item);
             }
         }
 
