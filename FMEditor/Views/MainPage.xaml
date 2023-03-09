@@ -39,7 +39,7 @@
                 Command="{Binding Load}"
                 HorizontalOptions="Center"
                 SemanticProperties.Hint="Counts the number of times you click"
-                Text="{Binding ButtonText}" />
+                Text="Load Database" />
 
         </VerticalStackLayout>
     </ScrollView>

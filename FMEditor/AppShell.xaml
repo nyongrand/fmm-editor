@@ -7,29 +7,41 @@
     xmlns:views="clr-namespace:FMEditor.Views"
     Shell.FlyoutBehavior="Flyout">
 
-    <FlyoutItem Title="One" FlyoutIcon="{StaticResource IconOne}">
+    <FlyoutItem Title="Load" FlyoutIcon="{StaticResource IconOne}">
         <ShellContent
             Title="One"
             ContentTemplate="{DataTemplate views:MainPage}"
             Route="OnePage" />
     </FlyoutItem>
-    <FlyoutItem Title="Two" FlyoutIcon="{StaticResource IconTwo}">
+
+    <FlyoutItem
+        Title="Nation"
+        FlyoutIcon="{StaticResource IconTwo}"
+        IsEnabled="False">
         <ShellContent
-            Title="Two"
+            Title="Nation"
             ContentTemplate="{DataTemplate views:MainPage}"
-            Route="TwoPage" />
+            Route="NationPage" />
     </FlyoutItem>
-    <FlyoutItem Title="Three" FlyoutIcon="{StaticResource IconThree}">
+
+    <FlyoutItem
+        Title="Competition"
+        FlyoutIcon="{StaticResource IconThree}"
+        IsEnabled="False">
         <ShellContent
-            Title="Three"
+            Title="Competition"
             ContentTemplate="{DataTemplate views:MainPage}"
-            Route="ThreePage" />
+            Route="CompetitionPage" />
     </FlyoutItem>
-    <FlyoutItem Title="Four" FlyoutIcon="{StaticResource IconFour}">
+
+    <FlyoutItem
+        Title="Club"
+        FlyoutIcon="{StaticResource IconFour}"
+        IsEnabled="False">
         <ShellContent
-            Title="Four"
+            Title="Club"
             ContentTemplate="{DataTemplate views:MainPage}"
-            Route="FourPage" />
+            Route="ClubPage" />
     </FlyoutItem>
 
 </Shell>

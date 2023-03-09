@@ -66,4 +66,8 @@
     <PackageReference Include="ReactiveUI.Maui" Version="18.4.25" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\FMELibrary\FMELibrary.csproj" />
+  </ItemGroup>
+
 </Project>
