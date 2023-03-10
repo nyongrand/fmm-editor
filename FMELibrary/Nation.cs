@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-
-namespace FMELibrary
+﻿namespace FMELibrary
 {
     public class Nation
     {
@@ -15,9 +13,9 @@ namespace FMELibrary
         public short City { get; set; }
         public short Stadium { get; set; }
         public byte Unknown3 { get; set; }
-        public Color Color1 { get; set; }
+        public short Color1 { get; set; }
         public int Unknown4 { get; set; }
-        public Color Color2 { get; set; }
+        public short Color2 { get; set; }
         public byte Unknown5 { get; set; }
         public byte Unknown6 { get; set; }
         public short Unknown7 { get; set; }
@@ -46,9 +44,9 @@ namespace FMELibrary
             City = reader.ReadInt16();
             Stadium = reader.ReadInt16();
             Unknown3 = reader.ReadByte();
-            Color1 = reader.ReadColor();
+            Color1 = reader.ReadInt16();
             Unknown4 = reader.ReadInt32();
-            Color2 = reader.ReadColor();
+            Color2 = reader.ReadInt16();
             Unknown5 = reader.ReadByte();
             Unknown6 = reader.ReadByte();
             Unknown7 = reader.ReadInt16();
@@ -96,9 +94,9 @@ namespace FMELibrary
             writer.Write(City);
             writer.Write(Stadium);
             writer.Write(Unknown3);
-            writer.WriteEx(Color1);
+            writer.Write(Color1);
             writer.Write(Unknown4);
-            writer.WriteEx(Color2);
+            writer.Write(Color2);
             writer.Write(Unknown5);
             writer.Write(Unknown6);
             writer.Write(Unknown7);

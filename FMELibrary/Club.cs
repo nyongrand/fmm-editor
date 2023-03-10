@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-
-namespace FMELibrary
+﻿namespace FMELibrary
 {
     public class Club
     {
@@ -14,7 +12,7 @@ namespace FMELibrary
         public string CodeName2 { get; set; }
         public short BasedId { get; set; }
         public short NationId { get; set; }
-        public Color[] Colors { get; set; }
+        public short[] Colors { get; set; }
         public Kit[] Kits { get; set; }
         public byte Status { get; set; }
         public byte Academy { get; set; }
@@ -64,10 +62,10 @@ namespace FMELibrary
             BasedId = reader.ReadInt16();
             NationId = reader.ReadInt16();
 
-            Colors = new Color[6];
+            Colors = new short[6];
             for (int i = 0; i < Colors.Length; i++)
             {
-                Colors[i] = reader.ReadColor();
+                Colors[i] = reader.ReadInt16();
             }
 
             Kits = new Kit[6];
@@ -152,7 +150,7 @@ namespace FMELibrary
             writer.Write(NationId);
 
             for (int i = 0; i < Colors.Length; i++)
-                writer.WriteEx(Colors[i]);
+                writer.Write(Colors[i]);
 
             for (int i = 0; i < Kits.Length; i++)
                 Kits[i].Write(writer);

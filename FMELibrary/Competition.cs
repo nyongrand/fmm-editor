@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-
-namespace FMELibrary
+﻿namespace FMELibrary
 {
     public class Competition
     {
@@ -14,8 +12,8 @@ namespace FMELibrary
         public byte Type { get; set; }
         public short ContinentId { get; set; }
         public short NationId { get; set; }
-        public Color Color1 { get; set; }
-        public Color Color2 { get; set; }
+        public short Color1 { get; set; }
+        public short Color2 { get; set; }
         public short Reputation { get; set; }
         public byte Level { get; set; }
         public short MainComp { get; set; }
@@ -48,8 +46,8 @@ namespace FMELibrary
             Type = reader.ReadByte();
             ContinentId = reader.ReadInt16();
             NationId = reader.ReadInt16();
-            Color1 = reader.ReadColor();
-            Color2 = reader.ReadColor();
+            Color1 = reader.ReadInt16();
+            Color2 = reader.ReadInt16();
             Reputation = reader.ReadInt16();
             Level = reader.ReadByte();
             MainComp = reader.ReadInt16();
@@ -92,8 +90,8 @@ namespace FMELibrary
             writer.Write(Type);
             writer.Write(ContinentId);
             writer.Write(NationId);
-            writer.WriteEx(Color1);
-            writer.WriteEx(Color2);
+            writer.Write(Color1);
+            writer.Write(Color2);
             writer.Write(Reputation);
             writer.Write(Level);
             writer.Write(MainComp);

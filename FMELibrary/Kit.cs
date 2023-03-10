@@ -6,17 +6,17 @@ namespace FMELibrary
     {
         public byte Unknown1 { get; set; }
         public byte Unknown2 { get; set; }
-        public Color[] Colors { get; set; }
+        public short[] Colors { get; set; }
 
         public Kit(BinaryReader reader)
         {
             Unknown1 = reader.ReadByte();
             Unknown2 = reader.ReadByte();
 
-            Colors = new Color[10];
+            Colors = new short[10];
             for (int i = 0; i < Colors.Length; i++)
             {
-                Colors[i] = reader.ReadColor();
+                Colors[i] = reader.ReadInt16();
             }
         }
 
@@ -26,7 +26,7 @@ namespace FMELibrary
             writer.Write(Unknown2);
 
             for (int i = 0; i < Colors.Length; i++)
-                writer.WriteEx(Colors[i]);
+                writer.Write(Colors[i]);
         }
     }
 }
