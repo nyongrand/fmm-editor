@@ -1,13 +1,12 @@
-﻿using FMEditor.ViewModels;
-
-namespace FMEditor;
-
-public partial class App : Application
+﻿namespace FMEditor
 {
-    public App(MainViewModel viewModel)
+    public partial class App : Application
     {
-        InitializeComponent();
+        public App()
+        {
+            InitializeComponent();
 
-        MainPage = new AppShell(viewModel);
+            MainPage = new AppShell();
+        }
     }
 }

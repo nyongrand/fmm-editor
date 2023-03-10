@@ -9,23 +9,23 @@ namespace FMEditor.ViewModels
 {
     public class MainViewModel : ReactiveObject
     {
-        public extern string FolderPath { [ObservableAsProperty] get; }
+        public extern string DatabasePath { [ObservableAsProperty] get; }
 
+        [Reactive] public NationParser NationParser { get; set; }
+        [Reactive] public CompetitionParser CompetitionParser { get; set; }
+        [Reactive] public ClubParser ClubParser { get; set; }
+
+        public extern bool Loading { [ObservableAsProperty] get; }
         public extern bool EnableNation { [ObservableAsProperty] get; }
         public extern bool EnableCompetition { [ObservableAsProperty] get; }
         public extern bool EnableClub { [ObservableAsProperty] get; }
 
-        public extern NationParser NationParser { [ObservableAsProperty] get; }
-        public extern CompetitionParser CompetitionParser { [ObservableAsProperty] get; }
-        public extern ClubParser ClubParser { [ObservableAsProperty] get; }
         public ObservableCollection<Nation> Nations { get; }
         public ObservableCollection<Competition> Competitions { get; }
         public ObservableCollection<Club> Clubs { get; }
 
         public ReactiveCommand<Unit, string> Load { get; private set; }
-        public ReactiveCommand<string, NationParser> ParseNation { get; private set; }
-        public ReactiveCommand<string, CompetitionParser> ParseComp { get; private set; }
-        public ReactiveCommand<string, ClubParser> ParseClub { get; private set; }
+        public ReactiveCommand<string, Unit> Parse { get; private set; }
 
         public MainViewModel()
         {
@@ -34,40 +34,18 @@ namespace FMEditor.ViewModels
             Clubs = new ObservableCollection<Club>();
 
             Load = ReactiveCommand.Create(LoadImpl);
-            Load.ToPropertyEx(this, vm => vm.FolderPath);
+            Load.ToPropertyEx(this, vm => vm.DatabasePath);
 
-            ParseNation = ReactiveCommand.Create<string, NationParser>((path) => new NationParser(path));
-            ParseNation.ToPropertyEx(this, vm => vm.NationParser);
-            ParseNation.ThrownExceptions.Subscribe(x =>
+            Parse = ReactiveCommand.CreateFromTask<string>(ParseImpl);
+            Parse.IsExecuting.ToPropertyEx(this, vm => vm.Loading);
+            Parse.ThrownExceptions.Subscribe(x =>
             {
+
             });
 
-            ParseComp = ReactiveCommand.Create<string, CompetitionParser>((path) => new CompetitionParser(path));
-            ParseComp.ToPropertyEx(this, vm => vm.CompetitionParser);
-            ParseComp.ThrownExceptions.Subscribe(x =>
-            {
-            });
-
-            ParseClub = ReactiveCommand.Create<string, ClubParser>((path) => new ClubParser(path));
-            ParseClub.ToPropertyEx(this, vm => vm.ClubParser);
-            ParseClub.ThrownExceptions.Subscribe(x =>
-            {
-            });
-
-            this.WhenAnyValue(vm => vm.FolderPath)
+            this.WhenAnyValue(vm => vm.DatabasePath)
                 .WhereNotNull()
-                .Select(x => Path.Combine(x, "nation.dat"))
-                .InvokeCommand(ParseNation);
-
-            this.WhenAnyValue(vm => vm.FolderPath)
-                .WhereNotNull()
-                .Select(x => Path.Combine(x, "competition.dat"))
-                .InvokeCommand(ParseComp);
-
-            this.WhenAnyValue(vm => vm.FolderPath)
-                .WhereNotNull()
-                .Select(x => Path.Combine(x, "clubu.dat"))
-                .InvokeCommand(ParseClub);
+                .InvokeCommand(Parse);
 
             this.WhenAnyValue(vm => vm.NationParser)
                 .Select(x => x != null && x.Items.Any())
@@ -97,6 +75,13 @@ namespace FMEditor.ViewModels
             //var settings = new FolderBrowserDialogSettings();
             //bool? success = dialogService.ShowFolderBrowserDialog(this, settings);
             //return (success == true) ? settings.SelectedPath : null;
+        }
+
+        private async Task ParseImpl(string dbPath)
+        {
+            NationParser = await NationParser.Load(Path.Combine(dbPath, "nation.dat"));
+            CompetitionParser = await CompetitionParser.Load(Path.Combine(dbPath, "competition.dat"));
+            ClubParser = await ClubParser.Load(Path.Combine(dbPath, "club.dat"));
         }
 
         #endregion

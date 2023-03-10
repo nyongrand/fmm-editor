@@ -1,25 +1,25 @@
-﻿using FMEditor.ViewModels;
-using FMEditor.Views;
+﻿using Microsoft.Extensions.Logging;
 
-namespace FMEditor;
-
-public static class MauiProgram
+namespace FMEditor
 {
-    public static MauiApp CreateMauiApp()
+    public static class MauiProgram
     {
-        var builder = MauiApp.CreateBuilder();
-        builder
-            .UseMauiApp<App>()
-            .ConfigureFonts(fonts =>
-            {
-                fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-                fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-                fonts.AddFont("fa_solid.ttf", "FontAwesome");
-            });
+        public static MauiApp CreateMauiApp()
+        {
+            var builder = MauiApp.CreateBuilder();
+            builder
+                .UseMauiApp<App>()
+                .ConfigureFonts(fonts =>
+                {
+                    fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
+                    fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+                });
 
-        builder.Services.AddTransient<MainPage>();
-        builder.Services.AddSingleton<MainViewModel>();
+#if DEBUG
+		builder.Logging.AddDebug();
+#endif
 
-        return builder.Build();
+            return builder.Build();
+        }
     }
 }

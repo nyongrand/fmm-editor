@@ -3,42 +3,31 @@
     x:Class="FMEditor.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:FMEditor"
     xmlns:views="clr-namespace:FMEditor.Views"
-    xmlns:vm="clr-namespace:FMEditor.ViewModels"
     Shell.FlyoutBehavior="Flyout">
 
-    <FlyoutItem Title="Load" FlyoutIcon="{StaticResource IconOne}">
+    <FlyoutItem Title="Load">
         <ShellContent
             Title="One"
             ContentTemplate="{DataTemplate views:MainPage}"
             Route="OnePage" />
     </FlyoutItem>
 
-    <FlyoutItem
-        Title="Nation"
-        FlyoutIcon="{StaticResource IconTwo}"
-        IsEnabled="{Binding EnableNation}">
+    <FlyoutItem Title="Nation" IsEnabled="{Binding EnableNation}">
         <ShellContent
             Title="Nation"
             ContentTemplate="{DataTemplate views:MainPage}"
             Route="NationPage" />
     </FlyoutItem>
 
-    <FlyoutItem
-        Title="Competition"
-        FlyoutIcon="{StaticResource IconThree}"
-        IsEnabled="{Binding EnableCompetition}">
+    <FlyoutItem Title="Competition" IsEnabled="{Binding EnableCompetition}">
         <ShellContent
             Title="Competition"
             ContentTemplate="{DataTemplate views:MainPage}"
             Route="CompetitionPage" />
     </FlyoutItem>
 
-    <FlyoutItem
-        Title="Club"
-        FlyoutIcon="{StaticResource IconFour}"
-        IsEnabled="{Binding EnableClub}">
+    <FlyoutItem Title="Club" IsEnabled="{Binding EnableClub}">
         <ShellContent
             Title="Club"
             ContentTemplate="{DataTemplate views:MainPage}"
