@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-
-namespace FMELibrary
+﻿namespace FMELibrary
 {
     public class ClubParser
     {
@@ -24,25 +22,35 @@ namespace FMELibrary
         /// </summary>
         public List<Club> Items { get; set; }
 
-        public ClubParser(string path)
+        // Make constructor private to make sure it's not called outside
+        private ClubParser(string path, BinaryReader reader)
         {
-            using var file = File.OpenRead(path);
-            using var memoryStream = new MemoryStream();
-            file.CopyTo(memoryStream);
-            memoryStream.Position = 0;
-
-            using var reader = new BinaryReader(memoryStream);
-
             FilePath = path;
             Header = reader.ReadBytes(8);
             Count = reader.ReadInt32();
             Items = new List<Club>();
+        }
 
-            while (file.Position < file.Length)
+        public static async Task<ClubParser> Load(string path)
+        {
+            using var fs = File.OpenRead(path);
+            using var ms = new MemoryStream();
+            fs.CopyTo(ms);
+            ms.Position = 0;
+
+            using var reader = new BinaryReader(ms);
+            var parser = new ClubParser(path, reader);
+
+            await Task.Run(() =>
             {
-                var item = new Club(reader);
-                Items.Add(item);
-            }
+                while (ms.Position < ms.Length)
+                {
+                    var item = new Club(reader);
+                    parser.Items.Add(item);
+                }
+            });
+
+            return parser;
         }
 
         public byte[] ToBytes()
