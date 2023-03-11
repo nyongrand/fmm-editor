@@ -15,6 +15,8 @@ namespace FMEditor.ViewModels
         [Reactive] public CompetitionParser CompetitionParser { get; set; }
         [Reactive] public ClubParser ClubParser { get; set; }
 
+        [Reactive] public string LoadMessage { get; set; } = "";
+        public extern bool Idle { [ObservableAsProperty] get; }
         public extern bool Loading { [ObservableAsProperty] get; }
         public extern bool EnableNation { [ObservableAsProperty] get; }
         public extern bool EnableCompetition { [ObservableAsProperty] get; }
@@ -27,8 +29,12 @@ namespace FMEditor.ViewModels
         public ReactiveCommand<Unit, string> Load { get; private set; }
         public ReactiveCommand<string, Unit> Parse { get; private set; }
 
-        public MainViewModel()
+        public MainViewModel(NationParser nationParser, CompetitionParser competitionParser, ClubParser clubParser)
         {
+            NationParser = nationParser;
+            CompetitionParser = competitionParser;
+            ClubParser = clubParser;
+
             Nations = new ObservableCollection<Nation>();
             Competitions = new ObservableCollection<Competition>();
             Clubs = new ObservableCollection<Club>();
@@ -47,30 +53,42 @@ namespace FMEditor.ViewModels
                 .WhereNotNull()
                 .InvokeCommand(Parse);
 
-            this.WhenAnyValue(vm => vm.NationParser)
-                .Select(x => x != null && x.Items.Any())
-                .ToPropertyEx(this, vm => vm.EnableNation);
+            this.WhenAnyValue(vm => vm.Loading)
+                .Select(x => !x)
+                .ToPropertyEx(this, vm => vm.Idle);
 
-            this.WhenAnyValue(vm => vm.CompetitionParser)
-                .Select(x => x != null && x.Items.Any())
-                .ToPropertyEx(this, vm => vm.EnableCompetition);
+            //this.WhenAnyValue(vm => vm.NationParser)
+            //    .Select(x => x != null && x.Items.Any())
+            //    .ToPropertyEx(this, vm => vm.EnableNation);
 
-            this.WhenAnyValue(vm => vm.ClubParser)
-                .Select(x => x != null && x.Items.Any())
-                .ToPropertyEx(this, vm => vm.EnableClub);
+            //this.WhenAnyValue(vm => vm.CompetitionParser)
+            //    .Select(x => x != null && x.Items.Any())
+            //    .ToPropertyEx(this, vm => vm.EnableCompetition);
+
+            //this.WhenAnyValue(vm => vm.ClubParser)
+            //    .Select(x => x != null && x.Items.Any())
+            //    .ToPropertyEx(this, vm => vm.EnableClub);
         }
 
         #region Private Methods
 
         private string LoadImpl()
         {
+            var dbPath = "";
+
 #if ANDROID
+
             var filesDir = Android.App.Application.Context.GetExternalFilesDir(null);
             var databaseDir = Path.Combine(filesDir.AbsolutePath, "database");
             if (Directory.Exists(databaseDir))
-                return databaseDir;
+                dbPath = databaseDir;
+
+#elif WINDOWS
+
+            dbPath = @"D:\Downloads\database23";
+
 #endif
-            return "";
+            return dbPath;
 
             //var settings = new FolderBrowserDialogSettings();
             //bool? success = dialogService.ShowFolderBrowserDialog(this, settings);
@@ -79,9 +97,17 @@ namespace FMEditor.ViewModels
 
         private async Task ParseImpl(string dbPath)
         {
-            NationParser = await NationParser.Load(Path.Combine(dbPath, "nation.dat"));
-            CompetitionParser = await CompetitionParser.Load(Path.Combine(dbPath, "competition.dat"));
-            ClubParser = await ClubParser.Load(Path.Combine(dbPath, "club.dat"));
+            LoadMessage = "Loading Nations";
+            await NationParser.Load(Path.Combine(dbPath, "nation.dat"));
+
+            LoadMessage = "Loading Competitions";
+            await CompetitionParser.Load(Path.Combine(dbPath, "competition.dat"));
+
+            LoadMessage = "Loading Clubs";
+            await ClubParser.Load(Path.Combine(dbPath, "club.dat"));
+
+
+            LoadMessage = "Loading Complete";
         }
 
         #endregion

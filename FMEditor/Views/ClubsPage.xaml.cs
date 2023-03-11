@@ -1,13 +1,9 @@
-using FMEditor.ViewModels;
-
 namespace FMEditor.Views;
 
 public partial class ClubsPage : ContentPage
 {
-    public ClubsPage(MainViewModel viewModel)
+    public ClubsPage()
     {
-        BindingContext = viewModel;
-
         InitializeComponent();
     }
 }

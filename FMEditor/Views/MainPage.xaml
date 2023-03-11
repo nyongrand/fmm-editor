@@ -3,11 +3,8 @@
     x:Class="FMEditor.Views.MainPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:vm="clr-namespace:FMEditor.ViewModels">
-
-    <ContentPage.BindingContext>
-        <vm:MainViewModel />
-    </ContentPage.BindingContext>
+    xmlns:vm="clr-namespace:FMEditor.ViewModels"
+    x:DataType="vm:MainViewModel">
 
     <ScrollView>
         <VerticalStackLayout
@@ -25,19 +22,20 @@
                 FontSize="32"
                 HorizontalOptions="Center"
                 SemanticProperties.HeadingLevel="Level1"
-                Text="Hello, World!" />
+                Text="FMM23PGDE" />
 
             <Label
                 FontSize="18"
                 HorizontalOptions="Center"
                 SemanticProperties.Description="Welcome to dot net Multi platform App U I"
                 SemanticProperties.HeadingLevel="Level2"
-                Text="Welcome to .NET Multi-platform App UI" />
+                Text="{Binding LoadMessage}" />
 
             <Button
                 x:Name="CounterBtn"
                 Command="{Binding Load}"
                 HorizontalOptions="Center"
+                IsEnabled="{Binding Idle}"
                 SemanticProperties.Hint="Counts the number of times you click"
                 Text="Load Database" />
 

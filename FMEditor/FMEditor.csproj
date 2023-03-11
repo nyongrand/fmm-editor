@@ -22,6 +22,9 @@
     <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
     <ApplicationVersion>1</ApplicationVersion>
 
+    <!-- Fix Windows 10 close on init -->
+    <WindowsAppSdkDeploymentManagerInitialize>false</WindowsAppSdkDeploymentManagerInitialize>
+
     <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">11.0</SupportedOSPlatformVersion>
     <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">13.1</SupportedOSPlatformVersion>
     <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
@@ -55,7 +58,21 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FMELibrary\FMELibrary.csproj" />
+    <Compile Update="Views\CompetitionsPage.xaml.cs">
+      <DependentUpon>CompetitionsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\NationDetailPage.xaml.cs">
+      <DependentUpon>NationDetailPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\NationsPage.xaml.cs">
+      <DependentUpon>NationsPage.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <MauiXaml Update="Views\NationDetailPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
   </ItemGroup>
 
 </Project>
