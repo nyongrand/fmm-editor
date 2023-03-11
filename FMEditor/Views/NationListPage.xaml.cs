@@ -2,9 +2,9 @@ using FMEditor.ViewModels;
 
 namespace FMEditor.Views;
 
-public partial class NationsPage : ContentPage
+public partial class NationListPage : ContentPage
 {
-    public NationsPage(NationsViewModel viewModel)
+    public NationListPage(NationListViewModel viewModel)
     {
         BindingContext = viewModel;
 

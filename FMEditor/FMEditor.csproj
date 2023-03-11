@@ -64,8 +64,8 @@
     <Compile Update="Views\NationDetailPage.xaml.cs">
       <DependentUpon>NationDetailPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\NationsPage.xaml.cs">
-      <DependentUpon>NationsPage.xaml</DependentUpon>
+    <Compile Update="Views\NationListPage.xaml.cs">
+      <DependentUpon>NationListPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
 

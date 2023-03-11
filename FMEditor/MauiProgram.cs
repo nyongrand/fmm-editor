@@ -13,6 +13,9 @@ namespace FMEditor
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+                .RegisterServices()
+                .RegisterPages()
+                .RegisterViewModels()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -23,19 +26,34 @@ namespace FMEditor
             builder.Logging.AddDebug();
 #endif
 
-            builder.Services.AddSingleton<NationParser>();
-            builder.Services.AddSingleton<CompetitionParser>();
-            builder.Services.AddSingleton<ClubParser>();
-
-            builder.Services.AddTransient<MainPage>();
-            builder.Services.AddTransient<NationsPage>();
-            builder.Services.AddTransient<NationDetailPage>();
-
-            builder.Services.AddSingleton<MainViewModel>();
-            builder.Services.AddTransient<NationsViewModel>();
-            builder.Services.AddTransient<NationDetailViewModel>();
-
             return builder.Build();
+        }
+
+        public static MauiAppBuilder RegisterServices(this MauiAppBuilder mauiAppBuilder)
+        {
+            mauiAppBuilder.Services.AddSingleton<NationParser>();
+            mauiAppBuilder.Services.AddSingleton<CompetitionParser>();
+            mauiAppBuilder.Services.AddSingleton<ClubParser>();
+
+            return mauiAppBuilder;
+        }
+
+        public static MauiAppBuilder RegisterPages(this MauiAppBuilder mauiAppBuilder)
+        {
+            mauiAppBuilder.Services.AddTransient<MainPage>();
+            mauiAppBuilder.Services.AddTransient<NationListPage>();
+            mauiAppBuilder.Services.AddTransient<NationDetailPage>();
+
+            return mauiAppBuilder;
+        }
+
+        public static MauiAppBuilder RegisterViewModels(this MauiAppBuilder mauiAppBuilder)
+        {
+            mauiAppBuilder.Services.AddSingleton<MainViewModel>();
+            mauiAppBuilder.Services.AddTransient<NationListViewModel>();
+            mauiAppBuilder.Services.AddTransient<NationDetailViewModel>();
+
+            return mauiAppBuilder;
         }
     }
 }

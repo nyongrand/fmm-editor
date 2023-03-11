@@ -18,7 +18,7 @@
     <FlyoutItem Title="Nation">
         <ShellContent
             Title="Nation"
-            ContentTemplate="{DataTemplate views:NationsPage}"
+            ContentTemplate="{DataTemplate views:NationListPage}"
             Route="NationPage" />
     </FlyoutItem>
 

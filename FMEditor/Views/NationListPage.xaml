@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
-    x:Class="FMEditor.Views.NationsPage"
+    x:Class="FMEditor.Views.NationListPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:model="clr-namespace:FMELibrary"
     xmlns:vm="clr-namespace:FMEditor.ViewModels"
     Title="Nation List"
-    x:DataType="vm:NationsViewModel">
+    x:DataType="vm:NationListViewModel">
 
     <CollectionView
         EmptyView="Loading data..."
         ItemsSource="{Binding Nations}"
         SelectedItem="{Binding SelectedNation}"
+        SelectionChangedCommand="{Binding Navigate}"
+        SelectionChangedCommandParameter="{Binding Path=SelectedItem, Source={RelativeSource Self}}"
         SelectionMode="Single">
         <CollectionView.ItemTemplate>
             <DataTemplate x:DataType="model:Nation">
