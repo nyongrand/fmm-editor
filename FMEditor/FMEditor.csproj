@@ -55,6 +55,8 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
     <PackageReference Include="ReactiveUI" Version="18.4.25" />
     <PackageReference Include="ReactiveUI.Fody" Version="18.4.25" />
+    <PackageReference Include="UraniumUI.Icons.MaterialIcons" Version="2.3.1" />
+    <PackageReference Include="UraniumUI.Material" Version="2.3.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -70,6 +72,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <MauiXaml Update="Resources\Styles\MaterialOverrideColor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Resources\Styles\MaterialOverrideStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
     <MauiXaml Update="Views\NationDetailPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>

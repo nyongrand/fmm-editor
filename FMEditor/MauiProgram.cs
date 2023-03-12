@@ -2,6 +2,7 @@
 using FMEditor.Views;
 using FMELibrary;
 using Microsoft.Extensions.Logging;
+using UraniumUI;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace FMEditor
@@ -16,10 +17,13 @@ namespace FMEditor
                 .RegisterServices()
                 .RegisterPages()
                 .RegisterViewModels()
+                .UseUraniumUI()
+                .UseUraniumUIMaterial()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+                    fonts.AddMaterialIconFonts();
                 });
 
 #if DEBUG
@@ -31,6 +35,7 @@ namespace FMEditor
 
         public static MauiAppBuilder RegisterServices(this MauiAppBuilder mauiAppBuilder)
         {
+            mauiAppBuilder.Services.AddSingleton<ContinentParser>();
             mauiAppBuilder.Services.AddSingleton<NationParser>();
             mauiAppBuilder.Services.AddSingleton<CompetitionParser>();
             mauiAppBuilder.Services.AddSingleton<ClubParser>();
