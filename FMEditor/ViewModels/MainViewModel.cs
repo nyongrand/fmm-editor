@@ -11,10 +11,6 @@ namespace FMEditor.ViewModels
     {
         public extern string DatabasePath { [ObservableAsProperty] get; }
 
-        [Reactive] public NationParser NationParser { get; set; }
-        [Reactive] public CompetitionParser CompetitionParser { get; set; }
-        [Reactive] public ClubParser ClubParser { get; set; }
-
         [Reactive] public string LoadMessage { get; set; } = "";
         public extern bool Idle { [ObservableAsProperty] get; }
         public extern bool Loading { [ObservableAsProperty] get; }
@@ -22,6 +18,12 @@ namespace FMEditor.ViewModels
         public extern bool EnableCompetition { [ObservableAsProperty] get; }
         public extern bool EnableClub { [ObservableAsProperty] get; }
 
+        [Reactive] public ContinentParser ContinentParser { get; set; }
+        [Reactive] public NationParser NationParser { get; set; }
+        [Reactive] public CompetitionParser CompetitionParser { get; set; }
+        [Reactive] public ClubParser ClubParser { get; set; }
+
+        public ObservableCollection<Continent> Continents { get; }
         public ObservableCollection<Nation> Nations { get; }
         public ObservableCollection<Competition> Competitions { get; }
         public ObservableCollection<Club> Clubs { get; }
@@ -29,12 +31,18 @@ namespace FMEditor.ViewModels
         public ReactiveCommand<Unit, string> Load { get; private set; }
         public ReactiveCommand<string, Unit> Parse { get; private set; }
 
-        public MainViewModel(NationParser nationParser, CompetitionParser competitionParser, ClubParser clubParser)
+        public MainViewModel(
+            ContinentParser continentParser,
+            NationParser nationParser,
+            CompetitionParser competitionParser,
+            ClubParser clubParser)
         {
+            ContinentParser = continentParser;
             NationParser = nationParser;
             CompetitionParser = competitionParser;
             ClubParser = clubParser;
 
+            Continents = new ObservableCollection<Continent>();
             Nations = new ObservableCollection<Nation>();
             Competitions = new ObservableCollection<Competition>();
             Clubs = new ObservableCollection<Club>();
@@ -97,14 +105,17 @@ namespace FMEditor.ViewModels
 
         private async Task ParseImpl(string dbPath)
         {
+            LoadMessage = "Loading Continents";
+            await ContinentParser.Load(Path.Combine(dbPath, "continent.dat"));
+
             LoadMessage = "Loading Nations";
             await NationParser.Load(Path.Combine(dbPath, "nation.dat"));
 
             LoadMessage = "Loading Competitions";
             await CompetitionParser.Load(Path.Combine(dbPath, "competition.dat"));
 
-            LoadMessage = "Loading Clubs";
-            await ClubParser.Load(Path.Combine(dbPath, "club.dat"));
+            //LoadMessage = "Loading Clubs";
+            //await ClubParser.Load(Path.Combine(dbPath, "club.dat"));
 
 
             LoadMessage = "Loading Complete";

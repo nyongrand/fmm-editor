@@ -22,7 +22,7 @@
         public short Unknown8 { get; set; }
         public byte Unknown9 { get; set; }
         public short Unknown10 { get; set; }
-        public byte IsRanked { get; set; }
+        public bool IsRanked { get; set; }
         public short Ranking { get; set; }
         public short Points { get; set; }
         public int Unknown11 { get; set; }
@@ -53,7 +53,7 @@
             Unknown8 = reader.ReadInt16();
             Unknown9 = reader.ReadByte();
             Unknown10 = reader.ReadInt16();
-            IsRanked = reader.ReadByte();
+            IsRanked = reader.ReadBoolean();
             Ranking = reader.ReadInt16();
             Points = reader.ReadInt16();
             Unknown11 = reader.ReadInt32();
@@ -85,11 +85,11 @@
         {
             writer.Write(Uid);
             writer.Write(Id);
-            writer.WriteEx(Name);
+            writer.WriteBytes(Name);
             writer.Write(Unknown1);
-            writer.WriteEx(Nationality);
+            writer.WriteBytes(Nationality);
             writer.Write(Unknown2);
-            writer.WriteEx(CodeName);
+            writer.WriteBytes(CodeName);
             writer.Write(Continent);
             writer.Write(City);
             writer.Write(Stadium);
@@ -117,7 +117,7 @@
             writer.Write((byte)ExtraNames.Length);
             for (int i = 0; i < ExtraNames.Length; i++)
             {
-                writer.WriteEx(ExtraNames[i].Item1);
+                writer.WriteBytes(ExtraNames[i].Item1);
                 writer.Write(ExtraNames[i].Item2);
                 writer.Write(ExtraNames[i].Item3);
             }
@@ -130,6 +130,11 @@
             }
 
             writer.Write(Unknown12);
+        }
+
+        public override string ToString()
+        {
+            return $"{Id} {Uid} {Name}";
         }
     }
 }

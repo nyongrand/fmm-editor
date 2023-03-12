@@ -136,66 +136,66 @@
 
         public void Write(BinaryWriter writer)
         {
-            writer.Write(Id);
-            writer.Write(Uid);
+            writer.WriteBytes(Id);
+            writer.WriteBytes(Uid);
 
-            writer.WriteEx(FullName);
-            writer.Write(Unknown0);
-            writer.WriteEx(ShortName);
-            writer.Write(Unknown1);
-            writer.WriteEx(CodeName1);
-            writer.WriteEx(CodeName2);
+            writer.WriteBytes(FullName);
+            writer.WriteBytes(Unknown0);
+            writer.WriteBytes(ShortName);
+            writer.WriteBytes(Unknown1);
+            writer.WriteBytes(CodeName1);
+            writer.WriteBytes(CodeName2);
 
-            writer.Write(BasedId);
-            writer.Write(NationId);
+            writer.WriteBytes(BasedId);
+            writer.WriteBytes(NationId);
 
             for (int i = 0; i < Colors.Length; i++)
-                writer.Write(Colors[i]);
+                writer.WriteBytes(Colors[i]);
 
             for (int i = 0; i < Kits.Length; i++)
                 Kits[i].Write(writer);
 
-            writer.Write(Status);
-            writer.Write(Academy);
-            writer.Write(Facilities);
-            writer.Write(AttAvg);
-            writer.Write(AttMin);
-            writer.Write(AttMax);
-            writer.Write(Reserves);
-            writer.Write(LeagueId);
+            writer.WriteBytes(Status);
+            writer.WriteBytes(Academy);
+            writer.WriteBytes(Facilities);
+            writer.WriteBytes(AttAvg);
+            writer.WriteBytes(AttMin);
+            writer.WriteBytes(AttMax);
+            writer.WriteBytes(Reserves);
+            writer.WriteBytes(LeagueId);
 
-            writer.Write(Unknown2);
-            writer.Write(Unknown3);
-            writer.Write(Stadium);
-            writer.Write(LastLeague);
+            writer.WriteBytes(Unknown2);
+            writer.WriteBytes(Unknown3);
+            writer.WriteBytes(Stadium);
+            writer.WriteBytes(LastLeague);
 
-            writer.Write(Unknown4Type);
+            writer.WriteBytes(Unknown4Type);
             if (Unknown4Type == 1)
-                writer.Write(Unknown4);
+                writer.WriteBytes(Unknown4);
 
-            writer.Write(Unknown5.Length);
-            writer.Write(Unknown5);
+            writer.WriteBytes(Unknown5.Length);
+            writer.WriteBytes(Unknown5);
 
-            writer.Write(LeaguePos);
-            writer.Write(Reputation);
-            writer.Write(Unknown6);
+            writer.WriteBytes(LeaguePos);
+            writer.WriteBytes(Reputation);
+            writer.WriteBytes(Unknown6);
 
-            writer.Write((short)Affiliates.Length);
+            writer.WriteBytes((short)Affiliates.Length);
             for (int i = 0; i < Affiliates.Length; i++)
                 Affiliates[i].Write(writer);
 
-            writer.Write((short)Players.Length);
+            writer.WriteBytes((short)Players.Length);
             for (int i = 0; i < Players.Length; i++)
-                writer.Write(Players[i]);
+                writer.WriteBytes(Players[i]);
 
             for (int i = 0; i < Unknown7.Length; i++)
-                writer.Write(Unknown7[i]);
+                writer.WriteBytes(Unknown7[i]);
 
-            writer.Write(MainClub);
-            writer.Write(IsNational);
+            writer.WriteBytes(MainClub);
+            writer.WriteBytes(IsNational);
 
-            writer.Write(Unknown8);
-            writer.Write(Unknown9);
+            writer.WriteBytes(Unknown8);
+            writer.WriteBytes(Unknown9);
         }
 
         public override string ToString()

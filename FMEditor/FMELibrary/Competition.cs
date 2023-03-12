@@ -81,11 +81,11 @@
             writer.Write(Id);
             writer.Write(Uid);
 
-            writer.WriteEx(FullName);
+            writer.WriteBytes(FullName);
             writer.Write(Unknown1);
-            writer.WriteEx(ShortName);
+            writer.WriteBytes(ShortName);
             writer.Write(Unknown2);
-            writer.WriteEx(CodeName);
+            writer.WriteBytes(CodeName);
 
             writer.Write(Type);
             writer.Write(ContinentId);
