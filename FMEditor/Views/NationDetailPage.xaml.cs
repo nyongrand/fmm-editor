@@ -1,8 +1,9 @@
 using FMEditor.ViewModels;
+using UraniumUI.Pages;
 
 namespace FMEditor.Views;
 
-public partial class NationDetailPage : ContentPage
+public partial class NationDetailPage : UraniumContentPage
 {
     public NationDetailPage(NationDetailViewModel viewModel)
     {

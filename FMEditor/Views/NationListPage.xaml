@@ -17,26 +17,88 @@
         SelectionMode="Single">
         <CollectionView.ItemTemplate>
             <DataTemplate x:DataType="model:Nation">
-                <Grid Padding="16,8,16,8">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <Label
-                        Grid.Column="1"
-                        FontAttributes="Bold"
-                        Text="{Binding Name}" />
-                    <Label
-                        Grid.Row="1"
-                        Grid.Column="1"
-                        FontAttributes="Italic"
-                        Text="{Binding CodeName}"
-                        VerticalOptions="End" />
-                </Grid>
+                <StackLayout Padding="10,10,10,10">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <Label
+                            Grid.RowSpan="2"
+                            Grid.Column="0"
+                            Margin="4,0,4,0"
+                            FontSize="Medium"
+                            HeightRequest="40"
+                            Text="{Binding CodeName}"
+                            VerticalTextAlignment="Center"
+                            WidthRequest="40" />
+                        <Label
+                            Grid.Column="1"
+                            FontSize="Medium"
+                            Text="{Binding Name}"
+                            VerticalTextAlignment="Center" />
+                        <Label
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            FontSize="Small"
+                            Text="{Binding Nationality}"
+                            TextColor="#AAAAAA"
+                            VerticalTextAlignment="Center" />
+                        <Label
+                            Grid.Column="2"
+                            FontSize="Small"
+                            HorizontalTextAlignment="End"
+                            Text="UID :"
+                            TextColor="#AAAAAA"
+                            VerticalTextAlignment="Center" />
+                        <Label
+                            Grid.Row="1"
+                            Grid.Column="2"
+                            FontSize="Small"
+                            HorizontalTextAlignment="End"
+                            Text="ID :"
+                            TextColor="#AAAAAA"
+                            VerticalTextAlignment="Center" />
+                        <Label
+                            Grid.Column="3"
+                            FontSize="Small"
+                            HorizontalTextAlignment="End"
+                            Text="{Binding Uid}"
+                            VerticalTextAlignment="Center"
+                            WidthRequest="60" />
+                        <Label
+                            Grid.Row="1"
+                            Grid.Column="3"
+                            FontSize="Small"
+                            HorizontalTextAlignment="End"
+                            Text="{Binding Id}"
+                            VerticalTextAlignment="Center"
+                            WidthRequest="60" />
+                    </Grid>
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroup Name="CommonStates">
+                            <VisualState Name="Normal">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="#FAFAFA" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState Name="Selected">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="#999999" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateManager.VisualStateGroups>
+                </StackLayout>
             </DataTemplate>
         </CollectionView.ItemTemplate>
     </CollectionView>
