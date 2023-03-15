@@ -27,8 +27,8 @@
         public short Points { get; set; }
         public int Unknown11 { get; set; }
         public float[] Coefficients { get; set; }
-        public (string, short, byte)[] ExtraNames { get; set; }
-        public (short, byte)[] Languages { get; set; }
+        public ExtraName[] ExtraNames { get; set; }
+        public Language[] Languages { get; set; }
         public byte[] Unknown12 { get; set; }
 
         public Nation(BinaryReader reader)
@@ -62,15 +62,66 @@
             for (int i = 0; i < Coefficients.Length; i++)
                 Coefficients[i] = reader.ReadSingle();
 
-            ExtraNames = new (string, short, byte)[reader.ReadByte()];
+            ExtraNames = new ExtraName[reader.ReadByte()];
             for (int i = 0; i < ExtraNames.Length; i++)
-                ExtraNames[i] = (reader.ReadString(reader.ReadInt32()), reader.ReadInt16(), reader.ReadByte());
+                ExtraNames[i] = new ExtraName(reader);
 
-            Languages = new (short, byte)[reader.ReadByte()];
+            Languages = new Language[reader.ReadByte()];
             for (int i = 0; i < Languages.Length; i++)
-                Languages[i] = (reader.ReadInt16(), reader.ReadByte());
+                Languages[i] = new Language(reader);
 
             Unknown12 = reader.ReadBytes(11);
+        }
+
+        public void Write(BinaryWriter writer)
+        {
+            writer.WriteBytes(Uid);
+            writer.WriteBytes(Id);
+            writer.WriteBytes(Name);
+            writer.WriteBytes(Unknown1);
+            writer.WriteBytes(Nationality);
+            writer.WriteBytes(Unknown2);
+            writer.WriteBytes(CodeName);
+            writer.WriteBytes(Continent);
+            writer.WriteBytes(City);
+            writer.WriteBytes(Stadium);
+            writer.WriteBytes(Unknown3);
+            writer.WriteBytes(Color1);
+            writer.WriteBytes(Unknown4);
+            writer.WriteBytes(Color2);
+            writer.WriteBytes(Unknown5);
+            writer.WriteBytes(Unknown6);
+            writer.WriteBytes(Unknown7);
+            writer.WriteBytes(Unknown8);
+            writer.WriteBytes(Unknown9);
+            writer.WriteBytes(Unknown10);
+            writer.WriteBytes(IsRanked);
+            writer.WriteBytes(Ranking);
+            writer.WriteBytes(Points);
+            writer.WriteBytes(Unknown11);
+
+            writer.WriteBytes((byte)Coefficients.Length);
+            for (int i = 0; i < Coefficients.Length; i++)
+            {
+                writer.WriteBytes(Coefficients[i]);
+            }
+
+            writer.WriteBytes((byte)ExtraNames.Length);
+            for (int i = 0; i < ExtraNames.Length; i++)
+            {
+                writer.WriteBytes(ExtraNames[i].Item1);
+                writer.WriteBytes(ExtraNames[i].Item2);
+                writer.WriteBytes(ExtraNames[i].Item3);
+            }
+
+            writer.WriteBytes((byte)Languages.Length);
+            for (int i = 0; i < Languages.Length; i++)
+            {
+                writer.WriteBytes(Languages[i].Item1);
+                writer.WriteBytes(Languages[i].Item2);
+            }
+
+            writer.WriteBytes(Unknown12);
         }
 
         public byte[] ToBytes()
@@ -79,57 +130,6 @@
             using var writer = new BinaryWriter(stream);
             Write(writer);
             return stream.ToArray();
-        }
-
-        public void Write(BinaryWriter writer)
-        {
-            writer.Write(Uid);
-            writer.Write(Id);
-            writer.WriteBytes(Name);
-            writer.Write(Unknown1);
-            writer.WriteBytes(Nationality);
-            writer.Write(Unknown2);
-            writer.WriteBytes(CodeName);
-            writer.Write(Continent);
-            writer.Write(City);
-            writer.Write(Stadium);
-            writer.Write(Unknown3);
-            writer.Write(Color1);
-            writer.Write(Unknown4);
-            writer.Write(Color2);
-            writer.Write(Unknown5);
-            writer.Write(Unknown6);
-            writer.Write(Unknown7);
-            writer.Write(Unknown8);
-            writer.Write(Unknown9);
-            writer.Write(Unknown10);
-            writer.Write(IsRanked);
-            writer.Write(Ranking);
-            writer.Write(Points);
-            writer.Write(Unknown11);
-
-            writer.Write((byte)Coefficients.Length);
-            for (int i = 0; i < Coefficients.Length; i++)
-            {
-                writer.Write(Coefficients[i]);
-            }
-
-            writer.Write((byte)ExtraNames.Length);
-            for (int i = 0; i < ExtraNames.Length; i++)
-            {
-                writer.WriteBytes(ExtraNames[i].Item1);
-                writer.Write(ExtraNames[i].Item2);
-                writer.Write(ExtraNames[i].Item3);
-            }
-
-            writer.Write((byte)Languages.Length);
-            for (int i = 0; i < Languages.Length; i++)
-            {
-                writer.Write(Languages[i].Item1);
-                writer.Write(Languages[i].Item2);
-            }
-
-            writer.Write(Unknown12);
         }
 
         public override string ToString()

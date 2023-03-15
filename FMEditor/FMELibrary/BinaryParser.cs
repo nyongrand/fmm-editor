@@ -19,6 +19,11 @@ namespace FMELibrary
             return System.Drawing.Color.FromArgb(red << 3, green << 3, blue << 3);
         }
 
+        public static void WriteBytes(this BinaryWriter writer, bool value)
+        {
+            writer.Write(value);
+        }
+
         public static void WriteBytes(this BinaryWriter writer, byte value)
         {
             writer.Write(value);
