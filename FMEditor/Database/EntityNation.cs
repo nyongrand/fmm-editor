@@ -1,9 +1,10 @@
-﻿using SQLite;
+﻿using FMELibrary;
+using SQLite;
 
-namespace FMEditor.Entities
+namespace FMEditor.Database
 {
     [Table("Nation")]
-    public class Nation
+    public class EntityNation
     {
         [Indexed]
         [Column("uid")]
@@ -91,9 +92,9 @@ namespace FMEditor.Entities
         [Column("unknown12")]
         public byte[] Unknown12 { get; set; }
 
-        public static Nation FromModel(FMELibrary.Nation model)
+        public static EntityNation FromModel(FMELibrary.Nation model)
         {
-            return new Nation
+            return new EntityNation
             {
                 Uid = model.Uid,
                 Id = model.Id,
@@ -119,11 +120,104 @@ namespace FMEditor.Entities
                 Ranking = model.Ranking,
                 Points = model.Points,
                 Unknown11 = model.Unknown11,
-                Coefficients = model.Coefficients.SelectMany(BitConverter.GetBytes).ToArray(),
+                Coefficients = ToBytes(model.Coefficients),
                 ExtraNames = model.ExtraNames.SelectMany(x => x.ToBytes()).ToArray(),
                 Languages = model.Languages.SelectMany(x => x.ToBytes()).ToArray(),
                 Unknown12 = model.Unknown12,
             };
+        }
+
+        public static FMELibrary.Nation ToModel(EntityNation entity)
+        {
+            return new FMELibrary.Nation
+            {
+                Uid = entity.Uid,
+                Id = entity.Id,
+                Name = entity.Name,
+                Unknown1 = entity.Unknown1,
+                Nationality = entity.Nationality,
+                Unknown2 = entity.Unknown2,
+                CodeName = entity.CodeName,
+                Continent = entity.Continent,
+                City = entity.City,
+                Stadium = entity.Stadium,
+                Unknown3 = entity.Unknown3,
+                Color1 = entity.Color1,
+                Unknown4 = entity.Unknown4,
+                Color2 = entity.Color2,
+                Unknown5 = entity.Unknown5,
+                Unknown6 = entity.Unknown6,
+                Unknown7 = entity.Unknown7,
+                Unknown8 = entity.Unknown8,
+                Unknown9 = entity.Unknown9,
+                Unknown10 = entity.Unknown10,
+                IsRanked = entity.IsRanked,
+                Ranking = entity.Ranking,
+                Points = entity.Points,
+                Unknown11 = entity.Unknown11,
+                Coefficients = ToFloats(entity.Coefficients),
+                ExtraNames = ToExtraNames(entity.ExtraNames),
+                Languages = ToLanguages(entity.Languages),
+                Unknown12 = entity.Unknown12,
+            };
+        }
+
+        private static byte[] ToBytes(float[] floats)
+        {
+            return floats.SelectMany(BitConverter.GetBytes).ToArray();
+        }
+
+        private static float[] ToFloats(byte[] bytes)
+        {
+            if (bytes.Length % 4 != 0)
+                throw new ArgumentException("Byte array length must be a multiple of 4");
+
+            float[] floats = new float[bytes.Length / 4];
+
+            for (int i = 0; i < floats.Length; i++)
+            {
+                byte[] floatBytes = new byte[4];
+                Buffer.BlockCopy(bytes, i * 4, floatBytes, 0, 4);
+                floats[i] = BitConverter.ToSingle(floatBytes, 0);
+            }
+
+            return floats;
+        }
+
+        private static ExtraName[] ToExtraNames(byte[] bytes)
+        {
+            using var ms = new MemoryStream();
+            ms.Write(bytes, 0, bytes.Length);
+            ms.Position = 0;
+
+            using var reader = new BinaryReader(ms);
+            var items = new List<ExtraName>();
+
+            while (ms.Position < ms.Length)
+            {
+                var item = new ExtraName(reader);
+                items.Add(item);
+            }
+
+            return items.ToArray();
+        }
+
+        private static Language[] ToLanguages(byte[] bytes)
+        {
+            using var ms = new MemoryStream();
+            ms.Write(bytes, 0, bytes.Length);
+            ms.Position = 0;
+
+            using var reader = new BinaryReader(ms);
+            var items = new List<Language>();
+
+            while (ms.Position < ms.Length)
+            {
+                var item = new Language(reader);
+                items.Add(item);
+            }
+
+            return items.ToArray();
         }
     }
 }

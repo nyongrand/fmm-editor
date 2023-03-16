@@ -1,49 +1,53 @@
 ﻿using DynamicData;
+using FMEditor.Database;
 using FMELibrary;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FMEditor.ViewModels
 {
     public class NationListViewModel : ReactiveObject
     {
-        [Reactive] public NationParser NationParser { get; set; }
+        //[Reactive] public NationParser NationParser { get; set; }
         [Reactive] public Nation SelectedNation { get; set; }
 
         public ObservableCollection<Nation> Nations { get; }
 
-        public ReactiveCommand<List<Nation>, Unit> LoadItems { get; private set; }
+        public ReactiveCommand<Unit, Unit> LoadItems { get; private set; }
         public ReactiveCommand<Nation, Unit> Navigate { get; private set; }
 
-        public NationListViewModel(NationParser nationParser)
+        FmmDatabase database;
+
+        public NationListViewModel(FmmDatabase db, NationParser nationParser)
         {
-            NationParser = nationParser;
+            database = db;
+            //NationParser = nationParser;
 
             Nations = new ObservableCollection<Nation>();
             SelectedNation = null;
 
-            LoadItems = ReactiveCommand.Create<List<Nation>>(LoadItemsImpl);
+            LoadItems = ReactiveCommand.CreateFromTask(LoadItemsImpl);
+            //LoadItems = ReactiveCommand.Create<List<Nation>>(LoadItemsImpl);
             Navigate = ReactiveCommand.CreateFromTask<Nation>(NavigateImpl);
 
-            this.WhenAnyValue(vm => vm.NationParser)
-                .WhereNotNull()
-                .Delay(TimeSpan.FromMilliseconds(200))
-                .Select(x => x.Items)
-                .InvokeCommand(LoadItems);
+            //this.WhenAnyValue(vm => vm.NationParser)
+            //    .WhereNotNull()
+            //    .Delay(TimeSpan.FromMilliseconds(200))
+            //    .Select(x => x.Items)
+            //    .InvokeCommand(LoadItems);
+
+            LoadItems.Execute();
         }
 
-        private void LoadItemsImpl(List<Nation> items)
+        private async Task LoadItemsImpl()
         {
+            var entities = await database.GetItemsAsync();
+
             Nations.Clear();
-            Nations.AddRange(items.OrderBy(x => x.Name));
+            Nations.AddRange(entities.Select(Database.EntityNation.ToModel));
         }
 
         private async Task NavigateImpl(Nation item)

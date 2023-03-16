@@ -53,8 +53,8 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
-    <PackageReference Include="ReactiveUI" Version="18.4.25" />
-    <PackageReference Include="ReactiveUI.Fody" Version="18.4.25" />
+    <PackageReference Include="ReactiveUI" Version="18.4.26" />
+    <PackageReference Include="ReactiveUI.Fody" Version="18.4.26" />
     <PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
     <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.4" />
     <PackageReference Include="UraniumUI.Icons.MaterialIcons" Version="2.3.1" />

@@ -31,6 +31,8 @@
         public Language[] Languages { get; set; }
         public byte[] Unknown12 { get; set; }
 
+        public Nation() { }
+
         public Nation(BinaryReader reader)
         {
             Uid = reader.ReadInt32();
@@ -109,16 +111,13 @@
             writer.WriteBytes((byte)ExtraNames.Length);
             for (int i = 0; i < ExtraNames.Length; i++)
             {
-                writer.WriteBytes(ExtraNames[i].Item1);
-                writer.WriteBytes(ExtraNames[i].Item2);
-                writer.WriteBytes(ExtraNames[i].Item3);
+                ExtraNames[i].Write(writer);
             }
 
             writer.WriteBytes((byte)Languages.Length);
             for (int i = 0; i < Languages.Length; i++)
             {
-                writer.WriteBytes(Languages[i].Item1);
-                writer.WriteBytes(Languages[i].Item2);
+                Languages[i].Write(writer);
             }
 
             writer.WriteBytes(Unknown12);

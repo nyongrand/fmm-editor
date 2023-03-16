@@ -1,4 +1,5 @@
-﻿using FMELibrary;
+﻿using FMEditor.Database;
+using FMELibrary;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System.Collections.ObjectModel;
@@ -31,12 +32,17 @@ namespace FMEditor.ViewModels
         public ReactiveCommand<Unit, string> Load { get; private set; }
         public ReactiveCommand<string, Unit> Parse { get; private set; }
 
+        FmmDatabase database;
+
         public MainViewModel(
+            FmmDatabase db,
             ContinentParser continentParser,
             NationParser nationParser,
             CompetitionParser competitionParser,
             ClubParser clubParser)
         {
+            database = db;
+
             ContinentParser = continentParser;
             NationParser = nationParser;
             CompetitionParser = competitionParser;
@@ -54,7 +60,7 @@ namespace FMEditor.ViewModels
             Parse.IsExecuting.ToPropertyEx(this, vm => vm.Loading);
             Parse.ThrownExceptions.Subscribe(x =>
             {
-
+                var message = x.Message;
             });
 
             this.WhenAnyValue(vm => vm.DatabasePath)
@@ -117,6 +123,8 @@ namespace FMEditor.ViewModels
             //LoadMessage = "Loading Clubs";
             //await ClubParser.Load(Path.Combine(dbPath, "club.dat"));
 
+            var nations = NationParser.Items.Select(Database.EntityNation.FromModel);
+            await database.SaveItemAsync(nations);
 
             LoadMessage = "Loading Complete";
         }

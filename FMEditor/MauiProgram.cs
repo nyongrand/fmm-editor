@@ -1,4 +1,5 @@
-﻿using FMEditor.ViewModels;
+﻿using FMEditor.Database;
+using FMEditor.ViewModels;
 using FMEditor.Views;
 using FMELibrary;
 using Microsoft.Extensions.Logging;
@@ -29,6 +30,8 @@ namespace FMEditor
 #if DEBUG
             builder.Logging.AddDebug();
 #endif
+
+            builder.Services.AddSingleton<FmmDatabase>();
 
             return builder.Build();
         }
