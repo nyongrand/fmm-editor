@@ -32,7 +32,7 @@ namespace FMEditor.ViewModels
         public ReactiveCommand<Unit, string> Load { get; private set; }
         public ReactiveCommand<string, Unit> Parse { get; private set; }
 
-        FmmDatabase database;
+        readonly FmmDatabase database;
 
         public MainViewModel(
             FmmDatabase db,
