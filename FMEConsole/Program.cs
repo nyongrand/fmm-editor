@@ -14,8 +14,8 @@
 //Console.WriteLine("");
 
 
-var file = "D:\\Downloads\\database23\\club.dat";
-var parser = new ClubParser(file);
+var file = "../../../db/club.dat";
+var parser = await ClubParser.Load(file);
 //await parser.ParseAsync();
 
 var bytes1 = parser.ToBytes();
