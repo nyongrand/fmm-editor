@@ -25,6 +25,7 @@
         public short Year2 { get; set; }
         public short Year3 { get; set; }
         public byte Unknown3 { get; set; }
+        public byte Unknown4 { get; set; }
 
         #region Extra
 
@@ -66,6 +67,7 @@
             Year3 = reader.ReadInt16();
 
             Unknown3 = reader.ReadByte();
+            Unknown4 = reader.ReadByte();
         }
 
         public byte[] ToBytes()
@@ -109,6 +111,7 @@
             writer.Write(Year2);
             writer.Write(Year3);
             writer.Write(Unknown3);
+            writer.Write(Unknown4);
         }
 
         public override string ToString()

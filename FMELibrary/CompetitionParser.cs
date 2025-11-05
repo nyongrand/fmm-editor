@@ -28,7 +28,7 @@
             FilePath = path;
             Header = reader.ReadBytes(8);
             Count = reader.ReadInt16();
-            Items = new List<Competition>();
+            Items = [];
         }
 
         public static async Task<CompetitionParser> Load(string path)
