@@ -1,5 +1,4 @@
-﻿using System.Buffers.Binary;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Text;
 
 namespace FMELibrary

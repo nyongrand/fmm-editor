@@ -28,7 +28,7 @@
             FilePath = path;
             Header = reader.ReadBytes(8);
             Count = reader.ReadInt32();
-            Items = new List<Club>();
+            Items = [];
         }
 
         public static async Task<ClubParser> Load(string path)

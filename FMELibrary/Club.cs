@@ -90,9 +90,9 @@
 
             Unknown4Type = reader.ReadByte();
             if (Unknown4Type == 1)
-                Unknown4 = reader.ReadBytes(66);
+                Unknown4 = reader.ReadBytes(68);
             else
-                Unknown4 = Array.Empty<byte>();
+                Unknown4 = [];
 
             Unknown5 = new byte[reader.ReadInt32()];
             Unknown5 = reader.ReadBytes(Unknown5.Length);
@@ -124,6 +124,7 @@
 
             Unknown8 = reader.ReadBytes(33);
             Unknown9 = reader.ReadBytes(40);
+            Unknown9 = reader.ReadBytes(2);
         }
 
         public byte[] ToBytes()
@@ -200,7 +201,7 @@
 
         public override string ToString()
         {
-            return $"{Id} {FullName}";
+            return $"{Uid} {FullName}";
         }
     }
 }

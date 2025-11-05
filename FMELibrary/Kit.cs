@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-
-namespace FMELibrary
+﻿namespace FMELibrary
 {
     public class Kit
     {
