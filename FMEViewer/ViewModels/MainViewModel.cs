@@ -116,13 +116,13 @@ namespace FMEViewer.ViewModels
             Load = ReactiveCommand.Create(LoadImpl);
             Load.ToPropertyEx(this, vm => vm.FolderPath);
 
-            ParseNation = ReactiveCommand.Create<string, NationParser>((path) => new NationParser(path));
+            ParseNation = ReactiveCommand.CreateFromTask<string, NationParser>((path) => NationParser.Load(path));
             ParseNation.ToPropertyEx(this, vm => vm.NationParser);
 
-            ParseComp = ReactiveCommand.Create<string, CompetitionParser>((path) => new CompetitionParser(path));
+            ParseComp = ReactiveCommand.CreateFromTask<string, CompetitionParser>((path) => CompetitionParser.Load(path));
             ParseComp.ToPropertyEx(this, vm => vm.CompParser);
 
-            ParseClub = ReactiveCommand.Create<string, ClubParser>((path) => new ClubParser(path));
+            ParseClub = ReactiveCommand.CreateFromTask<string, ClubParser>((path) => ClubParser.Load(path));
             ParseClub.ToPropertyEx(this, vm => vm.ClubParser);
 
             SwitchClub = ReactiveCommand.Create(SwitchClubImpl);
