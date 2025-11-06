@@ -128,7 +128,7 @@
         /// <summary>
         /// Gets or sets the type flag for Unknown4 data.
         /// </summary>
-        public byte Unknown4Type { get; set; }
+        public bool Unknown4Flag { get; set; }
 
         /// <summary>
         /// Gets or sets conditional unknown data (68 bytes if Unknown4Type is 1).
@@ -254,8 +254,8 @@
             Stadium = reader.ReadInt16();
             LastLeague = reader.ReadInt16();
 
-            Unknown4Type = reader.ReadByte();
-            if (Unknown4Type == 1)
+            Unknown4Flag = reader.ReadBoolean();
+            if (Unknown4Flag)
                 Unknown4 = reader.ReadBytes(68);
             else
                 Unknown4 = [];
@@ -346,8 +346,8 @@
             writer.Write(Stadium);
             writer.Write(LastLeague);
 
-            writer.Write(Unknown4Type);
-            if (Unknown4Type == 1)
+            writer.Write(Unknown4Flag);
+            if (Unknown4Flag)
                 writer.Write(Unknown4);
 
             writer.Write(Unknown5.Length);

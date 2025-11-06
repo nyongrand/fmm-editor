@@ -78,7 +78,7 @@
         /// <summary>
         /// Gets or sets whether the nation is active in the game (1 = active, 0 = inactive).
         /// </summary>
-        public byte IsActive { get; set; }
+        public bool IsActive { get; set; }
 
         /// <summary>
         /// Gets or sets the first national color (nullable, only if IsActive is 1).
@@ -113,7 +113,7 @@
         /// <summary>
         /// Gets or sets whether the nation has a FIFA/UEFA ranking (nullable, only if IsActive is 1).
         /// </summary>
-        public byte? IsRanked { get; set; }
+        public bool? IsRanked { get; set; }
 
         /// <summary>
         /// Gets or sets the FIFA/UEFA ranking position (nullable, only if IsActive is 1).
@@ -143,7 +143,7 @@
         /// <summary>
         /// Gets or sets whether the nation has a second coefficient set (1 = has coefficients, 0 = no coefficients).
         /// </summary>
-        public byte HasCoefficient2 { get; set; }
+        public bool HasCoefficient2 { get; set; }
 
         /// <summary>
         /// Gets or sets unknown data (16 bytes, only if HasCoefficient2 is 1).
@@ -197,8 +197,8 @@
             for (int i = 0; i < Languages.Length; i++)
                 Languages[i] = (reader.ReadInt16(), reader.ReadByte());
 
-            IsActive = reader.ReadByte();
-            if (IsActive == 1)
+            IsActive = reader.ReadBoolean();
+            if (IsActive)
             {
                 Color1 = reader.ReadInt16();
                 Unknown5 = reader.ReadInt32();
@@ -208,7 +208,7 @@
                 Unknown7 = reader.ReadInt16();
                 Unknown8 = reader.ReadByte();
 
-                IsRanked = reader.ReadByte();
+                IsRanked = reader.ReadBoolean();
                 Ranking = reader.ReadInt16();
                 Points = reader.ReadInt16();
 
@@ -221,8 +221,8 @@
                 Unknown10 = reader.ReadBytes(11);
             }
 
-            HasCoefficient2 = reader.ReadByte();
-            if (HasCoefficient2 == 1)
+            HasCoefficient2 = reader.ReadBoolean();
+            if (HasCoefficient2)
             {
                 Unknown11 = reader.ReadBytes(16);
                 Unknown12 = reader.ReadByte();
@@ -280,7 +280,7 @@
 
             writer.WriteEx(IsActive);
 
-            if (IsActive == 1)
+            if (IsActive)
             {
                 writer.WriteEx(Color1);
                 writer.WriteEx(Unknown5);
@@ -305,7 +305,7 @@
             }
 
             writer.WriteEx(HasCoefficient2);
-            if (HasCoefficient2 == 1)
+            if (HasCoefficient2)
             {
                 writer.WriteEx(Unknown11);
                 writer.WriteEx(Unknown12);

@@ -46,6 +46,9 @@ namespace FMELibrary
         {
             switch (value)
             {
+                case bool b:
+                    writer.Write(b);
+                    break;
                 case byte b:
                     writer.Write(b);
                     break;
