@@ -39,6 +39,7 @@
         public short IsNational { get; set; }
         public byte[] Unknown8 { get; set; }
         public byte[] Unknown9 { get; set; }
+        public byte[] Unknown10 { get; set; }
 
         #region Extra
 
@@ -124,7 +125,7 @@
 
             Unknown8 = reader.ReadBytes(33);
             Unknown9 = reader.ReadBytes(40);
-            Unknown9 = reader.ReadBytes(2);
+            Unknown10 = reader.ReadBytes(2);
         }
 
         public byte[] ToBytes()
@@ -197,6 +198,7 @@
 
             writer.Write(Unknown8);
             writer.Write(Unknown9);
+            writer.Write(Unknown10);
         }
 
         public override string ToString()
