@@ -1,6 +1,4 @@
 ﻿using FMELibrary;
-using System.Collections;
-
 
 //var compParser = new CompetitionParser("D:\\Downloads\\database\\competition.dat");
 //var clubParser = new ClubParser("D:\\Downloads\\database\\club.dat");
@@ -14,10 +12,10 @@ using System.Collections;
 
 //Console.WriteLine("");
 
+var file = "../../../db/db_archive_2603/club.dat";
+var parser = await ClubParser.Load(file);
 
-var file = "../../../db/db_archive_2603/nation.dat";
-var parser = await NationParser.Load(file);
-
+var match = parser.Count == parser.Items.Count;
 var bytes1 = parser.ToBytes();
 var bytes2 = await File.ReadAllBytesAsync(file);
 
