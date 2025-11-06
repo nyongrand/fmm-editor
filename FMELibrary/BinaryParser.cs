@@ -3,19 +3,22 @@ using System.Text;
 
 namespace FMELibrary
 {
+    /// <summary>
+    /// Provides extension methods for reading and writing binary data with custom serialization logic.
+    /// </summary>
     public static class BinaryParser
     {
-        public static string ReadString(this BinaryReader reader, int length)
-        {
-            return Encoding.UTF8.GetString(reader.ReadBytes(length));
-        }
-
         public static string ReadStringEx(this BinaryReader reader)
         {
             int len = reader.ReadInt32();
             return reader.ReadString(len);
         }
 
+        /// <summary>
+        /// Reads a 16-bit RGB565 color value and converts it to a <see cref="Color"/> object.
+        /// </summary>
+        /// <param name="reader">The binary reader to read from.</param>
+        /// <returns>A <see cref="Color"/> object representing the RGB color.</returns>
         public static Color ReadColor(this BinaryReader reader)
         {
             short color = reader.ReadInt16();
@@ -26,6 +29,12 @@ namespace FMELibrary
             return Color.FromArgb(red << 3, green << 3, blue << 3);
         }
 
+        /// <summary>
+        /// Writes various data types to the binary writer with automatic type detection and appropriate serialization.
+        /// </summary>
+        /// <param name="writer">The binary writer to write to.</param>
+        /// <param name="value">The value to write. Supported types: byte, short, int, float, byte[], string, Color, and null.</param>
+        /// <exception cref="InvalidOperationException">Thrown when the value type is not supported.</exception>
         public static void WriteEx(this BinaryWriter writer, object? value)
         {
             switch (value)

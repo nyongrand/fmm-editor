@@ -1,53 +1,218 @@
 ﻿namespace FMELibrary
 {
+    /// <summary>
+    /// Represents a football club with all its properties and attributes.
+    /// </summary>
     public class Club
     {
+        /// <summary>
+        /// Gets or sets the club identifier.
+        /// </summary>
         public int Id { get; set; }
+
+        /// <summary>
+        /// Gets or sets the unique identifier for the club.
+        /// </summary>
         public int Uid { get; set; }
+
+        /// <summary>
+        /// Gets or sets the full name of the club.
+        /// </summary>
         public string FullName { get; set; }
+
+        /// <summary>
+        /// Gets or sets an unknown byte value.
+        /// </summary>
         public byte Unknown0 { get; set; }
+
+        /// <summary>
+        /// Gets or sets the short name of the club.
+        /// </summary>
         public string ShortName { get; set; }
+
+        /// <summary>
+        /// Gets or sets an unknown byte value.
+        /// </summary>
         public byte Unknown1 { get; set; }
+
+        /// <summary>
+        /// Gets or sets the first code name of the club.
+        /// </summary>
         public string CodeName1 { get; set; }
+
+        /// <summary>
+        /// Gets or sets the second code name of the club.
+        /// </summary>
         public string CodeName2 { get; set; }
+
+        /// <summary>
+        /// Gets or sets the identifier of the city where the club is based.
+        /// </summary>
         public short BasedId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the nation identifier of the club.
+        /// </summary>
         public short NationId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the club's color values (6 colors).
+        /// </summary>
         public short[] Colors { get; set; }
+
+        /// <summary>
+        /// Gets or sets the club's kits (6 kits).
+        /// </summary>
         public Kit[] Kits { get; set; }
+
+        /// <summary>
+        /// Gets or sets the club's status.
+        /// </summary>
         public byte Status { get; set; }
+
+        /// <summary>
+        /// Gets or sets the academy rating.
+        /// </summary>
         public byte Academy { get; set; }
+
+        /// <summary>
+        /// Gets or sets the facilities rating.
+        /// </summary>
         public byte Facilities { get; set; }
+
+        /// <summary>
+        /// Gets or sets the average attendance.
+        /// </summary>
         public short AttAvg { get; set; }
+
+        /// <summary>
+        /// Gets or sets the minimum attendance.
+        /// </summary>
         public short AttMin { get; set; }
+
+        /// <summary>
+        /// Gets or sets the maximum attendance.
+        /// </summary>
         public short AttMax { get; set; }
+
+        /// <summary>
+        /// Gets or sets the reserves status.
+        /// </summary>
         public byte Reserves { get; set; }
+
+        /// <summary>
+        /// Gets or sets the league identifier.
+        /// </summary>
         public short LeagueId { get; set; }
+
+        /// <summary>
+        /// Gets or sets an unknown short value.
+        /// </summary>
         public short Unknown2 { get; set; }
+
+        /// <summary>
+        /// Gets or sets an unknown byte value.
+        /// </summary>
         public byte Unknown3 { get; set; }
+
+        /// <summary>
+        /// Gets or sets the stadium identifier.
+        /// </summary>
         public short Stadium { get; set; }
+
+        /// <summary>
+        /// Gets or sets the last league identifier.
+        /// </summary>
         public short LastLeague { get; set; }
+
+        /// <summary>
+        /// Gets or sets the type flag for Unknown4 data.
+        /// </summary>
         public byte Unknown4Type { get; set; }
+
+        /// <summary>
+        /// Gets or sets conditional unknown data (68 bytes if Unknown4Type is 1).
+        /// </summary>
         public byte[] Unknown4 { get; set; }
+
+        /// <summary>
+        /// Gets or sets variable-length unknown data.
+        /// </summary>
         public byte[] Unknown5 { get; set; }
+
+        /// <summary>
+        /// Gets or sets the current league position.
+        /// </summary>
         public byte LeaguePos { get; set; }
+
+        /// <summary>
+        /// Gets or sets the club's reputation.
+        /// </summary>
         public short Reputation { get; set; }
+
+        /// <summary>
+        /// Gets or sets unknown data (20 bytes).
+        /// </summary>
         public byte[] Unknown6 { get; set; }
+
+        /// <summary>
+        /// Gets or sets the array of affiliated clubs.
+        /// </summary>
         public Affiliate[] Affiliates { get; set; }
+
+        /// <summary>
+        /// Gets or sets the array of player identifiers.
+        /// </summary>
         public int[] Players { get; set; }
+
+        /// <summary>
+        /// Gets or sets unknown data (11 integers).
+        /// </summary>
         public int[] Unknown7 { get; set; }
+
+        /// <summary>
+        /// Gets or sets the main club identifier (for reserve/B teams).
+        /// </summary>
         public int MainClub { get; set; }
+
+        /// <summary>
+        /// Gets or sets whether this is a national team.
+        /// </summary>
         public short IsNational { get; set; }
+
+        /// <summary>
+        /// Gets or sets unknown data (33 bytes).
+        /// </summary>
         public byte[] Unknown8 { get; set; }
+
+        /// <summary>
+        /// Gets or sets unknown data (40 bytes).
+        /// </summary>
         public byte[] Unknown9 { get; set; }
+
+        /// <summary>
+        /// Gets or sets unknown data (2 bytes).
+        /// </summary>
         public byte[] Unknown10 { get; set; }
 
         #region Extra
 
+        /// <summary>
+        /// Gets or sets the name of the city where the club is based (extra/computed field).
+        /// </summary>
         public string Based { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Gets or sets the nation name (extra/computed field).
+        /// </summary>
         public string Nation { get; set; } = string.Empty;
 
         #endregion
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Club"/> class by reading from a binary reader.
+        /// </summary>
+        /// <param name="reader">The binary reader containing the club data.</param>
         public Club(BinaryReader reader)
         {
             Id = reader.ReadInt32();
@@ -95,8 +260,10 @@
             else
                 Unknown4 = [];
 
-            Unknown5 = new byte[reader.ReadInt32()];
-            Unknown5 = reader.ReadBytes(Unknown5.Length);
+            //            Unknown5 = new byte[reader.ReadInt32()];
+            //            Unknown5 = reader.ReadBytes(Unknown5.Length);
+
+            Unknown5 = reader.ReadBytes(reader.ReadInt32());
 
             LeaguePos = reader.ReadByte();
             Reputation = reader.ReadInt16();
@@ -128,6 +295,10 @@
             Unknown10 = reader.ReadBytes(2);
         }
 
+        /// <summary>
+        /// Converts the club data to a byte array.
+        /// </summary>
+        /// <returns>A byte array representing the serialized club data.</returns>
         public byte[] ToBytes()
         {
             using var stream = new MemoryStream();
@@ -136,6 +307,10 @@
             return stream.ToArray();
         }
 
+        /// <summary>
+        /// Writes the club data to the specified binary writer.
+        /// </summary>
+        /// <param name="writer">The binary writer to write the club data to.</param>
         public void Write(BinaryWriter writer)
         {
             writer.Write(Id);
@@ -201,6 +376,10 @@
             writer.Write(Unknown10);
         }
 
+        /// <summary>
+        /// Returns a string representation of the club.
+        /// </summary>
+        /// <returns>A string containing the club's UID and full name.</returns>
         public override string ToString()
         {
             return $"{Uid} {FullName}";

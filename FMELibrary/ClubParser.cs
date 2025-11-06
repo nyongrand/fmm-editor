@@ -1,5 +1,8 @@
 ﻿namespace FMELibrary
 {
+    /// <summary>
+    /// Parses and manages club data from binary files.
+    /// </summary>
     public class ClubParser
     {
         /// <summary>
@@ -22,7 +25,11 @@
         /// </summary>
         public List<Club> Items { get; set; }
 
-        // Make constructor private to make sure it's not called outside
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ClubParser"/> class.
+        /// </summary>
+        /// <param name="path">The file path of the source data.</param>
+        /// <param name="reader">The binary reader containing the club data.</param>
         private ClubParser(string path, BinaryReader reader)
         {
             FilePath = path;
@@ -31,6 +38,11 @@
             Items = [];
         }
 
+        /// <summary>
+        /// Asynchronously loads club data from the specified file path.
+        /// </summary>
+        /// <param name="path">The file path to load club data from.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains the loaded <see cref="ClubParser"/> instance.</returns>
         public static async Task<ClubParser> Load(string path)
         {
             using var fs = File.OpenRead(path);
@@ -53,6 +65,10 @@
             return parser;
         }
 
+        /// <summary>
+        /// Converts the club data to a byte array for serialization.
+        /// </summary>
+        /// <returns>A byte array representing the serialized club data.</returns>
         public byte[] ToBytes()
         {
             using var stream = new MemoryStream();
@@ -71,8 +87,8 @@
         /// <summary>
         /// Save data back to file path
         /// </summary>
-        /// <param name="filepath"></param>
-        /// <returns></returns>
+        /// <param name="filepath">Optional file path. If null, saves to the original file path.</param>
+        /// <returns>A task that represents the asynchronous save operation.</returns>
         public async Task Save(string? filepath = null)
         {
             var bytes = ToBytes();

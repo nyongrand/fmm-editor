@@ -1,5 +1,8 @@
 ﻿namespace FMELibrary
 {
+    /// <summary>
+    /// Parses and manages competition data from binary files.
+    /// </summary>
     public class CompetitionParser
     {
         /// <summary>
@@ -22,7 +25,11 @@
         /// </summary>
         public List<Competition> Items { get; set; }
 
-        // Make constructor private to make sure it's not called outside
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CompetitionParser"/> class.
+        /// </summary>
+        /// <param name="path">The file path of the source data.</param>
+        /// <param name="reader">The binary reader containing the competition data.</param>
         private CompetitionParser(string path, BinaryReader reader)
         {
             FilePath = path;
@@ -31,6 +38,11 @@
             Items = [];
         }
 
+        /// <summary>
+        /// Asynchronously loads competition data from the specified file path.
+        /// </summary>
+        /// <param name="path">The file path to load competition data from.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains the loaded <see cref="CompetitionParser"/> instance.</returns>
         public static async Task<CompetitionParser> Load(string path)
         {
             using var fs = File.OpenRead(path);
@@ -53,6 +65,10 @@
             return parser;
         }
 
+        /// <summary>
+        /// Converts the competition data to a byte array for serialization.
+        /// </summary>
+        /// <returns>A byte array representing the serialized competition data.</returns>
         public byte[] ToBytes()
         {
             using var stream = new MemoryStream();
@@ -71,8 +87,8 @@
         /// <summary>
         /// Save data back to file path
         /// </summary>
-        /// <param name="filepath"></param>
-        /// <returns></returns>
+        /// <param name="filepath">Optional file path. If null, saves to the original file path.</param>
+        /// <returns>A task that represents the asynchronous save operation.</returns>
         public async Task Save(string? filepath = null)
         {
             var bytes = ToBytes();

@@ -1,51 +1,179 @@
 ﻿namespace FMELibrary
 {
+    /// <summary>
+    /// Represents a nation with all its properties and attributes.
+    /// </summary>
     public class Nation
     {
+        /// <summary>
+        /// Gets or sets the unique identifier for the nation.
+        /// </summary>
         public int Uid { get; set; }
+
+        /// <summary>
+        /// Gets or sets the nation identifier.
+        /// </summary>
         public short Id { get; set; }
 
+        /// <summary>
+        /// Gets or sets the name of the nation.
+        /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// Gets or sets the terminator byte after the name.
+        /// </summary>
         public byte Terminator1 { get; set; }
+
+        /// <summary>
+        /// Gets or sets the nationality descriptor.
+        /// </summary>
         public string Nationality { get; set; }
+
+        /// <summary>
+        /// Gets or sets the terminator byte after the nationality.
+        /// </summary>
         public byte Terminator2 { get; set; }
+
+        /// <summary>
+        /// Gets or sets the code name of the nation.
+        /// </summary>
         public string CodeName { get; set; }
 
+        /// <summary>
+        /// Gets or sets the continent identifier.
+        /// </summary>
         public short ContinentId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the capital city identifier.
+        /// </summary>
         public short CityId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the main stadium identifier.
+        /// </summary>
         public short StadiumId { get; set; }
 
+        /// <summary>
+        /// Gets or sets an unknown integer value.
+        /// </summary>
         public int Unknown1 { get; set; }
+
+        /// <summary>
+        /// Gets or sets an unknown short value.
+        /// </summary>
         public short Unknown2 { get; set; }
+
+        /// <summary>
+        /// Gets or sets an unknown byte value.
+        /// </summary>
         public byte Unknown3 { get; set; }
 
+        /// <summary>
+        /// Gets or sets the array of languages spoken in the nation (language ID and proficiency level).
+        /// </summary>
         public (short, byte)[] Languages { get; set; }
 
+        /// <summary>
+        /// Gets or sets whether the nation is active in the game (1 = active, 0 = inactive).
+        /// </summary>
         public byte IsActive { get; set; }
+
+        /// <summary>
+        /// Gets or sets the first national color (nullable, only if IsActive is 1).
+        /// </summary>
         public short? Color1 { get; set; }
+
+        /// <summary>
+        /// Gets or sets an unknown integer value (nullable, only if IsActive is 1).
+        /// </summary>
         public int? Unknown5 { get; set; }
+
+        /// <summary>
+        /// Gets or sets the second national color (nullable, only if IsActive is 1).
+        /// </summary>
         public short? Color2 { get; set; }
 
+        /// <summary>
+        /// Gets or sets an unknown byte value (nullable, only if IsActive is 1).
+        /// </summary>
         public byte? Unknown6 { get; set; }
+
+        /// <summary>
+        /// Gets or sets an unknown short value (nullable, only if IsActive is 1).
+        /// </summary>
         public short? Unknown7 { get; set; }
+
+        /// <summary>
+        /// Gets or sets an unknown byte value (nullable, only if IsActive is 1).
+        /// </summary>
         public byte? Unknown8 { get; set; }
 
+        /// <summary>
+        /// Gets or sets whether the nation has a FIFA/UEFA ranking (nullable, only if IsActive is 1).
+        /// </summary>
         public byte? IsRanked { get; set; }
+
+        /// <summary>
+        /// Gets or sets the FIFA/UEFA ranking position (nullable, only if IsActive is 1).
+        /// </summary>
         public short? Ranking { get; set; }
+
+        /// <summary>
+        /// Gets or sets the ranking points (nullable, only if IsActive is 1).
+        /// </summary>
         public short? Points { get; set; }
 
+        /// <summary>
+        /// Gets or sets an unknown short value (nullable, only if IsActive is 1).
+        /// </summary>
         public short? Unknown9 { get; set; }
+
+        /// <summary>
+        /// Gets or sets the first set of coefficient values (only if IsActive is 1).
+        /// </summary>
         public float[] Coefficients1 { get; set; } = [];
 
-        //public (string, short, byte)[] ExtraNames { get; set; }
+        /// <summary>
+        /// Gets or sets unknown data (11 bytes, only if IsActive is 1).
+        /// </summary>
         public byte[] Unknown10 { get; set; } = [];
+
+        /// <summary>
+        /// Gets or sets whether the nation has a second coefficient set (1 = has coefficients, 0 = no coefficients).
+        /// </summary>
         public byte HasCoefficient2 { get; set; }
+
+        /// <summary>
+        /// Gets or sets unknown data (16 bytes, only if HasCoefficient2 is 1).
+        /// </summary>
         public byte[] Unknown11 { get; set; } = [];
+
+        /// <summary>
+        /// Gets or sets an unknown byte value (nullable, only if HasCoefficient2 is 1).
+        /// </summary>
         public byte? Unknown12 { get; set; }
+
+        /// <summary>
+        /// Gets or sets an unknown short value (nullable, only if HasCoefficient2 is 1).
+        /// </summary>
         public short? Unknown13 { get; set; }
+
+        /// <summary>
+        /// Gets or sets the second set of coefficient values (only if HasCoefficient2 is 1).
+        /// </summary>
         public float[] Coefficients2 { get; set; } = [];
+
+        /// <summary>
+        /// Gets or sets unknown data (11 bytes, only if HasCoefficient2 is 1).
+        /// </summary>
         public byte[] Unknown14 { get; set; } = [];
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Nation"/> class by reading from a binary reader.
+        /// </summary>
+        /// <param name="reader">The binary reader containing the nation data.</param>
         public Nation(BinaryReader reader)
         {
             Uid = reader.ReadInt32();
@@ -90,10 +218,6 @@
                 for (int i = 0; i < Coefficients1.Length; i++)
                     Coefficients1[i] = reader.ReadSingle();
 
-                //ExtraNames = new (string, short, byte)[reader.ReadByte()];
-                //for (int i = 0; i < ExtraNames.Length; i++)
-                //    ExtraNames[i] = (reader.ReadString(reader.ReadInt32()), reader.ReadInt16(), reader.ReadByte());
-
                 Unknown10 = reader.ReadBytes(11);
             }
 
@@ -112,6 +236,10 @@
             }
         }
 
+        /// <summary>
+        /// Converts the nation data to a byte array.
+        /// </summary>
+        /// <returns>A byte array representing the serialized nation data.</returns>
         public byte[] ToBytes()
         {
             using var stream = new MemoryStream();
@@ -120,6 +248,10 @@
             return stream.ToArray();
         }
 
+        /// <summary>
+        /// Writes the nation data to the specified binary writer.
+        /// </summary>
+        /// <param name="writer">The binary writer to write the nation data to.</param>
         public void Write(BinaryWriter writer)
         {
             writer.WriteEx(Uid);
