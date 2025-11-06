@@ -27,7 +27,7 @@
             FilePath = path;
             Header = reader.ReadBytes(8);
             Count = reader.ReadInt16();
-            Items = new List<Nation>();
+            Items = [];
         }
 
         public static async Task<NationParser> Load(string path)

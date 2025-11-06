@@ -5,13 +5,13 @@
         public int Uid { get; set; }
         public short Id { get; set; }
         public string Name { get; set; }
-        public byte Unknown1 { get; set; }
+        public byte Terminator1 { get; set; }
         public string Nationality { get; set; }
-        public byte Unknown2 { get; set; }
+        public byte Terminator2 { get; set; }
         public string CodeName { get; set; }
-        public short Continent { get; set; }
-        public short City { get; set; }
-        public short Stadium { get; set; }
+        public short ContinentId { get; set; }
+        public short CityId { get; set; }
+        public short StadiumId { get; set; }
         public byte Unknown3 { get; set; }
         public short Color1 { get; set; }
         public int Unknown4 { get; set; }
@@ -36,13 +36,13 @@
             Uid = reader.ReadInt32();
             Id = reader.ReadInt16();
             Name = reader.ReadString(reader.ReadInt32());
-            Unknown1 = reader.ReadByte();
+            Terminator1 = reader.ReadByte();
             Nationality = reader.ReadString(reader.ReadInt32());
-            Unknown2 = reader.ReadByte();
+            Terminator2 = reader.ReadByte();
             CodeName = reader.ReadString(reader.ReadInt32());
-            Continent = reader.ReadInt16();
-            City = reader.ReadInt16();
-            Stadium = reader.ReadInt16();
+            ContinentId = reader.ReadInt16();
+            CityId = reader.ReadInt16();
+            StadiumId = reader.ReadInt16();
             Unknown3 = reader.ReadByte();
             Color1 = reader.ReadInt16();
             Unknown4 = reader.ReadInt32();
@@ -86,13 +86,13 @@
             writer.Write(Uid);
             writer.Write(Id);
             writer.WriteEx(Name);
-            writer.Write(Unknown1);
+            writer.Write(Terminator1);
             writer.WriteEx(Nationality);
-            writer.Write(Unknown2);
+            writer.Write(Terminator2);
             writer.WriteEx(CodeName);
-            writer.Write(Continent);
-            writer.Write(City);
-            writer.Write(Stadium);
+            writer.Write(ContinentId);
+            writer.Write(CityId);
+            writer.Write(StadiumId);
             writer.Write(Unknown3);
             writer.Write(Color1);
             writer.Write(Unknown4);
