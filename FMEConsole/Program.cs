@@ -14,9 +14,8 @@
 //Console.WriteLine("");
 
 
-var file = "../../../db/club.dat";
-var parser = await ClubParser.Load(file);
-//await parser.ParseAsync();
+var file = "../../../db/db_archive_2330/nation.dat";
+var parser = await NationParser.Load(file);
 
 var bytes1 = parser.ToBytes();
 var bytes2 = await File.ReadAllBytesAsync(file);
