@@ -38,11 +38,11 @@
             Id = reader.ReadInt16();
             Uid = reader.ReadInt32();
 
-            FullName = reader.ReadString(reader.ReadInt32());
+            FullName = reader.ReadStringEx();
             Unknown1 = reader.ReadByte();
-            ShortName = reader.ReadString(reader.ReadInt32());
+            ShortName = reader.ReadStringEx();
             Unknown2 = reader.ReadByte();
-            CodeName = reader.ReadString(reader.ReadInt32());
+            CodeName = reader.ReadStringEx();
 
             Type = reader.ReadByte();
             ContinentId = reader.ReadInt16();
@@ -80,38 +80,38 @@
 
         public void Write(BinaryWriter writer)
         {
-            writer.Write(Id);
-            writer.Write(Uid);
+            writer.WriteEx(Id);
+            writer.WriteEx(Uid);
 
             writer.WriteEx(FullName);
-            writer.Write(Unknown1);
+            writer.WriteEx(Unknown1);
             writer.WriteEx(ShortName);
-            writer.Write(Unknown2);
+            writer.WriteEx(Unknown2);
             writer.WriteEx(CodeName);
 
-            writer.Write(Type);
-            writer.Write(ContinentId);
-            writer.Write(NationId);
-            writer.Write(Color1);
-            writer.Write(Color2);
-            writer.Write(Reputation);
-            writer.Write(Level);
-            writer.Write(MainComp);
+            writer.WriteEx(Type);
+            writer.WriteEx(ContinentId);
+            writer.WriteEx(NationId);
+            writer.WriteEx(Color1);
+            writer.WriteEx(Color2);
+            writer.WriteEx(Reputation);
+            writer.WriteEx(Level);
+            writer.WriteEx(MainComp);
 
-            writer.Write(Qualifiers.Length);
+            writer.WriteEx(Qualifiers.Length);
             for (int i = 0; i < Qualifiers.Length; i++)
             {
-                writer.Write(Qualifiers[i]);
+                writer.WriteEx(Qualifiers[i]);
             }
 
-            writer.Write(Rank1);
-            writer.Write(Rank2);
-            writer.Write(Rank3);
-            writer.Write(Year1);
-            writer.Write(Year2);
-            writer.Write(Year3);
-            writer.Write(Unknown3);
-            writer.Write(Unknown4);
+            writer.WriteEx(Rank1);
+            writer.WriteEx(Rank2);
+            writer.WriteEx(Rank3);
+            writer.WriteEx(Year1);
+            writer.WriteEx(Year2);
+            writer.WriteEx(Year3);
+            writer.WriteEx(Unknown3);
+            writer.WriteEx(Unknown4);
         }
 
         public override string ToString()
