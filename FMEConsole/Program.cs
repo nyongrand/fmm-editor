@@ -1,4 +1,5 @@
 ﻿using FMELibrary;
+using System.Collections;
 
 
 //var compParser = new CompetitionParser("D:\\Downloads\\database\\competition.dat");
@@ -14,7 +15,7 @@
 //Console.WriteLine("");
 
 
-var file = "../../../db/db_archive_2330/nation.dat";
+var file = "../../../db/db_archive_2603/nation.dat";
 var parser = await NationParser.Load(file);
 
 var bytes1 = parser.ToBytes();

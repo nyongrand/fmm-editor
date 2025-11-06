@@ -46,6 +46,9 @@
                 {
                     var item = new Nation(reader);
                     parser.Items.Add(item);
+
+                    // Debug output
+                    Console.WriteLine($"Loaded Nation: {item.Name}");
                 }
             });
 

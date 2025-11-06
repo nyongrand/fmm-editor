@@ -33,10 +33,13 @@
         public short Points { get; set; }
 
         public short Unknown7 { get; set; }
-        public float[] Coefficients { get; set; }
+        public float[] Coefficients1 { get; set; }
 
         //public (string, short, byte)[] ExtraNames { get; set; }
         public byte[] Unknown12 { get; set; }
+        public byte UnknownType { get; set; }
+        public byte[] Unknown14 { get; set; }
+        public float[] Coefficients2 { get; set; }
 
         public Nation(BinaryReader reader)
         {
@@ -74,15 +77,30 @@
 
             Unknown7 = reader.ReadInt16();
 
-            Coefficients = new float[reader.ReadByte()];
-            for (int i = 0; i < Coefficients.Length; i++)
-                Coefficients[i] = reader.ReadSingle();
+            Coefficients1 = new float[reader.ReadByte()];
+            for (int i = 0; i < Coefficients1.Length; i++)
+                Coefficients1[i] = reader.ReadSingle();
 
             //ExtraNames = new (string, short, byte)[reader.ReadByte()];
             //for (int i = 0; i < ExtraNames.Length; i++)
             //    ExtraNames[i] = (reader.ReadString(reader.ReadInt32()), reader.ReadInt16(), reader.ReadByte());
 
-            Unknown12 = reader.ReadBytes(43);
+            Unknown12 = reader.ReadBytes(11);
+            UnknownType = reader.ReadByte();
+            if (UnknownType == 0)
+                Unknown14 = [];
+            else
+            {
+                Unknown14 = reader.ReadBytes(16);
+                reader.ReadByte();
+                reader.ReadInt16();
+
+                Coefficients2 = new float[reader.ReadByte()];
+                for (int i = 0; i < Coefficients2.Length; i++)
+                    Coefficients2[i] = reader.ReadSingle();
+
+                reader.ReadBytes(11);
+            }
         }
 
         public byte[] ToBytes()
