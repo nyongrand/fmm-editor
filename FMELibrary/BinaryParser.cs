@@ -8,10 +8,17 @@ namespace FMELibrary
     /// </summary>
     public static class BinaryParser
     {
+        /// <summary>
+        /// Reads a length-prefixed string from the binary reader.
+        /// The first 4 bytes represent the string length.
+        /// </summary>
+        /// <param name="reader">The binary reader to read from.</param>
+        /// <returns>A UTF-8 decoded string.</returns>
         public static string ReadStringEx(this BinaryReader reader)
         {
-            int len = reader.ReadInt32();
-            return reader.ReadString(len);
+            int length = reader.ReadInt32();
+            var bytes = reader.ReadBytes(length);
+            return Encoding.UTF8.GetString(bytes);
         }
 
         /// <summary>

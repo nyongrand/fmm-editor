@@ -218,12 +218,12 @@
             Id = reader.ReadInt32();
             Uid = reader.ReadInt32();
 
-            FullName = reader.ReadString(reader.ReadInt32());
+            FullName = reader.ReadStringEx();
             Unknown0 = reader.ReadByte();
-            ShortName = reader.ReadString(reader.ReadInt32());
+            ShortName = reader.ReadStringEx();
             Unknown1 = reader.ReadByte();
-            CodeName1 = reader.ReadString(reader.ReadInt32());
-            CodeName2 = reader.ReadString(reader.ReadInt32());
+            CodeName1 = reader.ReadStringEx();
+            CodeName2 = reader.ReadStringEx();
 
             BasedId = reader.ReadInt16();
             NationId = reader.ReadInt16();
