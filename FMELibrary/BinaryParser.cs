@@ -10,6 +10,14 @@ namespace FMELibrary
             return Encoding.UTF8.GetString(reader.ReadBytes(length));
         }
 
+        public static string ReadStringFF(this BinaryReader reader)
+        {
+            int len = reader.ReadInt32();
+            string s = reader.ReadString(len);
+            reader.ReadByte(); // Terminator, 0xFF
+            return s;
+        }
+
         public static Color ReadColor(this BinaryReader reader)
         {
             short color = reader.ReadInt16();
@@ -34,6 +42,12 @@ namespace FMELibrary
             int blue = color.B >> 3;
             short s = (short)((red << 10) | (green << 5) | blue);
             writer.Write(s);
+        }
+
+        public static void WriteStringFF(this BinaryWriter writer, string text, byte terminator = 0xFF)
+        {
+            writer.WriteEx(text);
+            writer.Write(terminator);
         }
     }
 }
