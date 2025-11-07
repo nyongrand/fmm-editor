@@ -24,11 +24,11 @@ for (int i = 0; i < bytes2.Length; i++)
 {
     if (bytes1[i] != bytes2[i])
     {
-
+        throw new Exception($"Byte mismatch at index {i}: {bytes1[i]} != {bytes2[i]}");
     }
 }
 
-var count = parser.Count;
+Console.WriteLine("Test passed, all bytes match.");
 
 //while (true)
 //{
