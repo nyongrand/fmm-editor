@@ -18,6 +18,7 @@ var parser = await ClubParser.Load(file);
 var match = parser.Count == parser.Items.Count;
 var bytes1 = parser.ToBytes();
 var bytes2 = await File.ReadAllBytesAsync(file);
+var equal = bytes1.SequenceEqual(bytes2);
 
 for (int i = 0; i < bytes2.Length; i++)
 {
@@ -27,7 +28,6 @@ for (int i = 0; i < bytes2.Length; i++)
     }
 }
 
-var equal = bytes1.SequenceEqual(bytes2);
 var count = parser.Count;
 
 //while (true)
