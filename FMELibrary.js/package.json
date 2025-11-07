@@ -1,16 +1,22 @@
 {
-  "name": "fmelibrary",
+  "name": "fme-library",
   "version": "1.0.0",
-  "description": "",
-  "main": "app.js",
+  "description": "TypeScript library for parsing and managing Football Manager Editor data files",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc --build",
     "clean": "tsc --build --clean"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "football-manager",
+    "binary-parser",
+    "game-editor",
+    "fm-editor"
+  ],
+  "author": "Nyong Grandong",
+  "license": "MIT",
   "type": "commonjs",
   "devDependencies": {
     "@types/node": "^24.10.0",
