@@ -4,10 +4,15 @@
   "description": "TypeScript library for parsing and managing Football Manager Editor data files",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "bin": {
+    "fme-console": "./dist/console.js"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "npm run console",
     "build": "tsc --build",
-    "clean": "tsc --build --clean"
+    "clean": "tsc --build --clean",
+    "console": "npm run build && node dist/console.js",
+    "console:dev": "ts-node console.ts"
   },
   "keywords": [
     "football-manager",

@@ -9,6 +9,7 @@ TypeScript library for parsing and managing Football Manager Editor data files. 
 - **Type Safety**: Full TypeScript typing for all entities and operations
 - **Async/Await**: Modern async file operations using Node.js fs.promises
 - **Buffer-based**: Efficient binary data handling using Node.js Buffer API
+- **Console Application**: Test and verify data integrity with the included console app
 
 ## Installation
 
@@ -16,6 +17,23 @@ TypeScript library for parsing and managing Football Manager Editor data files. 
 npm install
 npm run build
 ```
+
+## Quick Start - Console Application
+
+Test the library by running the console application:
+
+```bash
+npm run console
+```
+
+This will:
+- Load club data from `../FMEConsole/db/db_archive_2603/club.dat`
+- Parse all clubs
+- Serialize the data back to bytes
+- Verify byte-for-byte accuracy
+- Display sample club information
+
+See [CONSOLE_README.md](./CONSOLE_README.md) for detailed console application documentation.
 
 ## Usage
 
@@ -179,6 +197,22 @@ This library maintains feature parity with the C# version:
 | `BinaryReader` | `Buffer + offset` | Read operations |
 | `BinaryWriter` | `Buffer + offset` | Write operations |
 | `async Task<T>` | `Promise<T>` | Async operations |
+
+## Scripts
+
+```bash
+# Build the library
+npm run build
+
+# Clean build artifacts
+npm run clean
+
+# Run console test application
+npm run console
+
+# Development mode (requires ts-node)
+npm run console:dev
+```
 
 ## Building
 

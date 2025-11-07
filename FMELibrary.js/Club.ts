@@ -292,8 +292,6 @@ export class Club {
 * @returns A buffer representing the serialized club data
    */
   toBuffer(): Buffer {
-    const buffers: Buffer[] = [];
-
     // Calculate approximate size
     let size = 4 + 4; // id + uid
     size += 4 + Buffer.byteLength(this.fullName, 'utf-8'); // fullName
