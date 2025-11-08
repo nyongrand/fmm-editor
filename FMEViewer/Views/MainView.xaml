@@ -45,145 +45,147 @@
         <md:DialogHost IsOpen="{Binding ShowDialog}">
             <md:DialogHost.DialogContent>
 
-                <Grid Width="400" Height="260">
-                    <StackPanel
-                        Margin="16,0"
-                        Orientation="Vertical"
-                        Visibility="{Binding ShowMoveDialog, Converter={StaticResource Visibility}}">
+                <md:Card md:ElevationAssist.Elevation="Dp0" UniformCornerRadius="4">
+                    <Grid Width="400" Height="280">
+                        <StackPanel
+                            Margin="16,0"
+                            Orientation="Vertical"
+                            Visibility="{Binding ShowMoveDialog, Converter={StaticResource Visibility}}">
 
-                        <TextBlock
-                            Margin="16,12,16,8"
-                            FontSize="18"
-                            Text="MOVE CLUB"
-                            TextAlignment="Center" />
+                            <TextBlock
+                                Margin="16,16,16,8"
+                                FontSize="16"
+                                Text="ADD CLUB"
+                                TextAlignment="Center" />
 
-                        <TextBlock
-                            FontSize="14"
-                            Text="to"
-                            TextAlignment="Center" />
+                            <TextBlock
+                                FontSize="14"
+                                Text="to"
+                                TextAlignment="Center" />
 
-                        <TextBlock
-                            Margin="0,8,0,0"
-                            FontSize="18"
-                            Foreground="{DynamicResource PrimaryHueDarkBrush}"
-                            Text="{Binding SelectedCompetition.FullName}"
-                            TextAlignment="Center" />
+                            <TextBlock
+                                Margin="0,8,0,0"
+                                FontSize="18"
+                                Foreground="{DynamicResource PrimaryHueDarkBrush}"
+                                Text="{Binding SelectedCompetition.FullName}"
+                                TextAlignment="Center" />
 
-                        <ComboBox
-                            Margin="0,8,0,0"
-                            md:HintAssist.Hint="Filter club by nation"
-                            DisplayMemberPath="Name"
-                            FontSize="16"
-                            ItemsSource="{Binding Nations}"
-                            SelectedItem="{Binding FilterSwitchNation}"
-                            Style="{DynamicResource MaterialDesignFloatingHintComboBox}" />
+                            <ComboBox
+                                Margin="0,8,0,0"
+                                md:HintAssist.Hint="Filter club by nation"
+                                DisplayMemberPath="Name"
+                                FontSize="16"
+                                ItemsSource="{Binding Nations}"
+                                SelectedItem="{Binding FilterSwitchNation}"
+                                Style="{DynamicResource MaterialDesignFilledComboBox}" />
 
-                        <ComboBox
-                            Margin="0,8,0,0"
-                            md:HintAssist.Hint="Club to switch"
-                            DisplayMemberPath="FullName"
-                            FontSize="16"
-                            ItemsSource="{Binding FilteredSwitchs}"
-                            SelectedItem="{Binding SwitchedWithClub}"
-                            Style="{DynamicResource MaterialDesignFloatingHintComboBox}" />
+                            <ComboBox
+                                Margin="0,8,0,0"
+                                md:HintAssist.Hint="Club to switch"
+                                DisplayMemberPath="FullName"
+                                FontSize="16"
+                                ItemsSource="{Binding FilteredSwitchs}"
+                                SelectedItem="{Binding SwitchedWithClub}"
+                                Style="{DynamicResource MaterialDesignFilledComboBox}" />
+
+                            <StackPanel
+                                Margin="0,8,0,0"
+                                HorizontalAlignment="Right"
+                                Orientation="Horizontal">
+
+                                <Button
+                                    Width="90"
+                                    Height="35"
+                                    Margin="0,16,0,0"
+                                    HorizontalAlignment="Right"
+                                    Command="{Binding CancelSwitch}"
+                                    Content="CANCEL"
+                                    FontSize="14"
+                                    Style="{DynamicResource MaterialDesignFlatButton}" />
+
+                                <Button
+                                    Width="90"
+                                    Height="35"
+                                    Margin="0,16,0,0"
+                                    HorizontalAlignment="Right"
+                                    Command="{Binding ConfirmMove}"
+                                    Content="MOVE"
+                                    FontSize="14"
+                                    Style="{DynamicResource MaterialDesignFlatButton}" />
+
+                            </StackPanel>
+                        </StackPanel>
 
                         <StackPanel
-                            Margin="0,8,0,0"
-                            HorizontalAlignment="Right"
-                            Orientation="Horizontal">
+                            Margin="16,0"
+                            Orientation="Vertical"
+                            Visibility="{Binding ShowSwitchDialog, Converter={StaticResource Visibility}}">
 
-                            <Button
-                                Width="90"
-                                Height="35"
-                                Margin="0,16,0,0"
-                                HorizontalAlignment="Right"
-                                Command="{Binding CancelSwitch}"
-                                Content="CANCEL"
+                            <TextBlock
+                                Margin="16,16,16,8"
+                                FontSize="16"
+                                Text="SWITCH CLUB"
+                                TextAlignment="Center" />
+
+                            <TextBlock
+                                FontSize="18"
+                                Foreground="{DynamicResource PrimaryHueDarkBrush}"
+                                Text="{Binding SelectedClub.FullName}"
+                                TextAlignment="Center" />
+
+                            <TextBlock
+                                Margin="0,8,0,0"
                                 FontSize="14"
-                                Style="{DynamicResource MaterialDesignFlatButton}" />
+                                Text="with"
+                                TextAlignment="Center" />
 
-                            <Button
-                                Width="90"
-                                Height="35"
-                                Margin="0,16,0,0"
+                            <ComboBox
+                                Margin="0,8,0,0"
+                                md:HintAssist.Hint="Filter club by nation"
+                                DisplayMemberPath="Name"
+                                FontSize="16"
+                                ItemsSource="{Binding Nations}"
+                                SelectedItem="{Binding FilterSwitchNation}"
+                                Style="{StaticResource MaterialDesignFilledComboBox}" />
+
+                            <ComboBox
+                                Margin="0,8,0,0"
+                                md:HintAssist.Hint="Club to switch"
+                                DisplayMemberPath="FullName"
+                                FontSize="16"
+                                ItemsSource="{Binding FilteredSwitchs}"
+                                SelectedItem="{Binding SwitchedWithClub}"
+                                Style="{StaticResource MaterialDesignFilledComboBox}" />
+
+                            <StackPanel
+                                Margin="0,8,0,0"
                                 HorizontalAlignment="Right"
-                                Command="{Binding ConfirmMove}"
-                                Content="MOVE"
-                                FontSize="14"
-                                Style="{DynamicResource MaterialDesignFlatButton}" />
+                                Orientation="Horizontal">
 
+                                <Button
+                                    Width="90"
+                                    Height="35"
+                                    Margin="0,16,0,0"
+                                    HorizontalAlignment="Right"
+                                    Command="{Binding CancelSwitch}"
+                                    Content="CANCEL"
+                                    FontSize="14"
+                                    Style="{DynamicResource MaterialDesignFlatButton}" />
+
+                                <Button
+                                    Width="90"
+                                    Height="35"
+                                    Margin="0,16,0,0"
+                                    HorizontalAlignment="Right"
+                                    Command="{Binding ConfirmSwitch}"
+                                    Content="SWITCH"
+                                    FontSize="14"
+                                    Style="{DynamicResource MaterialDesignFlatButton}" />
+
+                            </StackPanel>
                         </StackPanel>
-                    </StackPanel>
-
-                    <StackPanel
-                        Margin="16,0"
-                        Orientation="Vertical"
-                        Visibility="{Binding ShowSwitchDialog, Converter={StaticResource Visibility}}">
-
-                        <TextBlock
-                            Margin="16,12,16,8"
-                            FontSize="18"
-                            Text="SWITCH CLUB"
-                            TextAlignment="Center" />
-
-                        <TextBlock
-                            FontSize="18"
-                            Foreground="{DynamicResource PrimaryHueDarkBrush}"
-                            Text="{Binding SelectedClub.FullName}"
-                            TextAlignment="Center" />
-
-                        <TextBlock
-                            Margin="0,8,0,0"
-                            FontSize="14"
-                            Text="with"
-                            TextAlignment="Center" />
-
-                        <ComboBox
-                            Margin="0,8,0,0"
-                            md:HintAssist.Hint="Filter club by nation"
-                            DisplayMemberPath="Name"
-                            FontSize="16"
-                            ItemsSource="{Binding Nations}"
-                            SelectedItem="{Binding FilterSwitchNation}"
-                            Style="{DynamicResource MaterialDesignFloatingHintComboBox}" />
-
-                        <ComboBox
-                            Margin="0,8,0,0"
-                            md:HintAssist.Hint="Club to switch"
-                            DisplayMemberPath="FullName"
-                            FontSize="16"
-                            ItemsSource="{Binding FilteredSwitchs}"
-                            SelectedItem="{Binding SwitchedWithClub}"
-                            Style="{DynamicResource MaterialDesignFloatingHintComboBox}" />
-
-                        <StackPanel
-                            Margin="0,8,0,0"
-                            HorizontalAlignment="Right"
-                            Orientation="Horizontal">
-
-                            <Button
-                                Width="90"
-                                Height="35"
-                                Margin="0,16,0,0"
-                                HorizontalAlignment="Right"
-                                Command="{Binding CancelSwitch}"
-                                Content="CANCEL"
-                                FontSize="14"
-                                Style="{DynamicResource MaterialDesignFlatButton}" />
-
-                            <Button
-                                Width="90"
-                                Height="35"
-                                Margin="0,16,0,0"
-                                HorizontalAlignment="Right"
-                                Command="{Binding ConfirmSwitch}"
-                                Content="SWITCH"
-                                FontSize="14"
-                                Style="{DynamicResource MaterialDesignFlatButton}" />
-
-                        </StackPanel>
-                    </StackPanel>
-                </Grid>
+                    </Grid>
+                </md:Card>
 
             </md:DialogHost.DialogContent>
 
@@ -446,7 +448,7 @@
                                 Margin="0,32,0,0"
                                 HorizontalAlignment="Center"
                                 Command="{Binding Load}"
-                                Style="{StaticResource MaterialDesignFlatButton}">
+                                Style="{StaticResource MaterialDesignOutlinedDarkButton}">
                                 <StackPanel Orientation="Horizontal">
                                     <md:PackIcon
                                         Width="20"
@@ -723,7 +725,7 @@
                             <Button
                                 HorizontalAlignment="Center"
                                 Command="{Binding MoveClub}"
-                                Style="{StaticResource MaterialDesignFlatButton}">
+                                Style="{StaticResource MaterialDesignOutlinedDarkButton}">
                                 <StackPanel Orientation="Horizontal">
                                     <md:PackIcon
                                         Width="18"
