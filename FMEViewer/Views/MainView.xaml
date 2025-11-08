@@ -296,6 +296,20 @@
 
                                     <Separator />
 
+                                    <Button Click="Donate_Click" FontSize="16">
+                                        <StackPanel Orientation="Horizontal">
+                                            <md:PackIcon
+                                                Width="18"
+                                                Height="18"
+                                                Margin="0,0,8,0"
+                                                VerticalAlignment="Center"
+                                                Kind="CoffeeOutline" />
+                                            <TextBlock VerticalAlignment="Center" Text="Support me" />
+                                        </StackPanel>
+                                    </Button>
+
+                                    <Separator />
+
                                     <Button
                                         Click="Exit_Click"
                                         Content="Exit"
