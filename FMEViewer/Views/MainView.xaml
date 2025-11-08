@@ -666,6 +666,65 @@
                         </DataGrid.Columns>
                     </DataGrid>
 
+                    <!--  No Clubs Empty State  -->
+                    <Grid
+                        Grid.Column="1"
+                        Background="{DynamicResource MaterialDesignPaper}"
+                        Visibility="{Binding HasNoClubs, Converter={StaticResource Visibility}, ConverterParameter=Boolean}">
+                        <StackPanel
+                            MaxWidth="400"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center">
+
+                            <md:PackIcon
+                                Width="64"
+                                Height="64"
+                                Margin="0,0,0,16"
+                                HorizontalAlignment="Center"
+                                Foreground="{DynamicResource PrimaryHueMidBrush}"
+                                Kind="SoccerField"
+                                Opacity="0.3" />
+
+                            <TextBlock
+                                Margin="0,0,0,8"
+                                FontSize="20"
+                                FontWeight="SemiBold"
+                                Foreground="{DynamicResource MaterialDesignBody}"
+                                Text="No Clubs in Competition"
+                                TextAlignment="Center" />
+
+                            <TextBlock
+                                Margin="0,0,0,16"
+                                FontSize="14"
+                                Foreground="{DynamicResource MaterialDesignBodyLight}"
+                                TextAlignment="Center"
+                                TextWrapping="Wrap">
+                                <Run Text="The selected competition" />
+                                <Run FontWeight="SemiBold" Text="{Binding SelectedCompetition.FullName, Mode=OneWay}" />
+                                <Run Text="does not have any clubs assigned to it." />
+                            </TextBlock>
+
+                            <Button
+                                HorizontalAlignment="Center"
+                                Command="{Binding MoveClub}"
+                                Style="{StaticResource MaterialDesignFlatButton}">
+                                <StackPanel Orientation="Horizontal">
+                                    <md:PackIcon
+                                        Width="18"
+                                        Height="18"
+                                        Margin="0,0,8,0"
+                                        VerticalAlignment="Center"
+                                        Kind="Plus" />
+                                    <TextBlock
+                                        VerticalAlignment="Center"
+                                        FontSize="14"
+                                        Text="ADD CLUB" />
+                                </StackPanel>
+                            </Button>
+
+                        </StackPanel>
+                    </Grid>
+
                 </Grid>
 
             </DockPanel>

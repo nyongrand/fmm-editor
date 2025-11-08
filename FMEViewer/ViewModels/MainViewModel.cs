@@ -33,6 +33,8 @@ namespace FMEViewer.ViewModels
         [Reactive] public Nation? FilterSwitchNation { get; set; }
         [Reactive] public Club? SwitchedWithClub { get; set; }
 
+        public extern bool HasNoClubs { [ObservableAsProperty] get; }
+
         public ReactiveCommand<Unit, Unit> SwitchClub { get; private set; }
         public ReactiveCommand<Unit, Unit> MoveClub { get; private set; }
         public ReactiveCommand<Unit, Unit> RemoveClub { get; private set; }
@@ -204,6 +206,10 @@ namespace FMEViewer.ViewModels
 
             this.WhenAnyValue(vm => vm.SelectedCompetition, vm => vm.FilterSwitchNation)
                 .Subscribe(x => UpdateFilteredSwitchs());
+
+            this.WhenAnyValue(vm => vm.SelectedCompetition, vm => vm.FilteredClubs.Count)
+                .Select(x => x.Item1 != null && x.Item2 == 0)
+                .ToPropertyEx(this, vm => vm.HasNoClubs);
         }
 
         private void UpdateFilteredClubs()
