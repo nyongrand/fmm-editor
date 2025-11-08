@@ -72,23 +72,23 @@ namespace FMEViewer.ViewModels
 
             ClearSearch = ReactiveCommand.Create(() => { SearchQuery = ""; });
 
-            Nations = new ObservableCollection<Nation>();
+            Nations = [];
 
-            Comps = new ObservableCollection<Competition>();
+            Comps = [];
             compsView = CollectionViewSource.GetDefaultView(Comps);
             compsView.Filter = obj =>
             {
                 if (obj is Competition competition)
                 {
                     return string.IsNullOrEmpty(SearchQuery)
-                    || competition.FullName.ToLowerInvariant().Contains(SearchQuery.ToLowerInvariant())
-                    || competition.Nation.ToLowerInvariant().Contains(SearchQuery.ToLowerInvariant());
+                    || competition.FullName.Contains(SearchQuery, StringComparison.InvariantCultureIgnoreCase)
+                    || competition.Nation.Contains(SearchQuery, StringComparison.InvariantCultureIgnoreCase);
                 }
 
                 return true;
             };
 
-            Clubs = new ObservableCollection<Club>();
+            Clubs = [];
             clubsView = CollectionViewSource.GetDefaultView(Clubs);
             clubsView.Filter = obj =>
             {
@@ -98,7 +98,7 @@ namespace FMEViewer.ViewModels
                 return club.LeagueId == SelectedCompetition?.Id;
             };
 
-            Switchs = new ObservableCollection<Club>();
+            Switchs = [];
             switchsView = CollectionViewSource.GetDefaultView(Switchs);
             switchsView.Filter = obj =>
             {
@@ -184,7 +184,7 @@ namespace FMEViewer.ViewModels
                     Switchs.Clear();
 
                     var clubs = pair.Item1?.Items;
-                    if (clubs != null && clubs.Any())
+                    if (clubs != null && clubs.Count != 0)
                     {
                         clubs.ForEach(x =>
                         {
@@ -213,7 +213,6 @@ namespace FMEViewer.ViewModels
 
             this.WhenAnyValue(vm => vm.FilterSwitchNation)
                 .Subscribe(x => switchsView.Refresh());
-
         }
 
         private string? LoadImpl()
@@ -300,11 +299,11 @@ namespace FMEViewer.ViewModels
                 if (CompParser != null && ClubParser != null)
                 {
                     CompParser.Count = (short)Comps.Count;
-                    CompParser.Items = Comps.ToList();
+                    CompParser.Items = [.. Comps];
                     await CompParser.Save();
 
                     ClubParser.Count = Clubs.Count;
-                    ClubParser.Items = Clubs.ToList();
+                    ClubParser.Items = [.. Clubs];
                     await ClubParser.Save();
 
                     MessageQueue.Enqueue("Save Successfull");
@@ -328,11 +327,11 @@ namespace FMEViewer.ViewModels
                 if (CompParser != null && ClubParser != null)
                 {
                     CompParser.Count = (short)Comps.Count;
-                    CompParser.Items = Comps.ToList();
+                    CompParser.Items = [.. Comps];
                     await CompParser.Save(settings.SelectedPath + "\\competition.dat");
 
                     ClubParser.Count = Clubs.Count;
-                    ClubParser.Items = Clubs.ToList();
+                    ClubParser.Items = [.. Clubs];
                     await ClubParser.Save(settings.SelectedPath + "\\club.dat");
 
                     MessageQueue.Enqueue("Save Successfull");
