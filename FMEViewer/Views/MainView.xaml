@@ -578,8 +578,11 @@
                                 <MenuItem Command="{Binding MoveClub}">
                                     <MenuItem.Header>
                                         <TextBlock>
-                                            <Run Text="Move club to" />
-                                            <Run Text="{Binding SelectedCompetition.ShortName}" />
+                                            <Run Text="Add a club to" />
+                                            <Run
+                                                FontWeight="SemiBold"
+                                                Foreground="{DynamicResource PrimaryHueMidBrush}"
+                                                Text="{Binding SelectedCompetition.ShortName}" />
                                         </TextBlock>
                                     </MenuItem.Header>
                                 </MenuItem>
@@ -587,17 +590,30 @@
                                 <MenuItem Command="{Binding RemoveClub}">
                                     <MenuItem.Header>
                                         <TextBlock>
-                                            <Run Text="Remove club from" />
-                                            <Run Text="{Binding SelectedCompetition.ShortName}" />
+                                            <Run Text="Remove" />
+                                            <Run
+                                                FontWeight="SemiBold"
+                                                Foreground="{DynamicResource PrimaryHueMidBrush}"
+                                                Text="{Binding SelectedClub.ShortName}" />
+                                            <Run Text="from" />
+                                            <Run
+                                                FontWeight="SemiBold"
+                                                Foreground="{DynamicResource PrimaryHueMidBrush}"
+                                                Text="{Binding SelectedCompetition.ShortName}" />
                                         </TextBlock>
                                     </MenuItem.Header>
                                 </MenuItem>
+
+                                <Separator />
 
                                 <MenuItem Command="{Binding SwitchClub}">
                                     <MenuItem.Header>
                                         <TextBlock>
                                             <Run Text="Switch" />
-                                            <Run Text="{Binding SelectedClub.ShortName}" />
+                                            <Run
+                                                FontWeight="SemiBold"
+                                                Foreground="{DynamicResource PrimaryHueMidBrush}"
+                                                Text="{Binding SelectedClub.ShortName}" />
                                             <Run Text="with..." />
                                         </TextBlock>
                                     </MenuItem.Header>
