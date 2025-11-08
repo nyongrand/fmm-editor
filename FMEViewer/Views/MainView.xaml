@@ -257,7 +257,7 @@
                             FontSize="18"
                             FontWeight="Bold"
                             Foreground="{DynamicResource MaterialDesignLightBackground}"
-                            Text="FM23 DB Editor" />
+                            Text="FM26 DB Editor" />
 
                         <!--  Toolbar Menu  -->
                         <StackPanel

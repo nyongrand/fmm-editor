@@ -156,7 +156,7 @@ namespace FMEViewer.ViewModels
 
         private string? LoadImpl()
         {
-            var dialog = new OpenFileDialogSettings { Filter = "FM23 File (*.dat)|*.dat" };
+            var dialog = new OpenFileDialogSettings { Filter = "FM26 File (*.dat)|*.dat" };
             bool? success = dialogService.ShowOpenFileDialog(this, dialog);
             return (success == true) ? dialog.FileName : null;
         }
