@@ -29,6 +29,7 @@
     <Window.Resources>
         <converter:BytesConverter x:Key="bytes" />
         <converter:VisibilityConverter x:Key="Visibility" />
+        <converter:BooleanConverter x:Key="Boolean" />
 
         <Style
             x:Key="centerHeaderColumnStyle"
@@ -327,6 +328,143 @@
                         <ColumnDefinition Width="2*" />
                     </Grid.ColumnDefinitions>
 
+                    <!--  Empty State View  -->
+                    <Grid
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        Background="{DynamicResource MaterialDesignPaper}"
+                        Visibility="{Binding IsDatabaseLoaded, Converter={StaticResource Visibility}, ConverterParameter=Inverter}">
+                        <StackPanel
+                            MaxWidth="600"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center">
+
+                            <md:PackIcon
+                                Width="80"
+                                Height="80"
+                                Margin="0,0,0,16"
+                                HorizontalAlignment="Center"
+                                Foreground="{DynamicResource PrimaryHueMidBrush}"
+                                Kind="DatabaseOff"
+                                Opacity="0.5" />
+
+                            <TextBlock
+                                Margin="0,0,0,8"
+                                FontSize="24"
+                                FontWeight="Bold"
+                                Foreground="{DynamicResource MaterialDesignBody}"
+                                Text="No Database Loaded"
+                                TextAlignment="Center" />
+
+                            <TextBlock
+                                Margin="0,0,0,16"
+                                FontSize="16"
+                                Foreground="{DynamicResource MaterialDesignBodyLight}"
+                                Text="Get started by loading an FM26 database"
+                                TextAlignment="Center"
+                                TextWrapping="Wrap" />
+
+                            <md:Card Padding="24" md:ElevationAssist.Elevation="Dp2">
+                                <StackPanel>
+                                    <TextBlock
+                                        Margin="0,0,0,16"
+                                        FontSize="18"
+                                        FontWeight="SemiBold"
+                                        Foreground="{DynamicResource PrimaryHueDarkBrush}"
+                                        Text="Instructions"
+                                        TextAlignment="Left" />
+
+                                    <StackPanel Margin="0,0,0,12" Orientation="Horizontal">
+                                        <TextBlock
+                                            Width="24"
+                                            FontSize="16"
+                                            FontWeight="Bold"
+                                            Foreground="{DynamicResource PrimaryHueMidBrush}"
+                                            Text="1."
+                                            TextAlignment="Right" />
+                                        <TextBlock
+                                            Margin="12,0,0,0"
+                                            FontSize="14"
+                                            Text="Download the FM26 database files"
+                                            TextWrapping="Wrap" />
+                                    </StackPanel>
+
+                                    <StackPanel Margin="0,0,0,12" Orientation="Horizontal">
+                                        <TextBlock
+                                            Width="24"
+                                            FontSize="16"
+                                            FontWeight="Bold"
+                                            Foreground="{DynamicResource PrimaryHueMidBrush}"
+                                            Text="2."
+                                            TextAlignment="Right" />
+                                        <TextBlock
+                                            Margin="12,0,0,0"
+                                            FontSize="14"
+                                            Text="Extract the database files to a folder on your computer"
+                                            TextWrapping="Wrap" />
+                                    </StackPanel>
+
+                                    <StackPanel Margin="0,0,0,12" Orientation="Horizontal">
+                                        <TextBlock
+                                            Width="24"
+                                            FontSize="16"
+                                            FontWeight="Bold"
+                                            Foreground="{DynamicResource PrimaryHueMidBrush}"
+                                            Text="3."
+                                            TextAlignment="Right" />
+                                        <TextBlock
+                                            Margin="12,0,0,0"
+                                            FontSize="14"
+                                            TextWrapping="Wrap">
+                                            <Run Text="Click the" />
+                                            <Run FontWeight="SemiBold" Text="menu icon (☰)" />
+                                            <Run Text="in the top right corner" />
+                                        </TextBlock>
+                                    </StackPanel>
+
+                                    <StackPanel Margin="0,0,0,0" Orientation="Horizontal">
+                                        <TextBlock
+                                            Width="24"
+                                            FontSize="16"
+                                            FontWeight="Bold"
+                                            Foreground="{DynamicResource PrimaryHueMidBrush}"
+                                            Text="4."
+                                            TextAlignment="Right" />
+                                        <TextBlock
+                                            Margin="12,0,0,0"
+                                            FontSize="14"
+                                            TextWrapping="Wrap">
+                                            <Run Text="Select" />
+                                            <Run FontWeight="SemiBold" Text="'Load Database'" />
+                                            <Run Text="and browse to your extracted folder" />
+                                        </TextBlock>
+                                    </StackPanel>
+                                </StackPanel>
+                            </md:Card>
+
+                            <Button
+                                Margin="0,32,0,0"
+                                HorizontalAlignment="Center"
+                                Command="{Binding Load}"
+                                Style="{StaticResource MaterialDesignFlatButton}">
+                                <StackPanel Orientation="Horizontal">
+                                    <md:PackIcon
+                                        Width="20"
+                                        Height="20"
+                                        Margin="0,0,8,0"
+                                        VerticalAlignment="Center"
+                                        Kind="FolderOpen" />
+                                    <TextBlock
+                                        VerticalAlignment="Center"
+                                        FontSize="14"
+                                        Text="LOAD DATABASE" />
+                                </StackPanel>
+                            </Button>
+
+                        </StackPanel>
+                    </Grid>
+
+                    <!--  Data Grids (shown when database is loaded)  -->
                     <DataGrid
                         Grid.Column="0"
                         md:DataGridAssist.SelectedCellBorderBrush="Transparent"
@@ -342,7 +480,8 @@
                         RowHeight="33"
                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                         SelectedItem="{Binding SelectedCompetition}"
-                        SelectionMode="Single">
+                        SelectionMode="Single"
+                        Visibility="{Binding IsDatabaseLoaded, Converter={StaticResource Visibility}, ConverterParameter=Boolean}">
 
                         <DataGrid.Columns>
 
@@ -424,7 +563,8 @@
                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                         SelectedItem="{Binding SelectedClub}"
                         SelectionMode="Single"
-                        SelectionUnit="FullRow">
+                        SelectionUnit="FullRow"
+                        Visibility="{Binding IsDatabaseLoaded, Converter={StaticResource Visibility}, ConverterParameter=Boolean}">
 
                         <DataGrid.RowHeaderStyle>
                             <Style BasedOn="{StaticResource MaterialDesignDataGridRowHeader}" TargetType="DataGridRowHeader">

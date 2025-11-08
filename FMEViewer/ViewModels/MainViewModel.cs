@@ -42,6 +42,7 @@ namespace FMEViewer.ViewModels
         public ReactiveCommand<Unit, Unit> ConfirmMove { get; private set; }
 
         public extern string? FolderPath { [ObservableAsProperty] get; }
+        public extern bool IsDatabaseLoaded { [ObservableAsProperty] get; }
 
         public extern NationParser? NationParser { [ObservableAsProperty] get; }
         public extern CompetitionParser? CompParser { [ObservableAsProperty] get; }
@@ -150,6 +151,10 @@ namespace FMEViewer.ViewModels
                 .WhereNotNull()
                 .Select(x => x + "\\club.dat")
                 .InvokeCommand(ParseClub);
+
+            this.WhenAnyValue(vm => vm.FolderPath)
+                .Select(x => !string.IsNullOrEmpty(x))
+                .ToPropertyEx(this, vm => vm.IsDatabaseLoaded);
 
             this.WhenAnyValue(vm => vm.NationParser)
                 .WhereNotNull()
