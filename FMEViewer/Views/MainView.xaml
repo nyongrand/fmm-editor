@@ -83,7 +83,7 @@
                             md:HintAssist.Hint="Club to switch"
                             DisplayMemberPath="FullName"
                             FontSize="16"
-                            ItemsSource="{Binding Switchs}"
+                            ItemsSource="{Binding FilteredSwitchs}"
                             SelectedItem="{Binding SwitchedWithClub}"
                             Style="{DynamicResource MaterialDesignFloatingHintComboBox}" />
 
@@ -152,7 +152,7 @@
                             md:HintAssist.Hint="Club to switch"
                             DisplayMemberPath="FullName"
                             FontSize="16"
-                            ItemsSource="{Binding Switchs}"
+                            ItemsSource="{Binding FilteredSwitchs}"
                             SelectedItem="{Binding SwitchedWithClub}"
                             Style="{DynamicResource MaterialDesignFloatingHintComboBox}" />
 
@@ -318,7 +318,7 @@
                     </StatusBarItem>
 
                     <StatusBarItem>
-                        <TextBlock Text="{Binding Clubs.Count}" />
+                        <TextBlock Text="{Binding FilteredClubs.Count}" />
                     </StatusBarItem>
                 </StatusBar>
 
@@ -556,7 +556,7 @@
                         GridLinesVisibility="All"
                         HeadersVisibility="All"
                         IsSynchronizedWithCurrentItem="True"
-                        ItemsSource="{Binding Clubs}"
+                        ItemsSource="{Binding FilteredClubs}"
                         LoadingRow="DataGrid_LoadingRow"
                         RowHeaderWidth="40"
                         RowHeight="33"
