@@ -78,17 +78,35 @@
                                 IsEditable="True"
                                 ItemsSource="{Binding Nations}"
                                 SelectedItem="{Binding FilterSwitchNation}"
+                                StaysOpenOnEdit="True"
                                 Style="{DynamicResource MaterialDesignFilledComboBox}" />
 
                             <ComboBox
                                 Margin="0,8,0,0"
                                 md:HintAssist.Hint="Club to switch"
-                                DisplayMemberPath="FullName"
                                 FontSize="16"
                                 IsEditable="True"
                                 ItemsSource="{Binding ClubsAvailableForSwitch}"
                                 SelectedItem="{Binding SwitchedWithClub}"
-                                Style="{DynamicResource MaterialDesignFilledComboBox}" />
+                                StaysOpenOnEdit="True"
+                                Style="{DynamicResource MaterialDesignFilledComboBox}">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Vertical">
+                                            <TextBlock
+                                                FontSize="10"
+                                                Opacity="0.8"
+                                                Text="{Binding Competition}" />
+
+                                            <TextBlock
+                                                Margin="0,2,0,0"
+                                                FontSize="13"
+                                                Text="{Binding FullName}"
+                                                TextWrapping="Wrap" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
 
                             <StackPanel
                                 Margin="0,8,0,0"
@@ -149,17 +167,35 @@
                                 IsEditable="True"
                                 ItemsSource="{Binding Nations}"
                                 SelectedItem="{Binding FilterSwitchNation}"
+                                StaysOpenOnEdit="True"
                                 Style="{StaticResource MaterialDesignFilledComboBox}" />
 
                             <ComboBox
                                 Margin="0,8,0,0"
                                 md:HintAssist.Hint="Club to switch"
-                                DisplayMemberPath="FullName"
                                 FontSize="16"
                                 IsEditable="True"
                                 ItemsSource="{Binding ClubsAvailableForSwitch}"
                                 SelectedItem="{Binding SwitchedWithClub}"
-                                Style="{StaticResource MaterialDesignFilledComboBox}" />
+                                StaysOpenOnEdit="True"
+                                Style="{StaticResource MaterialDesignFilledComboBox}">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Vertical">
+                                            <TextBlock
+                                                FontSize="10"
+                                                Opacity="0.8"
+                                                Text="{Binding Competition}" />
+
+                                            <TextBlock
+                                                Margin="0,2,0,0"
+                                                FontSize="13"
+                                                Text="{Binding FullName}"
+                                                TextWrapping="Wrap" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
 
                             <StackPanel
                                 Margin="0,8,0,0"

@@ -250,6 +250,12 @@ namespace FMEViewer.ViewModels
             {
                 var switchClubs = Clubs
                     .Where(c => c.NationId == FilterSwitchNation.Id && c.LeagueId != SelectedCompetition.Id)
+                    .Select(c =>
+                    {
+                        c.Competition = GetCompetitionName(Comps, c.LeagueId);
+                        return c;
+                    })
+                    .OrderBy(c => c.FullName)
                     .ToList();
 
                 ClubsAvailableForSwitch.AddRange(switchClubs);
@@ -430,6 +436,11 @@ namespace FMEViewer.ViewModels
         }
 
         #region Private Methods
+
+        private static string GetCompetitionName(IEnumerable<Competition>? competitions, int id)
+        {
+            return competitions?.FirstOrDefault(x => x.Id == id)?.FullName ?? "-";
+        }
 
         private static string GetNationName(IEnumerable<Nation>? nations, int id)
         {

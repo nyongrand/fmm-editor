@@ -197,6 +197,8 @@
 
         #region Extra
 
+        public string Competition { get; set; } = string.Empty;
+
         /// <summary>
         /// Gets or sets the name of the city where the club is based (extra/computed field).
         /// </summary>
@@ -382,7 +384,7 @@
         /// <returns>A string containing the club's UID and full name.</returns>
         public override string ToString()
         {
-            return $"{Uid} {FullName}";
+            return $"{FullName}";
         }
     }
 }
