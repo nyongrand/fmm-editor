@@ -249,13 +249,14 @@ namespace FMEViewer.ViewModels
             if (FilterSwitchNation?.Id != null && SelectedCompetition?.Id != null)
             {
                 var switchClubs = Clubs
+                    .Where(x => x.IsWomanFlag == SelectedClub?.IsWomanFlag)
                     .Where(c => c.NationId == FilterSwitchNation.Id && c.LeagueId != SelectedCompetition.Id)
                     .Select(c =>
                     {
                         c.Competition = GetCompetitionName(Comps, c.LeagueId);
                         return c;
                     })
-                    .OrderBy(c => c.FullName)
+                    .OrderByDescending(c => c.Reputation)
                     .ToList();
 
                 ClubsAvailableForSwitch.AddRange(switchClubs);
@@ -439,12 +440,12 @@ namespace FMEViewer.ViewModels
 
         private static string GetCompetitionName(IEnumerable<Competition>? competitions, int id)
         {
-            return competitions?.FirstOrDefault(x => x.Id == id)?.FullName ?? "-";
+            return competitions?.FirstOrDefault(x => x.Id == id)?.FullName ?? "--";
         }
 
         private static string GetNationName(IEnumerable<Nation>? nations, int id)
         {
-            return nations?.FirstOrDefault(x => x.Id == id)?.Name ?? "-";
+            return nations?.FirstOrDefault(x => x.Id == id)?.Name ?? "--";
         }
 
         #endregion
