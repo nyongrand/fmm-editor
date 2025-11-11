@@ -193,7 +193,7 @@
         /// <summary>
         /// Gets or sets unknown data (2 bytes).
         /// </summary>
-        public byte[] Unknown10 { get; set; }
+        public short IsWomanFlag { get; set; }
 
         #region Extra
 
@@ -294,7 +294,7 @@
 
             Unknown8 = reader.ReadBytes(33);
             Unknown9 = reader.ReadBytes(40);
-            Unknown10 = reader.ReadBytes(2);
+            IsWomanFlag = reader.ReadInt16();
         }
 
         /// <summary>
@@ -375,7 +375,7 @@
 
             writer.Write(Unknown8);
             writer.Write(Unknown9);
-            writer.Write(Unknown10);
+            writer.Write(IsWomanFlag);
         }
 
         /// <summary>
