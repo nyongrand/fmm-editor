@@ -328,5 +328,9 @@
             //    writer.Write(ExtraNames[i].Item3);
             //}
         }
+        public override string ToString()
+        {
+            return $"{Name}";
+        }
     }
 }
