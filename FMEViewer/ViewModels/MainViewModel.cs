@@ -66,7 +66,7 @@ namespace FMEViewer.ViewModels
 
         private readonly ICollectionView compsView;
         private readonly IDialogService dialogService;
-        private Dictionary<short, List<Club>> clubsByLeague = new();
+        private Dictionary<short, List<Club>> clubsByLeague = [];
 
         public MainViewModel(IDialogService dialogService, ISnackbarMessageQueue messageQueue)
         {
@@ -186,7 +186,7 @@ namespace FMEViewer.ViewModels
                         clubsByLeague = clubs
                             .Where(c => c.LeagueId >= 0)
                             .GroupBy(c => c.LeagueId)
-                            .ToDictionary(g => (short)g.Key, g => g.ToList());
+                            .ToDictionary(g => g.Key, g => g.ToList());
                     }
 
                     // Trigger initial filter
@@ -298,14 +298,14 @@ namespace FMEViewer.ViewModels
                 SwitchedWithClub.LeagueId = comp.Id;
 
                 // Update index
-                if (oldLeagueId >= 0 && clubsByLeague.TryGetValue((short)oldLeagueId, out var oldClubs))
+                if (oldLeagueId >= 0 && clubsByLeague.TryGetValue(oldLeagueId, out var oldClubs))
                 {
                     oldClubs.Remove(SwitchedWithClub);
                 }
 
                 if (!clubsByLeague.TryGetValue(comp.Id, out var newClubs))
                 {
-                    newClubs = new List<Club>();
+                    newClubs = [];
                     clubsByLeague[comp.Id] = newClubs;
                 }
                 newClubs.Add(SwitchedWithClub);
@@ -346,8 +346,8 @@ namespace FMEViewer.ViewModels
                 {
                     if (!clubsByLeague.TryGetValue((short)league1, out var newClubs1))
                     {
-                        newClubs1 = new List<Club>();
-                        clubsByLeague[(short)league1] = newClubs1;
+                        newClubs1 = [];
+                        clubsByLeague[league1] = newClubs1;
                     }
                     newClubs1.Add(club2);
                 }
