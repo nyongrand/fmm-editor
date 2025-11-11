@@ -75,6 +75,7 @@
                                 md:HintAssist.Hint="Filter club by nation"
                                 DisplayMemberPath="Name"
                                 FontSize="16"
+                                IsEditable="True"
                                 ItemsSource="{Binding Nations}"
                                 SelectedItem="{Binding FilterSwitchNation}"
                                 Style="{DynamicResource MaterialDesignFilledComboBox}" />
@@ -84,6 +85,7 @@
                                 md:HintAssist.Hint="Club to switch"
                                 DisplayMemberPath="FullName"
                                 FontSize="16"
+                                IsEditable="True"
                                 ItemsSource="{Binding ClubsAvailableForSwitch}"
                                 SelectedItem="{Binding SwitchedWithClub}"
                                 Style="{DynamicResource MaterialDesignFilledComboBox}" />
@@ -144,6 +146,7 @@
                                 md:HintAssist.Hint="Filter club by nation"
                                 DisplayMemberPath="Name"
                                 FontSize="16"
+                                IsEditable="True"
                                 ItemsSource="{Binding Nations}"
                                 SelectedItem="{Binding FilterSwitchNation}"
                                 Style="{StaticResource MaterialDesignFilledComboBox}" />
@@ -153,6 +156,7 @@
                                 md:HintAssist.Hint="Club to switch"
                                 DisplayMemberPath="FullName"
                                 FontSize="16"
+                                IsEditable="True"
                                 ItemsSource="{Binding ClubsAvailableForSwitch}"
                                 SelectedItem="{Binding SwitchedWithClub}"
                                 Style="{StaticResource MaterialDesignFilledComboBox}" />
