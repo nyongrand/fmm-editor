@@ -49,24 +49,44 @@ namespace FMEViewer.ViewModels
         public extern NationParser? NationParser { [ObservableAsProperty] get; }
         public extern CompetitionParser? CompParser { [ObservableAsProperty] get; }
         public extern ClubParser? ClubParser { [ObservableAsProperty] get; }
+
+        /// <summary>
+        /// All nations loaded from nation.dat
+        /// </summary>
         public ObservableCollection<Nation> Nations { get; }
+
+        /// <summary>
+        /// All competitions loaded from competition.dat
+        /// </summary>
         public ObservableCollection<Competition> Comps { get; }
+
+        /// <summary>
+        /// All clubs loaded from club.dat
+        /// </summary>
         public ObservableCollection<Club> Clubs { get; }
-        public ObservableCollection<Club> FilteredClubs { get; }
-        public ObservableCollection<Club> FilteredSwitchs { get; }
+
+        /// <summary>
+        /// Clubs filtered by selected competition
+        /// </summary>
+        public ObservableCollection<Club> ClubsInSelectedCompetition { get; }
+
+        /// <summary>
+        /// Clubs filtered by selected nation for switching / moving
+        /// </summary>
+        public ObservableCollection<Club> ClubsAvailableForSwitch { get; }
 
         public ReactiveCommand<Unit, string?> Load { get; private set; }
         public ReactiveCommand<Unit, Unit> Save { get; private set; }
         public ReactiveCommand<Unit, Unit> SaveAs { get; private set; }
-        public ReactiveCommand<string, NationParser> ParseNation { get; private set; }
-        public ReactiveCommand<string, CompetitionParser> ParseComp { get; private set; }
-        public ReactiveCommand<string, ClubParser> ParseClub { get; private set; }
+        public ReactiveCommand<string, NationParser> ParseNations { get; private set; }
+        public ReactiveCommand<string, CompetitionParser> ParseCompetitions { get; private set; }
+        public ReactiveCommand<string, ClubParser> ParseClubs { get; private set; }
 
         [Reactive] public ISnackbarMessageQueue MessageQueue { get; set; }
 
         private readonly ICollectionView compsView;
         private readonly IDialogService dialogService;
-        private Dictionary<short, List<Club>> clubsByLeague = [];
+        private Dictionary<short, List<Club>> clubsByLeagueLookup = [];
 
         public MainViewModel(IDialogService dialogService, ISnackbarMessageQueue messageQueue)
         {
@@ -92,20 +112,20 @@ namespace FMEViewer.ViewModels
             };
 
             Clubs = [];
-            FilteredClubs = [];
-            FilteredSwitchs = [];
+            ClubsInSelectedCompetition = [];
+            ClubsAvailableForSwitch = [];
 
             Load = ReactiveCommand.Create(LoadImpl);
             Load.ToPropertyEx(this, vm => vm.FolderPath);
 
-            ParseNation = ReactiveCommand.CreateFromTask<string, NationParser>((path) => NationParser.Load(path));
-            ParseNation.ToPropertyEx(this, vm => vm.NationParser);
+            ParseNations = ReactiveCommand.CreateFromTask<string, NationParser>((path) => NationParser.Load(path));
+            ParseNations.ToPropertyEx(this, vm => vm.NationParser);
 
-            ParseComp = ReactiveCommand.CreateFromTask<string, CompetitionParser>((path) => CompetitionParser.Load(path));
-            ParseComp.ToPropertyEx(this, vm => vm.CompParser);
+            ParseCompetitions = ReactiveCommand.CreateFromTask<string, CompetitionParser>((path) => CompetitionParser.Load(path));
+            ParseCompetitions.ToPropertyEx(this, vm => vm.CompParser);
 
-            ParseClub = ReactiveCommand.CreateFromTask<string, ClubParser>((path) => ClubParser.Load(path));
-            ParseClub.ToPropertyEx(this, vm => vm.ClubParser);
+            ParseClubs = ReactiveCommand.CreateFromTask<string, ClubParser>((path) => ClubParser.Load(path));
+            ParseClubs.ToPropertyEx(this, vm => vm.ClubParser);
 
             SwitchClub = ReactiveCommand.Create(SwitchClubImpl);
             MoveClub = ReactiveCommand.Create(MoveClubImpl);
@@ -121,17 +141,17 @@ namespace FMEViewer.ViewModels
             this.WhenAnyValue(vm => vm.FolderPath)
                 .WhereNotNull()
                 .Select(x => x + "\\nation.dat")
-                .InvokeCommand(ParseNation);
+                .InvokeCommand(ParseNations);
 
             this.WhenAnyValue(vm => vm.FolderPath)
                 .WhereNotNull()
                 .Select(x => x + "\\competition.dat")
-                .InvokeCommand(ParseComp);
+                .InvokeCommand(ParseCompetitions);
 
             this.WhenAnyValue(vm => vm.FolderPath)
                 .WhereNotNull()
                 .Select(x => x + "\\club.dat")
-                .InvokeCommand(ParseClub);
+                .InvokeCommand(ParseClubs);
 
             this.WhenAnyValue(vm => vm.FolderPath)
                 .Select(x => !string.IsNullOrEmpty(x))
@@ -167,9 +187,9 @@ namespace FMEViewer.ViewModels
                 .Subscribe(pair =>
                 {
                     Clubs.Clear();
-                    FilteredClubs.Clear();
-                    FilteredSwitchs.Clear();
-                    clubsByLeague.Clear();
+                    ClubsInSelectedCompetition.Clear();
+                    ClubsAvailableForSwitch.Clear();
+                    clubsByLeagueLookup.Clear();
 
                     var clubs = pair.Item1?.Items;
                     if (clubs != null && clubs.Count != 0)
@@ -183,7 +203,7 @@ namespace FMEViewer.ViewModels
                         Clubs.AddRange(clubs);
 
                         // Build index for fast lookup
-                        clubsByLeague = clubs
+                        clubsByLeagueLookup = clubs
                             .Where(c => c.LeagueId >= 0)
                             .GroupBy(c => c.LeagueId)
                             .ToDictionary(g => g.Key, g => g.ToList());
@@ -207,24 +227,24 @@ namespace FMEViewer.ViewModels
             this.WhenAnyValue(vm => vm.SelectedCompetition, vm => vm.FilterSwitchNation)
                 .Subscribe(x => UpdateFilteredSwitchs());
 
-            this.WhenAnyValue(vm => vm.SelectedCompetition, vm => vm.FilteredClubs.Count)
+            this.WhenAnyValue(vm => vm.SelectedCompetition, vm => vm.ClubsInSelectedCompetition.Count)
                 .Select(x => x.Item1 != null && x.Item2 == 0)
                 .ToPropertyEx(this, vm => vm.HasNoClubs);
         }
 
         private void UpdateFilteredClubs()
         {
-            FilteredClubs.Clear();
+            ClubsInSelectedCompetition.Clear();
 
-            if (SelectedCompetition?.Id != null && clubsByLeague.TryGetValue(SelectedCompetition.Id, out var clubs))
+            if (SelectedCompetition?.Id != null && clubsByLeagueLookup.TryGetValue(SelectedCompetition.Id, out var clubs))
             {
-                FilteredClubs.AddRange(clubs);
+                ClubsInSelectedCompetition.AddRange(clubs);
             }
         }
 
         private void UpdateFilteredSwitchs()
         {
-            FilteredSwitchs.Clear();
+            ClubsAvailableForSwitch.Clear();
 
             if (FilterSwitchNation?.Id != null && SelectedCompetition?.Id != null)
             {
@@ -232,7 +252,7 @@ namespace FMEViewer.ViewModels
                     .Where(c => c.NationId == FilterSwitchNation.Id && c.LeagueId != SelectedCompetition.Id)
                     .ToList();
 
-                FilteredSwitchs.AddRange(switchClubs);
+                ClubsAvailableForSwitch.AddRange(switchClubs);
             }
         }
 
@@ -269,7 +289,7 @@ namespace FMEViewer.ViewModels
                 SelectedClub.LeagueId = -1;
 
                 // Update index
-                if (oldLeagueId >= 0 && clubsByLeague.TryGetValue((short)oldLeagueId, out var clubs))
+                if (oldLeagueId >= 0 && clubsByLeagueLookup.TryGetValue((short)oldLeagueId, out var clubs))
                 {
                     clubs.Remove(SelectedClub);
                 }
@@ -298,15 +318,15 @@ namespace FMEViewer.ViewModels
                 SwitchedWithClub.LeagueId = comp.Id;
 
                 // Update index
-                if (oldLeagueId >= 0 && clubsByLeague.TryGetValue(oldLeagueId, out var oldClubs))
+                if (oldLeagueId >= 0 && clubsByLeagueLookup.TryGetValue(oldLeagueId, out var oldClubs))
                 {
                     oldClubs.Remove(SwitchedWithClub);
                 }
 
-                if (!clubsByLeague.TryGetValue(comp.Id, out var newClubs))
+                if (!clubsByLeagueLookup.TryGetValue(comp.Id, out var newClubs))
                 {
                     newClubs = [];
-                    clubsByLeague[comp.Id] = newClubs;
+                    clubsByLeagueLookup[comp.Id] = newClubs;
                 }
                 newClubs.Add(SwitchedWithClub);
 
@@ -332,11 +352,11 @@ namespace FMEViewer.ViewModels
                 SwitchedWithClub.LeagueId = league1;
 
                 // Update index
-                if (league1 >= 0 && clubsByLeague.TryGetValue((short)league1, out var clubs1))
+                if (league1 >= 0 && clubsByLeagueLookup.TryGetValue((short)league1, out var clubs1))
                 {
                     clubs1.Remove(club1);
                 }
-                if (league2 >= 0 && clubsByLeague.TryGetValue((short)league2, out var clubs2))
+                if (league2 >= 0 && clubsByLeagueLookup.TryGetValue((short)league2, out var clubs2))
                 {
                     clubs2.Remove(club2);
                     clubs2.Add(club1);
@@ -344,10 +364,10 @@ namespace FMEViewer.ViewModels
 
                 if (league1 >= 0)
                 {
-                    if (!clubsByLeague.TryGetValue((short)league1, out var newClubs1))
+                    if (!clubsByLeagueLookup.TryGetValue((short)league1, out var newClubs1))
                     {
                         newClubs1 = [];
-                        clubsByLeague[league1] = newClubs1;
+                        clubsByLeagueLookup[league1] = newClubs1;
                     }
                     newClubs1.Add(club2);
                 }
