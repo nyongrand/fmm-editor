@@ -6,7 +6,7 @@
     public class Club
     {
         /// <summary>
-        /// Gets or sets the club identifier.
+        /// Gets or sets the club index.
         /// </summary>
         public int Id { get; set; }
 
@@ -21,9 +21,9 @@
         public string FullName { get; set; }
 
         /// <summary>
-        /// Gets or sets an unknown byte value.
+        /// FullName terminator
         /// </summary>
-        public byte Unknown0 { get; set; }
+        public byte Terminator1 { get; set; }
 
         /// <summary>
         /// Gets or sets the short name of the club.
@@ -31,9 +31,9 @@
         public string ShortName { get; set; }
 
         /// <summary>
-        /// Gets or sets an unknown byte value.
+        /// ShortName terminator
         /// </summary>
-        public byte Unknown1 { get; set; }
+        public byte Terminator2 { get; set; }
 
         /// <summary>
         /// Gets or sets the first code name of the club.
@@ -67,6 +67,11 @@
 
         /// <summary>
         /// Gets or sets the club's status.
+        /// 0 - National
+        /// 1 - Professional
+        /// 2 - Semi Pro
+        /// 3 - Amateur
+        /// 22 - Unknown
         /// </summary>
         public byte Status { get; set; }
 
@@ -106,12 +111,12 @@
         public short LeagueId { get; set; }
 
         /// <summary>
-        /// Gets or sets an unknown short value.
+        /// Always 0xFF
         /// </summary>
         public short Unknown2 { get; set; }
 
         /// <summary>
-        /// Gets or sets an unknown byte value.
+        /// Mostly 0x00, with 1 team being 0x0A
         /// </summary>
         public byte Unknown3 { get; set; }
 
@@ -221,9 +226,9 @@
             Uid = reader.ReadInt32();
 
             FullName = reader.ReadStringEx();
-            Unknown0 = reader.ReadByte();
+            Terminator1 = reader.ReadByte();
             ShortName = reader.ReadStringEx();
-            Unknown1 = reader.ReadByte();
+            Terminator2 = reader.ReadByte();
             CodeName1 = reader.ReadStringEx();
             CodeName2 = reader.ReadStringEx();
 
@@ -319,9 +324,9 @@
             writer.Write(Uid);
 
             writer.WriteEx(FullName);
-            writer.Write(Unknown0);
+            writer.Write(Terminator1);
             writer.WriteEx(ShortName);
-            writer.Write(Unknown1);
+            writer.Write(Terminator2);
             writer.WriteEx(CodeName1);
             writer.WriteEx(CodeName2);
 
