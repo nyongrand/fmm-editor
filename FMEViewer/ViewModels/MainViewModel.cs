@@ -214,8 +214,8 @@ namespace FMEViewer.ViewModels
                     UpdateFilteredSwitchs();
                 });
 
-            this.WhenAnyValue(vm => vm.ShowMoveDialog, vm => vm.ShowSwitchDialog)
-                .Select(pair => pair.Item1 || pair.Item2)
+            this.WhenAnyValue(vm => vm.ShowMoveDialog, vm => vm.ShowSwitchDialog, vm => vm.SelectedClub)
+                .Select(x => (x.Item1 || x.Item2) && x.Item3 != null)
                 .Subscribe(x => ShowDialog = x);
 
             this.WhenAnyValue(vm => vm.SearchQuery)
