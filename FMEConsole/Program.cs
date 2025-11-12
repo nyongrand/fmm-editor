@@ -2,11 +2,11 @@
 using System.Text.RegularExpressions;
 
 //await ApplyChangesTxt();
-//await SwitchNationClubsWithTopContinentClubsAsync(131, 3, 3); // Belgium
-//await SwitchNationClubsWithTopContinentClubsAsync(150, 0, 3); // Italy
-await SwitchNationClubsWithTopContinentClubsAsync(162, 5); // England
-await SwitchNationClubsWithTopContinentClubsAsync(139, 1); // Portugal
-//await SwitchNationClubsWithTopContinentClubsAsync(170, 2); // Spain
+await SwitchNationClubsWithTopContinentClubsAsync(131, 3); // Belgium
+await SwitchNationClubsWithTopContinentClubsAsync(150, 0); // Italy
+await SwitchNationClubsWithTopContinentClubsAsync(162, 5); // Portugal
+await SwitchNationClubsWithTopContinentClubsAsync(139, 1); // England
+await SwitchNationClubsWithTopContinentClubsAsync(170, 2); // Spain
 //await VerifyDatFileAsync();
 
 static async Task VerifyDatFileAsync()
@@ -61,12 +61,12 @@ static async Task ApplyChangesTxt()
     }
 }
 
-// 0 - CAF
-// 1 - AFC
-// 2 - UEFA
-// 3 - CONCACAF
-// 4 - OFC
-// 5 - CONMEBOL
+//0 - CAF
+//1 - AFC
+//2 - UEFA
+//3 - CONCACAF
+//4 - OFC
+//5 - CONMEBOL
 static async Task SwitchNationClubsWithTopContinentClubsAsync(int nationId, int continentId)
 {
     var nationParser = await NationParser.Load("C:\\Users\\nyong\\Data\\fm26\\superliga\\nation.dat");
@@ -78,16 +78,17 @@ static async Task SwitchNationClubsWithTopContinentClubsAsync(int nationId, int 
         .Select(x => x.Id)
         .ToHashSet();
 
-    // Filter top continent clubs
+    // Filter top continent clubs - limit to maximum 10 per nation
     var topClubs = clubParser.Items
         .Where(x => x.IsWomanFlag == 0)
         .Where(x => x.MainClub == -1)
         .Where(x => x.IsNational == 0)
-        .Where(x => x.LeagueId != -1)
         .Where(x => uefaNationIds.Contains(x.NationId))
-        //.GroupBy(x => x.NationId)
-        //.SelectMany(g => g.OrderByDescending(x => x.Reputation).Take(10))
+        .GroupBy(x => x.NationId)
+        .OrderByDescending(g => g.Max(c => c.Reputation))
+        .SelectMany((g, i) => g.OrderByDescending(c => c.Reputation).Take(7 - (i / 5)))
         .OrderByDescending(x => x.Reputation)
+        .Take(100)
         .ToList();
 
     // national clubs
@@ -105,7 +106,7 @@ static async Task SwitchNationClubsWithTopContinentClubsAsync(int nationId, int 
         return;
     }
 
-    // Take same count from top UEFA list
+    // Take same count from top continent list (already capped per nation)
     var pairCount = Math.Min(nationalClubs.Count, topClubs.Count);
 
     Console.WriteLine($"Switching {pairCount} clubs with top clubs...");
@@ -142,15 +143,15 @@ static async Task SwitchNationClubsWithTopContinentClubsAsync(int nationId, int 
 //var clubs = compParser.Items;
 
 //var q = from comp in compParser.Items
-//        join club in clubParser.Items on comp.Id equals club.League into grouping
-//        select new { Competition = comp, Clubs = grouping.ToList() };
+// join club in clubParser.Items on comp.Id equals club.League into grouping
+// select new { Competition = comp, Clubs = grouping.ToList() };
 
 //Console.WriteLine(""));
 
 //while (true)
 //{
-//    var name = Console.ReadLine();
-//    if (string.IsNullOrEmpty(name))
-//        break;
+// var name = Console.ReadLine();
+// if (string.IsNullOrEmpty(name))
+// break;
 //}
 

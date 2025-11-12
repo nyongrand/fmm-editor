@@ -60,8 +60,8 @@
                     var item = new Nation(reader);
                     parser.Items.Add(item);
 
-                    // Debug output
-                    Console.WriteLine($"#{item.Id:D3} : #{item.Uid} : {item.Name}");
+                    //// Debug output
+                    //Console.WriteLine($"#{item.Id:D3}: {item.Name}");
                 }
             });
 
