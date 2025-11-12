@@ -2,9 +2,9 @@
 using System.Text.RegularExpressions;
 
 //await ApplyChangesTxt();
-await SwitchNationClubsWithTopContinentClubsAsync(131, 5); // Belgium
-await SwitchNationClubsWithTopContinentClubsAsync(150, 0); // England
-await SwitchNationClubsWithTopContinentClubsAsync(162, 3); // Italy
+//await SwitchNationClubsWithTopContinentClubsAsync(131, 3, 3); // Belgium
+//await SwitchNationClubsWithTopContinentClubsAsync(150, 0, 3); // Italy
+await SwitchNationClubsWithTopContinentClubsAsync(162, 5); // England
 await SwitchNationClubsWithTopContinentClubsAsync(139, 1); // Portugal
 //await SwitchNationClubsWithTopContinentClubsAsync(170, 2); // Spain
 //await VerifyDatFileAsync();
@@ -69,27 +69,28 @@ static async Task ApplyChangesTxt()
 // 5 - CONMEBOL
 static async Task SwitchNationClubsWithTopContinentClubsAsync(int nationId, int continentId)
 {
-    var competitionParser = await CompetitionParser.Load("C:\\Users\\SIRS\\Documents\\fm26\\db_archive_2603\\competition.dat");
-    var nationParser = await NationParser.Load("C:\\Users\\SIRS\\Documents\\fm26\\db_archive_2603\\nation.dat");
-    var clubParser = await ClubParser.Load("C:\\Users\\SIRS\\Documents\\fm26\\db_archive_2603\\club.dat");
+    var nationParser = await NationParser.Load("C:\\Users\\nyong\\Data\\fm26\\superliga\\nation.dat");
+    var clubParser = await ClubParser.Load("C:\\Users\\nyong\\Data\\fm26\\superliga\\club.dat");
 
-    // UEFA continent id =2
+    // Nations in a continent
     var uefaNationIds = nationParser.Items
         .Where(x => x.ContinentId == continentId)
         .Select(x => x.Id)
         .ToHashSet();
 
-    // Filter top UEFA clubs (excluding reserve/B teams, national teams, and Swedish clubs itself for pairing)
+    // Filter top continent clubs
     var topClubs = clubParser.Items
         .Where(x => x.IsWomanFlag == 0)
         .Where(x => x.MainClub == -1)
         .Where(x => x.IsNational == 0)
         .Where(x => x.LeagueId != -1)
         .Where(x => uefaNationIds.Contains(x.NationId))
+        //.GroupBy(x => x.NationId)
+        //.SelectMany(g => g.OrderByDescending(x => x.Reputation).Take(10))
         .OrderByDescending(x => x.Reputation)
         .ToList();
 
-    // Swedish clubs
+    // national clubs
     var nationalClubs = clubParser.Items
         .Where(x => x.IsWomanFlag == 0)
         .Where(x => x.IsNational == 0)
@@ -111,8 +112,8 @@ static async Task SwitchNationClubsWithTopContinentClubsAsync(int nationId, int 
 
     for (int i = 0; i < pairCount; i++)
     {
-        var national = nationalClubs[i];
-        var european = topClubs[i];
+        var european = clubParser.Items.First(x => x.Uid == topClubs[i].Uid);
+        var national = clubParser.Items.First(x => x.Uid == nationalClubs[i].Uid);
 
         // Swap BasedId and LeagueId as per earlier intent
         var tmpBased = national.BasedId;
@@ -128,7 +129,7 @@ static async Task SwitchNationClubsWithTopContinentClubsAsync(int nationId, int 
     }
 
     // Save to new file to preserve original
-    var outputPath = "C:\\Users\\SIRS\\Documents\\fm26\\club.dat";
+    var outputPath = "C:\\Users\\nyong\\Data\\fm26\\superliga\\club.dat";
     await clubParser.Save(outputPath);
     Console.WriteLine($"Saved switched club data to: {outputPath}");
 }
@@ -144,7 +145,7 @@ static async Task SwitchNationClubsWithTopContinentClubsAsync(int nationId, int 
 //        join club in clubParser.Items on comp.Id equals club.League into grouping
 //        select new { Competition = comp, Clubs = grouping.ToList() };
 
-//Console.WriteLine("");
+//Console.WriteLine(""));
 
 //while (true)
 //{
