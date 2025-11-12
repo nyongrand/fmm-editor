@@ -61,7 +61,7 @@
                     parser.Items.Add(item);
 
                     // Debug output
-                    Console.WriteLine($"Loaded Nation: {item.Name}");
+                    //Console.WriteLine($"#{item.Id:D3} : #{item.Uid} : {item.Name}");
                 }
             });
 

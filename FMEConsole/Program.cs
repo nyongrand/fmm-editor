@@ -1,5 +1,139 @@
 ﻿using FMELibrary;
+using System.Text.RegularExpressions;
 
+//await ApplyChangesTxt();
+await SwitchNationClubsWithTopContinentClubsAsync(139, 5);
+await SwitchNationClubsWithTopContinentClubsAsync(150, 3);
+await SwitchNationClubsWithTopContinentClubsAsync(162, 0);
+await SwitchNationClubsWithTopContinentClubsAsync(171, 1);
+//await SwitchNationClubsWithTopContinentClubsAsync(170, 2);
+//await VerifyDatFileAsync();
+
+static async Task VerifyDatFileAsync()
+{
+    var file = "../../../db/db_archive_2603/club.dat";
+    var parser = await ClubParser.Load(file);
+
+    var match = parser.Count == parser.Items.Count;
+    var bytes1 = parser.ToBytes();
+    var bytes2 = await File.ReadAllBytesAsync(file);
+
+    for (int i = 0; i < bytes2.Length; i++)
+    {
+        if (bytes1[i] != bytes2[i])
+        {
+            // difference handling placeholder
+        }
+    }
+
+    var equal = bytes1.SequenceEqual(bytes2);
+    var count = parser.Count;
+}
+
+static async Task ApplyChangesTxt()
+{
+    var clubParser = await ClubParser.Load("C:\\Users\\SIRS\\Documents\\fm26\\db_archive_2603\\club.dat");
+
+    var replacementMap = new Dictionary<string, string>();
+    var lines = File.ReadLinesAsync("C:\\Users\\SIRS\\Documents\\fm26\\changes.txt");
+    await foreach (var line in lines)
+    {
+        // Extract quoted strings
+        var matches = Regex.Matches(line, "\"([^\"]*)\"");
+        if (matches.Count == 0) continue;
+
+        //"CLUB" "Current Name" "" "New Name" "New Short Name" "" ""
+
+        string header = matches[0].Groups[1].Value;
+        if (header == "CLUB")
+        {
+            var clubName = matches[1].Groups[1].Value;
+            var newClubName = matches[3].Groups[1].Value;
+            var newShortName = matches[4].Groups[1].Value;
+        }
+
+        var values = new List<string>();
+
+        for (int i = 1; i < matches.Count; i++)
+        {
+            values.Add(matches[i].Groups[1].Value);
+        }
+    }
+}
+
+// 0 - CAF
+// 1 - AFC
+// 2 - UEFA
+// 3 - CONCACAF
+// 4 - OFC
+// 5 - CONMEBOL
+static async Task SwitchNationClubsWithTopContinentClubsAsync(int nationId, int continentId)
+{
+    var nationParser = await NationParser.Load("C:\\Users\\SIRS\\Documents\\fm26\\db_archive_2603\\nation.dat");
+    var clubParser = await ClubParser.Load("C:\\Users\\SIRS\\Documents\\fm26\\club.dat");
+
+    // UEFA continent id =2
+    var uefaNationIds = nationParser.Items
+        .Where(x => x.ContinentId == continentId)
+        .Select(x => x.Id)
+        .ToHashSet();
+
+    // Filter top UEFA clubs (excluding reserve/B teams, national teams, and Swedish clubs itself for pairing)
+    var topClubs = clubParser.Items
+        .Where(x => x.IsWomanFlag == 0)
+        .Where(x => x.MainClub == -1)
+        .Where(x => x.IsNational == 0)
+        .Where(x => x.LeagueId != -1)
+        .Where(x => uefaNationIds.Contains(x.NationId))
+        .OrderByDescending(x => x.Reputation)
+        .ToList();
+
+    // Swedish clubs
+    var nationalClubs = clubParser.Items
+        .Where(x => x.IsWomanFlag == 0)
+        .Where(x => x.MainClub == -1)
+        .Where(x => x.IsNational == 0)
+        .Where(x => x.LeagueId != -1)
+        .Where(x => x.NationId == nationId)
+        .OrderByDescending(x => x.Reputation)
+        .ToList();
+
+    if (nationalClubs.Count == 0 || topClubs.Count == 0)
+    {
+        Console.WriteLine("No clubs found to switch.");
+        return;
+    }
+
+    // Take same count from top UEFA list
+    var pairCount = Math.Min(nationalClubs.Count, topClubs.Count);
+
+    Console.WriteLine($"Switching {pairCount} clubs with top clubs...");
+
+    for (int i = 0; i < pairCount; i++)
+    {
+        var national = nationalClubs[i];
+        var european = topClubs[i];
+
+        // Swap BasedId and LeagueId as per earlier intent
+        var tmpBased = national.BasedId;
+        var tmpLeague = national.LeagueId;
+
+        national.BasedId = european.BasedId;
+        national.LeagueId = european.LeagueId;
+
+        european.BasedId = tmpBased;
+        european.LeagueId = tmpLeague;
+
+        Console.WriteLine($"Switched: {national.FullName} <-> {european.FullName}");
+    }
+
+    // Save to new file to preserve original
+    var outputPath = "C:\\Users\\SIRS\\Documents\\fm26\\club.dat";
+    await clubParser.Save(outputPath);
+    Console.WriteLine($"Saved switched club data to: {outputPath}");
+}
+
+// Existing commented exploratory code retained below
 //var compParser = new CompetitionParser("D:\\Downloads\\database\\competition.dat");
 //var clubParser = new ClubParser("D:\\Downloads\\database\\club.dat");
 
@@ -12,47 +146,10 @@
 
 //Console.WriteLine("");
 
-var file = "../../../db/db_archive_2603/club.dat";
-var parser = await ClubParser.Load(file);
-
-var match = parser.Count == parser.Items.Count;
-var bytes1 = parser.ToBytes();
-var bytes2 = await File.ReadAllBytesAsync(file);
-
-for (int i = 0; i < bytes2.Length; i++)
-{
-    if (bytes1[i] != bytes2[i])
-    {
-
-    }
-}
-
-var equal = bytes1.SequenceEqual(bytes2);
-var count = parser.Count;
-
 //while (true)
 //{
-//    //Console.WriteLine("Enter new name to add!");
-
 //    var name = Console.ReadLine();
 //    if (string.IsNullOrEmpty(name))
 //        break;
-
-//    //var bytes = new List<byte> { 0, 0, 0, 0 };
-//    bytes.AddRange(new byte[] { 0x00, 0x00, 0x00, 0x00 });
-//    bytes.AddRange(BitConverter.GetBytes(count++));
-//    bytes.AddRange(new byte[] { 0x00, 0x71, 0x00, 0x00 });
-//    bytes.AddRange(new byte[] { 0x00, 0x02, 0x00, 0xff });
-//    bytes.AddRange(BitConverter.GetBytes(name.Length));
-//    bytes.AddRange(Encoding.UTF8.GetBytes(name));
-
-//    //hex += BitConverter.ToString(bytes.ToArray()).Replace("-", " ") + " ";
-//    //var hex = BitConverter.ToString(bytes.ToArray()).Replace("-", " ");
-//    //Console.WriteLine(hex);
-
-//    //var h = "            ^^                                  ^^          ";
-//    //Console.WriteLine(h.PadRight(hex.Length, '^'));
 //}
-
-//await File.WriteAllBytesAsync(file.Replace(".dat", "_new.dat"), bytes.ToArray());
 

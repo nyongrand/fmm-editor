@@ -101,7 +101,7 @@
         public short AttMax { get; set; }
 
         /// <summary>
-        /// Gets or sets the reserves status.
+        /// Gets or sets the reserves team count.
         /// </summary>
         public byte Reserves { get; set; }
 
@@ -111,7 +111,7 @@
         public short LeagueId { get; set; }
 
         /// <summary>
-        /// Always 0xFF
+        /// Always 0xFFFF
         /// </summary>
         public short Unknown2 { get; set; }
 
