@@ -574,7 +574,7 @@
 
                         <DataGrid.Columns>
 
-                            <!--<DataGridTextColumn
+                            <DataGridTextColumn
                                 Width="65"
                                 MinWidth="65"
                                 MaxWidth="65"
@@ -588,7 +588,7 @@
                                         <Setter Property="HorizontalContentAlignment" Value="Center" />
                                     </Style>
                                 </DataGridTextColumn.HeaderStyle>
-                            </DataGridTextColumn>-->
+                            </DataGridTextColumn>
 
                             <DataGridTextColumn
                                 Width="100"
@@ -606,12 +606,27 @@
                             </DataGridTextColumn>
 
                             <DataGridTextColumn
+                                Width="65"
+                                MinWidth="65"
+                                MaxWidth="65"
+                                Binding="{Binding Level}"
+                                CanUserReorder="False"
+                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                Header="Level"
+                                IsReadOnly="True">
+                                <DataGridTextColumn.HeaderStyle>
+                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                    </Style>
+                                </DataGridTextColumn.HeaderStyle>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn
                                 Width="*"
                                 Binding="{Binding FullName}"
                                 CanUserReorder="False"
                                 ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
-                                Header="Competition Name"
-                                IsReadOnly="True" />
+                                Header="Competition Name" />
 
                             <!--<DataGridTextColumn
                                 Width="*"
