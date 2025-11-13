@@ -2,11 +2,11 @@
 using System.Text.RegularExpressions;
 
 //await ApplyChangesTxt();
-await SwitchNationClubsWithTopContinentClubsAsync(131, 3); // Belgium
-await SwitchNationClubsWithTopContinentClubsAsync(150, 0); // Italy
-await SwitchNationClubsWithTopContinentClubsAsync(162, 5); // Portugal
-await SwitchNationClubsWithTopContinentClubsAsync(139, 1); // England
-await SwitchNationClubsWithTopContinentClubsAsync(170, 2); // Spain
+await SwitchNationClubsWithTopContinentClubsAsync(131, 3, 61); // Belgium
+await SwitchNationClubsWithTopContinentClubsAsync(150, 0, 100); // Italy
+await SwitchNationClubsWithTopContinentClubsAsync(162, 5, 112); // Portugal
+await SwitchNationClubsWithTopContinentClubsAsync(139, 1, 164); // England
+await SwitchNationClubsWithTopContinentClubsAsync(170, 2, 172); // Spain
 //await VerifyDatFileAsync();
 
 static async Task VerifyDatFileAsync()
@@ -67,7 +67,7 @@ static async Task ApplyChangesTxt()
 //3 - CONCACAF
 //4 - OFC
 //5 - CONMEBOL
-static async Task SwitchNationClubsWithTopContinentClubsAsync(int nationId, int continentId)
+static async Task SwitchNationClubsWithTopContinentClubsAsync(int nationId, int continentId, int max)
 {
     var nationParser = await NationParser.Load("C:\\Users\\nyong\\Data\\fm26\\superliga\\nation.dat");
     var clubParser = await ClubParser.Load("C:\\Users\\nyong\\Data\\fm26\\superliga\\club.dat");
@@ -88,7 +88,7 @@ static async Task SwitchNationClubsWithTopContinentClubsAsync(int nationId, int 
         .OrderByDescending(g => g.Max(c => c.Reputation))
         .SelectMany((g, i) => g.OrderByDescending(c => c.Reputation).Take(7 - (i / 5)))
         .OrderByDescending(x => x.Reputation)
-        .Take(100)
+        .Take(max)
         .ToList();
 
     // national clubs
