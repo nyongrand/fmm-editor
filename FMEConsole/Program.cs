@@ -2,11 +2,11 @@
 using System.Text.RegularExpressions;
 
 //await ApplyChangesTxt();
-await SwitchNationClubsWithTopContinentClubsAsync(131, 3, 61); // Belgium
-await SwitchNationClubsWithTopContinentClubsAsync(150, 0, 100); // Italy
-await SwitchNationClubsWithTopContinentClubsAsync(162, 5, 112); // Portugal
-await SwitchNationClubsWithTopContinentClubsAsync(139, 1, 164); // England
-await SwitchNationClubsWithTopContinentClubsAsync(170, 2, 172); // Spain
+await SwitchNationClubsWithTopContinentClubsAsync(131 /* Belg */, 61, (int)Confederation.CONMEBOL);
+await SwitchNationClubsWithTopContinentClubsAsync(150 /* Ita */, 100, (int)Confederation.CAF);
+await SwitchNationClubsWithTopContinentClubsAsync(162 /* Por */, 112, (int)Confederation.CONCACAF);
+await SwitchNationClubsWithTopContinentClubsAsync(139 /* Eng */, 164, (int)Confederation.AFC);
+await SwitchNationClubsWithTopContinentClubsAsync(170 /* Spa */, 172, (int)Confederation.UEFA);
 //await VerifyDatFileAsync();
 
 static async Task VerifyDatFileAsync()
@@ -61,20 +61,14 @@ static async Task ApplyChangesTxt()
     }
 }
 
-//0 - CAF
-//1 - AFC
-//2 - UEFA
-//3 - CONCACAF
-//4 - OFC
-//5 - CONMEBOL
-static async Task SwitchNationClubsWithTopContinentClubsAsync(int nationId, int continentId, int max)
+static async Task SwitchNationClubsWithTopContinentClubsAsync(int nationId, int max, params int[] continentId)
 {
-    var nationParser = await NationParser.Load("C:\\Users\\nyong\\Data\\fm26\\superliga\\nation.dat");
-    var clubParser = await ClubParser.Load("C:\\Users\\nyong\\Data\\fm26\\superliga\\club.dat");
+    var nationParser = await NationParser.Load("C:\\Users\\SIRS\\Documents\\fm26\\db_archive_2603\\nation.dat");
+    var clubParser = await ClubParser.Load("C:\\Users\\SIRS\\Documents\\fm26\\db_archive_2603\\club.dat");
 
     // Nations in a continent
     var uefaNationIds = nationParser.Items
-        .Where(x => x.ContinentId == continentId)
+        .Where(x => continentId.Contains(x.ContinentId))
         .Select(x => x.Id)
         .ToHashSet();
 
@@ -86,7 +80,7 @@ static async Task SwitchNationClubsWithTopContinentClubsAsync(int nationId, int 
         .Where(x => uefaNationIds.Contains(x.NationId))
         .GroupBy(x => x.NationId)
         .OrderByDescending(g => g.Max(c => c.Reputation))
-        .SelectMany((g, i) => g.OrderByDescending(c => c.Reputation).Take(7 - (i / 5)))
+        .SelectMany((g, i) => g.OrderByDescending(c => c.Reputation).Take(7 - Math.Min(i / 7, 6)))
         .OrderByDescending(x => x.Reputation)
         .Take(max)
         .ToList();
@@ -96,7 +90,7 @@ static async Task SwitchNationClubsWithTopContinentClubsAsync(int nationId, int 
         .Where(x => x.IsWomanFlag == 0)
         .Where(x => x.IsNational == 0)
         .Where(x => x.LeagueId != -1)
-        .Where(x => x.NationId == nationId)
+        .Where(x => x.BasedId == nationId)
         .OrderByDescending(x => x.Reputation)
         .ToList();
 
@@ -130,7 +124,7 @@ static async Task SwitchNationClubsWithTopContinentClubsAsync(int nationId, int 
     }
 
     // Save to new file to preserve original
-    var outputPath = "C:\\Users\\nyong\\Data\\fm26\\superliga\\club.dat";
+    var outputPath = "C:\\Users\\SIRS\\Documents\\fm26\\db_archive_2603\\club.dat";
     await clubParser.Save(outputPath);
     Console.WriteLine($"Saved switched club data to: {outputPath}");
 }
@@ -155,3 +149,12 @@ static async Task SwitchNationClubsWithTopContinentClubsAsync(int nationId, int 
 // break;
 //}
 
+enum Confederation
+{
+    CAF = 0,
+    AFC = 1,
+    UEFA = 2,
+    CONCACAF = 3,
+    OFC = 4,
+    CONMEBOL = 5
+}

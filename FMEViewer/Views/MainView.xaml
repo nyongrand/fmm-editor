@@ -761,6 +761,21 @@
                             <DataGridTextColumn
                                 Width="105"
                                 MinWidth="105"
+                                Binding="{Binding Based}"
+                                CanUserReorder="False"
+                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                Header="Based"
+                                IsReadOnly="True">
+                                <DataGridTextColumn.HeaderStyle>
+                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                    </Style>
+                                </DataGridTextColumn.HeaderStyle>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn
+                                Width="105"
+                                MinWidth="105"
                                 MaxWidth="105"
                                 Binding="{Binding Reputation}"
                                 CanUserReorder="False"
