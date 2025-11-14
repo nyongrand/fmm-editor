@@ -1,4 +1,6 @@
-﻿namespace FMELibrary
+﻿using System;
+
+namespace FMELibrary
 {
     /// <summary>
     /// Represents a nation with all its properties and attributes.
@@ -48,7 +50,7 @@
         /// <summary>
         /// Gets or sets the capital city identifier.
         /// </summary>
-        public short CityId { get; set; }
+        public short CapitalId { get; set; }
 
         /// <summary>
         /// Gets or sets the main stadium identifier.
@@ -56,9 +58,12 @@
         public short StadiumId { get; set; }
 
         /// <summary>
-        /// Gets or sets an unknown integer value.
+        /// The state of development of the nation.
+        /// 1 - Developed
+        /// 2 - Developing
+        /// 3 - Third World
         /// </summary>
-        public int Unknown1 { get; set; }
+        public int StateOfDevelopment { get; set; }
 
         /// <summary>
         /// Gets or sets an unknown short value.
@@ -78,7 +83,7 @@
         /// <summary>
         /// Gets or sets whether the nation is active in the game (1 = active, 0 = inactive).
         /// </summary>
-        public bool IsActive { get; set; }
+        public bool HasManTeam { get; set; }
 
         /// <summary>
         /// Gets or sets the first national color (nullable, only if IsActive is 1).
@@ -143,7 +148,7 @@
         /// <summary>
         /// Gets or sets whether the nation has a second coefficient set (1 = has coefficients, 0 = no coefficients).
         /// </summary>
-        public bool HasCoefficient2 { get; set; }
+        public bool HasWomanTeam { get; set; }
 
         /// <summary>
         /// Gets or sets unknown data (16 bytes, only if HasCoefficient2 is 1).
@@ -186,10 +191,10 @@
             CodeName = reader.ReadStringEx();
 
             ContinentId = reader.ReadInt16();
-            CityId = reader.ReadInt16();
+            CapitalId = reader.ReadInt16();
             StadiumId = reader.ReadInt16();
 
-            Unknown1 = reader.ReadInt32();
+            StateOfDevelopment = reader.ReadInt32();
             Unknown2 = reader.ReadInt16();
             Unknown3 = reader.ReadByte();
 
@@ -197,8 +202,8 @@
             for (int i = 0; i < Languages.Length; i++)
                 Languages[i] = (reader.ReadInt16(), reader.ReadByte());
 
-            IsActive = reader.ReadBoolean();
-            if (IsActive)
+            HasManTeam = reader.ReadBoolean();
+            if (HasManTeam)
             {
                 Color1 = reader.ReadInt16();
                 Unknown5 = reader.ReadInt32();
@@ -221,8 +226,8 @@
                 Unknown10 = reader.ReadBytes(11);
             }
 
-            HasCoefficient2 = reader.ReadBoolean();
-            if (HasCoefficient2)
+            HasWomanTeam = reader.ReadBoolean();
+            if (HasWomanTeam)
             {
                 Unknown11 = reader.ReadBytes(16);
                 Unknown12 = reader.ReadByte();
@@ -264,10 +269,10 @@
             writer.WriteEx(CodeName);
 
             writer.WriteEx(ContinentId);
-            writer.WriteEx(CityId);
+            writer.WriteEx(CapitalId);
             writer.WriteEx(StadiumId);
 
-            writer.WriteEx(Unknown1);
+            writer.WriteEx(StateOfDevelopment);
             writer.WriteEx(Unknown2);
             writer.WriteEx(Unknown3);
 
@@ -278,9 +283,9 @@
                 writer.WriteEx(Languages[i].Item2);
             }
 
-            writer.WriteEx(IsActive);
+            writer.WriteEx(HasManTeam);
 
-            if (IsActive)
+            if (HasManTeam)
             {
                 writer.WriteEx(Color1);
                 writer.WriteEx(Unknown5);
@@ -304,8 +309,8 @@
                 writer.WriteEx(Unknown10);
             }
 
-            writer.WriteEx(HasCoefficient2);
-            if (HasCoefficient2)
+            writer.WriteEx(HasWomanTeam);
+            if (HasWomanTeam)
             {
                 writer.WriteEx(Unknown11);
                 writer.WriteEx(Unknown12);

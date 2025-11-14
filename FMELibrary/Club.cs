@@ -113,12 +113,12 @@
         /// <summary>
         /// Always 0xFFFF
         /// </summary>
-        public short Unknown2 { get; set; }
+        public short OtherDivision { get; set; }
 
         /// <summary>
         /// Mostly 0x00, with 1 team being 0x0A
         /// </summary>
-        public byte Unknown3 { get; set; }
+        public byte OtherLastPosition { get; set; }
 
         /// <summary>
         /// Gets or sets the stadium identifier.
@@ -256,8 +256,8 @@
             Reserves = reader.ReadByte();
             LeagueId = reader.ReadInt16();
 
-            Unknown2 = reader.ReadInt16();
-            Unknown3 = reader.ReadByte();
+            OtherDivision = reader.ReadInt16();
+            OtherLastPosition = reader.ReadByte();
             Stadium = reader.ReadInt16();
             LastLeague = reader.ReadInt16();
 
@@ -266,9 +266,6 @@
                 Unknown4 = reader.ReadBytes(68);
             else
                 Unknown4 = [];
-
-            //            Unknown5 = new byte[reader.ReadInt32()];
-            //            Unknown5 = reader.ReadBytes(Unknown5.Length);
 
             Unknown5 = reader.ReadBytes(reader.ReadInt32());
 
@@ -299,6 +296,7 @@
 
             Unknown8 = reader.ReadBytes(33);
             Unknown9 = reader.ReadBytes(40);
+
             IsWomanFlag = reader.ReadInt16();
         }
 
@@ -348,8 +346,8 @@
             writer.Write(Reserves);
             writer.Write(LeagueId);
 
-            writer.Write(Unknown2);
-            writer.Write(Unknown3);
+            writer.Write(OtherDivision);
+            writer.Write(OtherLastPosition);
             writer.Write(Stadium);
             writer.Write(LastLeague);
 
