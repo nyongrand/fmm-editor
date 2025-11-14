@@ -48,7 +48,7 @@ namespace FMELibrary
         public short ContinentId { get; set; }
 
         /// <summary>
-        /// Gets or sets the capital city identifier.
+        /// Capital city identifier.
         /// </summary>
         public short CapitalId { get; set; }
 
@@ -78,7 +78,7 @@ namespace FMELibrary
         /// <summary>
         /// Gets or sets the array of languages spoken in the nation (language ID and proficiency level).
         /// </summary>
-        public (short, byte)[] Languages { get; set; }
+        public (short Id, byte Proficiency)[] Languages { get; set; }
 
         /// <summary>
         /// Gets or sets whether the nation is active in the game (1 = active, 0 = inactive).
@@ -198,7 +198,7 @@ namespace FMELibrary
             Unknown2 = reader.ReadInt16();
             Unknown3 = reader.ReadByte();
 
-            Languages = new (short, byte)[reader.ReadByte()];
+            Languages = new (short Id, byte Proficiency)[reader.ReadByte()];
             for (int i = 0; i < Languages.Length; i++)
                 Languages[i] = (reader.ReadInt16(), reader.ReadByte());
 
@@ -279,8 +279,8 @@ namespace FMELibrary
             writer.WriteEx((byte)Languages.Length);
             for (int i = 0; i < Languages.Length; i++)
             {
-                writer.WriteEx(Languages[i].Item1);
-                writer.WriteEx(Languages[i].Item2);
+                writer.WriteEx(Languages[i].Id);
+                writer.WriteEx(Languages[i].Proficiency);
             }
 
             writer.WriteEx(HasManTeam);
