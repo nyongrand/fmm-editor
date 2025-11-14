@@ -567,7 +567,7 @@
                         IsSynchronizedWithCurrentItem="True"
                         ItemsSource="{Binding Comps}"
                         RowHeight="33"
-                        ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                        ScrollViewer.HorizontalScrollBarVisibility="Auto"
                         SelectedItem="{Binding SelectedCompetition}"
                         SelectionMode="Single"
                         Visibility="{Binding IsDatabaseLoaded, Converter={StaticResource Visibility}, ConverterParameter=Boolean}">
@@ -582,21 +582,6 @@
                                 CanUserReorder="False"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Id"
-                                IsReadOnly="True">
-                                <DataGridTextColumn.HeaderStyle>
-                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
-                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                    </Style>
-                                </DataGridTextColumn.HeaderStyle>
-                            </DataGridTextColumn>
-
-                            <DataGridTextColumn
-                                Width="100"
-                                MinWidth="100"
-                                Binding="{Binding Nation}"
-                                CanUserReorder="False"
-                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
-                                Header="Nation"
                                 IsReadOnly="True">
                                 <DataGridTextColumn.HeaderStyle>
                                     <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
@@ -622,7 +607,23 @@
                             </DataGridTextColumn>
 
                             <DataGridTextColumn
-                                Width="*"
+                                Width="100"
+                                MinWidth="100"
+                                Binding="{Binding Nation}"
+                                CanUserReorder="False"
+                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                Header="Nation"
+                                IsReadOnly="True">
+                                <DataGridTextColumn.HeaderStyle>
+                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                    </Style>
+                                </DataGridTextColumn.HeaderStyle>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn
+                                Width="400"
+                                MinWidth="400"
                                 Binding="{Binding FullName}"
                                 CanUserReorder="False"
                                 ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
@@ -664,7 +665,7 @@
                         LoadingRow="DataGrid_LoadingRow"
                         RowHeaderWidth="40"
                         RowHeight="33"
-                        ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                        ScrollViewer.HorizontalScrollBarVisibility="Auto"
                         SelectedItem="{Binding SelectedClub}"
                         SelectionMode="Single"
                         SelectionUnit="FullRow"
@@ -758,7 +759,7 @@
                                 </DataGridTextColumn.HeaderStyle>
                             </DataGridTextColumn>
 
-                            <DataGridTextColumn
+                            <!--<DataGridTextColumn
                                 Width="105"
                                 MinWidth="105"
                                 Binding="{Binding Based}"
@@ -771,7 +772,7 @@
                                         <Setter Property="HorizontalContentAlignment" Value="Center" />
                                     </Style>
                                 </DataGridTextColumn.HeaderStyle>
-                            </DataGridTextColumn>
+                            </DataGridTextColumn>-->
 
                             <DataGridTextColumn
                                 Width="105"
@@ -819,18 +820,32 @@
                             </DataGridTextColumn>
 
                             <DataGridTextColumn
-                                Width="2*"
+                                Width="280"
+                                Binding="{Binding FullName}"
+                                CanUserReorder="False"
+                                ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                                Header="Full Name" />
+
+                            <DataGridTextColumn
+                                Width="110"
                                 Binding="{Binding ShortName}"
                                 CanUserReorder="False"
                                 ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
                                 Header="Short Name" />
 
                             <DataGridTextColumn
-                                Width="3*"
-                                Binding="{Binding FullName}"
+                                Width="110"
+                                Binding="{Binding CodeName1}"
                                 CanUserReorder="False"
                                 ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
-                                Header="Full Name" />
+                                Header="Code Name 1" />
+
+                            <DataGridTextColumn
+                                Width="110"
+                                Binding="{Binding CodeName2}"
+                                CanUserReorder="False"
+                                ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                                Header="Code Name 2" />
 
                         </DataGrid.Columns>
                     </DataGrid>
