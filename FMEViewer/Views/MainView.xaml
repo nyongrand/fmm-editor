@@ -40,6 +40,11 @@
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="Padding" Value="0" />
         </Style>
+
+        <!--  Light pink background for women competitions  -->
+        <!--
+        <SolidColorBrush x:Key="MenCompetitionRowBrush" Color="#99E3F2FD" />
+        <SolidColorBrush x:Key="WomenCompetitionRowBrush" Color="#99FCE4EC" />-->
     </Window.Resources>
 
     <Grid>
@@ -571,6 +576,19 @@
                         SelectedItem="{Binding SelectedCompetition}"
                         SelectionMode="Single"
                         Visibility="{Binding IsDatabaseLoaded, Converter={StaticResource Visibility}, ConverterParameter=Boolean}">
+
+                        <!--<DataGrid.RowStyle>
+                            <Style TargetType="DataGridRow" BasedOn="{StaticResource MaterialDesignDataGridRow}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsWomen}" Value="True">
+                                        <Setter Property="Background" Value="{StaticResource WomenCompetitionRowBrush}" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsWomen}" Value="False">
+                                        <Setter Property="Background" Value="{StaticResource MenCompetitionRowBrush}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGrid.RowStyle>-->
 
                         <DataGrid.Columns>
 

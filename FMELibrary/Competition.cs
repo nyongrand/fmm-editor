@@ -123,7 +123,7 @@
         /// <summary>
         /// Gets or sets an unknown byte value.
         /// </summary>
-        public byte IsWomen { get; set; }
+        public bool IsWomen { get; set; }
 
         #region Extra
 
@@ -172,7 +172,7 @@
             Year3 = reader.ReadInt16();
 
             Unknown3 = reader.ReadByte();
-            IsWomen = reader.ReadByte();
+            IsWomen = reader.ReadBoolean();
         }
 
         /// <summary>
