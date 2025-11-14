@@ -178,7 +178,14 @@ namespace FMEViewer.ViewModels
                             x.Nation = GetNationName(pair.Item2?.Items, x.NationId);
                         });
 
-                        Comps.AddRange(competitions);
+                        Comps.AddRange(
+                            competitions
+                                .OrderByDescending(x => x.NationId != -1)
+                                .ThenBy(x => x.IsWomen)
+                                .ThenBy(x => x.Nation)
+                                .ThenBy(x => x.Level)
+                                .ThenBy(x => x.Id)
+                        );
                     }
                 });
 
