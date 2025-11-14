@@ -565,7 +565,7 @@
                         FontSize="12.5"
                         GridLinesVisibility="All"
                         IsSynchronizedWithCurrentItem="True"
-                        ItemsSource="{Binding Comps}"
+                        ItemsSource="{Binding Competitions}"
                         RowHeight="33"
                         ScrollViewer.HorizontalScrollBarVisibility="Auto"
                         SelectedItem="{Binding SelectedCompetition}"

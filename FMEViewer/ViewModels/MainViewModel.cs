@@ -58,7 +58,7 @@ namespace FMEViewer.ViewModels
         /// <summary>
         /// All competitions loaded from competition.dat
         /// </summary>
-        public ObservableCollection<Competition> Comps { get; }
+        public ObservableCollection<Competition> Competitions { get; }
 
         /// <summary>
         /// All clubs loaded from club.dat
@@ -97,8 +97,8 @@ namespace FMEViewer.ViewModels
 
             Nations = [];
 
-            Comps = [];
-            compsView = CollectionViewSource.GetDefaultView(Comps);
+            Competitions = [];
+            compsView = CollectionViewSource.GetDefaultView(Competitions);
             compsView.Filter = obj =>
             {
                 if (obj is Competition competition)
@@ -168,7 +168,7 @@ namespace FMEViewer.ViewModels
             this.WhenAnyValue(vm => vm.CompParser, vm => vm.NationParser)
                 .Subscribe(pair =>
                 {
-                    Comps.Clear();
+                    Competitions.Clear();
 
                     var competitions = pair.Item1?.Items;
                     if (competitions != null)
@@ -178,7 +178,7 @@ namespace FMEViewer.ViewModels
                             x.Nation = GetNationName(pair.Item2?.Items, x.NationId);
                         });
 
-                        Comps.AddRange(
+                        Competitions.AddRange(
                             competitions
                                 .OrderByDescending(x => x.NationId != -1)
                                 .ThenBy(x => x.IsWomen)
@@ -261,7 +261,7 @@ namespace FMEViewer.ViewModels
                     .Where(c => c.NationId == FilterSwitchNation.Id && c.LeagueId != SelectedCompetition.Id)
                     .Select(c =>
                     {
-                        c.Competition = GetCompetitionName(Comps, c.LeagueId);
+                        c.Competition = GetCompetitionName(Competitions, c.LeagueId);
                         return c;
                     })
                     .OrderByDescending(c => c.Reputation)
@@ -398,8 +398,8 @@ namespace FMEViewer.ViewModels
             {
                 if (CompParser != null && ClubParser != null)
                 {
-                    CompParser.Count = (short)Comps.Count;
-                    CompParser.Items = [.. Comps];
+                    CompParser.Count = (short)Competitions.Count;
+                    CompParser.Items = [.. Competitions];
                     await CompParser.Save();
 
                     ClubParser.Count = Clubs.Count;
@@ -426,8 +426,8 @@ namespace FMEViewer.ViewModels
             {
                 if (CompParser != null && ClubParser != null)
                 {
-                    CompParser.Count = (short)Comps.Count;
-                    CompParser.Items = [.. Comps];
+                    CompParser.Count = (short)Competitions.Count;
+                    CompParser.Items = [.. Competitions];
                     await CompParser.Save(settings.SelectedPath + "\\competition.dat");
 
                     ClubParser.Count = Clubs.Count;
