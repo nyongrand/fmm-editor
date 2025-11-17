@@ -23,7 +23,7 @@
         /// <summary>
         /// FullName terminator
         /// </summary>
-        public byte Terminator1 { get; set; }
+        public byte FullNameTerminator { get; set; }
 
         /// <summary>
         /// Gets or sets the short name of the club.
@@ -33,20 +33,20 @@
         /// <summary>
         /// ShortName terminator
         /// </summary>
-        public byte Terminator2 { get; set; }
+        public byte ShortNameTerminator { get; set; }
 
         /// <summary>
         /// Gets or sets the first code name of the club.
         /// </summary>
-        public string CodeName1 { get; set; }
+        public string SixLetterName { get; set; }
 
         /// <summary>
         /// Gets or sets the second code name of the club.
         /// </summary>
-        public string CodeName2 { get; set; }
+        public string ThreeLetterName { get; set; }
 
         /// <summary>
-        /// Gets or sets the identifier of the city where the club is based.
+        /// Gets or sets the identifier of the nation where the club is based.
         /// </summary>
         public short BasedId { get; set; }
 
@@ -226,11 +226,11 @@
             Uid = reader.ReadInt32();
 
             FullName = reader.ReadStringEx();
-            Terminator1 = reader.ReadByte();
+            FullNameTerminator = reader.ReadByte();
             ShortName = reader.ReadStringEx();
-            Terminator2 = reader.ReadByte();
-            CodeName1 = reader.ReadStringEx();
-            CodeName2 = reader.ReadStringEx();
+            ShortNameTerminator = reader.ReadByte();
+            SixLetterName = reader.ReadStringEx();
+            ThreeLetterName = reader.ReadStringEx();
 
             BasedId = reader.ReadInt16();
             NationId = reader.ReadInt16();
@@ -322,11 +322,11 @@
             writer.Write(Uid);
 
             writer.WriteEx(FullName);
-            writer.Write(Terminator1);
+            writer.Write(FullNameTerminator);
             writer.WriteEx(ShortName);
-            writer.Write(Terminator2);
-            writer.WriteEx(CodeName1);
-            writer.WriteEx(CodeName2);
+            writer.Write(ShortNameTerminator);
+            writer.WriteEx(SixLetterName);
+            writer.WriteEx(ThreeLetterName);
 
             writer.Write(BasedId);
             writer.Write(NationId);
