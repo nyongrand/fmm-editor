@@ -1,4 +1,6 @@
-﻿namespace FMELibrary
+﻿using System.Drawing;
+
+namespace FMELibrary
 {
     /// <summary>
     /// Represents a football competition (league, cup, etc.) with all its properties.
@@ -11,37 +13,52 @@
         public short Id { get; set; }
 
         /// <summary>
-        /// Gets or sets the unique identifier for the competition.
+        /// Unique identifier for the competition.
         /// </summary>
         public int Uid { get; set; }
 
         /// <summary>
-        /// Gets or sets the full name of the competition.
+        /// The full name of the competition.
         /// </summary>
         public string FullName { get; set; }
 
         /// <summary>
-        /// Gets or sets an unknown byte value.
+        /// Full name terminator byte.
         /// </summary>
-        public byte Unknown1 { get; set; }
+        public byte FullNameTerminator { get; set; }
 
         /// <summary>
-        /// Gets or sets the short name of the competition.
+        /// The abbreviated, short name of the competition.
         /// </summary>
         public string ShortName { get; set; }
 
         /// <summary>
-        /// Gets or sets an unknown byte value.
+        /// Short name terminator byte.
         /// </summary>
-        public byte Unknown2 { get; set; }
+        public byte ShortNameTerminator { get; set; }
 
         /// <summary>
-        /// Gets or sets the code name of the competition.
+        /// A three-letter identification mark for the competition for use in small spaces.
         /// </summary>
         public string CodeName { get; set; }
 
         /// <summary>
-        /// Gets or sets the type of competition.
+        /// Gets or sets the type of competition.<br/>
+        /// Domestic Top Division<br/>
+        /// Domestic Division
+        /// Domestic Main Cup
+        /// Domestic League Cup
+        /// Domesttic Cup
+        /// Super Cup
+        /// Reserve Division
+        /// U23 Division
+        /// U22 Division
+        /// U21 Division
+        /// U20 Division
+        /// U19 Division
+        /// U18 Division
+        /// Reserve Cup
+        /// 
         /// </summary>
         public byte Type { get; set; }
 
@@ -56,17 +73,17 @@
         public short NationId { get; set; }
 
         /// <summary>
-        /// Gets or sets the first color value.
+        /// The primary text color of the competition's title bar.
         /// </summary>
-        public short Color1 { get; set; }
+        public Color ForegroundColor { get; set; }
 
         /// <summary>
-        /// Gets or sets the second color value.
+        /// The primary background color of the competition's title bar.
         /// </summary>
-        public short Color2 { get; set; }
+        public Color BackgroundColor { get; set; }
 
         /// <summary>
-        /// Gets or sets the competition's reputation.
+        /// Competition's reputation, 0-200 scale.
         /// </summary>
         public short Reputation { get; set; }
 
@@ -76,9 +93,9 @@
         public byte Level { get; set; }
 
         /// <summary>
-        /// Gets or sets the main competition identifier.
+        /// Indicates the parent competition identifier, -1 if none.
         /// </summary>
-        public short MainComp { get; set; }
+        public short ParentCompetitionId { get; set; }
 
         /// <summary>
         /// Gets or sets the array of qualifier data (8 bytes each).
@@ -121,7 +138,7 @@
         public byte Unknown3 { get; set; }
 
         /// <summary>
-        /// Gets or sets an unknown byte value.
+        /// Player gender
         /// </summary>
         public bool IsWomen { get; set; }
 
@@ -144,19 +161,19 @@
             Uid = reader.ReadInt32();
 
             FullName = reader.ReadStringEx();
-            Unknown1 = reader.ReadByte();
+            FullNameTerminator = reader.ReadByte();
             ShortName = reader.ReadStringEx();
-            Unknown2 = reader.ReadByte();
+            ShortNameTerminator = reader.ReadByte();
             CodeName = reader.ReadStringEx();
 
             Type = reader.ReadByte();
             ContinentId = reader.ReadInt16();
             NationId = reader.ReadInt16();
-            Color1 = reader.ReadInt16();
-            Color2 = reader.ReadInt16();
+            ForegroundColor = reader.ReadColor();
+            BackgroundColor = reader.ReadColor();
             Reputation = reader.ReadInt16();
             Level = reader.ReadByte();
-            MainComp = reader.ReadInt16();
+            ParentCompetitionId = reader.ReadInt16();
 
             Qualifiers = new byte[reader.ReadInt32()][];
             for (int i = 0; i < Qualifiers.Length; i++)
@@ -197,19 +214,19 @@
             writer.WriteEx(Uid);
 
             writer.WriteEx(FullName);
-            writer.WriteEx(Unknown1);
+            writer.WriteEx(FullNameTerminator);
             writer.WriteEx(ShortName);
-            writer.WriteEx(Unknown2);
+            writer.WriteEx(ShortNameTerminator);
             writer.WriteEx(CodeName);
 
             writer.WriteEx(Type);
             writer.WriteEx(ContinentId);
             writer.WriteEx(NationId);
-            writer.WriteEx(Color1);
-            writer.WriteEx(Color2);
+            writer.WriteEx(ForegroundColor);
+            writer.WriteEx(BackgroundColor);
             writer.WriteEx(Reputation);
             writer.WriteEx(Level);
-            writer.WriteEx(MainComp);
+            writer.WriteEx(ParentCompetitionId);
 
             writer.WriteEx(Qualifiers.Length);
             for (int i = 0; i < Qualifiers.Length; i++)
