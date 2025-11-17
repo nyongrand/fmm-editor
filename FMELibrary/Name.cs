@@ -1,55 +1,59 @@
-﻿using System.Text;
-
-namespace FMELibrary
+﻿namespace FMELibrary
 {
-    /// <summary>
-    /// Represents a name entry with associated metadata.
-    /// </summary>
     public class Name
     {
         /// <summary>
-        /// Gets or sets the identifier for this name entry.
+        /// Alwat 0x00000000
         /// </summary>
+        public int Unknown1 { get; set; }
+
         public int Id { get; set; }
 
         /// <summary>
-        /// Gets or sets the nation identifier (stored as hexadecimal string).
+        /// Indicates the gender associated with the first name.<br/>
+        /// Possible values:<br/>
+        /// 0 - Male<br/>
+        /// 1 - Female<br/>
         /// </summary>
-        public string Nation { get; set; } = string.Empty;
+        public byte Gender { get; set; }
 
         /// <summary>
-        /// Gets or sets other associated data (stored as hexadecimal string).
+        /// Probably Country of origin
         /// </summary>
-        public string Others { get; set; } = string.Empty;
+        public int Unknown3 { get; set; }
+
+        public short Unknown4 { get; set; }
 
         /// <summary>
-        /// Gets or sets the actual name value.
+        /// Possible values:<br/>
+        /// 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 255<br/>
         /// </summary>
-        public string Value { get; set; } = string.Empty;
+        public byte Unknown5 { get; set; }
 
-        /// <summary>
-        /// Returns a string representation of the name entry.
-        /// </summary>
-        /// <returns>A string containing the ID and name value.</returns>
-        public override string ToString()
+        public string Value { get; set; }
+
+        public Name(BinaryReader reader)
         {
-            return $"{Id} {Value}";
+            Unknown1 = reader.ReadInt32();
+            Id = reader.ReadInt32();
+            Gender = reader.ReadByte();
+            Unknown3 = reader.ReadInt32();
+            Unknown4 = reader.ReadInt16();
+            Unknown5 = reader.ReadByte();
+            Value = reader.ReadStringEx();
         }
 
-        /// <summary>
-        /// Converts the name entry to a byte array for serialization.
-        /// </summary>
-        /// <returns>A byte array representing the serialized name data.</returns>
-        public byte[] ToBytes()
+        public void Write(BinaryWriter writer)
         {
-            var name = Encoding.UTF8.GetBytes(Value);
-            var bytes = new List<byte> { 0x00, 0x00, 0x00, 0x00 };
-            bytes.AddRange(BitConverter.GetBytes(Id));
-            bytes.AddRange(Convert.FromHexString(Nation));
-            bytes.AddRange(Convert.FromHexString(Others));
-            bytes.AddRange(BitConverter.GetBytes(name.Length));
-            bytes.AddRange(name);
-            return bytes.ToArray();
+            writer.WriteEx(Unknown1);
+            writer.WriteEx(Id);
+            writer.WriteEx(Gender);
+            writer.WriteEx(Unknown3);
+            writer.WriteEx(Unknown4);
+            writer.WriteEx(Unknown5);
+            writer.WriteEx(Value);
         }
+
+        public override string ToString() => Value;
     }
 }

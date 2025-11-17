@@ -1,119 +1,101 @@
-﻿using System.Text;
-
-namespace FMELibrary
+﻿namespace FMELibrary
 {
     /// <summary>
-    /// Parses and manages name data from binary files.
+    /// Parses and manages nation data from binary files.
     /// </summary>
     public class NameParser
     {
         /// <summary>
-        /// Gets or sets the file path of the source data.
+        /// File path
         /// </summary>
         public string FilePath { get; set; }
 
         /// <summary>
-        /// Gets or sets the total count of name entries.
+        /// File header, 8 bytes
         /// </summary>
-        public int Count { get; set; }
+        public byte[] Header { get; set; }
 
         /// <summary>
-        /// Gets or sets the file header (8 bytes).
+        /// Original item count when loading the file.
         /// </summary>
-        public byte[] Header { get; set; } = [];
+        public int OriginalCount { get; set; }
 
         /// <summary>
-        /// Gets or sets the list of name entries. Throws an exception if accessed before Parse() is called.
+        /// List of all items
         /// </summary>
-        /// <exception cref="InvalidOperationException">Thrown when accessed before Parse() is called.</exception>
-        public List<Name> Names
+        public List<Name> Items { get; set; }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NationParser"/> class.
+        /// </summary>
+        /// <param name="path">The file path of the source data.</param>
+        /// <param name="reader">The binary reader containing the nation data.</param>
+        private NameParser(string path, BinaryReader reader)
         {
-            get
-            {
-                if (names == null)
-                    throw new InvalidOperationException("Parse() is not called");
-
-                return names;
-            }
-
-            set => names = value;
-        }
-
-        private List<Name>? names = null;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="NameParser"/> class.
-        /// </summary>
-        /// <param name="file">The file path to parse.</param>
-        public NameParser(string file)
-        {
-            FilePath = file;
+            FilePath = path;
+            Header = reader.ReadBytes(8);
+            OriginalCount = reader.ReadInt32();
+            Items = [];
         }
 
         /// <summary>
-        /// Asynchronously parses the name data from the file.
+        /// Asynchronously loads nation data from the specified file path.
         /// </summary>
-        /// <returns>A task that represents the asynchronous operation. The task result contains the list of parsed names.</returns>
-        public async Task<List<Name>> Parse()
+        /// <param name="path">The file path to load nation data from.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains the loaded <see cref="NameParser"/> instance.</returns>
+        public static async Task<NameParser> Load(string path)
         {
-            byte[] bytes = await File.ReadAllBytesAsync(FilePath);
+            using var fs = File.OpenRead(path);
+            using var ms = new MemoryStream();
+            fs.CopyTo(ms);
+            ms.Position = 0;
 
-            Header = bytes.Take(8).ToArray();
-            Count = ConvertToInt(bytes, 8);
-            Names = new List<Name>();
+            using var reader = new BinaryReader(ms);
+            var parser = new NameParser(path, reader);
 
-            for (int i = 12; i < bytes.Length; i++)
+            await Task.Run(() =>
             {
-                Name name = new()
+                while (ms.Position < ms.Length)
                 {
-                    Id = ConvertToInt(bytes, i + 4),
-                    Nation = Convert.ToHexString(bytes.Skip(i + 8).Take(4).ToArray()),
-                    Others = Convert.ToHexString(bytes.Skip(i + 12).Take(4).ToArray()),
-                };
+                    var item = new Name(reader);
+                    parser.Items.Add(item);
 
-                var length = ConvertToInt(bytes, i + 16);
-                name.Value = Encoding.UTF8
-                    .GetString(bytes.Skip(i + 20)
-                    .Take(length)
-                    .ToArray());
+                    //// Debug output
+                    //Console.WriteLine($"#{item.Id:D3}: {item.Name}");
+                }
+            });
 
-                Names.Add(name);
-
-                i += 19 + length;
-                if (Names.Count == Count) break;
-            }
-
-            return Names;
+            return parser;
         }
 
         /// <summary>
-        /// Asynchronously saves the name data to a file.
+        /// Converts the nation data to a byte array for serialization.
+        /// </summary>
+        /// <returns>A byte array representing the serialized nation data.</returns>
+        public byte[] ToBytes()
+        {
+            using var stream = new MemoryStream();
+            using var writer = new BinaryWriter(stream);
+
+            writer.Write(Header);
+            writer.Write((short)Items.Count);
+            foreach (var item in Items)
+            {
+                item.Write(writer);
+            }
+
+            return stream.ToArray();
+        }
+
+        /// <summary>
+        /// Save data back to file path
         /// </summary>
         /// <param name="filepath">Optional file path. If null, saves to the original file path.</param>
         /// <returns>A task that represents the asynchronous save operation.</returns>
         public async Task Save(string? filepath = null)
         {
-            List<byte> bytes = new(Header);
-            bytes.AddRange(BitConverter.GetBytes(Names.Count));
-
-            foreach (var name in Names)
-            {
-                bytes.AddRange(name.ToBytes());
-            }
-
-            await File.WriteAllBytesAsync(filepath ?? FilePath, bytes.ToArray());
-        }
-
-        /// <summary>
-        /// Converts a byte array segment to a 32-bit integer.
-        /// </summary>
-        /// <param name="bytes">The source byte array.</param>
-        /// <param name="start">The starting index in the byte array.</param>
-        /// <param name="size">The number of bytes to convert (default is 4).</param>
-        /// <returns>A 32-bit integer value.</returns>
-        private static int ConvertToInt(byte[] bytes, int start, int size = 4)
-        {
-            return BitConverter.ToInt32(bytes.Skip(start).Take(size).ToArray());
+            var bytes = ToBytes();
+            await File.WriteAllBytesAsync(filepath ?? FilePath, bytes);
         }
     }
 }

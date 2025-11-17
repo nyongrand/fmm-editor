@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace FMELibrary
+﻿namespace FMELibrary
 {
     /// <summary>
     /// Represents a nation with all its properties and attributes.
