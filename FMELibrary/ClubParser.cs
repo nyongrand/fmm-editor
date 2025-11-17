@@ -16,9 +16,9 @@
         public byte[] Header { get; set; }
 
         /// <summary>
-        /// Item count
+        /// Original item count when loading the file.
         /// </summary>
-        public int Count { get; set; }
+        public int OriginalCount { get; set; }
 
         /// <summary>
         /// List of all items
@@ -34,7 +34,7 @@
         {
             FilePath = path;
             Header = reader.ReadBytes(8);
-            Count = reader.ReadInt32();
+            OriginalCount = reader.ReadInt32();
             Items = [];
         }
 
