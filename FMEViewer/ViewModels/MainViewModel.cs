@@ -398,11 +398,11 @@ namespace FMEViewer.ViewModels
             {
                 if (CompParser != null && ClubParser != null)
                 {
-                    CompParser.Count = (short)Competitions.Count;
+                    CompParser.OriginalCount = (short)Competitions.Count;
                     CompParser.Items = [.. Competitions];
                     await CompParser.Save();
 
-                    ClubParser.Count = Clubs.Count;
+                    ClubParser.OriginalCount = Clubs.Count;
                     ClubParser.Items = [.. Clubs];
                     await ClubParser.Save();
 
@@ -426,11 +426,11 @@ namespace FMEViewer.ViewModels
             {
                 if (CompParser != null && ClubParser != null)
                 {
-                    CompParser.Count = (short)Competitions.Count;
+                    CompParser.OriginalCount = (short)Competitions.Count;
                     CompParser.Items = [.. Competitions];
                     await CompParser.Save(settings.SelectedPath + "\\competition.dat");
 
-                    ClubParser.Count = Clubs.Count;
+                    ClubParser.OriginalCount = Clubs.Count;
                     ClubParser.Items = [.. Clubs];
                     await ClubParser.Save(settings.SelectedPath + "\\club.dat");
 

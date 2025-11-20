@@ -3,7 +3,7 @@
     public class Name
     {
         /// <summary>
-        /// Alwat 0x00000000
+        /// Always 0x00000000
         /// </summary>
         public int Unknown1 { get; set; }
 

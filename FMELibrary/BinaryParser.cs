@@ -36,6 +36,16 @@ namespace FMELibrary
             return Color.FromArgb(red << 3, green << 3, blue << 3);
         }
 
+        public static DateOnly ReadDate(this BinaryReader reader)
+        {
+            int dayOfYear = reader.ReadInt16();
+            int year = reader.ReadInt16();
+            if (dayOfYear == -1 || year == -1)
+                return DateOnly.MinValue;
+
+            return new DateOnly(year, 1, 1).AddDays(dayOfYear);
+        }
+
         /// <summary>
         /// Writes various data types to the binary writer with automatic type detection and appropriate serialization.
         /// </summary>
