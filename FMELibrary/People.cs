@@ -186,10 +186,10 @@
             writer.WriteEx(FirstNameId);
             writer.WriteEx(LastNameId);
             writer.WriteEx(CommonNameId);
-
             writer.WriteEx(DateOfBirth);
+
             writer.WriteEx(NationId);
-            writer.WriteEx(OtherNationalityCount);
+            writer.WriteEx(OtherNationalities.Count);
             foreach (var nat in OtherNationalities)
                 writer.WriteEx(nat);
 
@@ -197,22 +197,28 @@
             writer.WriteEx(Unknown3);
             writer.WriteEx(Type);
             writer.WriteEx(UnknownDate);
+
             writer.WriteEx(NationalCaps);
             writer.WriteEx(NationalGoal);
             writer.WriteEx(NationalU21Caps);
             writer.WriteEx(NationalU21Goals);
+
             writer.WriteEx(Unknown10);
             writer.WriteEx(RecentCall);
+
             writer.WriteEx(Unknown12);
             writer.WriteEx(Unknown13);
             writer.WriteEx(Unknown14);
+
             if (Type == 1 && !_specialIds.Contains(Uid))
                 writer.WriteEx(Unknown15);
+
             writer.WriteEx(Unknown15a);
             writer.WriteEx(Unknown15b);
             writer.WriteEx(Unknown15c);
             writer.WriteEx(Unknown15d);
             writer.WriteEx(Unknown15e);
+
             writer.WriteEx(Unknown16);
             writer.WriteEx(Unknown17);
             if (Unknown17 != 0) // Only exists for Type != 1
@@ -225,19 +231,22 @@
                 if (Type != 1)
                     writer.WriteEx(Unknown18);
             }
-            writer.WriteEx(MainLanguageCount);
+
+            writer.WriteEx(MainLanguages.Length);
             foreach (var lang in MainLanguages)
             {
                 writer.WriteEx(lang.Id);
                 writer.WriteEx(lang.Proficiency);
             }
-            writer.WriteEx(OtherLanguageCount);
+
+            writer.WriteEx(OtherLanguages.Length);
             foreach (var lang in OtherLanguages)
             {
                 writer.WriteEx(lang.Id);
                 writer.WriteEx(lang.Proficiency);
             }
-            writer.WriteEx(Unknown20Count);
+
+            writer.WriteEx(Unknown20.Length);
             foreach (var unk in Unknown20)
                 writer.WriteEx(unk);
         }
