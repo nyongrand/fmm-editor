@@ -59,34 +59,54 @@ namespace FMELibrary
                 case bool b:
                     writer.Write(b);
                     break;
+
                 case byte b:
                     writer.Write(b);
                     break;
+
                 case short s:
                     writer.Write(s);
                     break;
+
                 case int i:
                     writer.Write(i);
                     break;
+
+                case long l:
+                    writer.Write(l);
+                    break;
+
                 case float f:
                     writer.Write(f);
                     break;
+
                 case byte[] b:
                     writer.Write(b);
                     break;
+
                 case string s:
                     var bytes = Encoding.UTF8.GetBytes(s);
                     writer.Write(bytes.Length);
                     writer.Write(bytes);
                     break;
+
                 case Color c:
                     int red = c.R >> 3;
                     int green = c.G >> 3;
                     int blue = c.B >> 3;
                     writer.Write((short)((red << 10) | (green << 5) | blue));
                     break;
+
+                case DateOnly d:
+                    int dayOfYear = d == DateOnly.MinValue ? -1 : d.DayOfYear;
+                    int year = d == DateOnly.MinValue ? -1 : d.Year;
+                    writer.Write((short)dayOfYear);
+                    writer.Write((short)year);
+                    break;
+
                 case null:
                     break;
+
                 default:
                     throw new InvalidOperationException($"Unsupported type: {value?.GetType().FullName}");
             }
