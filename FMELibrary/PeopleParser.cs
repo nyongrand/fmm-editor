@@ -69,6 +69,9 @@ namespace FMELibrary
                     var item = new People(reader, fparser.Items, lparser.Items);
                     parser.Items.Add(item);
 
+                    if (item.Uid == 956666)
+                        break;
+
                     //// Debug output
                     //Console.WriteLine($"#{item.Id:D3}: {item.Name}");
                 }

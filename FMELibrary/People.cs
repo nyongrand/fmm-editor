@@ -169,10 +169,77 @@
             }
         }
 
+        public byte[] ToBytes()
+        {
+            using var stream = new MemoryStream();
+            using var writer = new BinaryWriter(stream);
+            Write(writer);
+            return stream.ToArray();
+        }
+
         public void Write(BinaryWriter writer)
         {
-            writer.Write(Unknown1);
+            writer.WriteEx(Unknown1);
+            writer.WriteEx(Id);
+            writer.WriteEx(Uid);
 
+            writer.WriteEx(FirstNameId);
+            writer.WriteEx(LastNameId);
+            writer.WriteEx(CommonNameId);
+
+            writer.WriteEx(DateOfBirth);
+            writer.WriteEx(NationId);
+            writer.WriteEx(OtherNationalityCount);
+            foreach (var nat in OtherNationalities)
+                writer.WriteEx(nat);
+
+            writer.WriteEx(Ethnicity);
+            writer.WriteEx(Unknown3);
+            writer.WriteEx(Type);
+            writer.WriteEx(UnknownDate);
+            writer.WriteEx(NationalCaps);
+            writer.WriteEx(NationalGoal);
+            writer.WriteEx(NationalU21Caps);
+            writer.WriteEx(NationalU21Goals);
+            writer.WriteEx(Unknown10);
+            writer.WriteEx(RecentCall);
+            writer.WriteEx(Unknown12);
+            writer.WriteEx(Unknown13);
+            writer.WriteEx(Unknown14);
+            if (Type == 1 && !_specialIds.Contains(Uid))
+                writer.WriteEx(Unknown15);
+            writer.WriteEx(Unknown15a);
+            writer.WriteEx(Unknown15b);
+            writer.WriteEx(Unknown15c);
+            writer.WriteEx(Unknown15d);
+            writer.WriteEx(Unknown15e);
+            writer.WriteEx(Unknown16);
+            writer.WriteEx(Unknown17);
+            if (Unknown17 != 0) // Only exists for Type != 1
+            {
+                writer.WriteEx(Unknown18);
+                writer.WriteEx(Unknown19);
+            }
+            else
+            {
+                if (Type != 1)
+                    writer.WriteEx(Unknown18);
+            }
+            writer.WriteEx(MainLanguageCount);
+            foreach (var lang in MainLanguages)
+            {
+                writer.WriteEx(lang.Id);
+                writer.WriteEx(lang.Proficiency);
+            }
+            writer.WriteEx(OtherLanguageCount);
+            foreach (var lang in OtherLanguages)
+            {
+                writer.WriteEx(lang.Id);
+                writer.WriteEx(lang.Proficiency);
+            }
+            writer.WriteEx(Unknown20Count);
+            foreach (var unk in Unknown20)
+                writer.WriteEx(unk);
         }
     }
 }
