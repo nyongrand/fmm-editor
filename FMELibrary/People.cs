@@ -35,7 +35,7 @@
 
         public short NationalCaps { get; set; }
 
-        public short NationalGoal { get; set; }
+        public short NationalGoals { get; set; }
 
         public byte NationalU21Caps { get; set; }
         public byte NationalU21Goals { get; set; }
@@ -114,7 +114,7 @@
             UnknownDate = reader.ReadInt32();
 
             NationalCaps = reader.ReadInt16();
-            NationalGoal = reader.ReadInt16();
+            NationalGoals = reader.ReadInt16();
             NationalU21Caps = reader.ReadByte();
             NationalU21Goals = reader.ReadByte();
 
@@ -199,7 +199,7 @@
             writer.WriteEx(UnknownDate);
 
             writer.WriteEx(NationalCaps);
-            writer.WriteEx(NationalGoal);
+            writer.WriteEx(NationalGoals);
             writer.WriteEx(NationalU21Caps);
             writer.WriteEx(NationalU21Goals);
 
