@@ -15,7 +15,7 @@
 
         public int CommonNameId { get; set; }
 
-        public DateOnly DateOfBirth { get; set; }
+        public int DateOfBirth { get; set; }
 
         public short NationId { get; set; }
 
@@ -29,7 +29,7 @@
 
         public byte Type { get; set; }
 
-        public DateOnly UnknownDate { get; set; }
+        public int UnknownDate { get; set; }
 
         public short NationalCaps { get; set; }
 
@@ -41,7 +41,7 @@
 
         public int Unknown2 { get; set; }
 
-        public DateOnly RecentCall { get; set; }
+        public int RecentCall { get; set; }
 
         public short Unknown3 { get; set; }
 
@@ -84,7 +84,7 @@
             FirstNameId = reader.ReadInt32();
             LastNameId = reader.ReadInt32();
             CommonNameId = reader.ReadInt32();
-            DateOfBirth = reader.ReadDate();
+            DateOfBirth = reader.ReadInt32();
 
             NationId = reader.ReadInt16();
             OtherNationalityCount = reader.ReadInt16();
@@ -95,7 +95,7 @@
             Ethnicity = reader.ReadByte();
             Unknown1 = reader.ReadInt32();
             Type = reader.ReadByte();
-            UnknownDate = reader.ReadDate();
+            UnknownDate = reader.ReadInt32();
 
             NationalCaps = reader.ReadInt16();
             NationalGoals = reader.ReadInt16();
@@ -103,7 +103,7 @@
             NationalU21Goals = reader.ReadByte();
 
             Unknown2 = reader.ReadInt32();
-            RecentCall = reader.ReadDate();
+            RecentCall = reader.ReadInt32();
 
             Unknown3 = reader.ReadInt16();
             Unknown4 = reader.ReadInt32();
