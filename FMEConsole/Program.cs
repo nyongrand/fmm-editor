@@ -30,29 +30,63 @@ static async Task VerifyDatFileAsync()
     var file = "../../../db/db_archive_2603/people.dat";
     var parser = await PeopleParser.Load(file);
 
-    var g4 = parser.Items.GroupBy(x => x.Ethnicity).ToList();
-    var g5 = parser.Items.GroupBy(x => x.Unknown3).ToList();
+    var nparser = await NationParser.Load("../../../db/db_archive_2603/nation.dat");
+    var fparser = await NameParser.Load("../../../db/db_archive_2603/first_names.dat");
+    var lparser = await NameParser.Load("../../../db/db_archive_2603/second_names.dat");
 
-    var str = "../../../db/db_archive_2603/eng.lng";
-    var strParser = await ResourceParser.Load(str);
-    var cities = strParser.Regions.OrderBy(x => x.Name).ToList();
+    var query = from p in parser.Items
+                join n in nparser.Items on p.NationId equals n.Id
+                join f in fparser.Items on p.FirstNameId equals f.Id
+                join l in lparser.Items on p.LastNameId equals l.Id
+                select new
+                {
+                    FirstName = f.Value,
+                    LastName = l.Value,
+                    Nation = n.Name,
+                    People = p,
+                    Ethnicity = p.Ethnicity switch
+                    {
+                        0 => "Northen European",
+                        1 => "Mediteranian/Hispanic",
+                        2 => "North African/Middle Eastern",
+                        3 => "African/Caribean",
+                        4 => "Asian",
+                        5 => "South East Asian",
+                        6 => "Pacific Islander",
+                        7 => "Native American",
+                        8 => "Native Australian",
+                        9 => "Mixed Race",
+                        10 => "East Asian",
+                        _ => "Unknown"
+                    }
+                };
 
-    var j = from c in parser.Items
-            join s in strParser.Regions on c.Id equals s.Uid
-            select new 
-            {
-                City = c, 
-                Str = s 
-            };
+    var peoples = query.ToArray();
 
-    var g = parser.Items.GroupBy(x => x.Unknown3).ToList();
+    //var indonesian = peoples.Where(x => x.People.NationId != 58 && (x.People.OtherNationalityCount > 0 && x.People.OtherNationalities[0] == 58)).ToList();
+    //var g4 = peoples.GroupBy(x => x.Ethnicity).ToList();
+    var g5 = peoples.GroupBy(x => x.People.UnknownDate).ToList();
+
+    //var str = "../../../db/db_archive_2603/eng.lng";
+    //var strParser = await ResourceParser.Load(str);
+    //var cities = strParser.Regions.OrderBy(x => x.Name).ToList();
+
+    //var j = from c in parser.Items
+    //        join s in strParser.Regions on c.Id equals s.Uid
+    //        select new 
+    //        {
+    //            City = c, 
+    //            Str = s 
+    //        };
 
     var bytes1 = parser.ToBytes();
     var bytes2 = await File.ReadAllBytesAsync(file);
 
     for (int i = 0; i < bytes2.Length; i++)
     {
-        if (bytes1[i] != bytes2[i])
+        var byte1 = bytes1[i];
+        var byte2 = bytes2[i];
+        if (byte1 != byte2)
         {
             // difference handling placeholder
         }
