@@ -80,11 +80,6 @@
         private string? _firstName;
         private string? _lastName;
 
-        private static readonly int[] _specialIds = [
-            103409, 103607, 124521, 142512, 155126, 155129, 350411, 352719, 353194, 353514, 353954, 356951, 357788, 357873, 359538,
-            410436, 413732, 414872, 416746, 537851, 561318, 675472, 714504, 719130, 830987, 864223, 929769, 947423, 947676, 956666,
-        ];
-
         public People(BinaryReader reader, List<Name> firstNames, List<Name> lastNames)
         {
             Unknown1 = reader.ReadByte();
@@ -125,14 +120,17 @@
             Unknown13 = reader.ReadInt32();
             Unknown14 = reader.ReadInt32();
 
-            if (Type == 1 && !_specialIds.Contains(Uid))
-                Unknown15 = reader.ReadInt32();
-
             Unknown15a = reader.ReadInt32();
             Unknown15b = reader.ReadInt32();
             Unknown15c = reader.ReadInt32();
             Unknown15d = reader.ReadInt32();
             Unknown15e = reader.ReadInt32();
+
+            var isFFFF = reader.ReadInt32();
+            if (isFFFF == -1)
+                Unknown15 = isFFFF;
+            else
+                reader.BaseStream.Position = reader.BaseStream.Position - 4;
 
             Unknown16 = reader.ReadByte();
             Unknown17 = reader.ReadByte();
@@ -209,9 +207,6 @@
             writer.WriteEx(Unknown12);
             writer.WriteEx(Unknown13);
             writer.WriteEx(Unknown14);
-
-            if (Type == 1 && !_specialIds.Contains(Uid))
-                writer.WriteEx(Unknown15);
 
             writer.WriteEx(Unknown15a);
             writer.WriteEx(Unknown15b);
