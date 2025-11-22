@@ -26,6 +26,8 @@ namespace FMELibrary
         /// </summary>
         public int OriginalCount { get; set; }
 
+        public byte PaddingByte { get; set; }
+
         /// <summary>
         /// List of all items
         /// </summary>
@@ -41,6 +43,7 @@ namespace FMELibrary
             FilePath = path;
             Header = reader.ReadBytes(8);
             OriginalCount = reader.ReadInt32();
+            PaddingByte = reader.ReadByte();
             Items = [];
         }
 
@@ -59,21 +62,12 @@ namespace FMELibrary
             using var reader = new BinaryReader(ms);
             var parser = new PeopleParser(path, reader);
 
-            var fparser = await NameParser.Load("../../../db/db_archive_2603/first_names.dat");
-            var lparser = await NameParser.Load("../../../db/db_archive_2603/second_names.dat");
-
             await Task.Run(() =>
             {
                 while (ms.Position < ms.Length)
                 {
-                    var item = new People(reader, fparser.Items, lparser.Items);
+                    var item = new People(reader);
                     parser.Items.Add(item);
-
-                    if (item.Uid == 956666)
-                        break;
-
-                    //// Debug output
-                    //Console.WriteLine($"#{item.Id:D3}: {item.Name}");
                 }
             });
 
@@ -90,7 +84,8 @@ namespace FMELibrary
             using var writer = new BinaryWriter(stream);
 
             writer.Write(Header);
-            writer.Write((short)Items.Count);
+            writer.Write(Items.Count);
+            writer.Write(PaddingByte);
             foreach (var item in Items)
             {
                 item.Write(writer);

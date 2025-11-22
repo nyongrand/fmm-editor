@@ -2,8 +2,6 @@
 {
     public class People
     {
-        public byte Unknown1 { get; set; }
-
         /// <summary>
         /// Always 0xFFFFFFFF
         /// </summary>
@@ -27,42 +25,41 @@
 
         public byte Ethnicity { get; set; }
 
-        public int Unknown3 { get; set; }
+        public int Unknown1 { get; set; }
 
         public byte Type { get; set; }
 
-        public int UnknownDate { get; set; }
+        public DateOnly UnknownDate { get; set; }
 
         public short NationalCaps { get; set; }
 
         public short NationalGoals { get; set; }
 
         public byte NationalU21Caps { get; set; }
+
         public byte NationalU21Goals { get; set; }
 
-        public int? Unknown10 { get; set; }
+        public int Unknown2 { get; set; }
 
-        public int RecentCall { get; set; }
+        public DateOnly RecentCall { get; set; }
 
-        public short Unknown12 { get; set; }
+        public short Unknown3 { get; set; }
 
-        public int Unknown13 { get; set; }
+        public int Unknown4 { get; set; }
 
-        public int Unknown14 { get; set; }
+        public int Unknown5 { get; set; }
 
-        public int Unknown15 { get; set; }
+        public int Unknown6a { get; set; }
+        public int Unknown6b { get; set; }
+        public int Unknown6c { get; set; }
+        public int Unknown6d { get; set; }
+        public int Unknown6e { get; set; }
+        public int? Unknown6f { get; set; }
 
-        public int Unknown15a { get; set; }
-        public int Unknown15b { get; set; }
-        public int Unknown15c { get; set; }
-        public int Unknown15d { get; set; }
-        public int Unknown15e { get; set; }
-
-        public byte Unknown16 { get; set; }
-        public byte Unknown17 { get; set; }
-
-        public int? Unknown18 { get; set; }
-        public short? Unknown19 { get; set; }
+        public byte Unknown7 { get; set; }
+        public byte Unknown8 { get; set; }
+        public int? Unknown9 { get; set; }
+        public short? Unknown10 { get; set; }
 
         public byte MainLanguageCount { get; set; }
 
@@ -72,29 +69,21 @@
 
         public (short Id, byte Proficiency)[] OtherLanguages { get; set; }
 
-        public byte Unknown20Count { get; set; }
+        public byte RelationsCount { get; set; }
 
-        public long[] Unknown20 { get; set; }
+        public long[] Relations { get; set; }
+
+        public byte Unknown21 { get; set; }
 
 
-        private string? _firstName;
-        private string? _lastName;
-
-        public People(BinaryReader reader, List<Name> firstNames, List<Name> lastNames)
+        public People(BinaryReader reader)
         {
-            Unknown1 = reader.ReadByte();
             Id = reader.ReadInt32();
             Uid = reader.ReadInt32();
 
             FirstNameId = reader.ReadInt32();
             LastNameId = reader.ReadInt32();
             CommonNameId = reader.ReadInt32();
-
-            _firstName = firstNames.Where(x => x.Id == FirstNameId).FirstOrDefault()?.Value;
-            _lastName = lastNames.Where(x => x.Id == LastNameId).FirstOrDefault()?.Value;
-            Console.WriteLine($"{Uid} - {Convert.ToHexString(BitConverter.GetBytes(Uid))}: {_firstName} {_lastName}");
-
-            // read 2 bytes day of year and 2 bytes year
             DateOfBirth = reader.ReadDate();
 
             NationId = reader.ReadInt16();
@@ -104,45 +93,44 @@
                 OtherNationalities.Add(reader.ReadInt16());
 
             Ethnicity = reader.ReadByte();
-            Unknown3 = reader.ReadInt32();
+            Unknown1 = reader.ReadInt32();
             Type = reader.ReadByte();
-            UnknownDate = reader.ReadInt32();
+            UnknownDate = reader.ReadDate();
 
             NationalCaps = reader.ReadInt16();
             NationalGoals = reader.ReadInt16();
             NationalU21Caps = reader.ReadByte();
             NationalU21Goals = reader.ReadByte();
 
-            Unknown10 = reader.ReadInt32();
-            RecentCall = reader.ReadInt32();
+            Unknown2 = reader.ReadInt32();
+            RecentCall = reader.ReadDate();
 
-            Unknown12 = reader.ReadInt16();
-            Unknown13 = reader.ReadInt32();
-            Unknown14 = reader.ReadInt32();
+            Unknown3 = reader.ReadInt16();
+            Unknown4 = reader.ReadInt32();
+            Unknown5 = reader.ReadInt32();
 
-            Unknown15a = reader.ReadInt32();
-            Unknown15b = reader.ReadInt32();
-            Unknown15c = reader.ReadInt32();
-            Unknown15d = reader.ReadInt32();
-            Unknown15e = reader.ReadInt32();
+            Unknown6a = reader.ReadInt32();
+            Unknown6b = reader.ReadInt32();
+            Unknown6c = reader.ReadInt32();
+            Unknown6d = reader.ReadInt32();
+            Unknown6e = reader.ReadInt32();
 
             var isFFFF = reader.ReadInt32();
             if (isFFFF == -1)
-                Unknown15 = isFFFF;
+                Unknown6f = isFFFF;
             else
-                reader.BaseStream.Position = reader.BaseStream.Position - 4;
+                reader.BaseStream.Position -= 4;
 
-            Unknown16 = reader.ReadByte();
-            Unknown17 = reader.ReadByte();
-            if (Unknown17 != 0) // Only exists for Type != 1
+            Unknown7 = reader.ReadByte();
+            Unknown8 = reader.ReadByte();
+
+            var peek2 = reader.ReadInt16();
+            reader.BaseStream.Position -= 2;
+            if (peek2 <= 0)
             {
-                Unknown18 = reader.ReadInt32();
-                Unknown19 = reader.ReadInt16();
-            }
-            else
-            {
-                if (Type != 1)
-                    Unknown18 = reader.ReadInt32();
+                Unknown9 = reader.ReadInt32();
+                if (Unknown9 == -1)
+                    Unknown10 = reader.ReadInt16();
             }
 
             MainLanguageCount = reader.ReadByte();
@@ -159,12 +147,13 @@
                 OtherLanguages[i] = (reader.ReadInt16(), reader.ReadByte());
             }
 
-            Unknown20Count = reader.ReadByte();
-            Unknown20 = new long[Unknown20Count];
-            for (int i = 0; i < Unknown20Count; i++)
+            RelationsCount = reader.ReadByte();
+            Relations = new long[RelationsCount];
+            for (int i = 0; i < RelationsCount; i++)
             {
-                Unknown20[i] = reader.ReadInt64();
+                Relations[i] = reader.ReadInt64();
             }
+            Unknown21 = reader.ReadByte();
         }
 
         public byte[] ToBytes()
@@ -177,7 +166,6 @@
 
         public void Write(BinaryWriter writer)
         {
-            writer.WriteEx(Unknown1);
             writer.WriteEx(Id);
             writer.WriteEx(Uid);
 
@@ -187,12 +175,12 @@
             writer.WriteEx(DateOfBirth);
 
             writer.WriteEx(NationId);
-            writer.WriteEx(OtherNationalities.Count);
+            writer.WriteEx((short)OtherNationalities.Count);
             foreach (var nat in OtherNationalities)
                 writer.WriteEx(nat);
 
             writer.WriteEx(Ethnicity);
-            writer.WriteEx(Unknown3);
+            writer.WriteEx(Unknown1);
             writer.WriteEx(Type);
             writer.WriteEx(UnknownDate);
 
@@ -201,49 +189,44 @@
             writer.WriteEx(NationalU21Caps);
             writer.WriteEx(NationalU21Goals);
 
-            writer.WriteEx(Unknown10);
+            writer.WriteEx(Unknown2);
             writer.WriteEx(RecentCall);
 
-            writer.WriteEx(Unknown12);
-            writer.WriteEx(Unknown13);
-            writer.WriteEx(Unknown14);
+            writer.WriteEx(Unknown3);
+            writer.WriteEx(Unknown4);
+            writer.WriteEx(Unknown5);
 
-            writer.WriteEx(Unknown15a);
-            writer.WriteEx(Unknown15b);
-            writer.WriteEx(Unknown15c);
-            writer.WriteEx(Unknown15d);
-            writer.WriteEx(Unknown15e);
+            writer.WriteEx(Unknown6a);
+            writer.WriteEx(Unknown6b);
+            writer.WriteEx(Unknown6c);
+            writer.WriteEx(Unknown6d);
+            writer.WriteEx(Unknown6e);
+            writer.WriteEx(Unknown6f);
 
-            writer.WriteEx(Unknown16);
-            writer.WriteEx(Unknown17);
-            if (Unknown17 != 0) // Only exists for Type != 1
-            {
-                writer.WriteEx(Unknown18);
-                writer.WriteEx(Unknown19);
-            }
-            else
-            {
-                if (Type != 1)
-                    writer.WriteEx(Unknown18);
-            }
+            writer.WriteEx(Unknown7);
+            writer.WriteEx(Unknown8);
+            writer.WriteEx(Unknown9);
+            writer.WriteEx(Unknown10);
 
-            writer.WriteEx(MainLanguages.Length);
+            writer.WriteEx((byte)MainLanguages.Length);
             foreach (var lang in MainLanguages)
             {
                 writer.WriteEx(lang.Id);
                 writer.WriteEx(lang.Proficiency);
             }
 
-            writer.WriteEx(OtherLanguages.Length);
+            writer.WriteEx((byte)OtherLanguages.Length);
             foreach (var lang in OtherLanguages)
             {
                 writer.WriteEx(lang.Id);
                 writer.WriteEx(lang.Proficiency);
             }
 
-            writer.WriteEx(Unknown20.Length);
-            foreach (var unk in Unknown20)
+            writer.WriteEx((byte)Relations.Length);
+            foreach (var unk in Relations)
                 writer.WriteEx(unk);
+
+            writer.WriteEx(Unknown21);
         }
     }
 }
