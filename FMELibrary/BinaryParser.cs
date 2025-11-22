@@ -43,7 +43,7 @@ namespace FMELibrary
             if (dayOfYear == -1 || year == -1)
                 return DateOnly.MinValue;
 
-            return new DateOnly(year, 1, 1).AddDays(dayOfYear);
+            return new DateOnly(year, 1, 1).AddDays(dayOfYear - 1);
         }
 
         /// <summary>
