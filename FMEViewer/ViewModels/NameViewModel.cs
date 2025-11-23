@@ -53,9 +53,9 @@ namespace FMEViewer.ViewModels
                 if (obj is Name name)
                 {
                     return string.IsNullOrEmpty(SearchQuery)
-                    || name.Value.Contains(SearchQuery)
-                    || name.Nation.Contains(SearchQuery)
-                    || name.Others.Contains(SearchQuery);
+                    || name.Value.Contains(SearchQuery);
+                    //|| name.Nation.Contains(SearchQuery)
+                    //|| name.Others.Contains(SearchQuery);
                 }
 
                 return true;
@@ -78,7 +78,7 @@ namespace FMEViewer.ViewModels
                 .Subscribe(x =>
                 {
                     Names1.Clear();
-                    Names1.AddRange(x.Names);
+                    //Names1.AddRange(x.Names);
                 });
 
             this.WhenAnyValue(vm => vm.SearchQuery)
@@ -98,9 +98,9 @@ namespace FMEViewer.ViewModels
                 if (obj is Name name)
                 {
                     return string.IsNullOrEmpty(SearchQuery)
-                    || name.Value.Contains(SearchQuery)
-                    || name.Nation.Contains(SearchQuery)
-                    || name.Others.Contains(SearchQuery);
+                    || name.Value.Contains(SearchQuery);
+                    //|| name.Nation.Contains(SearchQuery)
+                    //|| name.Others.Contains(SearchQuery);
                 }
 
                 return true;
@@ -123,7 +123,7 @@ namespace FMEViewer.ViewModels
                 .Subscribe(x =>
                 {
                     Names2.Clear();
-                    Names2.AddRange(x.Names);
+                    //Names2.AddRange(x.Names);
                 });
 
             this.WhenAnyValue(vm => vm.SearchQuery)
@@ -139,16 +139,16 @@ namespace FMEViewer.ViewModels
         {
             if (NameParser1 != null)
             {
-                NameParser1.Count = Names1.Count;
-                NameParser1.Names = Names1.ToList();
+                //NameParser1.Count = Names1.Count;
+                //NameParser1.Names = Names1.ToList();
 
                 await NameParser1.Save();
             }
 
             if (NameParser2 != null)
             {
-                NameParser2.Count = Names2.Count;
-                NameParser2.Names = Names2.ToList();
+                //NameParser2.Count = Names2.Count;
+                //NameParser2.Names = Names2.ToList();
 
                 await NameParser2.Save();
             }
@@ -163,8 +163,7 @@ namespace FMEViewer.ViewModels
 
         private async Task<NameParser> ParseImpl(string file)
         {
-            var parser = new NameParser(file);
-            await parser.Parse();
+            var parser = await NameParser.Load(file);
             return parser;
         }
     }
