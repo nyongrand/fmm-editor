@@ -27,5 +27,17 @@ namespace FMEConsole
 
             return parser;
         }
+
+        public static async Task<NameParser> AddNames(string databaseFile, Name sample, string[] names)
+        {
+            var parser = await NameParser.Load(databaseFile);
+
+            foreach (var name in names)
+            {
+                parser.Add(new Name(sample.Gender, sample.NationUid, sample.Unknown2, sample.Unknown3, name));
+            }
+
+            return parser;
+        }
     }
 }
