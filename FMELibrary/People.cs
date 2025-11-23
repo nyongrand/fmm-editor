@@ -41,13 +41,21 @@
 
         public int Unknown2 { get; set; }
 
-        public int RecentCall { get; set; }
+        public int JoinedDate { get; set; }
 
+        /// <summary>
+        /// Always 0x0000
+        /// </summary>
         public short Unknown3 { get; set; }
 
-        public int Unknown4 { get; set; }
-
-        public int Unknown5 { get; set; }
+        public byte Adaptability { get; set; }
+        public byte Ambition { get; set; }
+        public byte Controversy { get; set; }
+        public byte Loyality { get; set; }
+        public byte Pressure { get; set; }
+        public byte Professionalism { get; set; }
+        public byte Sportmanship { get; set; }
+        public byte Temperament { get; set; }
 
         public int Unknown6a { get; set; }
         public int Unknown6b { get; set; }
@@ -103,11 +111,17 @@
             NationalU21Goals = reader.ReadByte();
 
             Unknown2 = reader.ReadInt32();
-            RecentCall = reader.ReadInt32();
-
+            JoinedDate = reader.ReadInt32();
             Unknown3 = reader.ReadInt16();
-            Unknown4 = reader.ReadInt32();
-            Unknown5 = reader.ReadInt32();
+
+            Adaptability = reader.ReadByte();
+            Ambition = reader.ReadByte();
+            Controversy = reader.ReadByte();
+            Loyality = reader.ReadByte();
+            Pressure = reader.ReadByte();
+            Professionalism = reader.ReadByte();
+            Sportmanship = reader.ReadByte();
+            Temperament = reader.ReadByte();
 
             Unknown6a = reader.ReadInt32();
             Unknown6b = reader.ReadInt32();
@@ -190,11 +204,17 @@
             writer.WriteEx(NationalU21Goals);
 
             writer.WriteEx(Unknown2);
-            writer.WriteEx(RecentCall);
-
+            writer.WriteEx(JoinedDate);
             writer.WriteEx(Unknown3);
-            writer.WriteEx(Unknown4);
-            writer.WriteEx(Unknown5);
+
+            writer.WriteEx(Adaptability);
+            writer.WriteEx(Ambition);
+            writer.WriteEx(Controversy);
+            writer.WriteEx(Loyality);
+            writer.WriteEx(Pressure);
+            writer.WriteEx(Professionalism);
+            writer.WriteEx(Sportmanship);
+            writer.WriteEx(Temperament);
 
             writer.WriteEx(Unknown6a);
             writer.WriteEx(Unknown6b);
