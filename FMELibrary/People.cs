@@ -77,9 +77,9 @@
 
         public (short Id, byte Proficiency)[] OtherLanguages { get; set; }
 
-        public byte RelationsCount { get; set; }
+        public byte RelationshipCount { get; set; }
 
-        public long[] Relations { get; set; }
+        public Relationship[] Relationships { get; set; }
 
         public byte Unknown21 { get; set; }
 
@@ -161,11 +161,11 @@
                 OtherLanguages[i] = (reader.ReadInt16(), reader.ReadByte());
             }
 
-            RelationsCount = reader.ReadByte();
-            Relations = new long[RelationsCount];
-            for (int i = 0; i < RelationsCount; i++)
+            RelationshipCount = reader.ReadByte();
+            Relationships = new Relationship[RelationshipCount];
+            for (int i = 0; i < RelationshipCount; i++)
             {
-                Relations[i] = reader.ReadInt64();
+                Relationships[i] = new Relationship(reader);
             }
             Unknown21 = reader.ReadByte();
         }
@@ -242,9 +242,9 @@
                 writer.WriteEx(lang.Proficiency);
             }
 
-            writer.WriteEx((byte)Relations.Length);
-            foreach (var unk in Relations)
-                writer.WriteEx(unk);
+            writer.WriteEx((byte)Relationships.Length);
+            foreach (var relationship in Relationships)
+                relationship.Write(writer);
 
             writer.WriteEx(Unknown21);
         }
