@@ -69,9 +69,9 @@
         public int? Unknown9 { get; set; }
         public short? Unknown10 { get; set; }
 
-        public byte MainLanguageCount { get; set; }
+        public byte DefaultLanguageCount { get; set; }
 
-        public (short Id, byte Proficiency)[] MainLanguages { get; set; }
+        public (short Id, byte Proficiency)[] DefaultLanguages { get; set; }
 
         public byte OtherLanguageCount { get; set; }
 
@@ -147,11 +147,11 @@
                     Unknown10 = reader.ReadInt16();
             }
 
-            MainLanguageCount = reader.ReadByte();
-            MainLanguages = new (short Id, byte Proficiency)[MainLanguageCount];
-            for (int i = 0; i < MainLanguageCount; i++)
+            DefaultLanguageCount = reader.ReadByte();
+            DefaultLanguages = new (short Id, byte Proficiency)[DefaultLanguageCount];
+            for (int i = 0; i < DefaultLanguageCount; i++)
             {
-                MainLanguages[i] = (reader.ReadInt16(), reader.ReadByte());
+                DefaultLanguages[i] = (reader.ReadInt16(), reader.ReadByte());
             }
 
             OtherLanguageCount = reader.ReadByte();
@@ -228,8 +228,8 @@
             writer.WriteEx(Unknown9);
             writer.WriteEx(Unknown10);
 
-            writer.WriteEx((byte)MainLanguages.Length);
-            foreach (var lang in MainLanguages)
+            writer.WriteEx((byte)DefaultLanguages.Length);
+            foreach (var lang in DefaultLanguages)
             {
                 writer.WriteEx(lang.Id);
                 writer.WriteEx(lang.Proficiency);
