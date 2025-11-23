@@ -2,9 +2,9 @@
 
 namespace FMEConsole
 {
-    public static class SwitchNationality
+    public static class Scripts
     {
-        public static async Task<PeopleParser> Run(string databaseFile, short nationId)
+        public static async Task<PeopleParser> SwitchNationality(string databaseFile, short nationId)
         {
             var parser = await PeopleParser.Load(databaseFile);
 
