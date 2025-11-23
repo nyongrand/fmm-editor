@@ -36,14 +36,32 @@ namespace FMELibrary
             return Color.FromArgb(red << 3, green << 3, blue << 3);
         }
 
+
         public static DateOnly ReadDate(this BinaryReader reader)
         {
-            int dayOfYear = reader.ReadInt16();
+            int storedDay = reader.ReadInt16();
             int year = reader.ReadInt16();
-            if (dayOfYear == -1 || year == -1)
+            if (storedDay == -1 || year == -1)
                 return DateOnly.MinValue;
+            
+            // storedDay is 0-based day of year (0 = Jan 1)
+            return new DateOnly(year, 1, 1).AddDays(storedDay);
+        }
 
-            return new DateOnly(year, 1, 1).AddDays(dayOfYear - 1);
+
+        public static void WriteDate(this BinaryWriter writer, DateOnly date)
+        {
+            if (date == DateOnly.MinValue)
+            {
+                writer.Write((short)-1);
+                writer.Write((short)-1);
+                return;
+            }
+
+            // Calculate 0-based day of year (0 = Jan 1)
+            int dayOfYear = date.DayOfYear - 1;
+            writer.Write((short)dayOfYear);
+            writer.Write((short)date.Year);
         }
 
         /// <summary>
@@ -98,10 +116,7 @@ namespace FMELibrary
                     break;
 
                 case DateOnly d:
-                    int dayOfYear = d == DateOnly.MinValue ? -1 : d.DayOfYear;
-                    int year = d == DateOnly.MinValue ? -1 : d.Year;
-                    writer.Write((short)dayOfYear);
-                    writer.Write((short)year);
+                    writer.WriteDate(d);
                     break;
 
                 case null:
