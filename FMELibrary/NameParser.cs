@@ -16,14 +16,16 @@
         public byte[] Header { get; set; }
 
         /// <summary>
-        /// Original item count when loading the file.
+        /// Item count when loading the file.
         /// </summary>
-        public int OriginalCount { get; set; }
+        public int Count { get; private set; }
 
         /// <summary>
         /// List of all items
         /// </summary>
-        public List<Name> Items { get; set; }
+        public IReadOnlyList<Name> Items => items.AsReadOnly();
+
+        private readonly List<Name> items;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NationParser"/> class.
@@ -34,8 +36,8 @@
         {
             FilePath = path;
             Header = reader.ReadBytes(8);
-            OriginalCount = reader.ReadInt32();
-            Items = [];
+            Count = reader.ReadInt32();
+            items = [];
         }
 
         /// <summary>
@@ -58,14 +60,24 @@
                 while (ms.Position < ms.Length)
                 {
                     var item = new Name(reader);
-                    parser.Items.Add(item);
-
-                    //// Debug output
-                    //Console.WriteLine($"#{item.Id:D3}: {item.Name}");
+                    parser.items.Add(item);
                 }
             });
 
             return parser;
+        }
+
+        /// <summary>
+        /// Adds the specified name to the collection, assigning a unique identifier if necessary.
+        /// </summary>
+        /// <param name="item">The name to add to the collection. If the item's Id is less than or equal to zero, a new unique Id is
+        /// assigned.</param>
+        public void Add(Name item)
+        {
+            var nextId = Items.Max(x => x.Id) + 1;
+            item.Id = item.Id > 0 ? item.Id : nextId;
+            items.Add(item);
+            Count++;
         }
 
         /// <summary>
@@ -78,11 +90,9 @@
             using var writer = new BinaryWriter(stream);
 
             writer.Write(Header);
-            writer.Write((short)Items.Count);
+            writer.Write(Count);
             foreach (var item in Items)
-            {
                 item.Write(writer);
-            }
 
             return stream.ToArray();
         }
