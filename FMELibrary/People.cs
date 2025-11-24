@@ -39,7 +39,7 @@
 
         public byte NationalU21Goals { get; set; }
 
-        public int Unknown2 { get; set; }
+        public int ClubId { get; set; }
 
         public int JoinedDate { get; set; }
 
@@ -110,7 +110,7 @@
             NationalU21Caps = reader.ReadByte();
             NationalU21Goals = reader.ReadByte();
 
-            Unknown2 = reader.ReadInt32();
+            ClubId = reader.ReadInt32();
             JoinedDate = reader.ReadInt32();
             Unknown3 = reader.ReadInt16();
 
@@ -203,7 +203,7 @@
             writer.WriteEx(NationalU21Caps);
             writer.WriteEx(NationalU21Goals);
 
-            writer.WriteEx(Unknown2);
+            writer.WriteEx(ClubId);
             writer.WriteEx(JoinedDate);
             writer.WriteEx(Unknown3);
 
