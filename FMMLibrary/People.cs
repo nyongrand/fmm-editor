@@ -170,14 +170,6 @@
             Unknown21 = reader.ReadByte();
         }
 
-        public byte[] ToBytes()
-        {
-            using var stream = new MemoryStream();
-            using var writer = new BinaryWriter(stream);
-            Write(writer);
-            return stream.ToArray();
-        }
-
         public void Write(BinaryWriter writer)
         {
             writer.WriteEx(Id);
@@ -247,6 +239,14 @@
                 relationship.Write(writer);
 
             writer.WriteEx(Unknown21);
+        }
+
+        public byte[] ToBytes()
+        {
+            using var stream = new MemoryStream();
+            using var writer = new BinaryWriter(stream);
+            Write(writer);
+            return stream.ToArray();
         }
     }
 }
