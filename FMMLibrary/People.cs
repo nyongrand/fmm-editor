@@ -57,7 +57,7 @@
         public byte Sportmanship { get; set; }
         public byte Temperament { get; set; }
 
-        public int Unknown6a { get; set; }
+        public int PlayerId { get; set; }
         public int Unknown6b { get; set; }
         public int Unknown6c { get; set; }
         public int Unknown6d { get; set; }
@@ -123,7 +123,7 @@
             Sportmanship = reader.ReadByte();
             Temperament = reader.ReadByte();
 
-            Unknown6a = reader.ReadInt32();
+            PlayerId = reader.ReadInt32();
             Unknown6b = reader.ReadInt32();
             Unknown6c = reader.ReadInt32();
             Unknown6d = reader.ReadInt32();
@@ -208,7 +208,7 @@
             writer.WriteEx(Sportmanship);
             writer.WriteEx(Temperament);
 
-            writer.WriteEx(Unknown6a);
+            writer.WriteEx(PlayerId);
             writer.WriteEx(Unknown6b);
             writer.WriteEx(Unknown6c);
             writer.WriteEx(Unknown6d);
