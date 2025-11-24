@@ -28,44 +28,101 @@ await VerifyDatFileAsync();
 static async Task VerifyDatFileAsync()
 {
     var file = "../../../db/db_archive_2603/people.dat";
-    var parser = await PeopleParser.Load(file);
+    var parser = await Scripts.SwitchNationality(file, 70);
+
+    // Save changes back to file
+    //await parser.Save();
+
+    //var cparser = await ClubParser.Load("../../../db/db_archive_2603/club.dat");
+    //var rangers = cparser.Items.Where(x => x.FullName.Contains("Rangers"));
 
     var nparser = await NationParser.Load("../../../db/db_archive_2603/nation.dat");
     var fparser = await NameParser.Load("../../../db/db_archive_2603/first_names.dat");
     var lparser = await NameParser.Load("../../../db/db_archive_2603/second_names.dat");
 
-    var query = from p in parser.Items
-                join n in nparser.Items on p.NationId equals n.Id
-                join f in fparser.Items on p.FirstNameId equals f.Id
-                join l in lparser.Items on p.LastNameId equals l.Id
-                select new
-                {
-                    FirstName = f.Value,
-                    LastName = l.Value,
-                    Nation = n.Name,
-                    People = p,
-                    Ethnicity = p.Ethnicity switch
-                    {
-                        0 => "Northen European",
-                        1 => "Mediteranian/Hispanic",
-                        2 => "North African/Middle Eastern",
-                        3 => "African/Caribean",
-                        4 => "Asian",
-                        5 => "South East Asian",
-                        6 => "Pacific Islander",
-                        7 => "Native American",
-                        8 => "Native Australian",
-                        9 => "Mixed Race",
-                        10 => "East Asian",
-                        _ => "Unknown"
-                    }
-                };
+    var nf = lparser.Items.Where(x => x.NationUid == 113).ToList();
+    fparser.Add(new Name(0, 113, 1, 5, "Ernando"));
+    lparser.Add(new Name(0, 113, 1, 225, "Sutaryadi"));
 
-    var peoples = query.ToArray();
+    fparser.Add(new Name(0, 113, 1, 5, "Nadeo"));
+    lparser.Add(new Name(0, 113, 1, 225, "Argawinata"));
 
-    //var indonesian = peoples.Where(x => x.People.NationId != 58 && (x.People.OtherNationalityCount > 0 && x.People.OtherNationalities[0] == 58)).ToList();
+    fparser.Add(new Name(0, 113, 1, 5, "Ramadhan"));
+    lparser.Add(new Name(0, 113, 1, 225, "Sananta"));
+
+    fparser.Add(new Name(0, 113, 1, 5, "Cahya"));
+    lparser.Add(new Name(0, 113, 1, 225, "Supriadi"));
+
+    fparser.Add(new Name(0, 113, 1, 5, "Yance"));
+    lparser.Add(new Name(0, 113, 1, 225, "Sayuri"));
+
+    fparser.Add(new Name(0, 113, 1, 5, "Pratama"));
+    lparser.Add(new Name(0, 113, 1, 225, "Arhan"));
+
+    fparser.Add(new Name(0, 113, 1, 5, "Muhammad"));
+    lparser.Add(new Name(0, 113, 1, 225, "Ferarri"));
+
+    fparser.Add(new Name(0, 113, 1, 5, "Achmad"));
+    lparser.Add(new Name(0, 113, 1, 225, "Maulana"));
+
+    fparser.Add(new Name(0, 113, 1, 5, "Arkhan"));
+    lparser.Add(new Name(0, 113, 1, 225, "Fikri"));
+
+    fparser.Add(new Name(0, 113, 1, 5, "Hokky"));
+    lparser.Add(new Name(0, 113, 1, 225, "Caraka"));
+
+    fparser.Add(new Name(0, 113, 1, 5, "Yakob"));
+    lparser.Add(new Name(0, 113, 1, 225, "Kaka"));
+
+    fparser.Add(new Name(0, 113, 1, 5, "Kakang"));
+    lparser.Add(new Name(0, 113, 1, 225, "Rudianto"));
+
+    fparser.Add(new Name(0, 113, 1, 5, "Ricky"));
+    lparser.Add(new Name(0, 113, 1, 225, "Maulana"));
+
+    fparser.Add(new Name(0, 113, 1, 5, "Fajar"));
+    lparser.Add(new Name(0, 113, 1, 225, "Maulana"));
+
+    fparser.Add(new Name(0, 113, 1, 5, "Bambang"));
+    lparser.Add(new Name(0, 113, 1, 225, "Darwis"));
+
+    fparser.Add(new Name(0, 113, 1, 5, "Kurnia"));
+    lparser.Add(new Name(0, 113, 1, 225, "Putra"));
+
+    fparser.Add(new Name(0, 113, 1, 5, "Septian"));
+    lparser.Add(new Name(0, 113, 1, 225, "Hasan"));
+
+    //await fparser.Save();
+    //await lparser.Save();
+
+    //var query = from p in parser.Items
+    //            join n in nparser.Items on p.NationId equals n.Id
+    //            join f in fparser.Items on p.FirstNameId equals f.Id
+    //            join l in lparser.Items on p.LastNameId equals l.Id
+    //            select new
+    //            {
+    //                FirstName = f.Value,
+    //                LastName = l.Value,
+    //                Nation = n.Name,
+    //                People = p,
+    //            };
+
+    //var peoples = query.ToArray();
+
+    //var indonesian = peoples
+    //    .GroupBy(x => x.People.Unknown2)
+    //    .OrderBy(x => x.Key)
+    //    //.Where(x => x.People.Unknown2 == 805)
+    //    //.Where(x => x.People.Type == 1)
+    //    //.Where(x => x.People.NationalCaps == 0)
+    //    //.Where(x => x.People.NationId != 58)
+    //    //.Where(x => x.People.NationId == 58 || x.People.OtherNationalities.Contains(58))
+    //    //.GroupBy(x => x.Nation)
+    //    //.Where(x => x.People.MainLanguages.Select(x => x.Id).ToList().Contains(76) || x.People.OtherLanguages.Select(x => x.Id).ToList().Contains(76))
+    //    .ToList();
+
     //var g4 = peoples.GroupBy(x => x.Ethnicity).ToList();
-    var g5 = peoples.GroupBy(x => x.People.UnknownDate).ToList();
+    //var g5 = peoples.GroupBy(x => x.People.UnknownDate).ToList();
 
     //var str = "../../../db/db_archive_2603/eng.lng";
     //var strParser = await ResourceParser.Load(str);
