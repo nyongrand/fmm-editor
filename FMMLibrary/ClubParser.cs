@@ -58,6 +58,9 @@
                 while (ms.Position < ms.Length)
                 {
                     var item = new Club(reader);
+                    if (item.Id == -1)
+                        item.Id = parser.Items.Count;
+
                     parser.Items.Add(item);
                 }
             });
