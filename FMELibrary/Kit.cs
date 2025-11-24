@@ -1,4 +1,4 @@
-﻿namespace FMELibrary
+﻿namespace FMMLibrary
 {
     /// <summary>
     /// Represents a football kit (uniform) with its colors and properties.

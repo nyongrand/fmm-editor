@@ -1,6 +1,6 @@
-﻿using static FMELibrary.StringResource;
+﻿using static FMMLibrary.StringResource;
 
-namespace FMELibrary
+namespace FMMLibrary
 {
     /// <summary>
     /// Parses and manages club data from binary files.

@@ -1,4 +1,4 @@
-﻿namespace FMELibrary
+﻿namespace FMMLibrary
 {
     public enum Confederation
     {

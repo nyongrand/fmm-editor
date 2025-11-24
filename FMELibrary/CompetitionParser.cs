@@ -1,4 +1,4 @@
-﻿namespace FMELibrary
+﻿namespace FMMLibrary
 {
     /// <summary>
     /// Parses and manages competition data from binary files.

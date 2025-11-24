@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using System.Text;
 
-namespace FMELibrary
+namespace FMMLibrary
 {
     /// <summary>
     /// Provides extension methods for reading and writing binary data with custom serialization logic.

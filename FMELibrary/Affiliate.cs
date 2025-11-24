@@ -1,6 +1,6 @@
 ﻿using System.Reflection.PortableExecutable;
 
-namespace FMELibrary
+namespace FMMLibrary
 {
     /// <summary>
     /// Represents an affiliation relationship between two clubs.

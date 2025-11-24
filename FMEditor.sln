@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.4.33205.214
+# Visual Studio Version 18
+VisualStudioVersion = 18.0.11217.181 d18.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FMEConsole", "FMEConsole\FMEConsole.csproj", "{697AE091-0E45-43EB-B3ED-A26164D7FC1A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FMELibrary", "FMELibrary\FMELibrary.csproj", "{610237A4-5A30-466D-B5FE-1909E8D833E6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FMMLibrary", "FMELibrary\FMMLibrary.csproj", "{610237A4-5A30-466D-B5FE-1909E8D833E6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FMEViewer", "FMEViewer\FMEViewer.csproj", "{0C60398C-59FD-493E-94BA-70B6EC13E080}"
 EndProject

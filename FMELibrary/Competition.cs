@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace FMELibrary
+namespace FMMLibrary
 {
     /// <summary>
     /// Represents a football competition (league, cup, etc.) with all its properties.

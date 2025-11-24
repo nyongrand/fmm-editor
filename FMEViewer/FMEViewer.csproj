@@ -28,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FMELibrary\FMELibrary.csproj" />
+    <ProjectReference Include="..\FMELibrary\FMMLibrary.csproj" />
   </ItemGroup>
 
 </Project>

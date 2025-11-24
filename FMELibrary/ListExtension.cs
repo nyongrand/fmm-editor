@@ -1,4 +1,4 @@
-﻿namespace FMELibrary
+﻿namespace FMMLibrary
 {
     /// <summary>
     /// Provides extension methods for List and Array slicing operations.

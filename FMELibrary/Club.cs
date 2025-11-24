@@ -1,4 +1,4 @@
-﻿namespace FMELibrary
+﻿namespace FMMLibrary
 {
     /// <summary>
     /// Represents a football club with all its properties and attributes.
