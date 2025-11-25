@@ -112,6 +112,7 @@
 
             ClubId = reader.ReadInt32();
             JoinedDate = reader.ReadInt32();
+
             Unknown3 = reader.ReadInt16();
 
             Adaptability = reader.ReadByte();

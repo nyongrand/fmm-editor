@@ -86,6 +86,7 @@
         {
             Id = reader.ReadInt32();
             Uid = reader.ReadInt32();
+
             Crossing = reader.ReadByte();
             Dribbling = reader.ReadByte();
             Tackling = reader.ReadByte();
@@ -113,6 +114,7 @@
             Positioning = reader.ReadByte();
             WorkRate = reader.ReadByte();
             Flair = reader.ReadByte();
+
             Handling = reader.ReadByte();
             Kicking = reader.ReadByte();
             Agility = reader.ReadByte();
@@ -120,6 +122,7 @@
             Reflexes = reader.ReadByte();
             Communication = reader.ReadByte();
             Throwing = reader.ReadByte();
+
             GK = reader.ReadByte();
             LIB = reader.ReadByte();
             LB = reader.ReadByte();
@@ -135,10 +138,13 @@
             CF = reader.ReadByte();
             LWB = reader.ReadByte();
             RWB = reader.ReadByte();
+
             LeftFoot = reader.ReadByte();
             RightFoot = reader.ReadByte();
+
             CA = reader.ReadInt16();
             PA = reader.ReadInt16();
+
             HomeReputation = reader.ReadInt16();
             CurrentReputation = reader.ReadInt16();
             WorldReputation = reader.ReadInt16();

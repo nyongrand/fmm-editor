@@ -1,6 +1,9 @@
 ﻿using FMEConsole;
 using FMMLibrary;
 
+//await VerifyDatFileAsync();
+//return;
+
 //await ApplyChangesTxt();
 
 //// Belgium - 3 levels
@@ -147,8 +150,10 @@ var query = from people in peopleParser.Items
             join lname in lnameParser.Items on people.LastNameId equals lname.Id
             select new
             {
+                people.Uid,
                 FirstName = fname.Value,
                 LastName = lname.Value,
+
                 People = people,
                 Player = player,
                 Club = club,
@@ -156,11 +161,14 @@ var query = from people in peopleParser.Items
             };
 
 var players = query.ToList();
-var grouped = players.GroupBy(x => x.Player.Unknown1).ToList();
+var grouped = players
+    .Where(x => x.Uid == 103607)
+    //.OrderBy(x => x.People.DateOfBirth)
+    //.GroupBy(x => x.Player.PreferredSquadNumber)
+    //.OrderBy(x => x.Key)
+    .ToList();
 
 Console.ReadLine();
-
-//await VerifyDatFileAsync();
 
 static async Task VerifyDatFileAsync()
 {
