@@ -66,10 +66,13 @@
         public short CurrentReputation { get; set; }
         public short WorldReputation { get; set; }
 
-        public byte Unknown1 { get; set; }
-        public short Unknown2 { get; set; }
-        public byte Unknown3 { get; set; }
-        public byte Unknown4 { get; set; }
+        public byte InternationalRetirement { get; set; }
+        /// <summary>
+        /// Always 0x0000
+        /// </summary>
+        public short Unknown1 { get; set; }
+        public byte SquadNumber { get; set; }
+        public byte PreferredSquadNumber { get; set; }
 
         public short Height { get; set; }
         public short Weight { get; set; }
@@ -77,7 +80,7 @@
         /// <summary>
         /// Always 0x00000000
         /// </summary>
-        public int Unknown5 { get; set; }
+        public int Unknown2 { get; set; }
 
         public Player(BinaryReader reader)
         {
@@ -139,13 +142,13 @@
             HomeReputation = reader.ReadInt16();
             CurrentReputation = reader.ReadInt16();
             WorldReputation = reader.ReadInt16();
-            Unknown1 = reader.ReadByte();
-            Unknown2 = reader.ReadInt16();
-            Unknown3 = reader.ReadByte();
-            Unknown4 = reader.ReadByte();
+            InternationalRetirement = reader.ReadByte();
+            Unknown1 = reader.ReadInt16();
+            SquadNumber = reader.ReadByte();
+            PreferredSquadNumber = reader.ReadByte();
             Height = reader.ReadInt16();
             Weight = reader.ReadInt16();
-            Unknown5 = reader.ReadInt32();
+            Unknown2 = reader.ReadInt32();
         }
 
         public void Write(BinaryWriter writer)
@@ -208,13 +211,13 @@
             writer.WriteEx(HomeReputation);
             writer.WriteEx(CurrentReputation);
             writer.WriteEx(WorldReputation);
+            writer.WriteEx(InternationalRetirement);
             writer.WriteEx(Unknown1);
-            writer.WriteEx(Unknown2);
-            writer.WriteEx(Unknown3);
-            writer.WriteEx(Unknown4);
+            writer.WriteEx(SquadNumber);
+            writer.WriteEx(PreferredSquadNumber);
             writer.WriteEx(Height);
             writer.WriteEx(Weight);
-            writer.WriteEx(Unknown5);
+            writer.WriteEx(Unknown2);
         }
 
         public byte[] ToBytes()
