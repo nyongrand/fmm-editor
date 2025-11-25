@@ -8,9 +8,9 @@ namespace FMMEditor.Views
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainView : MetroWindow
+    public partial class CompetitionView : MetroWindow
     {
-        public MainView()
+        public CompetitionView()
         {
             InitializeComponent();
         }

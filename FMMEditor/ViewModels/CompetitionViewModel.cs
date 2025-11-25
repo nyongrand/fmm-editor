@@ -18,7 +18,7 @@ using System.Windows.Data;
 
 namespace FMMEditor.ViewModels
 {
-    public class MainViewModel : ReactiveObject
+    public class CompetitionViewModel : ReactiveObject
     {
         public extern bool ShowSearch { [ObservableAsProperty] get; }
         [Reactive] public string SearchQuery { get; set; } = "";
@@ -88,7 +88,7 @@ namespace FMMEditor.ViewModels
         private readonly IDialogService dialogService;
         private Dictionary<short, List<Club>> clubsByLeagueLookup = [];
 
-        public MainViewModel(IDialogService dialogService, ISnackbarMessageQueue messageQueue)
+        public CompetitionViewModel(IDialogService dialogService, ISnackbarMessageQueue messageQueue)
         {
             this.dialogService = dialogService;
             MessageQueue = messageQueue;
