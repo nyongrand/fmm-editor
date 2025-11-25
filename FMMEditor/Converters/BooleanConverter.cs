@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows.Data;
 
-namespace FMEViewer.Converters
+namespace FMMEditor.Converters
 {
     internal class BooleanConverter : IValueConverter
     {

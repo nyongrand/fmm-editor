@@ -7,7 +7,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows;
 
-namespace FMEViewer.Controls
+namespace FMMEditor.Controls
 {
     public class FilterableComboBox : ComboBox
     {

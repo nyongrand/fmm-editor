@@ -3,7 +3,7 @@ using System;
 using System.Diagnostics;
 using System.Windows;
 
-namespace FMEViewer.Views
+namespace FMMEditor.Views
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

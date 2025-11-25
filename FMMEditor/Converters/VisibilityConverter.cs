@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 
-namespace FMEViewer.Converters
+namespace FMMEditor.Converters
 {
     public class VisibilityConverter : IValueConverter
     {

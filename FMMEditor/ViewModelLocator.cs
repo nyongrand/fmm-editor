@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
-using FMEViewer.ViewModels;
+using FMMEditor.ViewModels;
 
-namespace FMEViewer
+namespace FMMEditor
 {
     public class ViewModelLocator
     {

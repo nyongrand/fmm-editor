@@ -12,7 +12,7 @@ using System.Reactive;
 using System.Threading.Tasks;
 using System.Windows.Data;
 
-namespace FMEViewer.ViewModels
+namespace FMMEditor.ViewModels
 {
     public class NameViewModel : ReactiveObject
     {

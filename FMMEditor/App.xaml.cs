@@ -2,10 +2,10 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using MvvmDialogs;
-using FMEViewer.ViewModels;
+using FMMEditor.ViewModels;
 using MaterialDesignThemes.Wpf;
 
-namespace FMEViewer
+namespace FMMEditor
 {
     /// <summary>
     /// Interaction logic for App.xaml

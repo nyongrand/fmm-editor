@@ -1,8 +1,8 @@
 ﻿<Application
-    x:Class="FMEViewer.App"
+    x:Class="FMMEditor.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="clr-namespace:FMEViewer"
+    xmlns:local="clr-namespace:FMMEditor"
     StartupUri="Views/MainView.xaml">
     <Application.Resources>
 

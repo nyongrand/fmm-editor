@@ -1,7 +1,7 @@
 ﻿using MahApps.Metro.Controls;
 using System.Windows;
 
-namespace FMEViewer.Views
+namespace FMMEditor.Views
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
