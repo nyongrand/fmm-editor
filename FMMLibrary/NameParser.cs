@@ -5,6 +5,8 @@
     /// </summary>
     public class NameParser
     {
+        private readonly List<Name> items;
+
         /// <summary>
         /// File path
         /// </summary>
@@ -24,8 +26,6 @@
         /// List of all items
         /// </summary>
         public IReadOnlyList<Name> Items => items.AsReadOnly();
-
-        private readonly List<Name> items;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NationParser"/> class.

@@ -5,6 +5,8 @@
     /// </summary>
     public class PlayerParser
     {
+        private readonly List<Player> items;
+
         /// <summary>
         /// File path
         /// </summary>
@@ -18,12 +20,12 @@
         /// <summary>
         /// Original item count when loading the file.
         /// </summary>
-        public int OriginalCount { get; set; }
+        public int Count { get; set; }
 
         /// <summary>
         /// List of all items
         /// </summary>
-        public List<Player> Items { get; set; }
+        public IReadOnlyList<Player> Items => items.AsReadOnly();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="`"/> class.
@@ -34,8 +36,8 @@
         {
             FilePath = path;
             Header = reader.ReadBytes(8);
-            OriginalCount = reader.ReadInt32();
-            Items = [];
+            Count = reader.ReadInt32();
+            items = [];
         }
 
         /// <summary>
@@ -58,7 +60,7 @@
                 while (ms.Position < ms.Length)
                 {
                     var item = new Player(reader);
-                    parser.Items.Add(item);
+                    parser.items.Add(item);
                 }
             });
 
@@ -75,11 +77,9 @@
             using var writer = new BinaryWriter(stream);
 
             writer.Write(Header);
-            writer.Write(Items.Count);
+            writer.Write(Count);
             foreach (var item in Items)
-            {
                 item.Write(writer);
-            }
 
             return stream.ToArray();
         }
