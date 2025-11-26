@@ -9,7 +9,7 @@
         public float Longitude { get; set; }
         public byte Attraction { get; set; }
         public short RegionId { get; set; }
-        public byte Unknown1 { get; set; }
+        public byte Unknown { get; set; }
 
         public City(BinaryReader reader)
         {
@@ -20,19 +20,7 @@
             Longitude = reader.ReadSingle();
             Attraction = reader.ReadByte();
             RegionId = reader.ReadInt16();
-            Unknown1 = reader.ReadByte();
-        }
-
-        /// <summary>
-        /// Converts the nation data to a byte array.
-        /// </summary>
-        /// <returns>A byte array representing the serialized nation data.</returns>
-        public byte[] ToBytes()
-        {
-            using var stream = new MemoryStream();
-            using var writer = new BinaryWriter(stream);
-            Write(writer);
-            return stream.ToArray();
+            Unknown = reader.ReadByte();
         }
 
         /// <summary>
@@ -48,7 +36,19 @@
             writer.WriteEx(Longitude);
             writer.WriteEx(Attraction);
             writer.WriteEx(RegionId);
-            writer.WriteEx(Unknown1);
+            writer.WriteEx(Unknown);
+        }
+
+        /// <summary>
+        /// Converts the nation data to a byte array.
+        /// </summary>
+        /// <returns>A byte array representing the serialized nation data.</returns>
+        public byte[] ToBytes()
+        {
+            using var stream = new MemoryStream();
+            using var writer = new BinaryWriter(stream);
+            Write(writer);
+            return stream.ToArray();
         }
 
         public override string ToString()

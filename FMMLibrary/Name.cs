@@ -18,7 +18,7 @@
         public byte Gender { get; set; }
 
         /// <summary>
-        /// Probably Country of origin
+        /// Country of origin
         /// </summary>
         public int NationUid { get; set; }
 
