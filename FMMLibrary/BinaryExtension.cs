@@ -6,7 +6,7 @@ namespace FMMLibrary
     /// <summary>
     /// Provides extension methods for reading and writing binary data with custom serialization logic.
     /// </summary>
-    public static class BinaryParser
+    public static class BinaryExtension
     {
         /// <summary>
         /// Reads a length-prefixed string from the binary reader.
