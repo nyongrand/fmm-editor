@@ -1,4 +1,4 @@
-﻿namespace FMELibrary
+﻿namespace FMMLibrary
 {
     public class Continent
     {
@@ -12,11 +12,21 @@
         public Continent(BinaryReader reader)
         {
             Id = reader.ReadInt16();
-            Name = reader.ReadString(reader.ReadInt32());
+            Name = reader.ReadStringEx();
             Unknown1 = reader.ReadByte();
-            CodeName = reader.ReadString(reader.ReadInt32());
-            Nationality = reader.ReadString(reader.ReadInt32());
+            CodeName = reader.ReadStringEx();
+            Nationality = reader.ReadStringEx();
             Unknown2 = reader.ReadByte();
+        }
+
+        public void Write(BinaryWriter writer)
+        {
+            writer.WriteEx(Id);
+            writer.WriteEx(Name);
+            writer.WriteEx(Unknown1);
+            writer.WriteEx(CodeName);
+            writer.WriteEx(Nationality);
+            writer.WriteEx(Unknown2);
         }
 
         public byte[] ToBytes()
@@ -25,16 +35,6 @@
             using var writer = new BinaryWriter(stream);
             Write(writer);
             return stream.ToArray();
-        }
-
-        public void Write(BinaryWriter writer)
-        {
-            writer.WriteBytes(Id);
-            writer.WriteBytes(Name);
-            writer.WriteBytes(Unknown1);
-            writer.WriteBytes(CodeName);
-            writer.WriteBytes(Nationality);
-            writer.WriteBytes(Unknown2);
         }
 
         public override string ToString()
