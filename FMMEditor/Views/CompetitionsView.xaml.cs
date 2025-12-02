@@ -1,4 +1,4 @@
-﻿using MahApps.Metro.Controls;
+using MahApps.Metro.Controls;
 using System;
 using System.Diagnostics;
 using System.Windows;
@@ -6,11 +6,11 @@ using System.Windows;
 namespace FMMEditor.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for CompetitionsView.xaml
     /// </summary>
-    public partial class CompetitionView : MetroWindow
+    public partial class CompetitionsView : MetroWindow
     {
-        public CompetitionView()
+        public CompetitionsView()
         {
             InitializeComponent();
         }
