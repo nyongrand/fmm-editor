@@ -305,6 +305,7 @@
                                     md:TextFieldAssist.DecorationVisibility="Hidden"
                                     BorderThickness="0"
                                     FontSize="16"
+                                    IsEnabled="{Binding IsDatabaseLoaded}"
                                     MaxLines="1"
                                     TabIndex="0"
                                     Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}" />
@@ -365,12 +366,14 @@
                                     <Button
                                         Command="{Binding Save}"
                                         Content="Save"
-                                        FontSize="16" />
+                                        FontSize="16"
+                                        IsEnabled="{Binding IsDatabaseLoaded}" />
 
                                     <Button
                                         Command="{Binding SaveAs}"
                                         Content="Save As..."
-                                        FontSize="16" />
+                                        FontSize="16"
+                                        IsEnabled="{Binding IsDatabaseLoaded}" />
 
                                     <Separator />
 
