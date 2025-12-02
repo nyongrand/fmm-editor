@@ -1,5 +1,5 @@
-﻿using System.Drawing;
-using System.Text;
+﻿using System.Text;
+using Color = System.Drawing.Color;
 
 namespace FMMLibrary
 {
