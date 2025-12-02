@@ -1,4 +1,4 @@
-﻿using DynamicData;
+using DynamicData;
 using FMMLibrary;
 using MaterialDesignThemes.Wpf;
 using MvvmDialogs;
@@ -18,7 +18,7 @@ using System.Windows.Data;
 
 namespace FMMEditor.ViewModels
 {
-    public class CompetitionViewModel : ReactiveObject
+    public class CompetitionsViewModel : ReactiveObject
     {
         public extern bool ShowSearch { [ObservableAsProperty] get; }
         [Reactive] public string SearchQuery { get; set; } = "";
@@ -88,7 +88,7 @@ namespace FMMEditor.ViewModels
         private readonly IDialogService dialogService;
         private Dictionary<short, List<Club>> clubsByLeagueLookup = [];
 
-        public CompetitionViewModel(IDialogService dialogService, ISnackbarMessageQueue messageQueue)
+        public CompetitionsViewModel(IDialogService dialogService, ISnackbarMessageQueue messageQueue)
         {
             this.dialogService = dialogService;
             MessageQueue = messageQueue;
