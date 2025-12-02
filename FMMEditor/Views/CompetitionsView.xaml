@@ -1,4 +1,4 @@
-<ma:MetroWindow
+﻿<ma:MetroWindow
     x:Class="FMMEditor.Views.CompetitionsView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
