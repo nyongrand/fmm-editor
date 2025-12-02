@@ -28,7 +28,7 @@
         public IReadOnlyList<Player> Items => items.AsReadOnly();
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="`"/> class.
+        /// Initializes a new instance of the <see cref="PlayerParser"/> class.
         /// </summary>
         /// <param name="path">The file path of the source data.</param>
         /// <param name="reader">The binary reader containing the nation data.</param>
