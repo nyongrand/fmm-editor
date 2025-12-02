@@ -6,5 +6,6 @@ namespace FMMEditor
     public class ViewModelLocator
     {
         public MainViewModel Main => Ioc.Default.GetRequiredService<MainViewModel>();
+        public CompetitionsViewModel Competitions => Ioc.Default.GetRequiredService<CompetitionsViewModel>();
     }
 }

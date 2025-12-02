@@ -1,7 +1,9 @@
 ﻿using MahApps.Metro.Controls;
+using FMMEditor.Views;
 using System;
 using System.Diagnostics;
 using System.Windows;
+using System.Windows.Input;
 
 namespace FMMEditor.Views
 {
@@ -13,6 +15,20 @@ namespace FMMEditor.Views
         public MainView()
         {
             InitializeComponent();
+        }
+
+        private void OpenCompetitions_Click(object sender, RoutedEventArgs e)
+        {
+            var competitionsView = new CompetitionsView();
+            competitionsView.Show();
+            this.Close();
+        }
+
+        private void OpenNames_Click(object sender, RoutedEventArgs e)
+        {
+            var namesView = new NameView();
+            namesView.Show();
+            this.Close();
         }
 
         private void Exit_Click(object sender, RoutedEventArgs e)
