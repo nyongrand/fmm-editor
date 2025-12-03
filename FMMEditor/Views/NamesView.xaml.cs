@@ -8,35 +8,16 @@ namespace FMMEditor.Views
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainView : MetroWindow
+    public partial class NamesView : MetroWindow
     {
-        public MainView()
+        public NamesView()
         {
             InitializeComponent();
-        }
-
-        private void OpenCompetitions_Click(object sender, RoutedEventArgs e)
-        {
-            var competitionsView = new CompetitionsView();
-            competitionsView.Show();
-            this.Close();
-        }
-
-        private void OpenNames_Click(object sender, RoutedEventArgs e)
-        {
-            var namesView = new NamesView();
-            namesView.Show();
-            this.Close();
         }
 
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
             Close();
-        }
-
-        private void DataGrid_LoadingRow(object sender, System.Windows.Controls.DataGridRowEventArgs e)
-        {
-            e.Row.Header = $"{e.Row.GetIndex() + 1}.";
         }
 
         private void Donate_Click(object sender, RoutedEventArgs e)
