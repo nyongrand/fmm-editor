@@ -80,6 +80,17 @@
             Count++;
         }
 
+        public void Replace(IEnumerable<Name> names)
+        {
+            items.Clear();
+            Count = 0;
+
+            foreach (var item in names)
+            {
+                Add(item);
+            }
+        }
+
         /// <summary>
         /// Converts the nation data to a byte array for serialization.
         /// </summary>
