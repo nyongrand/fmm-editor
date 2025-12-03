@@ -118,13 +118,13 @@ namespace FMMEditor.ViewModels
             Load = ReactiveCommand.Create(LoadImpl);
             Load.ToPropertyEx(this, vm => vm.FolderPath);
 
-            ParseNations = ReactiveCommand.CreateFromTask<string, NationParser>((path) => NationParser.Load(path));
+            ParseNations = ReactiveCommand.CreateFromTask<string, NationParser>(NationParser.Load);
             ParseNations.ToPropertyEx(this, vm => vm.NationParser);
 
-            ParseCompetitions = ReactiveCommand.CreateFromTask<string, CompetitionParser>((path) => CompetitionParser.Load(path));
+            ParseCompetitions = ReactiveCommand.CreateFromTask<string, CompetitionParser>(CompetitionParser.Load);
             ParseCompetitions.ToPropertyEx(this, vm => vm.CompParser);
 
-            ParseClubs = ReactiveCommand.CreateFromTask<string, ClubParser>((path) => ClubParser.Load(path));
+            ParseClubs = ReactiveCommand.CreateFromTask<string, ClubParser>(ClubParser.Load);
             ParseClubs.ToPropertyEx(this, vm => vm.ClubParser);
 
             SwitchClub = ReactiveCommand.Create(SwitchClubImpl);

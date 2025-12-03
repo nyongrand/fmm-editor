@@ -20,6 +20,7 @@ namespace FMMEditor
                     .AddSingleton<ISnackbarMessageQueue, SnackbarMessageQueue>()
                     .AddTransient<MainViewModel>()
                     .AddTransient<CompetitionsViewModel>()
+                    .AddTransient<NamesViewModel>()
                     .BuildServiceProvider());
         }
     }
