@@ -31,6 +31,7 @@
         <converter:BytesConverter x:Key="bytes" />
         <converter:VisibilityConverter x:Key="Visibility" />
         <converter:BooleanConverter x:Key="Boolean" />
+        <converter:GenderConverter x:Key="GenderConverter" />
 
         <Style
             x:Key="centerHeaderColumnStyle"
@@ -39,6 +40,19 @@
             <Setter Property="TextAlignment" Value="Center" />
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="Padding" Value="0" />
+        </Style>
+
+        <Style
+            x:Key="genderColumnStyle"
+            BasedOn="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+            TargetType="{x:Type TextBlock}">
+            <Setter Property="TextAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="FontFamily" Value="Segoe UI Symbol" />
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Foreground" Value="{Binding Gender, Converter={StaticResource GenderConverter}, ConverterParameter=Color}" />
         </Style>
     </Window.Resources>
 
@@ -478,9 +492,9 @@
                         <DataGrid.Columns>
 
                             <DataGridTextColumn
-                                Width="75"
-                                MinWidth="75"
-                                MaxWidth="75"
+                                Width="70"
+                                MinWidth="70"
+                                MaxWidth="70"
                                 Binding="{Binding Id}"
                                 CanUserReorder="False"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
@@ -494,24 +508,24 @@
                             </DataGridTextColumn>
 
                             <DataGridTextColumn
-                                Width="105"
-                                MinWidth="105"
-                                MaxWidth="105"
-                                Binding="{Binding Gender}"
+                                Width="50"
+                                MinWidth="50"
+                                MaxWidth="50"
+                                Binding="{Binding Gender, Converter={StaticResource GenderConverter}, ConverterParameter=Symbol}"
                                 CanUserReorder="False"
-                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
-                                Header="Gender">
+                                ElementStyle="{StaticResource genderColumnStyle}"
+                                Header="⚥">
                                 <DataGridTextColumn.HeaderStyle>
                                     <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
                                         <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                        <Setter Property="FontSize" Value="18" />
                                     </Style>
                                 </DataGridTextColumn.HeaderStyle>
                             </DataGridTextColumn>
 
                             <DataGridTextColumn
-                                Width="105"
-                                MinWidth="105"
-                                MaxWidth="105"
+                                Width="110"
+                                MinWidth="110"
                                 Binding="{Binding NationName}"
                                 CanUserReorder="False"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
@@ -589,9 +603,9 @@
                         <DataGrid.Columns>
 
                             <DataGridTextColumn
-                                Width="75"
-                                MinWidth="75"
-                                MaxWidth="75"
+                                Width="70"
+                                MinWidth="70"
+                                MaxWidth="70"
                                 Binding="{Binding Id}"
                                 CanUserReorder="False"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
@@ -605,24 +619,24 @@
                             </DataGridTextColumn>
 
                             <DataGridTextColumn
-                                Width="105"
-                                MinWidth="105"
-                                MaxWidth="105"
-                                Binding="{Binding Gender}"
+                                Width="50"
+                                MinWidth="50"
+                                MaxWidth="50"
+                                Binding="{Binding Gender, Converter={StaticResource GenderConverter}, ConverterParameter=Symbol}"
                                 CanUserReorder="False"
-                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
-                                Header="Gender">
+                                ElementStyle="{StaticResource genderColumnStyle}"
+                                Header="⚥">
                                 <DataGridTextColumn.HeaderStyle>
                                     <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
                                         <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                        <Setter Property="FontSize" Value="18" />
                                     </Style>
                                 </DataGridTextColumn.HeaderStyle>
                             </DataGridTextColumn>
 
                             <DataGridTextColumn
-                                Width="105"
-                                MinWidth="105"
-                                MaxWidth="105"
+                                Width="110"
+                                MinWidth="110"
                                 Binding="{Binding NationName}"
                                 CanUserReorder="False"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
@@ -700,9 +714,9 @@
                         <DataGrid.Columns>
 
                             <DataGridTextColumn
-                                Width="75"
-                                MinWidth="75"
-                                MaxWidth="75"
+                                Width="70"
+                                MinWidth="70"
+                                MaxWidth="70"
                                 Binding="{Binding Id}"
                                 CanUserReorder="False"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
@@ -716,24 +730,24 @@
                             </DataGridTextColumn>
 
                             <DataGridTextColumn
-                                Width="105"
-                                MinWidth="105"
-                                MaxWidth="105"
-                                Binding="{Binding Gender}"
+                                Width="50"
+                                MinWidth="50"
+                                MaxWidth="50"
+                                Binding="{Binding Gender, Converter={StaticResource GenderConverter}, ConverterParameter=Symbol}"
                                 CanUserReorder="False"
-                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
-                                Header="Gender">
+                                ElementStyle="{StaticResource genderColumnStyle}"
+                                Header="⚥">
                                 <DataGridTextColumn.HeaderStyle>
                                     <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
                                         <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                        <Setter Property="FontSize" Value="18" />
                                     </Style>
                                 </DataGridTextColumn.HeaderStyle>
                             </DataGridTextColumn>
 
                             <DataGridTextColumn
-                                Width="105"
-                                MinWidth="105"
-                                MaxWidth="105"
+                                Width="110"
+                                MinWidth="110"
                                 Binding="{Binding NationName}"
                                 CanUserReorder="False"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
