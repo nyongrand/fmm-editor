@@ -15,56 +15,31 @@ using System.Reactive.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
-using System.Xml.Linq;
 
 namespace FMMEditor.ViewModels
 {
     public class NamesViewModel : ReactiveObject
     {
+        public extern string? FolderPath { [ObservableAsProperty] get; }
+        public extern bool IsDatabaseLoaded { [ObservableAsProperty] get; }
+
+
         [Reactive] public string SearchQuery { get; set; } = "";
         public extern bool ShowSearch { [ObservableAsProperty] get; }
         public ReactiveCommand<Unit, Unit> ClearSearch { get; private set; }
 
-        //[Reactive] public bool ShowMoveDialog { get; set; }
-        //[Reactive] public bool ShowSwitchDialog { get; set; }
-
-        //[Reactive] public Club? SelectedClub { get; set; }
-        //[Reactive] public Nation? FilterSwitchNation { get; set; }
-        //[Reactive] public Club? SwitchedWithClub { get; set; }
-
-        //public extern bool HasNoClubs { [ObservableAsProperty] get; }
-
-        public extern string? FolderPath { [ObservableAsProperty] get; }
-        public extern bool IsDatabaseLoaded { [ObservableAsProperty] get; }
 
         public extern NationParser? NationParser { [ObservableAsProperty] get; }
         public extern NameParser? FirstNameParser { [ObservableAsProperty] get; }
         public extern NameParser? SecondNameParser { [ObservableAsProperty] get; }
+        public extern NameParser? CommonNameParser { [ObservableAsProperty] get; }
 
-        /// <summary>
-        /// All nations loaded from nation.dat
-        /// </summary>
+
         public ObservableCollection<Nation> Nations { get; } = [];
-
-        /// <summary>
-        /// All competitions loaded from competition.dat
-        /// </summary>
         public ObservableCollection<Name> FirstNames { get; } = [];
-
-        /// <summary>
-        /// All clubs loaded from club.dat
-        /// </summary>
         public ObservableCollection<Name> SecondNames { get; } = [];
+        public ObservableCollection<Name> CommonNames { get; } = [];
 
-        /// <summary>
-        /// Clubs filtered by selected competition
-        /// </summary>
-        //public ObservableCollection<Club> ClubsInSelectedCompetition { get; }
-
-        /// <summary>
-        /// Clubs filtered by selected nation for switching / moving
-        /// </summary>
-        //public ObservableCollection<Club> ClubsAvailableForSwitch { get; }
 
         public ReactiveCommand<Unit, string?> Load { get; private set; }
         public ReactiveCommand<Unit, Unit> Save { get; private set; }
@@ -72,14 +47,9 @@ namespace FMMEditor.ViewModels
         public ReactiveCommand<string, NationParser> ParseNations { get; private set; }
         public ReactiveCommand<string, NameParser> ParseFirstName { get; private set; }
         public ReactiveCommand<string, NameParser> ParseSecondName { get; private set; }
+        public ReactiveCommand<string, NameParser> ParseCommonName { get; private set; }
 
-        [Reactive] public ISnackbarMessageQueue MessageQueue { get; set; }
-
-        private readonly ICollectionView firstNamesView;
-        private readonly ICollectionView secondNamesView;
-        private readonly IDialogService dialogService;
-
-        #region
+        #region Dialog
 
         public ReactiveCommand<Name, Unit> AddCommand { get; private set; }
         public ReactiveCommand<Name, Unit> EditCommand { get; private set; }
@@ -87,7 +57,6 @@ namespace FMMEditor.ViewModels
 
         public ReactiveCommand<Unit, Unit> CancelCommand { get; private set; }
         public ReactiveCommand<Unit, Unit> ConfirmCommand { get; private set; }
-        //public ReactiveCommand<Unit, Unit> ConfirmMove { get; private set; }
 
         [Reactive] public bool ShowDialog { get; set; }
         [Reactive] public Name? SelectedName { get; set; }
@@ -98,6 +67,13 @@ namespace FMMEditor.ViewModels
         [Reactive] public string? SelectedValue { get; set; }
 
         #endregion
+
+        [Reactive] public ISnackbarMessageQueue MessageQueue { get; set; }
+
+        private readonly ICollectionView firstNamesView;
+        private readonly ICollectionView secondNamesView;
+        private readonly ICollectionView commonNamesView;
+        private readonly IDialogService dialogService;
 
         public NamesViewModel(IDialogService dialogService, ISnackbarMessageQueue messageQueue)
         {
@@ -130,6 +106,18 @@ namespace FMMEditor.ViewModels
                 return true;
             };
 
+            commonNamesView = CollectionViewSource.GetDefaultView(CommonNames);
+            commonNamesView.Filter = obj =>
+            {
+                if (obj is Name name)
+                {
+                    return string.IsNullOrEmpty(SearchQuery)
+                        || name.Value.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase);
+                }
+
+                return true;
+            };
+
             Load = ReactiveCommand.Create(LoadImpl);
             Load.ToPropertyEx(this, vm => vm.FolderPath);
 
@@ -142,16 +130,23 @@ namespace FMMEditor.ViewModels
             ParseSecondName = ReactiveCommand.CreateFromTask<string, NameParser>(NameParser.Load);
             ParseSecondName.ToPropertyEx(this, vm => vm.SecondNameParser);
 
+            ParseCommonName = ReactiveCommand.CreateFromTask<string, NameParser>(NameParser.Load);
+            ParseCommonName.ToPropertyEx(this, vm => vm.CommonNameParser);
+
             AddCommand = ReactiveCommand.Create<Name>(Add);
             EditCommand = ReactiveCommand.Create<Name>(Edit);
             DeleteCommand = ReactiveCommand.Create<Name>(Delete);
 
             CancelCommand = ReactiveCommand.Create(Cancel);
             ConfirmCommand = ReactiveCommand.Create(Confirm);
-            //ConfirmSwitch = ReactiveCommand.Create(ConfirmSwitchImpl);
 
             Save = ReactiveCommand.CreateFromTask(SaveImpl);
             SaveAs = ReactiveCommand.CreateFromTask(SaveAsImpl);
+
+            this.WhenAnyValue(vm => vm.FolderPath)
+                .WhereNotNull()
+                .Select(x => x + "\\nation.dat")
+                .InvokeCommand(ParseNations);
 
             this.WhenAnyValue(vm => vm.FolderPath)
                 .WhereNotNull()
@@ -163,15 +158,10 @@ namespace FMMEditor.ViewModels
                 .Select(x => x + "\\second_names.dat")
                 .InvokeCommand(ParseSecondName);
 
-            //this.WhenAnyValue(vm => vm.FolderPath)
-            //    .WhereNotNull()
-            //    .Select(x => x + "\\common_names.dat")
-            //    .InvokeCommand(ParseCompetitions);
-
             this.WhenAnyValue(vm => vm.FolderPath)
                 .WhereNotNull()
-                .Select(x => x + "\\nation.dat")
-                .InvokeCommand(ParseNations);
+                .Select(x => x + "\\common_names.dat")
+                .InvokeCommand(ParseCommonName);
 
             this.WhenAnyValue(vm => vm.FolderPath)
                 .Select(x => !string.IsNullOrEmpty(x))
@@ -215,26 +205,28 @@ namespace FMMEditor.ViewModels
                     }
                 });
 
-            //this.WhenAnyValue(vm => vm.ShowMoveDialog, vm => vm.ShowSwitchDialog, vm => vm.SelectedClub)
-            //    .Select(x => (x.Item1 || x.Item2) && x.Item3 != null)
-            //    .Subscribe(x => ShowDialog = x);
+            this.WhenAnyValue(vm => vm.CommonNameParser, vm => vm.NationParser)
+                .Subscribe(pair =>
+                {
+                    CommonNames.Clear();
+
+                    var names = pair.Item1?.Items;
+                    if (names != null)
+                    {
+                        CommonNames.AddRange(
+                            names.OrderBy(x => x.NationUid)
+                                .ThenBy(x => x.Value)
+                        );
+                    }
+                });
 
             this.WhenAnyValue(vm => vm.SearchQuery)
                 .Subscribe(x =>
                 {
                     firstNamesView.Refresh();
                     secondNamesView.Refresh();
+                    commonNamesView.Refresh();
                 });
-
-            //this.WhenAnyValue(vm => vm.SelectedName)
-            //    .Subscribe(x => UpdateFilteredClubs());
-
-            //this.WhenAnyValue(vm => vm.SelectedName, vm => vm.FilterSwitchNation)
-            //    .Subscribe(x => UpdateFilteredSwitchs());
-
-            //this.WhenAnyValue(vm => vm.SelectedName, vm => vm.ClubsInSelectedCompetition.Count)
-            //    .Select(x => x.Item1 != null && x.Item2 == 0)
-            //    .ToPropertyEx(this, vm => vm.HasNoClubs);
         }
 
         //private void UpdateFilteredClubs()
@@ -357,59 +349,20 @@ namespace FMMEditor.ViewModels
             //}
         }
 
-        //private void ConfirmSwitchImpl()
-        //{
-        //    ShowSwitchDialog = false;
-
-        //    if (SelectedClub is Club club1 && SwitchedWithClub is Club club2)
-        //    {
-        //        var based1 = club1.BasedId;
-        //        var league1 = club1.LeagueId;
-        //        var based2 = club2.BasedId;
-        //        var league2 = club2.LeagueId;
-
-        //        SelectedClub.BasedId = based2;
-        //        SelectedClub.LeagueId = league2;
-        //        SwitchedWithClub.BasedId = based1;
-        //        SwitchedWithClub.LeagueId = league1;
-
-        //        // Update index
-        //        if (league1 >= 0 && clubsByLeagueLookup.TryGetValue((short)league1, out var clubs1))
-        //        {
-        //            clubs1.Remove(club1);
-        //        }
-        //        if (league2 >= 0 && clubsByLeagueLookup.TryGetValue((short)league2, out var clubs2))
-        //        {
-        //            clubs2.Remove(club2);
-        //            clubs2.Add(club1);
-        //        }
-
-        //        if (league1 >= 0)
-        //        {
-        //            if (!clubsByLeagueLookup.TryGetValue((short)league1, out var newClubs1))
-        //            {
-        //                newClubs1 = [];
-        //                clubsByLeagueLookup[league1] = newClubs1;
-        //            }
-        //            newClubs1.Add(club2);
-        //        }
-
-        //        UpdateFilteredClubs();
-        //        UpdateFilteredSwitchs();
-        //    }
-        //}
-
         private async Task SaveImpl()
         {
             try
             {
-                if (FirstNameParser != null && SecondNameParser != null)
+                if (FirstNameParser != null && SecondNameParser != null && CommonNameParser != null)
                 {
                     FirstNameParser.Replace(FirstNames);
                     await FirstNameParser.Save();
 
-                    SecondNameParser.Replace(FirstNames);
+                    SecondNameParser.Replace(SecondNames);
                     await SecondNameParser.Save();
+
+                    CommonNameParser.Replace(CommonNames);
+                    await CommonNameParser.Save();
 
                     MessageQueue.Enqueue("Save Successfull");
                 }
@@ -429,13 +382,16 @@ namespace FMMEditor.ViewModels
 
             try
             {
-                if (FirstNameParser != null && SecondNameParser != null)
+                if (FirstNameParser != null && SecondNameParser != null && CommonNameParser != null)
                 {
                     FirstNameParser.Replace(FirstNames);
-                    await FirstNameParser.Save(settings.SelectedPath + "\\competition.dat");
+                    await FirstNameParser.Save(settings.SelectedPath + "\\first_name.dat");
 
-                    SecondNameParser.Replace(FirstNames);
-                    await SecondNameParser.Save(settings.SelectedPath + "\\club.dat");
+                    SecondNameParser.Replace(SecondNames);
+                    await SecondNameParser.Save(settings.SelectedPath + "\\second_name.dat");
+
+                    CommonNameParser.Replace(CommonNames);
+                    await CommonNameParser.Save(settings.SelectedPath + "\\common_name.dat");
 
                     MessageQueue.Enqueue("Save Successfull");
                 }
@@ -446,19 +402,5 @@ namespace FMMEditor.ViewModels
                     "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
-        #region Private Methods
-
-        private static string GetCompetitionName(IEnumerable<Competition>? competitions, int id)
-        {
-            return competitions?.FirstOrDefault(x => x.Id == id)?.FullName ?? "--";
-        }
-
-        private static string GetNationName(IEnumerable<Nation>? nations, int id)
-        {
-            return nations?.FirstOrDefault(x => x.Id == id)?.Name ?? "--";
-        }
-
-        #endregion
     }
 }

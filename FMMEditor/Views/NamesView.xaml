@@ -293,12 +293,13 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*" />
                         <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
                     </Grid.ColumnDefinitions>
 
                     <!--  Empty State View  -->
                     <Grid
                         Grid.Column="0"
-                        Grid.ColumnSpan="2"
+                        Grid.ColumnSpan="3"
                         Background="{DynamicResource MaterialDesignPaper}"
                         Visibility="{Binding IsDatabaseLoaded, Converter={StaticResource Visibility}, ConverterParameter=Inverter}">
                         <StackPanel
@@ -441,11 +442,13 @@
                         CanUserReorderColumns="False"
                         CanUserResizeRows="False"
                         ContextMenu="{DynamicResource menu}"
+                        EnableRowVirtualization="True"
                         FontSize="12.5"
                         GridLinesVisibility="All"
                         IsSynchronizedWithCurrentItem="True"
                         ItemsSource="{Binding FirstNames}"
                         RowHeight="33"
+                        ScrollViewer.CanContentScroll="True"
                         ScrollViewer.HorizontalScrollBarVisibility="Auto"
                         SelectedItem="{Binding SelectedName}"
                         SelectionMode="Single"
@@ -550,15 +553,146 @@
                         CanUserAddRows="True"
                         CanUserReorderColumns="False"
                         CanUserResizeRows="False"
+                        ContextMenu="{DynamicResource menu}"
+                        EnableRowVirtualization="True"
                         FontSize="12.5"
                         GridLinesVisibility="All"
                         IsSynchronizedWithCurrentItem="True"
                         ItemsSource="{Binding SecondNames}"
                         RowHeight="33"
+                        ScrollViewer.CanContentScroll="True"
                         ScrollViewer.HorizontalScrollBarVisibility="Auto"
                         SelectedItem="{Binding SelectedName}"
                         SelectionMode="Single"
                         Visibility="{Binding IsDatabaseLoaded, Converter={StaticResource Visibility}, ConverterParameter=Boolean}">
+
+                        <DataGrid.Resources>
+                            <ContextMenu x:Key="menu">
+                                <MenuItem
+                                    Command="{Binding AddCommand}"
+                                    CommandParameter="{Binding SelectedName}"
+                                    Header="Add Names" />
+                                <MenuItem
+                                    Command="{Binding EditCommand}"
+                                    CommandParameter="{Binding SelectedName}"
+                                    Header="Edit Name" />
+                                <MenuItem
+                                    Command="{Binding DeleteCommand}"
+                                    CommandParameter="{Binding SelectedName}"
+                                    Header="Delete Name" />
+                            </ContextMenu>
+                        </DataGrid.Resources>
+
+                        <DataGrid.Columns>
+
+                            <DataGridTextColumn
+                                Width="75"
+                                MinWidth="75"
+                                MaxWidth="75"
+                                Binding="{Binding Id}"
+                                CanUserReorder="False"
+                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                Header="Id"
+                                IsReadOnly="True">
+                                <DataGridTextColumn.HeaderStyle>
+                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                    </Style>
+                                </DataGridTextColumn.HeaderStyle>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn
+                                Width="105"
+                                MinWidth="105"
+                                MaxWidth="105"
+                                Binding="{Binding Gender}"
+                                CanUserReorder="False"
+                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                Header="Gender">
+                                <DataGridTextColumn.HeaderStyle>
+                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                    </Style>
+                                </DataGridTextColumn.HeaderStyle>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn
+                                Width="105"
+                                MinWidth="105"
+                                MaxWidth="105"
+                                Binding="{Binding NationUid}"
+                                CanUserReorder="False"
+                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                Header="Nation">
+                                <DataGridTextColumn.HeaderStyle>
+                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                    </Style>
+                                </DataGridTextColumn.HeaderStyle>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn
+                                Width="105"
+                                MinWidth="105"
+                                MaxWidth="105"
+                                Binding="{Binding Unknown3}"
+                                CanUserReorder="False"
+                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                Header="Unknown">
+                                <DataGridTextColumn.HeaderStyle>
+                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                    </Style>
+                                </DataGridTextColumn.HeaderStyle>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn
+                                Width="*"
+                                Binding="{Binding Value}"
+                                CanUserReorder="False"
+                                ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                                Header="Name" />
+
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <DataGrid
+                        Grid.Column="2"
+                        md:DataGridAssist.SelectedCellBorderBrush="Transparent"
+                        AutoGenerateColumns="False"
+                        BorderThickness="1"
+                        CanUserAddRows="True"
+                        CanUserReorderColumns="False"
+                        CanUserResizeRows="False"
+                        ContextMenu="{DynamicResource menu}"
+                        EnableRowVirtualization="True"
+                        FontSize="12.5"
+                        GridLinesVisibility="All"
+                        IsSynchronizedWithCurrentItem="True"
+                        ItemsSource="{Binding CommonNames}"
+                        RowHeight="33"
+                        ScrollViewer.CanContentScroll="True"
+                        ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                        SelectedItem="{Binding SelectedName}"
+                        SelectionMode="Single"
+                        Visibility="{Binding IsDatabaseLoaded, Converter={StaticResource Visibility}, ConverterParameter=Boolean}">
+
+                        <DataGrid.Resources>
+                            <ContextMenu x:Key="menu">
+                                <MenuItem
+                                    Command="{Binding AddCommand}"
+                                    CommandParameter="{Binding SelectedName}"
+                                    Header="Add Names" />
+                                <MenuItem
+                                    Command="{Binding EditCommand}"
+                                    CommandParameter="{Binding SelectedName}"
+                                    Header="Edit Name" />
+                                <MenuItem
+                                    Command="{Binding DeleteCommand}"
+                                    CommandParameter="{Binding SelectedName}"
+                                    Header="Delete Name" />
+                            </ContextMenu>
+                        </DataGrid.Resources>
 
                         <DataGrid.Columns>
 
