@@ -1,4 +1,4 @@
-﻿using DynamicData;
+﻿using FMMEditor.Collections;
 using FMMLibrary;
 using MaterialDesignThemes.Wpf;
 using MvvmDialogs;
@@ -6,8 +6,6 @@ using MvvmDialogs.FrameworkDialogs.FolderBrowser;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Reactive;
@@ -35,10 +33,10 @@ namespace FMMEditor.ViewModels
         public extern NameParser? CommonNameParser { [ObservableAsProperty] get; }
 
 
-        public ObservableCollection<Nation> Nations { get; } = [];
-        public ObservableCollection<Name> FirstNames { get; } = [];
-        public ObservableCollection<Name> SecondNames { get; } = [];
-        public ObservableCollection<Name> CommonNames { get; } = [];
+        public BulkObservableCollection<Nation> Nations { get; } = [];
+        public BulkObservableCollection<Name> FirstNames { get; } = [];
+        public BulkObservableCollection<Name> SecondNames { get; } = [];
+        public BulkObservableCollection<Name> CommonNames { get; } = [];
 
 
         public ReactiveCommand<Unit, string?> Load { get; private set; }
@@ -171,52 +169,48 @@ namespace FMMEditor.ViewModels
                 .WhereNotNull()
                 .Subscribe(x =>
                 {
-                    Nations.Clear();
-                    Nations.AddRange(x.Items.OrderBy(y => y.Name));
+                    Nations.Reset(x.Items.OrderBy(y => y.Name));
                 });
 
             this.WhenAnyValue(vm => vm.FirstNameParser, vm => vm.NationParser)
                 .Subscribe(pair =>
                 {
-                    FirstNames.Clear();
-
                     var names = pair.Item1?.Items;
                     if (names != null)
                     {
-                        FirstNames.AddRange(
-                            names.OrderBy(x => x.NationUid)
-                                .ThenBy(x => x.Value)
-                        );
+                        FirstNames.Reset(names.OrderBy(x => x.NationUid).ThenBy(x => x.Value));
+                    }
+                    else
+                    {
+                        FirstNames.Clear();
                     }
                 });
 
             this.WhenAnyValue(vm => vm.SecondNameParser, vm => vm.NationParser)
                 .Subscribe(pair =>
                 {
-                    SecondNames.Clear();
-
                     var names = pair.Item1?.Items;
                     if (names != null)
                     {
-                        SecondNames.AddRange(
-                            names.OrderBy(x => x.NationUid)
-                                .ThenBy(x => x.Value)
-                        );
+                        SecondNames.Reset(names.OrderBy(x => x.NationUid).ThenBy(x => x.Value));
+                    }
+                    else
+                    {
+                        SecondNames.Clear();
                     }
                 });
 
             this.WhenAnyValue(vm => vm.CommonNameParser, vm => vm.NationParser)
                 .Subscribe(pair =>
                 {
-                    CommonNames.Clear();
-
                     var names = pair.Item1?.Items;
                     if (names != null)
                     {
-                        CommonNames.AddRange(
-                            names.OrderBy(x => x.NationUid)
-                                .ThenBy(x => x.Value)
-                        );
+                        CommonNames.Reset(names.OrderBy(x => x.NationUid).ThenBy(x => x.Value));
+                    }
+                    else
+                    {
+                        CommonNames.Clear();
                     }
                 });
 
