@@ -6,7 +6,7 @@ using System.Windows;
 namespace FMMEditor.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for NamesView.xaml
     /// </summary>
     public partial class NamesView : MetroWindow
     {

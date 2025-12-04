@@ -44,8 +44,9 @@
 
     <Grid>
         <md:DialogHost IsOpen="{Binding ShowDialog}">
-            <md:DialogHost.DialogContent>
 
+            <!--  Dialog  -->
+            <md:DialogHost.DialogContent>
                 <md:Card md:ElevationAssist.Elevation="Dp0" UniformCornerRadius="4">
                     <Grid Width="400" Height="430">
                         <StackPanel Margin="16,0" Orientation="Vertical">
@@ -134,7 +135,6 @@
                         </StackPanel>
                     </Grid>
                 </md:Card>
-
             </md:DialogHost.DialogContent>
 
             <DockPanel
@@ -143,6 +143,7 @@
                 VerticalAlignment="Stretch"
                 Background="{DynamicResource MaterialDesignPaper}">
 
+                <!--  Title Bar  -->
                 <md:ColorZone
                     Height="56"
                     DockPanel.Dock="Top"
@@ -272,6 +273,7 @@
                     </Grid>
                 </md:ColorZone>
 
+                <!--  Status Bar  -->
                 <StatusBar
                     Height="24"
                     DockPanel.Dock="Bottom"
@@ -289,6 +291,7 @@
                     </StatusBarItem>
                 </StatusBar>
 
+                <!--  Main Content  -->
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*" />
