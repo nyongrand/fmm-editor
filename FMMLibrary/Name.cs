@@ -21,6 +21,11 @@
         /// Country of origin
         /// </summary>
         public int NationUid { get; set; }
+        
+        /// <summary>
+        /// Display name of the nation (not persisted)
+        /// </summary>
+        public string? NationName { get; set; }
 
         public short Unknown2 { get; set; }
 

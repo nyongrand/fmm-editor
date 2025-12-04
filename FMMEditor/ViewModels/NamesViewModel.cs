@@ -176,8 +176,13 @@ namespace FMMEditor.ViewModels
                 .Subscribe(pair =>
                 {
                     var names = pair.Item1?.Items;
+                    var nationParser = pair.Item2;
                     if (names != null)
                     {
+                        foreach (var name in names)
+                        {
+                            name.NationName = nationParser?.Items.FirstOrDefault(n => n.Uid == name.NationUid)?.Name;
+                        }
                         FirstNames.Reset(names.OrderBy(x => x.NationUid).ThenBy(x => x.Value));
                     }
                     else
@@ -190,8 +195,13 @@ namespace FMMEditor.ViewModels
                 .Subscribe(pair =>
                 {
                     var names = pair.Item1?.Items;
+                    var nationParser = pair.Item2;
                     if (names != null)
                     {
+                        foreach (var name in names)
+                        {
+                            name.NationName = nationParser?.Items.FirstOrDefault(n => n.Uid == name.NationUid)?.Name;
+                        }
                         SecondNames.Reset(names.OrderBy(x => x.NationUid).ThenBy(x => x.Value));
                     }
                     else
@@ -204,8 +214,13 @@ namespace FMMEditor.ViewModels
                 .Subscribe(pair =>
                 {
                     var names = pair.Item1?.Items;
+                    var nationParser = pair.Item2;
                     if (names != null)
                     {
+                        foreach (var name in names)
+                        {
+                            name.NationName = nationParser?.Items.FirstOrDefault(n => n.Uid == name.NationUid)?.Name;
+                        }
                         CommonNames.Reset(names.OrderBy(x => x.NationUid).ThenBy(x => x.Value));
                     }
                     else

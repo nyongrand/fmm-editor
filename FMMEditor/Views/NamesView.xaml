@@ -509,7 +509,7 @@
                                 Width="105"
                                 MinWidth="105"
                                 MaxWidth="105"
-                                Binding="{Binding NationUid}"
+                                Binding="{Binding NationName}"
                                 CanUserReorder="False"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Nation">
@@ -620,7 +620,7 @@
                                 Width="105"
                                 MinWidth="105"
                                 MaxWidth="105"
-                                Binding="{Binding NationUid}"
+                                Binding="{Binding NationName}"
                                 CanUserReorder="False"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Nation">
@@ -731,7 +731,7 @@
                                 Width="105"
                                 MinWidth="105"
                                 MaxWidth="105"
-                                Binding="{Binding NationUid}"
+                                Binding="{Binding NationName}"
                                 CanUserReorder="False"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Nation">
