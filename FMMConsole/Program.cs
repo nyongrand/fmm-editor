@@ -90,8 +90,11 @@ using FMMLibrary;
 //            Str = s 
 //        };
 
-var par = await Scripts.SwitchNationality("../../../db/db_archive_2603/people.dat", 58);
-await par.Save();
+//var par = await Scripts.SwitchNationality("../../../db/db_archive_2603/people.dat", 58);
+//await par.Save();
+
+var cityParser = await ContinentParser.Load("../../../db/db_archive_2603/continent.dat");
+var g = cityParser.Items.ToList();
 
 var peopleParser = await PeopleParser.Load("../../../db/db_archive_2603/people.dat");
 var playerParser = await PlayerParser.Load("../../../db/db_archive_2603/players.dat");
@@ -129,14 +132,14 @@ var grouped = players
 var indonesian = players
     //.GroupBy(x => x.People.Unknown2)
     //.OrderBy(x => x.Key)
-    //.Where(x => x.People.Type == 1)
+    .Where(x => x.People.Type == 1)
     //.Where(x => x.People.NationalCaps == 0)
     //.Where(x => x.People.NationId != 58)
-    //.Where(x => x.People.NationId == 58 || x.People.OtherNationalities.Contains(58))
+    .Where(x => x.People.NationId == 58 || x.People.OtherNationalities.Contains(58))
     //.Where(x => x.Uid != 37059452)
     //.Where(x => x.Uid != 85029078)
-    //.GroupBy(x => x.Nation)
-    //.OrderBy(x => x.Count())
+    .GroupBy(x => x.Club.NationId)
+    .OrderBy(x => x.Count())
     //.Where(x => x.People.DefaultLanguages.Select(x => x.Id).ToList().Contains(76) || x.People.OtherLanguages.Select(x => x.Id).ToList().Contains(76))
     .ToList();
 
@@ -162,7 +165,7 @@ static async Task VerifyDatFileAsync()
     }
 
     var equal = bytes1.SequenceEqual(bytes2);
-    var count = parser.OriginalCount;
+    var count = parser.Count;
 }
 
 static async Task ApplyChangesTxt()
