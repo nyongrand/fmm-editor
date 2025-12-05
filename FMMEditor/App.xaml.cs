@@ -21,6 +21,7 @@ namespace FMMEditor
                     .AddTransient<MainViewModel>()
                     .AddTransient<CompetitionsViewModel>()
                     .AddTransient<NamesViewModel>()
+                    .AddTransient<PeopleViewModel>()
                     .BuildServiceProvider());
         }
     }

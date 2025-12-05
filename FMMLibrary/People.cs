@@ -83,6 +83,16 @@
 
         public byte Unknown21 { get; set; }
 
+        /// <summary>
+        /// Parameterless constructor for creating new People instances.
+        /// </summary>
+        public People()
+        {
+            OtherNationalities = [];
+            DefaultLanguages = [];
+            OtherLanguages = [];
+            Relationships = [];
+        }
 
         public People(BinaryReader reader)
         {
