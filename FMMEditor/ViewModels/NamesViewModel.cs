@@ -238,38 +238,6 @@ namespace FMMEditor.ViewModels
                 });
         }
 
-        //private void UpdateFilteredClubs()
-        //{
-        //    ClubsInSelectedCompetition.Clear();
-
-        //    if (SelectedName?.Id != null && clubsByLeagueLookup.TryGetValue(SelectedName.Id, out var clubs))
-        //    {
-        //        ClubsInSelectedCompetition.AddRange(clubs);
-        //    }
-        //}
-
-        //private void UpdateFilteredSwitchs()
-        //{
-        //    ClubsAvailableForSwitch.Clear();
-
-        //    if (FilterSwitchNation?.Id != null && SelectedName?.Id != null)
-        //    {
-        //        var switchClubs = SecondNames
-        //            .Where(x => x.IsNational == 0)
-        //            .Where(x => x.IsWomanFlag == SelectedClub?.IsWomanFlag)
-        //            .Where(c => c.NationId == FilterSwitchNation.Id && c.LeagueId != SelectedName.Id)
-        //            .Select(c =>
-        //            {
-        //                c.Competition = GetCompetitionName(FirstNames, c.LeagueId);
-        //                return c;
-        //            })
-        //            .OrderByDescending(c => c.Reputation)
-        //            .ToList();
-
-        //        ClubsAvailableForSwitch.AddRange(switchClubs);
-        //    }
-        //}
-
         private string? LoadImpl()
         {
             var settings = new FolderBrowserDialogSettings();
