@@ -567,13 +567,28 @@
                             </DataGridTextColumn>
 
                             <DataGridTextColumn
-                                Width="105"
-                                MinWidth="105"
-                                MaxWidth="105"
+                                Width="55"
+                                MinWidth="55"
+                                MaxWidth="55"
+                                Binding="{Binding Unknown2}"
+                                CanUserReorder="False"
+                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                Header="X2">
+                                <DataGridTextColumn.HeaderStyle>
+                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                    </Style>
+                                </DataGridTextColumn.HeaderStyle>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn
+                                Width="55"
+                                MinWidth="55"
+                                MaxWidth="55"
                                 Binding="{Binding Unknown3}"
                                 CanUserReorder="False"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
-                                Header="Unknown">
+                                Header="X3">
                                 <DataGridTextColumn.HeaderStyle>
                                     <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
                                         <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -680,13 +695,28 @@
                             </DataGridTextColumn>
 
                             <DataGridTextColumn
-                                Width="105"
-                                MinWidth="105"
-                                MaxWidth="105"
+                                Width="55"
+                                MinWidth="55"
+                                MaxWidth="55"
+                                Binding="{Binding Unknown2}"
+                                CanUserReorder="False"
+                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                Header="X2">
+                                <DataGridTextColumn.HeaderStyle>
+                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                    </Style>
+                                </DataGridTextColumn.HeaderStyle>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn
+                                Width="55"
+                                MinWidth="55"
+                                MaxWidth="55"
                                 Binding="{Binding Unknown3}"
                                 CanUserReorder="False"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
-                                Header="Unknown">
+                                Header="X3">
                                 <DataGridTextColumn.HeaderStyle>
                                     <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
                                         <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -793,13 +823,28 @@
                             </DataGridTextColumn>
 
                             <DataGridTextColumn
-                                Width="105"
-                                MinWidth="105"
-                                MaxWidth="105"
+                                Width="55"
+                                MinWidth="55"
+                                MaxWidth="55"
+                                Binding="{Binding Unknown2}"
+                                CanUserReorder="False"
+                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                Header="X2">
+                                <DataGridTextColumn.HeaderStyle>
+                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                    </Style>
+                                </DataGridTextColumn.HeaderStyle>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn
+                                Width="55"
+                                MinWidth="55"
+                                MaxWidth="55"
                                 Binding="{Binding Unknown3}"
                                 CanUserReorder="False"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
-                                Header="Unknown">
+                                Header="X3">
                                 <DataGridTextColumn.HeaderStyle>
                                     <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
                                         <Setter Property="HorizontalContentAlignment" Value="Center" />
