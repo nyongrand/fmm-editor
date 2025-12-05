@@ -33,6 +33,9 @@
         <converter:BooleanConverter x:Key="Boolean" />
         <converter:GenderConverter x:Key="GenderConverter" />
 
+        <!--  Converter for dialog title based on SelectedId (-1 = Add, otherwise Edit)  -->
+        <converter:DialogModeConverter x:Key="DialogModeConverter" />
+
         <Style
             x:Key="centerHeaderColumnStyle"
             BasedOn="{StaticResource MaterialDesignDataGridTextColumnStyle}"
@@ -62,11 +65,20 @@
             <!--  Dialog  -->
             <md:DialogHost.DialogContent>
                 <md:Card md:ElevationAssist.Elevation="Dp0" UniformCornerRadius="4">
-                    <Grid Width="400" Height="430">
+                    <Grid Width="400" Height="{Binding SelectedId, Converter={StaticResource DialogModeConverter}, ConverterParameter=Height}">
                         <StackPanel Margin="16,0" Orientation="Vertical">
 
+                            <!--  Dialog Title  -->
+                            <TextBlock
+                                Margin="0,16,0,8"
+                                FontSize="18"
+                                FontWeight="SemiBold"
+                                Foreground="{DynamicResource PrimaryHueLightBrush}"
+                                Text="{Binding SelectedId, Converter={StaticResource DialogModeConverter}, ConverterParameter=Title}"
+                                TextAlignment="Center" />
+
                             <controls:FilterableComboBox
-                                Margin="0,16,0,0"
+                                Margin="0,8,0,0"
                                 md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Country of origin"
                                 DisplayMemberPath="Name"
@@ -106,6 +118,7 @@
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
                                 Text="{Binding SelectedUnknown3}" />
 
+                            <!--  TextBox for Adding names (multiline) - shown when SelectedId == -1  -->
                             <TextBox
                                 Margin="0,24,0,0"
                                 md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
@@ -116,7 +129,21 @@
                                 MaxLines="5"
                                 MinLines="5"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
-                                Text="{Binding SelectedValue}" />
+                                Text="{Binding SelectedValue}"
+                                Visibility="{Binding SelectedId, Converter={StaticResource DialogModeConverter}, ConverterParameter=AddVisibility}" />
+
+                            <!--  TextBox for Editing name (single line) - shown when SelectedId != -1  -->
+                            <TextBox
+                                Margin="0,24,0,0"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.HelperText="Name to edit"
+                                md:HintAssist.Hint="Name"
+                                AcceptsReturn="False"
+                                FontSize="18"
+                                MaxLines="1"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding SelectedValue}"
+                                Visibility="{Binding SelectedId, Converter={StaticResource DialogModeConverter}, ConverterParameter=EditVisibility}" />
 
                             <StackPanel
                                 Margin="0,8,0,0"
@@ -482,10 +509,10 @@
                                     Command="{Binding EditCommand}"
                                     CommandParameter="{Binding SelectedName}"
                                     Header="Edit Name" />
-                                <MenuItem
+                                <!--<MenuItem
                                     Command="{Binding DeleteCommand}"
                                     CommandParameter="{Binding SelectedName}"
-                                    Header="Delete Name" />
+                                    Header="Delete Name" />-->
                             </ContextMenu>
                         </DataGrid.Resources>
 
@@ -514,7 +541,8 @@
                                 Binding="{Binding Gender, Converter={StaticResource GenderConverter}, ConverterParameter=Symbol}"
                                 CanUserReorder="False"
                                 ElementStyle="{StaticResource genderColumnStyle}"
-                                Header="⚥">
+                                Header="⚥"
+                                IsReadOnly="True">
                                 <DataGridTextColumn.HeaderStyle>
                                     <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
                                         <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -529,7 +557,8 @@
                                 Binding="{Binding NationName}"
                                 CanUserReorder="False"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
-                                Header="Nation">
+                                Header="Nation"
+                                IsReadOnly="True">
                                 <DataGridTextColumn.HeaderStyle>
                                     <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
                                         <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -593,10 +622,10 @@
                                     Command="{Binding EditCommand}"
                                     CommandParameter="{Binding SelectedName}"
                                     Header="Edit Name" />
-                                <MenuItem
+                                <!--<MenuItem
                                     Command="{Binding DeleteCommand}"
                                     CommandParameter="{Binding SelectedName}"
-                                    Header="Delete Name" />
+                                    Header="Delete Name" />-->
                             </ContextMenu>
                         </DataGrid.Resources>
 
@@ -625,7 +654,8 @@
                                 Binding="{Binding Gender, Converter={StaticResource GenderConverter}, ConverterParameter=Symbol}"
                                 CanUserReorder="False"
                                 ElementStyle="{StaticResource genderColumnStyle}"
-                                Header="⚥">
+                                Header="⚥"
+                                IsReadOnly="True">
                                 <DataGridTextColumn.HeaderStyle>
                                     <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
                                         <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -640,7 +670,8 @@
                                 Binding="{Binding NationName}"
                                 CanUserReorder="False"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
-                                Header="Nation">
+                                Header="Nation"
+                                IsReadOnly="True">
                                 <DataGridTextColumn.HeaderStyle>
                                     <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
                                         <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -704,10 +735,10 @@
                                     Command="{Binding EditCommand}"
                                     CommandParameter="{Binding SelectedName}"
                                     Header="Edit Name" />
-                                <MenuItem
+                                <!--<MenuItem
                                     Command="{Binding DeleteCommand}"
                                     CommandParameter="{Binding SelectedName}"
-                                    Header="Delete Name" />
+                                    Header="Delete Name" />-->
                             </ContextMenu>
                         </DataGrid.Resources>
 
@@ -736,7 +767,8 @@
                                 Binding="{Binding Gender, Converter={StaticResource GenderConverter}, ConverterParameter=Symbol}"
                                 CanUserReorder="False"
                                 ElementStyle="{StaticResource genderColumnStyle}"
-                                Header="⚥">
+                                Header="⚥"
+                                IsReadOnly="True">
                                 <DataGridTextColumn.HeaderStyle>
                                     <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
                                         <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -751,7 +783,8 @@
                                 Binding="{Binding NationName}"
                                 CanUserReorder="False"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
-                                Header="Nation">
+                                Header="Nation"
+                                IsReadOnly="True">
                                 <DataGridTextColumn.HeaderStyle>
                                     <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
                                         <Setter Property="HorizontalContentAlignment" Value="Center" />
