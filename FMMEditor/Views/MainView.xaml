@@ -88,11 +88,11 @@
 
                 <Grid MaxWidth="900">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="220" />
                         <ColumnDefinition Width="16" />
-                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="220" />
                         <ColumnDefinition Width="16" />
-                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="220" />
                     </Grid.ColumnDefinitions>
 
                     <!--  Competitions Editor Card  -->
@@ -138,6 +138,7 @@
                                     TextAlignment="Center"
                                     TextWrapping="Wrap" />
                                 <Button
+                                    Width="120"
                                     HorizontalAlignment="Center"
                                     Click="OpenCompetitions_Click"
                                     Content="OPEN"
@@ -189,6 +190,7 @@
                                     TextAlignment="Center"
                                     TextWrapping="Wrap" />
                                 <Button
+                                    Width="120"
                                     HorizontalAlignment="Center"
                                     Click="OpenNames_Click"
                                     Content="OPEN"
@@ -240,6 +242,7 @@
                                     TextAlignment="Center"
                                     TextWrapping="Wrap" />
                                 <Button
+                                    Width="120"
                                     HorizontalAlignment="Center"
                                     Click="OpenPeople_Click"
                                     Content="OPEN"
