@@ -359,7 +359,8 @@ namespace FMMEditor.ViewModels
                 var names = SelectedValue
                     .Split(['\r', '\n'], StringSplitOptions.RemoveEmptyEntries)
                     .Select(n => n.Trim())
-                    .Where(n => !string.IsNullOrWhiteSpace(n));
+                    .Where(n => !string.IsNullOrWhiteSpace(n))
+                    .ToList();
 
                 var maxId = collection.Count > 0 ? collection.Max(x => x.Id) : 0;
 
@@ -379,7 +380,7 @@ namespace FMMEditor.ViewModels
                     collection.Add(newName);
                 }
 
-                MessageQueue.Enqueue($"Added {names.Count()} name(s)");
+                MessageQueue.Enqueue($"Added {names.Count} name(s)");
             }
             // Editing existing name
             else
@@ -397,6 +398,11 @@ namespace FMMEditor.ViewModels
                     MessageQueue.Enqueue("Name updated");
                 }
             }
+
+            // Refresh the collection views to update the DataGrid
+            firstNamesView.Refresh();
+            secondNamesView.Refresh();
+            commonNamesView.Refresh();
 
             // Reset dialog state
             SelectedId = null;
