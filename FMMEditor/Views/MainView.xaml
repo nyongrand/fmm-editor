@@ -71,15 +71,6 @@
         <Grid>
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
 
-                <md:PackIcon
-                    Width="100"
-                    Height="100"
-                    Margin="0,0,0,32"
-                    HorizontalAlignment="Center"
-                    Foreground="{DynamicResource PrimaryHueMidBrush}"
-                    Kind="Soccer"
-                    Opacity="0.8" />
-
                 <TextBlock
                     Margin="0,0,0,16"
                     FontSize="32"
@@ -141,7 +132,7 @@
                                     Margin="0,8,0,16"
                                     FontSize="14"
                                     Foreground="{DynamicResource MaterialDesignBodyLight}"
-                                    Text="Edit competitions, clubs, and league structures"
+                                    Text="Edit competitions and league structures"
                                     TextAlignment="Center"
                                     TextWrapping="Wrap" />
                                 <Button
@@ -209,7 +200,7 @@
                     Margin="0,48,0,0"
                     FontSize="12"
                     Foreground="{DynamicResource MaterialDesignBodyLight}"
-                    Text="Version 1.0"
+                    Text="Version 2.26.0"
                     TextAlignment="Center" />
             </StackPanel>
         </Grid>
