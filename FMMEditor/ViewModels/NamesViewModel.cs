@@ -16,6 +16,13 @@ using System.Windows.Data;
 
 namespace FMMEditor.ViewModels
 {
+    public enum NameType
+    {
+        FirstName,
+        SecondName,
+        CommonName
+    }
+
     public class NamesViewModel : ReactiveObject
     {
         public extern string? FolderPath { [ObservableAsProperty] get; }
@@ -61,8 +68,10 @@ namespace FMMEditor.ViewModels
         [Reactive] public int? SelectedId { get; set; }
         [Reactive] public byte? SelectedGender { get; set; }
         [Reactive] public int? SelectedNationUid { get; set; }
+        [Reactive] public short? SelectedUnknown2 { get; set; }
         [Reactive] public byte? SelectedUnknown3 { get; set; }
         [Reactive] public string? SelectedValue { get; set; }
+        [Reactive] public NameType ActiveNameType { get; set; }
 
         #endregion
 
@@ -86,7 +95,8 @@ namespace FMMEditor.ViewModels
                 if (obj is Name name)
                 {
                     return string.IsNullOrEmpty(SearchQuery)
-                        || name.Value.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase);
+                        || name.Value.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase)
+                        || name.NationName?.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase) == true;
                 }
 
                 return true;
@@ -98,7 +108,8 @@ namespace FMMEditor.ViewModels
                 if (obj is Name name)
                 {
                     return string.IsNullOrEmpty(SearchQuery)
-                        || name.Value.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase);
+                        || name.Value.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase)
+                        || name.NationName?.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase) == true;
                 }
 
                 return true;
@@ -110,7 +121,8 @@ namespace FMMEditor.ViewModels
                 if (obj is Name name)
                 {
                     return string.IsNullOrEmpty(SearchQuery)
-                        || name.Value.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase);
+                        || name.Value.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase)
+                        || name.NationName?.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase) == true;
                 }
 
                 return true;
@@ -250,8 +262,17 @@ namespace FMMEditor.ViewModels
             SelectedId = -1;
             SelectedGender = name.Gender;
             SelectedNationUid = name.NationUid;
+            SelectedUnknown2 = name.Unknown2;
             SelectedUnknown3 = name.Unknown3;
             SelectedValue = null;
+
+            // Determine which collection the name belongs to
+            if (FirstNames.Contains(name))
+                ActiveNameType = NameType.FirstName;
+            else if (SecondNames.Contains(name))
+                ActiveNameType = NameType.SecondName;
+            else
+                ActiveNameType = NameType.CommonName;
 
             ShowDialog = true;
         }
@@ -261,8 +282,17 @@ namespace FMMEditor.ViewModels
             SelectedId = name.Id;
             SelectedGender = name.Gender;
             SelectedNationUid = name.NationUid;
+            SelectedUnknown2 = name.Unknown2;
             SelectedUnknown3 = name.Unknown3;
             SelectedValue = name.Value;
+
+            // Determine which collection the name belongs to
+            if (FirstNames.Contains(name))
+                ActiveNameType = NameType.FirstName;
+            else if (SecondNames.Contains(name))
+                ActiveNameType = NameType.SecondName;
+            else
+                ActiveNameType = NameType.CommonName;
 
             ShowDialog = true;
         }
@@ -291,6 +321,7 @@ namespace FMMEditor.ViewModels
             SelectedId = null;
             SelectedGender = null;
             SelectedNationUid = null;
+            SelectedUnknown2 = null;
             SelectedUnknown3 = null;
             SelectedValue = null;
 
@@ -299,31 +330,83 @@ namespace FMMEditor.ViewModels
 
         private void Confirm()
         {
-            //ShowMoveDialog = false;
+            if (string.IsNullOrWhiteSpace(SelectedValue) || SelectedGender is null || SelectedNationUid is null || SelectedUnknown2 is null || SelectedUnknown3 is null)
+            {
+                ShowDialog = false;
+                return;
+            }
 
-            //if (SelectedName is Competition comp && SwitchedWithClub is not null)
-            //{
-            //    var oldLeagueId = SwitchedWithClub.LeagueId;
+            var collection = ActiveNameType switch
+            {
+                NameType.FirstName => FirstNames,
+                NameType.SecondName => SecondNames,
+                NameType.CommonName => CommonNames,
+                _ => null
+            };
 
-            //    SwitchedWithClub.BasedId = comp.NationId;
-            //    SwitchedWithClub.LeagueId = comp.Id;
+            if (collection is null)
+            {
+                ShowDialog = false;
+                return;
+            }
 
-            //    // Update index
-            //    if (oldLeagueId >= 0 && clubsByLeagueLookup.TryGetValue(oldLeagueId, out var oldClubs))
-            //    {
-            //        oldClubs.Remove(SwitchedWithClub);
-            //    }
+            var nationName = NationParser?.Items.FirstOrDefault(n => n.Uid == SelectedNationUid)?.Name;
 
-            //    if (!clubsByLeagueLookup.TryGetValue(comp.Id, out var newClubs))
-            //    {
-            //        newClubs = [];
-            //        clubsByLeagueLookup[comp.Id] = newClubs;
-            //    }
-            //    newClubs.Add(SwitchedWithClub);
+            // Adding new names (SelectedId == -1)
+            if (SelectedId == -1)
+            {
+                // Split by newlines and add each name
+                var names = SelectedValue
+                    .Split(['\r', '\n'], StringSplitOptions.RemoveEmptyEntries)
+                    .Select(n => n.Trim())
+                    .Where(n => !string.IsNullOrWhiteSpace(n));
 
-            //    UpdateFilteredClubs();
-            //    UpdateFilteredSwitchs();
-            //}
+                var maxId = collection.Count > 0 ? collection.Max(x => x.Id) : 0;
+
+                foreach (var nameValue in names)
+                {
+                    var newName = new Name(
+                        SelectedGender.Value,
+                        SelectedNationUid.Value,
+                        SelectedUnknown2.Value,
+                        SelectedUnknown3.Value,
+                        nameValue)
+                    {
+                        Id = ++maxId,
+                        NationName = nationName
+                    };
+
+                    collection.Add(newName);
+                }
+
+                MessageQueue.Enqueue($"Added {names.Count()} name(s)");
+            }
+            // Editing existing name
+            else
+            {
+                var existingName = collection.FirstOrDefault(x => x.Id == SelectedId);
+                if (existingName is not null)
+                {
+                    existingName.Gender = SelectedGender.Value;
+                    existingName.NationUid = SelectedNationUid.Value;
+                    existingName.Unknown2 = SelectedUnknown2.Value;
+                    existingName.Unknown3 = SelectedUnknown3.Value;
+                    existingName.Value = SelectedValue.Trim();
+                    existingName.NationName = nationName;
+
+                    MessageQueue.Enqueue("Name updated");
+                }
+            }
+
+            // Reset dialog state
+            SelectedId = null;
+            SelectedGender = null;
+            SelectedNationUid = null;
+            SelectedUnknown2 = null;
+            SelectedUnknown3 = null;
+            SelectedValue = null;
+
+            ShowDialog = false;
         }
 
         private async Task SaveImpl()
