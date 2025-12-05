@@ -29,6 +29,13 @@ namespace FMMEditor.Views
             this.Close();
         }
 
+        private void OpenPeople_Click(object sender, RoutedEventArgs e)
+        {
+            var peopleView = new PeopleView();
+            peopleView.Show();
+            this.Close();
+        }
+
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
             Close();
