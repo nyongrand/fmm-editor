@@ -74,7 +74,7 @@
         /// assigned.</param>
         public void Add(Name item)
         {
-            var nextId = Items.Max(x => x.Id) + 1;
+            var nextId = Items.Count > 0 ? Items.Max(x => x.Id) + 1 : 1;
             item.Id = item.Id > 0 ? item.Id : nextId;
             items.Add(item);
             Count++;
