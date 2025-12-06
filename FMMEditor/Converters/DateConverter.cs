@@ -8,7 +8,7 @@ namespace FMMEditor.Converters
     /// Converter to convert game date integer to DateTime and back.
     /// The game stores dates as: lower 16 bits = day of year, upper 16 bits = year.
     /// </summary>
-    public class DateOfBirthConverter : IValueConverter
+    public class DateConverter : IValueConverter
     {
         public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

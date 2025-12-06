@@ -16,7 +16,7 @@ namespace FMMEditor.Models
         public string FullName => !string.IsNullOrEmpty(CommonName) ? CommonName : $"{LastName}, {FirstName}".Trim();
         public string NationName { get; set; } = "";
         public string ClubName { get; set; } = "";
-        public string DateOfBirth => DateOfBirthConverter.ToDateString(Person.DateOfBirth);
+        public string DateOfBirth => DateConverter.ToDateString(Person.DateOfBirth);
         public string PersonType => Person.Type switch { 0 => "Non-player", 1 => "Player", _ => $"Type: {Person.Type}" };
         public short NationalCaps => Person.NationalCaps;
         public short NationalGoals => Person.NationalGoals;

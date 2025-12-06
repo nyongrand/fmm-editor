@@ -302,7 +302,7 @@ namespace FMMEditor.ViewModels
             SelectedCommonNameId = p.CommonNameId > 0 ? p.CommonNameId : null;
             SelectedNationId = p.NationId;
             SelectedClubId = p.ClubId;
-            SelectedDateOfBirth = DateOfBirthConverter.ToDateTime(p.DateOfBirth);
+            SelectedDateOfBirth = DateConverter.ToDateTime(p.DateOfBirth);
             SelectedType = p.Type;
             SelectedNationalCaps = p.NationalCaps;
             SelectedNationalGoals = p.NationalGoals;
@@ -346,7 +346,7 @@ namespace FMMEditor.ViewModels
                     FirstNameId = SelectedFirstNameId.Value,
                     LastNameId = SelectedLastNameId.Value,
                     CommonNameId = SelectedCommonNameId ?? -1,
-                    DateOfBirth = DateOfBirthConverter.FromDateTime(SelectedDateOfBirth),
+                    DateOfBirth = DateConverter.FromDateTime(SelectedDateOfBirth),
                     NationId = SelectedNationId.Value,
                     OtherNationalities = [],
                     ClubId = SelectedClubId ?? -1,
@@ -395,7 +395,7 @@ namespace FMMEditor.ViewModels
                     existingPerson.FirstNameId = SelectedFirstNameId.Value;
                     existingPerson.LastNameId = SelectedLastNameId.Value;
                     existingPerson.CommonNameId = SelectedCommonNameId ?? -1;
-                    existingPerson.DateOfBirth = DateOfBirthConverter.FromDateTime(SelectedDateOfBirth);
+                    existingPerson.DateOfBirth = DateConverter.FromDateTime(SelectedDateOfBirth);
                     existingPerson.NationId = SelectedNationId.Value;
                     existingPerson.ClubId = SelectedClubId ?? -1;
                     existingPerson.Type = (byte)SelectedType;

@@ -31,7 +31,7 @@
         <converter:VisibilityConverter x:Key="Visibility" />
         <converter:BooleanConverter x:Key="Boolean" />
         <converter:PeopleDialogModeConverter x:Key="PeopleDialogModeConverter" />
-        <converter:DateOfBirthConverter x:Key="DateOfBirthConverter" />
+        <converter:DateConverter x:Key="DateConverter" />
         <converter:PersonTypeConverter x:Key="PersonTypeConverter" />
 
         <Style
