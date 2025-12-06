@@ -405,6 +405,7 @@
                                     VerticalAlignment="Stretch"
                                     VerticalContentAlignment="Center"
                                     md:HintAssist.Hint="Search Name / Nation / Club"
+                                    md:HintAssist.HintOpacity="0.2"
                                     md:TextFieldAssist.DecorationVisibility="Hidden"
                                     BorderThickness="0"
                                     FontSize="16"
@@ -684,6 +685,8 @@
 
                         <DataGrid.Resources>
                             <ContextMenu x:Key="menu">
+                                <MenuItem Command="{Binding CopyUidCommand}" Header="Copy UID" />
+                                <Separator />
                                 <MenuItem Command="{Binding AddCommand}" Header="Add New Person" />
                                 <MenuItem
                                     Command="{Binding EditCommand}"
@@ -783,7 +786,7 @@
                                 Header="Unknown Date"
                                 IsReadOnly="True" />
 
-                            <DataGridTextColumn
+                            <!--<DataGridTextColumn
                                 Width="60"
                                 MinWidth="60"
                                 Binding="{Binding NationalCaps}"
@@ -841,7 +844,7 @@
                                         <Setter Property="HorizontalContentAlignment" Value="Center" />
                                     </Style>
                                 </DataGridTextColumn.HeaderStyle>
-                            </DataGridTextColumn>
+                            </DataGridTextColumn>-->
 
                             <DataGridTextColumn
                                 Width="200"
@@ -974,7 +977,7 @@
 
                             <!--  End of Debug Unknown Value  -->
 
-                            <DataGridTextColumn
+                            <!--<DataGridTextColumn
                                 Width="60"
                                 MinWidth="50"
                                 Binding="{Binding Adaptability}"
@@ -1092,7 +1095,7 @@
                                         <Setter Property="HorizontalContentAlignment" Value="Center" />
                                     </Style>
                                 </DataGridTextColumn.HeaderStyle>
-                            </DataGridTextColumn>
+                            </DataGridTextColumn>-->
 
                         </DataGrid.Columns>
                     </DataGrid>

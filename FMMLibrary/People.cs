@@ -42,6 +42,9 @@
         /// documentation or enumeration for valid values. see <see cref="FMMLibrary.Ethnicity"/></remarks>
         public byte Ethnicity { get; set; }
 
+        /// <summary>
+        /// Looks like City ID but not sure
+        /// </summary>
         public int Unknown1 { get; set; }
 
         public byte Type { get; set; }
