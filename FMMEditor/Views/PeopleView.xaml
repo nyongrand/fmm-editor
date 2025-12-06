@@ -777,6 +777,21 @@
                             </DataGridTextColumn>
 
                             <DataGridTextColumn
+                                Width="140"
+                                MinWidth="100"
+                                Binding="{Binding Ethnicity}"
+                                CanUserReorder="False"
+                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                Header="Ethnicity"
+                                IsReadOnly="True">
+                                <DataGridTextColumn.HeaderStyle>
+                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                    </Style>
+                                </DataGridTextColumn.HeaderStyle>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn
                                 Width="60"
                                 MinWidth="60"
                                 Binding="{Binding NationalCaps}"

@@ -26,5 +26,6 @@ namespace FMMEditor.Models
         public byte Pressure => Person.Pressure;
         public byte Professionalism => Person.Professionalism;
         public byte Temperament => Person.Temperament;
+        public string Ethnicity => EthnicityConverter.ToDisplayString(Person.Ethnicity);
     }
 }
