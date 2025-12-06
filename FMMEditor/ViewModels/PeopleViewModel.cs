@@ -201,7 +201,7 @@ namespace FMMEditor.ViewModels
                 .Subscribe(x =>
                 {
                     Clubs.Reset(x.Items.OrderBy(y => y.FullName));
-                    clubLookup = x.Items.ToDictionary(c => c.Uid, c => c.FullName);
+                    clubLookup = x.Items.ToDictionary(c => c.Id, c => c.FullName);
                     RefreshPeopleDisplay();
                 });
 
@@ -255,7 +255,7 @@ namespace FMMEditor.ViewModels
                     ClubName = clubLookup.GetValueOrDefault(p.ClubId, "Free Agent")
                 };
                 return display;
-            }).OrderBy(p => p.FullName);
+            });
 
             PeopleList.Reset(displayList);
         }
