@@ -694,8 +694,8 @@
                         <DataGrid.Columns>
 
                             <DataGridTextColumn
-                                Width="110"
-                                MinWidth="110"
+                                Width="60"
+                                MinWidth="60"
                                 MaxWidth="110"
                                 Binding="{Binding Uid}"
                                 CanUserReorder="False"
@@ -719,30 +719,6 @@
                                 IsReadOnly="True" />
 
                             <DataGridTextColumn
-                                Width="120"
-                                MinWidth="100"
-                                Binding="{Binding NationName}"
-                                CanUserReorder="False"
-                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
-                                Header="Nation"
-                                IsReadOnly="True">
-                                <DataGridTextColumn.HeaderStyle>
-                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
-                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                    </Style>
-                                </DataGridTextColumn.HeaderStyle>
-                            </DataGridTextColumn>
-
-                            <DataGridTextColumn
-                                Width="200"
-                                MinWidth="150"
-                                Binding="{Binding ClubName}"
-                                CanUserReorder="False"
-                                ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
-                                Header="Club"
-                                IsReadOnly="True" />
-
-                            <DataGridTextColumn
                                 Width="100"
                                 MinWidth="90"
                                 Binding="{Binding DateOfBirth}"
@@ -756,6 +732,31 @@
                                     </Style>
                                 </DataGridTextColumn.HeaderStyle>
                             </DataGridTextColumn>
+
+                            <DataGridTextColumn
+                                Width="120"
+                                MinWidth="100"
+                                Binding="{Binding NationName}"
+                                CanUserReorder="False"
+                                Header="Nation"
+                                IsReadOnly="True" />
+
+                            <DataGridTextColumn
+                                Width="140"
+                                MinWidth="100"
+                                Binding="{Binding Ethnicity}"
+                                CanUserReorder="False"
+                                Header="Ethnicity"
+                                IsReadOnly="True" />
+
+                            <DataGridTextColumn
+                                Width="60"
+                                MinWidth="60"
+                                Binding="{Binding Person.Unknown1}"
+                                CanUserReorder="False"
+                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                Header="U1"
+                                IsReadOnly="True" />
 
                             <DataGridTextColumn
                                 Width="80"
@@ -773,19 +774,13 @@
                             </DataGridTextColumn>
 
                             <DataGridTextColumn
-                                Width="140"
-                                MinWidth="100"
-                                Binding="{Binding Ethnicity}"
+                                Width="100"
+                                MinWidth="90"
+                                Binding="{Binding Person.UnknownDate, Converter={StaticResource DateConverter}}"
                                 CanUserReorder="False"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
-                                Header="Ethnicity"
-                                IsReadOnly="True">
-                                <DataGridTextColumn.HeaderStyle>
-                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
-                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                    </Style>
-                                </DataGridTextColumn.HeaderStyle>
-                            </DataGridTextColumn>
+                                Header="Unknown Date"
+                                IsReadOnly="True" />
 
                             <DataGridTextColumn
                                 Width="60"
@@ -808,7 +803,7 @@
                                 Binding="{Binding NationalGoals}"
                                 CanUserReorder="False"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
-                                Header="Goals"
+                                Header="Gls"
                                 IsReadOnly="True">
                                 <DataGridTextColumn.HeaderStyle>
                                     <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
@@ -816,6 +811,167 @@
                                     </Style>
                                 </DataGridTextColumn.HeaderStyle>
                             </DataGridTextColumn>
+
+                            <DataGridTextColumn
+                                Width="60"
+                                MinWidth="60"
+                                Binding="{Binding Person.NationalU21Caps}"
+                                CanUserReorder="False"
+                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                Header="U21"
+                                IsReadOnly="True">
+                                <DataGridTextColumn.HeaderStyle>
+                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                    </Style>
+                                </DataGridTextColumn.HeaderStyle>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn
+                                Width="60"
+                                MinWidth="60"
+                                Binding="{Binding Person.NationalU21Goals}"
+                                CanUserReorder="False"
+                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                Header="Gls"
+                                IsReadOnly="True">
+                                <DataGridTextColumn.HeaderStyle>
+                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                    </Style>
+                                </DataGridTextColumn.HeaderStyle>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn
+                                Width="200"
+                                MinWidth="150"
+                                Binding="{Binding ClubName}"
+                                CanUserReorder="False"
+                                ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                                Header="Club"
+                                IsReadOnly="True" />
+
+                            <DataGridTextColumn
+                                Width="100"
+                                MinWidth="90"
+                                Binding="{Binding Person.JoinedDate}"
+                                CanUserReorder="False"
+                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                Header="Joined"
+                                IsReadOnly="True" />
+
+                            <DataGridTextColumn
+                                Width="60"
+                                MinWidth="60"
+                                Binding="{Binding Person.PlayerId}"
+                                CanUserReorder="False"
+                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                Header="PlayerId"
+                                IsReadOnly="True" />
+
+                            <!--  Start of Debug Unknown Value  -->
+
+                            <DataGridTextColumn
+                                Width="60"
+                                MinWidth="60"
+                                Binding="{Binding Person.Unknown3}"
+                                CanUserReorder="False"
+                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                Header="U3"
+                                IsReadOnly="True" />
+
+                            <DataGridTextColumn
+                                Width="60"
+                                MinWidth="60"
+                                Binding="{Binding Person.Unknown6b}"
+                                CanUserReorder="False"
+                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                Header="U6b"
+                                IsReadOnly="True" />
+
+                            <DataGridTextColumn
+                                Width="60"
+                                MinWidth="60"
+                                Binding="{Binding Person.Unknown6c}"
+                                CanUserReorder="False"
+                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                Header="U6c"
+                                IsReadOnly="True" />
+
+                            <DataGridTextColumn
+                                Width="60"
+                                MinWidth="60"
+                                Binding="{Binding Person.Unknown6d}"
+                                CanUserReorder="False"
+                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                Header="U6d"
+                                IsReadOnly="True" />
+
+                            <DataGridTextColumn
+                                Width="60"
+                                MinWidth="60"
+                                Binding="{Binding Person.Unknown6e}"
+                                CanUserReorder="False"
+                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                Header="U6e"
+                                IsReadOnly="True" />
+
+                            <DataGridTextColumn
+                                Width="60"
+                                MinWidth="60"
+                                Binding="{Binding Person.Unknown6f}"
+                                CanUserReorder="False"
+                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                Header="U6f"
+                                IsReadOnly="True" />
+
+                            <DataGridTextColumn
+                                Width="60"
+                                MinWidth="60"
+                                Binding="{Binding Person.Unknown7}"
+                                CanUserReorder="False"
+                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                Header="U7"
+                                IsReadOnly="True" />
+
+                            <DataGridTextColumn
+                                Width="60"
+                                MinWidth="60"
+                                Binding="{Binding Person.Unknown8}"
+                                CanUserReorder="False"
+                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                Header="U8"
+                                IsReadOnly="True" />
+
+                            <DataGridTextColumn
+                                Width="60"
+                                MinWidth="60"
+                                Binding="{Binding Person.Unknown9}"
+                                CanUserReorder="False"
+                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                Header="U9"
+                                IsReadOnly="True" />
+
+                            <DataGridTextColumn
+                                Width="60"
+                                MinWidth="60"
+                                Binding="{Binding Person.Unknown10}"
+                                CanUserReorder="False"
+                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                Header="U10"
+                                IsReadOnly="True" />
+
+                            <DataGridTextColumn
+                                Width="60"
+                                MinWidth="60"
+                                Binding="{Binding Person.Unknown21}"
+                                CanUserReorder="False"
+                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                Header="U11"
+                                IsReadOnly="True" />
+
+
+                            <!--  End of Debug Unknown Value  -->
 
                             <DataGridTextColumn
                                 Width="60"
