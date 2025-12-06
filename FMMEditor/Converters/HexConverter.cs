@@ -8,17 +8,18 @@ namespace FMMEditor.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return value switch
+            var hex = value switch
             {
-                byte b => $"{b:X2}",
-                short s => $"{s:X4}",
-                ushort us => $"{us:X4}",
-                int i => $"{i:X8}",
-                uint ui => $"{ui:X8}",
-                long l => $"{l:X16}",
-                ulong ul => $"{ul:X16}",
+                byte b => BitConverter.ToString([b]),
+                short s => BitConverter.ToString(BitConverter.GetBytes(s)),
+                ushort us => BitConverter.ToString(BitConverter.GetBytes(us)),
+                int i => BitConverter.ToString(BitConverter.GetBytes(i)),
+                uint ui => BitConverter.ToString(BitConverter.GetBytes(ui)),
+                long l => BitConverter.ToString(BitConverter.GetBytes(l)),
+                ulong ul => BitConverter.ToString(BitConverter.GetBytes(ul)),
                 _ => value?.ToString() ?? ""
             };
+            return hex.Replace("-", "");
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
