@@ -6,20 +6,19 @@ namespace FMMEditor.Converters
 {
     /// <summary>
     /// Converter to convert game date integer to DateTime and back.
-    /// The game stores dates as days since a base date (typically 1900-01-01 or similar).
+    /// The game stores dates as: lower 16 bits = day of year, upper 16 bits = year.
     /// </summary>
     public class DateOfBirthConverter : IValueConverter
     {
-        // Base date for the game's date system (adjust if needed based on actual game format)
-        private static readonly DateTime BaseDate = new(1900, 1, 1);
-
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is int days && days > 0)
+            if (value is int date && date > 0)
             {
                 try
                 {
-                    return BaseDate.AddDays(days);
+                    short days = (short)(date & 0xFFFF);
+                    short year = (short)((date >> 16) & 0xFFFF);
+                    return new DateTime(year, 1, 1).AddDays(days);
                 }
                 catch
                 {
@@ -33,7 +32,9 @@ namespace FMMEditor.Converters
         {
             if (value is DateTime date)
             {
-                return (int)(date - BaseDate).TotalDays;
+                int days = date.DayOfYear - 1; // Days since Jan 1
+                int year = date.Year;
+                return (year << 16) | (days & 0xFFFF);
             }
             return 0;
         }
@@ -41,12 +42,14 @@ namespace FMMEditor.Converters
         /// <summary>
         /// Converts a game date integer to a formatted string.
         /// </summary>
-        public static string ToDateString(int days)
+        public static string ToDateString(int date)
         {
-            if (days <= 0) return "-";
+            if (date <= 0) return "-";
             try
             {
-                return BaseDate.AddDays(days).ToString("dd/MM/yyyy");
+                short days = (short)(date & 0xFFFF);
+                short year = (short)((date >> 16) & 0xFFFF);
+                return new DateTime(year, 1, 1).AddDays(days).ToString("yyyy-MM-dd");
             }
             catch
             {
@@ -57,12 +60,14 @@ namespace FMMEditor.Converters
         /// <summary>
         /// Converts a game date integer to a DateTime.
         /// </summary>
-        public static DateTime? ToDateTime(int days)
+        public static DateTime? ToDateTime(int date)
         {
-            if (days <= 0) return null;
+            if (date <= 0) return null;
             try
             {
-                return BaseDate.AddDays(days);
+                short days = (short)(date & 0xFFFF);
+                short year = (short)((date >> 16) & 0xFFFF);
+                return new DateTime(year, 1, 1).AddDays(days);
             }
             catch
             {
@@ -76,7 +81,9 @@ namespace FMMEditor.Converters
         public static int FromDateTime(DateTime? date)
         {
             if (date == null) return 0;
-            return (int)(date.Value - BaseDate).TotalDays;
+            int days = date.Value.DayOfYear - 1; // Days since Jan 1
+            int year = date.Value.Year;
+            return (year << 16) | (days & 0xFFFF);
         }
     }
 }
