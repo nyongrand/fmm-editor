@@ -10,8 +10,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mg="https://github.com/fantasticfiasco/mvvm-dialogs"
-    Width="1400"
-    Height="700"
+    Width="1280"
+    Height="600"
     mg:DialogServiceViews.IsRegistered="True"
     Background="{DynamicResource MaterialDesignPaper}"
     BorderBrush="{DynamicResource PrimaryHueMidBrush}"
@@ -528,9 +528,7 @@
                 <!--  Main Content  -->
                 <Grid>
                     <!--  Empty State View  -->
-                    <Grid
-                        Background="{DynamicResource MaterialDesignPaper}"
-                        Visibility="{Binding IsDatabaseLoaded, Converter={StaticResource Visibility}, ConverterParameter=Inverter}">
+                    <Grid Background="{DynamicResource MaterialDesignPaper}" Visibility="{Binding IsDatabaseLoaded, Converter={StaticResource Visibility}, ConverterParameter=Inverter}">
                         <StackPanel
                             MaxWidth="600"
                             HorizontalAlignment="Center"
@@ -685,9 +683,7 @@
 
                         <DataGrid.Resources>
                             <ContextMenu x:Key="menu">
-                                <MenuItem
-                                    Command="{Binding AddCommand}"
-                                    Header="Add New Person" />
+                                <MenuItem Command="{Binding AddCommand}" Header="Add New Person" />
                                 <MenuItem
                                     Command="{Binding EditCommand}"
                                     CommandParameter="{Binding SelectedPerson}"
@@ -698,9 +694,9 @@
                         <DataGrid.Columns>
 
                             <DataGridTextColumn
-                                Width="70"
-                                MinWidth="70"
-                                MaxWidth="70"
+                                Width="110"
+                                MinWidth="110"
+                                MaxWidth="110"
                                 Binding="{Binding Uid}"
                                 CanUserReorder="False"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
@@ -764,7 +760,7 @@
                             <DataGridTextColumn
                                 Width="80"
                                 MinWidth="70"
-                                Binding="{Binding PersonType}"
+                                Binding="{Binding Person.Type}"
                                 CanUserReorder="False"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Type"
@@ -822,7 +818,7 @@
                             </DataGridTextColumn>
 
                             <DataGridTextColumn
-                                Width="50"
+                                Width="60"
                                 MinWidth="50"
                                 Binding="{Binding Adaptability}"
                                 CanUserReorder="False"
@@ -837,7 +833,7 @@
                             </DataGridTextColumn>
 
                             <DataGridTextColumn
-                                Width="50"
+                                Width="60"
                                 MinWidth="50"
                                 Binding="{Binding Ambition}"
                                 CanUserReorder="False"
@@ -852,7 +848,7 @@
                             </DataGridTextColumn>
 
                             <DataGridTextColumn
-                                Width="50"
+                                Width="60"
                                 MinWidth="50"
                                 Binding="{Binding Loyalty}"
                                 CanUserReorder="False"
@@ -867,7 +863,7 @@
                             </DataGridTextColumn>
 
                             <DataGridTextColumn
-                                Width="50"
+                                Width="60"
                                 MinWidth="50"
                                 Binding="{Binding Professionalism}"
                                 CanUserReorder="False"
