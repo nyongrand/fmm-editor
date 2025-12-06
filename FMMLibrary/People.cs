@@ -7,12 +7,24 @@
         /// </summary>
         public int Id { get; set; }
 
+        /// <summary>
+        /// Unique identifier.
+        /// </summary>
         public int Uid { get; set; }
 
+        /// <summary>
+        /// The first name associated with the entity. see <see cref="Name"/>
+        /// </summary>
         public int FirstNameId { get; set; }
 
+        /// <summary>
+        /// The second name associated with the entity. see <see cref="Name"/>
+        /// </summary>
         public int LastNameId { get; set; }
 
+        /// <summary>
+        /// The common name associated with the entity. see <see cref="Name"/>
+        /// </summary>
         public int CommonNameId { get; set; }
 
         public int DateOfBirth { get; set; }
@@ -23,6 +35,11 @@
 
         public List<short> OtherNationalities { get; set; }
 
+        /// <summary>
+        /// Gets or sets the code representing the individual's ethnicity.
+        /// </summary>
+        /// <remarks>The value corresponds to a predefined set of ethnicity codes. Refer to the
+        /// documentation or enumeration for valid values. see <see cref="FMMLibrary.Ethnicity"/></remarks>
         public byte Ethnicity { get; set; }
 
         public int Unknown1 { get; set; }
