@@ -93,7 +93,7 @@ namespace FMMEditor.ViewModels
             this.dialogService = dialogService;
             MessageQueue = messageQueue;
 
-            ClearSearch = ReactiveCommand.Create(() => { SearchQuery = ""; });
+            ClearSearch = ReactiveCommand.Create(() => { SearchQuery = ""; }, outputScheduler: RxApp.MainThreadScheduler);
 
             Nations = [];
 
