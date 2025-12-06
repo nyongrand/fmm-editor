@@ -13,7 +13,7 @@ namespace FMMEditor.Models
         public string FirstName { get; set; } = "";
         public string LastName { get; set; } = "";
         public string CommonName { get; set; } = "";
-        public string FullName => !string.IsNullOrEmpty(CommonName) ? CommonName : $"{FirstName} {LastName}".Trim();
+        public string FullName => !string.IsNullOrEmpty(CommonName) ? CommonName : $"{LastName}, {FirstName}".Trim();
         public string NationName { get; set; } = "";
         public string ClubName { get; set; } = "";
         public string DateOfBirth => DateOfBirthConverter.ToDateString(Person.DateOfBirth);
