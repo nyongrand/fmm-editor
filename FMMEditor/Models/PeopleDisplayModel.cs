@@ -17,7 +17,7 @@ namespace FMMEditor.Models
         public string NationName { get; set; } = "";
         public string ClubName { get; set; } = "";
         public string DateOfBirth => DateOfBirthConverter.ToDateString(Person.DateOfBirth);
-        public string PersonType => Person.Type switch { 0 => "Player", 1 => "Staff", _ => "Other" };
+        public string PersonType => Person.Type switch { 0 => "Non-player", 1 => "Player", _ => $"Type: {Person.Type}" };
         public short NationalCaps => Person.NationalCaps;
         public short NationalGoals => Person.NationalGoals;
         public byte Adaptability => Person.Adaptability;
