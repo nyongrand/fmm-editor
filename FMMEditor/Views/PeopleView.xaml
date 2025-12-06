@@ -33,6 +33,7 @@
         <converter:PeopleDialogModeConverter x:Key="PeopleDialogModeConverter" />
         <converter:DateConverter x:Key="DateConverter" />
         <converter:PersonTypeConverter x:Key="PersonTypeConverter" />
+        <converter:HexConverter x:Key="HexConverter" />
 
         <Style
             x:Key="centerHeaderColumnStyle"
@@ -752,7 +753,7 @@
                             <DataGridTextColumn
                                 Width="60"
                                 MinWidth="60"
-                                Binding="{Binding Person.Unknown1}"
+                                Binding="{Binding Person.Unknown1, Converter={StaticResource HexConverter}}"
                                 CanUserReorder="False"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="U1"
@@ -776,7 +777,7 @@
                             <DataGridTextColumn
                                 Width="100"
                                 MinWidth="90"
-                                Binding="{Binding Person.UnknownDate, Converter={StaticResource DateConverter}}"
+                                Binding="{Binding Person.UnknownDate, Converter={StaticResource DateConverter}, StringFormat=yyyy-MM-dd}"
                                 CanUserReorder="False"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Unknown Date"
@@ -854,10 +855,19 @@
                             <DataGridTextColumn
                                 Width="100"
                                 MinWidth="90"
-                                Binding="{Binding Person.JoinedDate}"
+                                Binding="{Binding Person.JoinedDate, Converter={StaticResource DateConverter}, StringFormat=yyyy-MM-dd}"
                                 CanUserReorder="False"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Joined"
+                                IsReadOnly="True" />
+
+                            <DataGridTextColumn
+                                Width="60"
+                                MinWidth="60"
+                                Binding="{Binding Person.Unknown3, Converter={StaticResource HexConverter}}"
+                                CanUserReorder="False"
+                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                Header="U3"
                                 IsReadOnly="True" />
 
                             <DataGridTextColumn
@@ -874,16 +884,7 @@
                             <DataGridTextColumn
                                 Width="60"
                                 MinWidth="60"
-                                Binding="{Binding Person.Unknown3}"
-                                CanUserReorder="False"
-                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
-                                Header="U3"
-                                IsReadOnly="True" />
-
-                            <DataGridTextColumn
-                                Width="60"
-                                MinWidth="60"
-                                Binding="{Binding Person.Unknown6b}"
+                                Binding="{Binding Person.Unknown6b, Converter={StaticResource HexConverter}}"
                                 CanUserReorder="False"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="U6b"
@@ -892,7 +893,7 @@
                             <DataGridTextColumn
                                 Width="60"
                                 MinWidth="60"
-                                Binding="{Binding Person.Unknown6c}"
+                                Binding="{Binding Person.Unknown6c, Converter={StaticResource HexConverter}}"
                                 CanUserReorder="False"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="U6c"
@@ -901,7 +902,7 @@
                             <DataGridTextColumn
                                 Width="60"
                                 MinWidth="60"
-                                Binding="{Binding Person.Unknown6d}"
+                                Binding="{Binding Person.Unknown6d, Converter={StaticResource HexConverter}}"
                                 CanUserReorder="False"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="U6d"
@@ -910,7 +911,7 @@
                             <DataGridTextColumn
                                 Width="60"
                                 MinWidth="60"
-                                Binding="{Binding Person.Unknown6e}"
+                                Binding="{Binding Person.Unknown6e, Converter={StaticResource HexConverter}}"
                                 CanUserReorder="False"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="U6e"
@@ -919,7 +920,7 @@
                             <DataGridTextColumn
                                 Width="60"
                                 MinWidth="60"
-                                Binding="{Binding Person.Unknown6f}"
+                                Binding="{Binding Person.Unknown6f, Converter={StaticResource HexConverter}}"
                                 CanUserReorder="False"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="U6f"
@@ -928,7 +929,7 @@
                             <DataGridTextColumn
                                 Width="60"
                                 MinWidth="60"
-                                Binding="{Binding Person.Unknown7}"
+                                Binding="{Binding Person.Unknown7, Converter={StaticResource HexConverter}}"
                                 CanUserReorder="False"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="U7"
@@ -937,7 +938,7 @@
                             <DataGridTextColumn
                                 Width="60"
                                 MinWidth="60"
-                                Binding="{Binding Person.Unknown8}"
+                                Binding="{Binding Person.Unknown8, Converter={StaticResource HexConverter}}"
                                 CanUserReorder="False"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="U8"
@@ -946,7 +947,7 @@
                             <DataGridTextColumn
                                 Width="60"
                                 MinWidth="60"
-                                Binding="{Binding Person.Unknown9}"
+                                Binding="{Binding Person.Unknown9, Converter={StaticResource HexConverter}}"
                                 CanUserReorder="False"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="U9"
@@ -955,7 +956,7 @@
                             <DataGridTextColumn
                                 Width="60"
                                 MinWidth="60"
-                                Binding="{Binding Person.Unknown10}"
+                                Binding="{Binding Person.Unknown10, Converter={StaticResource HexConverter}}"
                                 CanUserReorder="False"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="U10"
@@ -964,7 +965,7 @@
                             <DataGridTextColumn
                                 Width="60"
                                 MinWidth="60"
-                                Binding="{Binding Person.Unknown21}"
+                                Binding="{Binding Person.Unknown21, Converter={StaticResource HexConverter}}"
                                 CanUserReorder="False"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="U11"
@@ -991,7 +992,7 @@
                             <DataGridTextColumn
                                 Width="60"
                                 MinWidth="50"
-                                Binding="{Binding Ambition}"
+                                Binding="{Binding Person.Ambition}"
                                 CanUserReorder="False"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Amb"
@@ -1006,7 +1007,22 @@
                             <DataGridTextColumn
                                 Width="60"
                                 MinWidth="50"
-                                Binding="{Binding Loyalty}"
+                                Binding="{Binding Person.Controversy}"
+                                CanUserReorder="False"
+                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                Header="Con"
+                                IsReadOnly="True">
+                                <DataGridTextColumn.HeaderStyle>
+                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                    </Style>
+                                </DataGridTextColumn.HeaderStyle>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn
+                                Width="60"
+                                MinWidth="50"
+                                Binding="{Binding Person.Loyality}"
                                 CanUserReorder="False"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Loy"
@@ -1021,10 +1037,55 @@
                             <DataGridTextColumn
                                 Width="60"
                                 MinWidth="50"
-                                Binding="{Binding Professionalism}"
+                                Binding="{Binding Person.Pressure}"
+                                CanUserReorder="False"
+                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                Header="Pre"
+                                IsReadOnly="True">
+                                <DataGridTextColumn.HeaderStyle>
+                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                    </Style>
+                                </DataGridTextColumn.HeaderStyle>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn
+                                Width="60"
+                                MinWidth="50"
+                                Binding="{Binding Person.Professionalism}"
                                 CanUserReorder="False"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Pro"
+                                IsReadOnly="True">
+                                <DataGridTextColumn.HeaderStyle>
+                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                    </Style>
+                                </DataGridTextColumn.HeaderStyle>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn
+                                Width="60"
+                                MinWidth="50"
+                                Binding="{Binding Person.Sportmanship}"
+                                CanUserReorder="False"
+                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                Header="Spo"
+                                IsReadOnly="True">
+                                <DataGridTextColumn.HeaderStyle>
+                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                    </Style>
+                                </DataGridTextColumn.HeaderStyle>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn
+                                Width="60"
+                                MinWidth="50"
+                                Binding="{Binding Person.Temperament}"
+                                CanUserReorder="False"
+                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                Header="Tem"
                                 IsReadOnly="True">
                                 <DataGridTextColumn.HeaderStyle>
                                     <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
