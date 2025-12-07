@@ -195,7 +195,7 @@ namespace FMMEditor.ViewModels
                         {
                             name.NationName = nationParser?.Items.FirstOrDefault(n => n.Uid == name.NationUid)?.Name;
                         }
-                        FirstNames.Reset(names.OrderBy(x => x.NationUid).ThenBy(x => x.Value));
+                        FirstNames.Reset(names);
                     }
                     else
                     {
@@ -214,7 +214,7 @@ namespace FMMEditor.ViewModels
                         {
                             name.NationName = nationParser?.Items.FirstOrDefault(n => n.Uid == name.NationUid)?.Name;
                         }
-                        SecondNames.Reset(names.OrderBy(x => x.NationUid).ThenBy(x => x.Value));
+                        SecondNames.Reset(names);
                     }
                     else
                     {
@@ -233,7 +233,7 @@ namespace FMMEditor.ViewModels
                         {
                             name.NationName = nationParser?.Items.FirstOrDefault(n => n.Uid == name.NationUid)?.Name;
                         }
-                        CommonNames.Reset(names.OrderBy(x => x.NationUid).ThenBy(x => x.Value));
+                        CommonNames.Reset(names);
                     }
                     else
                     {
@@ -421,13 +421,16 @@ namespace FMMEditor.ViewModels
             {
                 if (FirstNameParser != null && SecondNameParser != null && CommonNameParser != null)
                 {
-                    FirstNameParser.Replace(FirstNames);
+                    var firstNamesOrdered = FirstNames.OrderBy(x => x.Id).ToList();
+                    FirstNameParser.Replace(firstNamesOrdered);
                     await FirstNameParser.Save();
 
-                    SecondNameParser.Replace(SecondNames);
+                    var secondNamesOrdered = SecondNames.OrderBy(x => x.Id).ToList();
+                    SecondNameParser.Replace(secondNamesOrdered);
                     await SecondNameParser.Save();
 
-                    CommonNameParser.Replace(CommonNames);
+                    var commonNamesOrdered = CommonNames.OrderBy(x => x.Id).ToList();
+                    CommonNameParser.Replace(commonNamesOrdered);
                     await CommonNameParser.Save();
 
                     MessageQueue.Enqueue("Save Successfull");
