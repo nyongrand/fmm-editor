@@ -46,9 +46,11 @@ namespace FMMEditor.ViewModels
         // Personality attributes
         [Reactive] public byte? Adaptability { get; set; }
         [Reactive] public byte? Ambition { get; set; }
+        [Reactive] public byte? Controversy { get; set; }
         [Reactive] public byte? Loyalty { get; set; }
         [Reactive] public byte? Pressure { get; set; }
         [Reactive] public byte? Professionalism { get; set; }
+        [Reactive] public byte? Sportmanship { get; set; }
         [Reactive] public byte? Temperament { get; set; }
 
         // Player fields
@@ -139,9 +141,11 @@ namespace FMMEditor.ViewModels
             NationalU21Goals = p.NationalU21Goals;
             Adaptability = p.Adaptability;
             Ambition = p.Ambition;
+            Controversy = p.Controversy;
             Loyalty = p.Loyality;
             Pressure = p.Pressure;
             Professionalism = p.Professionalism;
+            Sportmanship = p.Sportmanship;
             Temperament = p.Temperament;
 
             // Load player data if available

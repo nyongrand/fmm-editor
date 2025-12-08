@@ -346,6 +346,8 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="8" />
                                 <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
 
                             <TextBox
@@ -367,6 +369,14 @@
                             <TextBox
                                 Grid.Column="4"
                                 md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="Controversy"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding Controversy}" />
+
+                            <TextBox
+                                Grid.Column="6"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Loyalty"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
@@ -376,6 +386,8 @@
                         <!--  Personality Row 2  -->
                         <Grid Margin="0,4,0,0">
                             <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="8" />
                                 <ColumnDefinition Width="*" />
@@ -401,6 +413,14 @@
 
                             <TextBox
                                 Grid.Column="4"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="Sportmanship"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding Sportmanship}" />
+
+                            <TextBox
+                                Grid.Column="6"
                                 md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Temperament"
                                 FontSize="14"
