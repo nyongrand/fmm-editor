@@ -34,6 +34,7 @@ namespace FMMEditor.ViewModels
         public extern NameParser? SecondNameParser { [ObservableAsProperty] get; }
         public extern NameParser? CommonNameParser { [ObservableAsProperty] get; }
         public extern PeopleParser? PeopleParser { [ObservableAsProperty] get; }
+        public extern PlayerParser? PlayerParser { [ObservableAsProperty] get; }
 
         // Collections for display
         public BulkObservableCollection<Nation> Nations { get; } = [];
@@ -53,6 +54,7 @@ namespace FMMEditor.ViewModels
         public ReactiveCommand<string, NameParser> ParseSecondName { get; private set; }
         public ReactiveCommand<string, NameParser> ParseCommonName { get; private set; }
         public ReactiveCommand<string, PeopleParser> ParsePeople { get; private set; }
+        public ReactiveCommand<string, PlayerParser> ParsePlayers { get; private set; }
 
         #region Dialog
 
@@ -98,6 +100,7 @@ namespace FMMEditor.ViewModels
         private Dictionary<int, string> commonNameLookup = [];
         private Dictionary<short, string> nationLookup = [];
         private Dictionary<int, string> clubLookup = [];
+        private Dictionary<int, Player> playerLookup = [];
 
         public PeopleViewModel(IDialogService dialogService, ISnackbarMessageQueue messageQueue)
         {
@@ -142,6 +145,9 @@ namespace FMMEditor.ViewModels
             ParsePeople = ReactiveCommand.CreateFromTask<string, PeopleParser>(PeopleParser.Load);
             ParsePeople.ToPropertyEx(this, vm => vm.PeopleParser);
 
+            ParsePlayers = ReactiveCommand.CreateFromTask<string, PlayerParser>(PlayerParser.Load);
+            ParsePlayers.ToPropertyEx(this, vm => vm.PlayerParser);
+
             AddCommand = ReactiveCommand.Create(Add);
             EditCommand = ReactiveCommand.Create<PeopleDisplayModel>(Edit);
 
@@ -181,6 +187,11 @@ namespace FMMEditor.ViewModels
                 .WhereNotNull()
                 .Select(x => x + "\\people.dat")
                 .InvokeCommand(ParsePeople);
+
+            this.WhenAnyValue(vm => vm.FolderPath)
+                .WhereNotNull()
+                .Select(x => x + "\\player.dat")
+                .InvokeCommand(ParsePlayers);
 
             this.WhenAnyValue(vm => vm.FolderPath)
                 .Select(x => !string.IsNullOrEmpty(x))
@@ -236,6 +247,14 @@ namespace FMMEditor.ViewModels
                 .WhereNotNull()
                 .Subscribe(x => RefreshPeopleDisplay());
 
+            this.WhenAnyValue(vm => vm.PlayerParser)
+                .WhereNotNull()
+                .Subscribe(x =>
+                {
+                    playerLookup = x.Items.ToDictionary(p => p.Id);
+                    RefreshPeopleDisplay();
+                });
+
             this.WhenAnyValue(vm => vm.SearchQuery)
                 .Subscribe(x => peopleView.Refresh());
         }
@@ -252,7 +271,8 @@ namespace FMMEditor.ViewModels
                     LastName = lastNameLookup.GetValueOrDefault(p.LastNameId, ""),
                     CommonName = commonNameLookup.GetValueOrDefault(p.CommonNameId, ""),
                     NationName = nationLookup.GetValueOrDefault(p.NationId, ""),
-                    ClubName = clubLookup.GetValueOrDefault(p.ClubId, "Free Agent")
+                    ClubName = clubLookup.GetValueOrDefault(p.ClubId, "Free Agent"),
+                    Player = playerLookup.GetValueOrDefault(p.PlayerId)
                 };
                 return display;
             });
