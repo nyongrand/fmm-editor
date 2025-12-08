@@ -266,7 +266,14 @@ namespace FMMEditor.ViewModels
 
         private void AddPerson(PersonEditViewModel vm)
         {
-            var nextUid = PeopleParser?.Items.Max(x => x.Uid) + 1 ?? 1;
+            if (PeopleParser == null || PlayerParser == null) return;
+
+            var nextUid = PeopleParser.Items.Count > 0 ? PeopleParser.Items.Max(x => x.Uid) + 1 : 1;
+
+            // Always create a player when adding a new person
+            var newPlayer = CreatePlayerFromViewModel(vm, nextUid);
+            PlayerParser.Add(newPlayer);
+            playerLookup[newPlayer.Id] = newPlayer;
 
             var newPerson = new People
             {
@@ -291,13 +298,13 @@ namespace FMMEditor.ViewModels
                 Professionalism = vm.Professionalism ?? 10,
                 Temperament = vm.Temperament ?? 10,
                 Ethnicity = vm.Ethnicity,
-                Unknown1 = 0,
-                UnknownDate = 0,
+                Unknown1 = vm.Unknown1,
+                UnknownDate = DateConverter.FromDateTime(vm.UnknownDate),
                 JoinedDate = 0,
                 Unknown3 = 0,
-                Controversy = 10,
-                Sportmanship = 10,
-                PlayerId = -1,
+                Controversy = vm.Controversy ?? 10,
+                Sportmanship = vm.Sportmanship ?? 10,
+                PlayerId = newPlayer.Id,
                 Unknown6b = -1,
                 Unknown6c = -1,
                 Unknown6d = -1,
@@ -311,8 +318,8 @@ namespace FMMEditor.ViewModels
                 Unknown21 = 0
             };
 
-            PeopleParser?.Add(newPerson);
-            MessageQueue.Enqueue("Person added successfully");
+            PeopleParser.Add(newPerson);
+            MessageQueue.Enqueue("Person and player added successfully");
         }
 
         private void UpdatePerson(PersonEditViewModel vm)
@@ -339,7 +346,164 @@ namespace FMMEditor.ViewModels
             existingPerson.Professionalism = vm.Professionalism ?? 10;
             existingPerson.Temperament = vm.Temperament ?? 10;
 
+            // Handle player data
+            if (vm.HasPlayer && PlayerParser != null)
+            {
+                var existingPlayer = playerLookup.GetValueOrDefault(existingPerson.PlayerId);
+                if (existingPlayer != null)
+                {
+                    // Update existing player
+                    UpdatePlayerFromViewModel(existingPlayer, vm);
+                }
+                else
+                {
+                    // Create new player for existing person
+                    var nextPlayerUid = PlayerParser.Items.Count > 0 ? PlayerParser.Items.Max(x => x.Uid) + 1 : 1;
+                    var newPlayer = CreatePlayerFromViewModel(vm, nextPlayerUid);
+                    PlayerParser.Add(newPlayer);
+                    existingPerson.PlayerId = newPlayer.Id;
+                    playerLookup[newPlayer.Id] = newPlayer;
+                }
+            }
+
             MessageQueue.Enqueue("Person updated successfully");
+        }
+
+        private Player CreatePlayerFromViewModel(PersonEditViewModel vm, int uid)
+        {
+            return new Player
+            {
+                Id = -1,
+                Uid = uid,
+                CA = vm.CA ?? 0,
+                PA = vm.PA ?? 0,
+                Height = vm.Height ?? 180,
+                Weight = vm.Weight ?? 75,
+                Pace = vm.Pace ?? 10,
+                Stamina = vm.Stamina ?? 10,
+                Strength = vm.Strength ?? 10,
+                Agility = vm.Agility ?? 10,
+                Jumping = vm.Jumping ?? 10,
+                Finishing = vm.Finishing ?? 10,
+                Passing = vm.Passing ?? 10,
+                Dribbling = vm.Dribbling ?? 10,
+                Tackling = vm.Tackling ?? 10,
+                Heading = vm.Heading ?? 10,
+                Crossing = vm.Crossing ?? 10,
+                Technique = vm.Technique ?? 10,
+                LongShot = vm.LongShot ?? 10,
+                SetPieces = vm.SetPieces ?? 10,
+                Creativity = vm.Creativity ?? 10,
+                Leadership = vm.Leadership ?? 10,
+                WorkRate = vm.WorkRate ?? 10,
+                Positioning = vm.Positioning ?? 10,
+                Movement = vm.Movement ?? 10,
+                Flair = vm.Flair ?? 10,
+                Decision = vm.Decision ?? 10,
+                Unselfishness = vm.Unselfishness ?? 10,
+                Consistency = vm.Consistency ?? 10,
+                Aggression = vm.Aggression ?? 10,
+                BigMatch = vm.BigMatch ?? 10,
+                InjuryProne = vm.InjuryProne ?? 10,
+                Versatility = vm.Versatility ?? 10,
+                Penalty = vm.Penalty ?? 10,
+                LeftFoot = vm.LeftFoot ?? 10,
+                RightFoot = vm.RightFoot ?? 10,
+                Handling = vm.Handling ?? 10,
+                Kicking = vm.Kicking ?? 10,
+                Aerial = vm.Aerial ?? 10,
+                Reflexes = vm.Reflexes ?? 10,
+                Communication = vm.Communication ?? 10,
+                Throwing = vm.Throwing ?? 10,
+                GK = vm.GK ?? 1,
+                LIB = vm.LIB ?? 1,
+                LB = vm.LB ?? 1,
+                CB = vm.CB ?? 1,
+                RB = vm.RB ?? 1,
+                DM = vm.DM ?? 1,
+                LM = vm.LM ?? 1,
+                CM = vm.CM ?? 1,
+                RM = vm.RM ?? 1,
+                LW = vm.LW ?? 1,
+                AM = vm.AM ?? 1,
+                RW = vm.RW ?? 1,
+                CF = vm.CF ?? 1,
+                LWB = vm.LWB ?? 1,
+                RWB = vm.RWB ?? 1,
+                HomeReputation = vm.HomeReputation ?? 0,
+                CurrentReputation = vm.CurrentReputation ?? 0,
+                WorldReputation = vm.WorldReputation ?? 0,
+                InternationalRetirement = vm.InternationalRetirement ?? 0,
+                SquadNumber = vm.SquadNumber ?? 0,
+                PreferredSquadNumber = vm.PreferredSquadNumber ?? 0,
+                Unknown1 = 0,
+                Unknown2 = 0
+            };
+        }
+
+        private void UpdatePlayerFromViewModel(Player player, PersonEditViewModel vm)
+        {
+            player.CA = vm.CA ?? player.CA;
+            player.PA = vm.PA ?? player.PA;
+            player.Height = vm.Height ?? player.Height;
+            player.Weight = vm.Weight ?? player.Weight;
+            player.Pace = vm.Pace ?? player.Pace;
+            player.Stamina = vm.Stamina ?? player.Stamina;
+            player.Strength = vm.Strength ?? player.Strength;
+            player.Agility = vm.Agility ?? player.Agility;
+            player.Jumping = vm.Jumping ?? player.Jumping;
+            player.Finishing = vm.Finishing ?? player.Finishing;
+            player.Passing = vm.Passing ?? player.Passing;
+            player.Dribbling = vm.Dribbling ?? player.Dribbling;
+            player.Tackling = vm.Tackling ?? player.Tackling;
+            player.Heading = vm.Heading ?? player.Heading;
+            player.Crossing = vm.Crossing ?? player.Crossing;
+            player.Technique = vm.Technique ?? player.Technique;
+            player.LongShot = vm.LongShot ?? player.LongShot;
+            player.SetPieces = vm.SetPieces ?? player.SetPieces;
+            player.Creativity = vm.Creativity ?? player.Creativity;
+            player.Leadership = vm.Leadership ?? player.Leadership;
+            player.WorkRate = vm.WorkRate ?? player.WorkRate;
+            player.Positioning = vm.Positioning ?? player.Positioning;
+            player.Movement = vm.Movement ?? player.Movement;
+            player.Flair = vm.Flair ?? player.Flair;
+            player.Decision = vm.Decision ?? player.Decision;
+            player.Unselfishness = vm.Unselfishness ?? player.Unselfishness;
+            player.Consistency = vm.Consistency ?? player.Consistency;
+            player.Aggression = vm.Aggression ?? player.Aggression;
+            player.BigMatch = vm.BigMatch ?? player.BigMatch;
+            player.InjuryProne = vm.InjuryProne ?? player.InjuryProne;
+            player.Versatility = vm.Versatility ?? player.Versatility;
+            player.Penalty = vm.Penalty ?? player.Penalty;
+            player.LeftFoot = vm.LeftFoot ?? player.LeftFoot;
+            player.RightFoot = vm.RightFoot ?? player.RightFoot;
+            player.Handling = vm.Handling ?? player.Handling;
+            player.Kicking = vm.Kicking ?? player.Kicking;
+            player.Aerial = vm.Aerial ?? player.Aerial;
+            player.Reflexes = vm.Reflexes ?? player.Reflexes;
+            player.Communication = vm.Communication ?? player.Communication;
+            player.Throwing = vm.Throwing ?? player.Throwing;
+            player.GK = vm.GK ?? player.GK;
+            player.LIB = vm.LIB ?? player.LIB;
+            player.LB = vm.LB ?? player.LB;
+            player.CB = vm.CB ?? player.CB;
+            player.RB = vm.RB ?? player.RB;
+            player.DM = vm.DM ?? player.DM;
+            player.LM = vm.LM ?? player.LM;
+            player.CM = vm.CM ?? player.CM;
+            player.RM = vm.RM ?? player.RM;
+            player.LW = vm.LW ?? player.LW;
+            player.AM = vm.AM ?? player.AM;
+            player.RW = vm.RW ?? player.RW;
+            player.CF = vm.CF ?? player.CF;
+            player.LWB = vm.LWB ?? player.LWB;
+            player.RWB = vm.RWB ?? player.RWB;
+            player.HomeReputation = vm.HomeReputation ?? player.HomeReputation;
+            player.CurrentReputation = vm.CurrentReputation ?? player.CurrentReputation;
+            player.WorldReputation = vm.WorldReputation ?? player.WorldReputation;
+            player.InternationalRetirement = vm.InternationalRetirement ?? player.InternationalRetirement;
+            player.SquadNumber = vm.SquadNumber ?? player.SquadNumber;
+            player.PreferredSquadNumber = vm.PreferredSquadNumber ?? player.PreferredSquadNumber;
         }
 
         private void RefreshPeopleDisplay()
@@ -377,8 +541,12 @@ namespace FMMEditor.ViewModels
                 if (PeopleParser != null)
                 {
                     await PeopleParser.Save();
-                    MessageQueue.Enqueue("Save Successful");
                 }
+                if (PlayerParser != null)
+                {
+                    await PlayerParser.Save();
+                }
+                MessageQueue.Enqueue("Save Successful");
             }
             catch (Exception e)
             {
@@ -398,8 +566,12 @@ namespace FMMEditor.ViewModels
                 if (PeopleParser != null)
                 {
                     await PeopleParser.Save(settings.SelectedPath + "\\people.dat");
-                    MessageQueue.Enqueue("Save Successful");
                 }
+                if (PlayerParser != null)
+                {
+                    await PlayerParser.Save(settings.SelectedPath + "\\players.dat");
+                }
+                MessageQueue.Enqueue("Save Successful");
             }
             catch (Exception e)
             {

@@ -288,7 +288,9 @@ namespace FMMEditor.ViewModels
             NationId = null;
             ClubId = null;
             DateOfBirth = new DateTime(1990, 1, 1);
-            PersonType = 0;
+            PersonType = 1;
+            Unknown1 = -1;
+            UnknownDate = new DateTime(1990, 1, 1);
             Ethnicity = 0;
             NationalCaps = 0;
             NationalGoals = 0;
@@ -296,12 +298,87 @@ namespace FMMEditor.ViewModels
             NationalU21Goals = 0;
             Adaptability = 10;
             Ambition = 10;
+            Controversy = 10;
             Loyalty = 10;
             Pressure = 10;
             Professionalism = 10;
+            Sportmanship = 10;
             Temperament = 10;
-            HasPlayer = false;
-            ResetPlayerFields();
+            HasPlayer = true;  // Always create a player by default
+            ResetPlayerFieldsToDefaults();
+        }
+
+        private void ResetPlayerFieldsToDefaults()
+        {
+            CA = 50;
+            PA = 100;
+            Height = 180;
+            Weight = 75;
+            Pace = 10;
+            Stamina = 10;
+            Strength = 10;
+            Agility = 10;
+            Jumping = 10;
+            Finishing = 10;
+            Passing = 10;
+            Dribbling = 10;
+            Tackling = 10;
+            Heading = 10;
+            Crossing = 10;
+            Technique = 10;
+            Creativity = 10;
+            Leadership = 10;
+            WorkRate = 10;
+            Positioning = 10;
+            Movement = 10;
+            Flair = 10;
+            Decision = 10;
+            LongShot = 10;
+            SetPieces = 10;
+            LeftFoot = 10;
+            RightFoot = 10;
+            Unselfishness = 10;
+            Consistency = 10;
+            Aggression = 10;
+            BigMatch = 10;
+            InjuryProne = 10;
+            Versatility = 10;
+            Penalty = 10;
+
+            // Goalkeeper attributes
+            Handling = 10;
+            Kicking = 10;
+            Aerial = 10;
+            Reflexes = 10;
+            Communication = 10;
+            Throwing = 10;
+
+            // Positions - default to 1
+            GK = 1;
+            LIB = 1;
+            LB = 1;
+            CB = 1;
+            RB = 1;
+            DM = 1;
+            LM = 1;
+            CM = 1;
+            RM = 1;
+            LW = 1;
+            AM = 1;
+            RW = 1;
+            CF = 1;
+            LWB = 1;
+            RWB = 1;
+
+            // Reputation
+            HomeReputation = 0;
+            CurrentReputation = 0;
+            WorldReputation = 0;
+
+            // Other
+            InternationalRetirement = 0;
+            SquadNumber = 0;
+            PreferredSquadNumber = 0;
         }
 
         private void ResetPlayerFields()

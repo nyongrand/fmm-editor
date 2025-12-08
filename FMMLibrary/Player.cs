@@ -83,6 +83,13 @@
         /// </summary>
         public int Unknown2 { get; set; }
 
+        /// <summary>
+        /// Parameterless constructor for creating new players.
+        /// </summary>
+        public Player()
+        {
+        }
+
         public Player(BinaryReader reader)
         {
             Id = reader.ReadInt32();

@@ -68,6 +68,18 @@
         }
 
         /// <summary>
+        /// Adds the specified player to the collection, assigning a unique identifier if necessary.
+        /// </summary>
+        /// <param name="item">The player to add to the collection. If the item's Id is less than or equal to zero, a new unique Id is assigned.</param>
+        public void Add(Player item)
+        {
+            var nextId = Items.Count > 0 ? Items.Max(x => x.Id) + 1 : 0;
+            item.Id = item.Id >= 0 ? item.Id : nextId;
+            items.Add(item);
+            Count++;
+        }
+
+        /// <summary>
         /// Converts the nation data to a byte array for serialization.
         /// </summary>
         /// <returns>A byte array representing the serialized nation data.</returns>
