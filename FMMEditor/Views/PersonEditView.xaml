@@ -455,26 +455,46 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="8" />
                                 <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
 
                             <TextBox
                                 Grid.Column="0"
                                 md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
-                                md:HintAssist.Hint="CA"
+                                md:HintAssist.Hint="L Foot (1-20)"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding LeftFoot}" />
+
+                            <TextBox
+                                Grid.Column="2"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="R Foot (1-20)"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding RightFoot}" />
+
+                            <TextBox
+                                Grid.Column="4"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="CA (1-200)"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
                                 Text="{Binding CA}" />
 
                             <TextBox
-                                Grid.Column="2"
+                                Grid.Column="6"
                                 md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
-                                md:HintAssist.Hint="PA"
+                                md:HintAssist.Hint="PA (1-200)"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
                                 Text="{Binding PA}" />
 
                             <TextBox
-                                Grid.Column="4"
+                                Grid.Column="8"
                                 md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Height"
                                 FontSize="14"
@@ -482,7 +502,7 @@
                                 Text="{Binding Height}" />
 
                             <TextBox
-                                Grid.Column="6"
+                                Grid.Column="10"
                                 md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Weight"
                                 FontSize="14"
@@ -727,6 +747,12 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="8" />
                                 <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
 
                             <TextBox
@@ -744,18 +770,39 @@
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
                                 Text="{Binding Flair}" />
+
+                            <TextBox
+                                Grid.Column="4"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="Unselfishness"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding Unselfishness}" />
+
+                            <TextBox
+                                Grid.Column="6"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="Consistency"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding Consistency}" />
+
+                            <TextBox
+                                Grid.Column="8"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="Aggression"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding Aggression}" />
                         </Grid>
 
-                        <!--  Foot Preference Header  -->
-                        <TextBlock
-                            Margin="0,12,0,4"
-                            FontSize="12"
-                            Foreground="{DynamicResource MaterialDesignBodyLight}"
-                            Text="Foot Preference" />
-
-                        <!--  Foot Row  -->
+                        <!--  Mental Row 3  -->
                         <Grid Margin="0,4,0,0">
                             <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="8" />
                                 <ColumnDefinition Width="*" />
@@ -764,18 +811,355 @@
                             <TextBox
                                 Grid.Column="0"
                                 md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
-                                md:HintAssist.Hint="Left Foot (1-20)"
+                                md:HintAssist.Hint="Big Match"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
-                                Text="{Binding LeftFoot}" />
+                                Text="{Binding BigMatch}" />
 
                             <TextBox
                                 Grid.Column="2"
                                 md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
-                                md:HintAssist.Hint="Right Foot (1-20)"
+                                md:HintAssist.Hint="Injury Prone"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
-                                Text="{Binding RightFoot}" />
+                                Text="{Binding InjuryProne}" />
+
+                            <TextBox
+                                Grid.Column="4"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="Versatility"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding Versatility}" />
+
+                            <TextBox
+                                Grid.Column="6"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="Penalty"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding Penalty}" />
+                        </Grid>
+
+                        <!--  Goalkeeper Attributes Header  -->
+                        <TextBlock
+                            Margin="0,12,0,4"
+                            FontSize="12"
+                            Foreground="{DynamicResource MaterialDesignBodyLight}"
+                            Text="Goalkeeper" />
+
+                        <!--  Goalkeeper Row  -->
+                        <Grid Margin="0,4,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBox
+                                Grid.Column="0"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="Handling"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding Handling}" />
+
+                            <TextBox
+                                Grid.Column="2"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="Kicking"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding Kicking}" />
+
+                            <TextBox
+                                Grid.Column="4"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="Aerial"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding Aerial}" />
+
+                            <TextBox
+                                Grid.Column="6"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="Reflexes"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding Reflexes}" />
+
+                            <TextBox
+                                Grid.Column="8"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="Communic."
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding Communication}" />
+
+                            <TextBox
+                                Grid.Column="10"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="Throwing"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding Throwing}" />
+                        </Grid>
+
+                        <!--  Position Ratings Header  -->
+                        <TextBlock
+                            Margin="0,12,0,4"
+                            FontSize="12"
+                            Foreground="{DynamicResource MaterialDesignBodyLight}"
+                            Text="Position Ratings" />
+
+                        <!--  Positions Row 1  -->
+                        <Grid Margin="0,4,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBox
+                                Grid.Column="0"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="GK"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding GK}" />
+
+                            <TextBox
+                                Grid.Column="2"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="LIB"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding LIB}" />
+
+                            <TextBox
+                                Grid.Column="4"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="CB"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding CB}" />
+
+                            <TextBox
+                                Grid.Column="6"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="LB"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding LB}" />
+
+                            <TextBox
+                                Grid.Column="8"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="RB"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding RB}" />
+                        </Grid>
+
+                        <!--  Positions Row 2  -->
+                        <Grid Margin="0,4,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBox
+                                Grid.Column="0"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="LWB"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding LWB}" />
+
+                            <TextBox
+                                Grid.Column="2"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="RWB"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding RWB}" />
+
+                            <TextBox
+                                Grid.Column="4"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="DM"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding DM}" />
+
+                            <TextBox
+                                Grid.Column="6"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="LM"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding LM}" />
+
+                            <TextBox
+                                Grid.Column="8"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="RM"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding RM}" />
+                        </Grid>
+
+                        <!--  Positions Row 3  -->
+                        <Grid Margin="0,4,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBox
+                                Grid.Column="0"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="CM"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding CM}" />
+
+                            <TextBox
+                                Grid.Column="2"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="AM"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding AM}" />
+
+                            <TextBox
+                                Grid.Column="4"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="LW"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding LW}" />
+
+                            <TextBox
+                                Grid.Column="6"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="RW"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding RW}" />
+
+                            <TextBox
+                                Grid.Column="8"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="CF"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding CF}" />
+                        </Grid>
+
+                        <!--  Reputation Header  -->
+                        <TextBlock
+                            Margin="0,12,0,4"
+                            FontSize="12"
+                            Foreground="{DynamicResource MaterialDesignBodyLight}"
+                            Text="Reputation &amp; Other" />
+
+                        <!--  Reputation Row  -->
+                        <Grid Margin="0,4,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBox
+                                Grid.Column="0"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="Home Rep"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding HomeReputation}" />
+
+                            <TextBox
+                                Grid.Column="2"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="Current Rep"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding CurrentReputation}" />
+
+                            <TextBox
+                                Grid.Column="4"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="World Rep"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding WorldReputation}" />
+                        </Grid>
+
+                        <!--  Squad Number Row  -->
+                        <Grid Margin="0,4,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBox
+                                Grid.Column="0"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="Squad No."
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding SquadNumber}" />
+
+                            <TextBox
+                                Grid.Column="2"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="Preferred No."
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding PreferredSquadNumber}" />
+
+                            <TextBox
+                                Grid.Column="4"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="Int. Retirement"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding InternationalRetirement}" />
                         </Grid>
 
                     </StackPanel>

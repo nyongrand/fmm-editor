@@ -86,10 +86,52 @@ namespace FMMEditor.ViewModels
         [Reactive] public byte? Movement { get; set; }
         [Reactive] public byte? Flair { get; set; }
         [Reactive] public byte? Decision { get; set; }
+        [Reactive] public byte? Unselfishness { get; set; }
+        [Reactive] public byte? Consistency { get; set; }
+        [Reactive] public byte? Aggression { get; set; }
+        [Reactive] public byte? BigMatch { get; set; }
+        [Reactive] public byte? InjuryProne { get; set; }
+        [Reactive] public byte? Versatility { get; set; }
+        [Reactive] public byte? Penalty { get; set; }
 
         // Foot preference
         [Reactive] public byte? LeftFoot { get; set; }
         [Reactive] public byte? RightFoot { get; set; }
+
+        // Goalkeeper attributes
+        [Reactive] public byte? Handling { get; set; }
+        [Reactive] public byte? Kicking { get; set; }
+        [Reactive] public byte? Aerial { get; set; }
+        [Reactive] public byte? Reflexes { get; set; }
+        [Reactive] public byte? Communication { get; set; }
+        [Reactive] public byte? Throwing { get; set; }
+
+        // Position ratings
+        [Reactive] public byte? GK { get; set; }
+        [Reactive] public byte? LIB { get; set; }
+        [Reactive] public byte? LB { get; set; }
+        [Reactive] public byte? CB { get; set; }
+        [Reactive] public byte? RB { get; set; }
+        [Reactive] public byte? DM { get; set; }
+        [Reactive] public byte? LM { get; set; }
+        [Reactive] public byte? CM { get; set; }
+        [Reactive] public byte? RM { get; set; }
+        [Reactive] public byte? LW { get; set; }
+        [Reactive] public byte? AM { get; set; }
+        [Reactive] public byte? RW { get; set; }
+        [Reactive] public byte? CF { get; set; }
+        [Reactive] public byte? LWB { get; set; }
+        [Reactive] public byte? RWB { get; set; }
+
+        // Reputation
+        [Reactive] public short? HomeReputation { get; set; }
+        [Reactive] public short? CurrentReputation { get; set; }
+        [Reactive] public short? WorldReputation { get; set; }
+
+        // Other player fields
+        [Reactive] public byte? InternationalRetirement { get; set; }
+        [Reactive] public byte? SquadNumber { get; set; }
+        [Reactive] public byte? PreferredSquadNumber { get; set; }
 
         public PersonEditViewModel(
             BulkObservableCollection<Name> firstNames,
@@ -189,6 +231,48 @@ namespace FMMEditor.ViewModels
             SetPieces = player.SetPieces;
             LeftFoot = player.LeftFoot;
             RightFoot = player.RightFoot;
+            Unselfishness = player.Unselfishness;
+            Consistency = player.Consistency;
+            Aggression = player.Aggression;
+            BigMatch = player.BigMatch;
+            InjuryProne = player.InjuryProne;
+            Versatility = player.Versatility;
+            Penalty = player.Penalty;
+
+            // Goalkeeper attributes
+            Handling = player.Handling;
+            Kicking = player.Kicking;
+            Aerial = player.Aerial;
+            Reflexes = player.Reflexes;
+            Communication = player.Communication;
+            Throwing = player.Throwing;
+
+            // Positions
+            GK = player.GK;
+            LIB = player.LIB;
+            LB = player.LB;
+            CB = player.CB;
+            RB = player.RB;
+            DM = player.DM;
+            LM = player.LM;
+            CM = player.CM;
+            RM = player.RM;
+            LW = player.LW;
+            AM = player.AM;
+            RW = player.RW;
+            CF = player.CF;
+            LWB = player.LWB;
+            RWB = player.RWB;
+
+            // Reputation
+            HomeReputation = player.HomeReputation;
+            CurrentReputation = player.CurrentReputation;
+            WorldReputation = player.WorldReputation;
+
+            // Other
+            InternationalRetirement = player.InternationalRetirement;
+            SquadNumber = player.SquadNumber;
+            PreferredSquadNumber = player.PreferredSquadNumber;
         }
 
         private void ResetToDefaults()
@@ -245,6 +329,48 @@ namespace FMMEditor.ViewModels
             SetPieces = null;
             LeftFoot = null;
             RightFoot = null;
+            Unselfishness = null;
+            Consistency = null;
+            Aggression = null;
+            BigMatch = null;
+            InjuryProne = null;
+            Versatility = null;
+            Penalty = null;
+
+            // Goalkeeper attributes
+            Handling = null;
+            Kicking = null;
+            Aerial = null;
+            Reflexes = null;
+            Communication = null;
+            Throwing = null;
+
+            // Positions
+            GK = null;
+            LIB = null;
+            LB = null;
+            CB = null;
+            RB = null;
+            DM = null;
+            LM = null;
+            CM = null;
+            RM = null;
+            LW = null;
+            AM = null;
+            RW = null;
+            CF = null;
+            LWB = null;
+            RWB = null;
+
+            // Reputation
+            HomeReputation = null;
+            CurrentReputation = null;
+            WorldReputation = null;
+
+            // Other
+            InternationalRetirement = null;
+            SquadNumber = null;
+            PreferredSquadNumber = null;
         }
 
         public bool Validate() => FirstNameId != null && LastNameId != null && NationId != null;
