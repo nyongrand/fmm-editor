@@ -67,6 +67,7 @@
         public short WorldReputation { get; set; }
 
         public byte InternationalRetirement { get; set; }
+
         /// <summary>
         /// Always 0x0000
         /// </summary>

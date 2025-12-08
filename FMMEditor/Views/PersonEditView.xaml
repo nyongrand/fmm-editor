@@ -20,7 +20,7 @@
         Padding="0"
         md:ElevationAssist.Elevation="Dp4"
         UniformCornerRadius="4">
-        <Grid MaxHeight="540">
+        <Grid MaxHeight="560">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
@@ -169,12 +169,39 @@
                                 md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Person Type"
                                 FontSize="14"
+                                IsEnabled="False"
                                 SelectedIndex="{Binding PersonType}"
                                 Style="{DynamicResource MaterialDesignFilledComboBox}">
-                                <ComboBoxItem Content="Player" />
                                 <ComboBoxItem Content="Staff" />
+                                <ComboBoxItem Content="Player" />
                                 <ComboBoxItem Content="Other" />
                             </ComboBox>
+                        </Grid>
+
+                        <Grid Margin="0,8,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <DatePicker
+                                Grid.Column="0"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="Unknown Date"
+                                FontSize="14"
+                                SelectedDate="{Binding UnknownDate}"
+                                Style="{DynamicResource MaterialDesignFilledDatePicker}" />
+
+                            <TextBox
+                                Grid.Column="2"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="Unknown 1"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding Unknown1}" />
                         </Grid>
 
                         <TextBlock

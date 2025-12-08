@@ -37,6 +37,8 @@ namespace FMMEditor.ViewModels
         [Reactive] public int? ClubId { get; set; }
         [Reactive] public DateTime? DateOfBirth { get; set; }
         [Reactive] public int PersonType { get; set; }
+        [Reactive] public int Unknown1 { get; set; }
+        [Reactive] public DateTime? UnknownDate { get; set; }
         [Reactive] public byte Ethnicity { get; set; }
         [Reactive] public short? NationalCaps { get; set; }
         [Reactive] public short? NationalGoals { get; set; }
@@ -176,6 +178,8 @@ namespace FMMEditor.ViewModels
             ClubId = p.ClubId;
             DateOfBirth = DateConverter.ToDateTime(p.DateOfBirth);
             PersonType = p.Type;
+            Unknown1 = p.Unknown1;
+            UnknownDate = DateConverter.ToDateTime(p.UnknownDate);
             Ethnicity = p.Ethnicity;
             NationalCaps = p.NationalCaps;
             NationalGoals = p.NationalGoals;
