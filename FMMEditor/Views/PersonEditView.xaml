@@ -7,7 +7,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:viewmodels="clr-namespace:FMMEditor.ViewModels"
     Width="1280"
+    d:DataContext="{d:DesignInstance Type=viewmodels:PersonEditViewModel}"
     mc:Ignorable="d">
 
     <UserControl.Resources>
@@ -302,7 +304,7 @@
                                 ItemsSource="{Binding Clubs}"
                                 OnlyValuesInList="True"
                                 SelectedValue="{Binding ClubId}"
-                                SelectedValuePath="Uid"
+                                SelectedValuePath="Id"
                                 StaysOpenOnEdit="True"
                                 Style="{DynamicResource MaterialDesignFilledComboBox}">
                                 <controls:FilterableComboBox.ItemsPanel>
