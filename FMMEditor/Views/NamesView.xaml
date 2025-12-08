@@ -552,8 +552,9 @@
                             </DataGridTextColumn>
 
                             <DataGridTextColumn
-                                Width="110"
-                                MinWidth="110"
+                                Width="80"
+                                MinWidth="80"
+                                MaxWidth="180"
                                 Binding="{Binding NationName}"
                                 CanUserReorder="False"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
@@ -681,8 +682,9 @@
                             </DataGridTextColumn>
 
                             <DataGridTextColumn
-                                Width="110"
-                                MinWidth="110"
+                                Width="80"
+                                MinWidth="80"
+                                MaxWidth="180"
                                 Binding="{Binding NationName}"
                                 CanUserReorder="False"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
@@ -810,8 +812,9 @@
                             </DataGridTextColumn>
 
                             <DataGridTextColumn
-                                Width="110"
-                                MinWidth="110"
+                                Width="80"
+                                MinWidth="80"
+                                MaxWidth="180"
                                 Binding="{Binding NationName}"
                                 CanUserReorder="False"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
