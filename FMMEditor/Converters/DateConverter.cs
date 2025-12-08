@@ -1,6 +1,7 @@
 using System;
 using System.Globalization;
 using System.Windows.Data;
+using System.Windows.Forms;
 
 namespace FMMEditor.Converters
 {
@@ -13,48 +14,17 @@ namespace FMMEditor.Converters
         public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is int date && date > 0)
-            {
-                try
-                {
-                    short days = (short)(date & 0xFFFF);
-                    short year = (short)((date >> 16) & 0xFFFF);
-                    return new DateTime(year, 1, 1).AddDays(days);
-                }
-                catch
-                {
-                    return null;
-                }
-            }
+                return ToDateTime(date);
+
             return null;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is DateTime date)
-            {
-                int days = date.DayOfYear - 1; // Days since Jan 1
-                int year = date.Year;
-                return (year << 16) | (days & 0xFFFF);
-            }
-            return 0;
-        }
+                return FromDateTime(date);
 
-        /// <summary>
-        /// Converts a game date integer to a formatted string.
-        /// </summary>
-        public static string ToDateString(int date)
-        {
-            if (date <= 0) return "-";
-            try
-            {
-                short days = (short)(date & 0xFFFF);
-                short year = (short)((date >> 16) & 0xFFFF);
-                return new DateTime(year, 1, 1).AddDays(days).ToString("yyyy-MM-dd");
-            }
-            catch
-            {
-                return "-";
-            }
+            return 0;
         }
 
         /// <summary>
@@ -62,12 +32,12 @@ namespace FMMEditor.Converters
         /// </summary>
         public static DateTime? ToDateTime(int date)
         {
-            if (date <= 0) return null;
+            if (date < 0) return null;
             try
             {
                 short days = (short)(date & 0xFFFF);
                 short year = (short)((date >> 16) & 0xFFFF);
-                return new DateTime(year, 1, 1).AddDays(days);
+                return new DateTime(year, 1, 1).AddDays(days - 1);
             }
             catch
             {
@@ -84,6 +54,14 @@ namespace FMMEditor.Converters
             int days = date.Value.DayOfYear - 1; // Days since Jan 1
             int year = date.Value.Year;
             return (year << 16) | (days & 0xFFFF);
+        }
+
+        /// <summary>
+        /// Converts a game date integer to a formatted string.
+        /// </summary>
+        public static string ToDateString(int date)
+        {
+            return ToDateTime(date)?.ToString("yyyy-MM-dd") ?? "-";
         }
     }
 }
