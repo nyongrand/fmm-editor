@@ -85,7 +85,7 @@
                                 FontSize="16"
                                 IsEditable="True"
                                 IsTextSearchEnabled="False"
-                                ItemsSource="{Binding NationParser.Items}"
+                                ItemsSource="{Binding Nations}"
                                 OnlyValuesInList="True"
                                 SelectedValue="{Binding SelectedNationUid}"
                                 SelectedValuePath="Uid"
@@ -519,8 +519,8 @@
                         <DataGrid.Columns>
 
                             <DataGridTextColumn
-                                Width="70"
-                                MinWidth="70"
+                                Width="60"
+                                MinWidth="60"
                                 MaxWidth="70"
                                 Binding="{Binding Id}"
                                 CanUserReorder="False"
@@ -597,11 +597,12 @@
                             </DataGridTextColumn>
 
                             <DataGridTextColumn
-                                Width="*"
+                                Width="140"
+                                MinWidth="100"
                                 Binding="{Binding Value}"
                                 CanUserReorder="False"
                                 ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
-                                Header="Name" />
+                                Header="First Name" />
 
                         </DataGrid.Columns>
                     </DataGrid>
@@ -647,8 +648,8 @@
                         <DataGrid.Columns>
 
                             <DataGridTextColumn
-                                Width="70"
-                                MinWidth="70"
+                                Width="60"
+                                MinWidth="60"
                                 MaxWidth="70"
                                 Binding="{Binding Id}"
                                 CanUserReorder="False"
@@ -725,11 +726,12 @@
                             </DataGridTextColumn>
 
                             <DataGridTextColumn
-                                Width="*"
+                                Width="140"
+                                MinWidth="100"
                                 Binding="{Binding Value}"
                                 CanUserReorder="False"
                                 ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
-                                Header="Name" />
+                                Header="Second Name" />
 
                         </DataGrid.Columns>
                     </DataGrid>
@@ -775,8 +777,8 @@
                         <DataGrid.Columns>
 
                             <DataGridTextColumn
-                                Width="70"
-                                MinWidth="70"
+                                Width="60"
+                                MinWidth="60"
                                 MaxWidth="70"
                                 Binding="{Binding Id}"
                                 CanUserReorder="False"
@@ -853,11 +855,12 @@
                             </DataGridTextColumn>
 
                             <DataGridTextColumn
-                                Width="*"
+                                Width="140"
+                                MinWidth="100"
                                 Binding="{Binding Value}"
                                 CanUserReorder="False"
                                 ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
-                                Header="Name" />
+                                Header="Common Name" />
 
                         </DataGrid.Columns>
                     </DataGrid>
