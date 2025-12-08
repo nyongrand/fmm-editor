@@ -1,6 +1,7 @@
 using FMMEditor.Collections;
 using FMMEditor.Converters;
 using FMMEditor.Models;
+using FMMEditor.Views;
 using FMMLibrary;
 using MaterialDesignThemes.Wpf;
 using MvvmDialogs;
@@ -56,38 +57,11 @@ namespace FMMEditor.ViewModels
         public ReactiveCommand<string, PeopleParser> ParsePeople { get; private set; }
         public ReactiveCommand<string, PlayerParser> ParsePlayers { get; private set; }
 
-        #region Dialog
-
+        // Commands for Add/Edit
         public ReactiveCommand<Unit, Unit> AddCommand { get; private set; }
         public ReactiveCommand<PeopleDisplayModel, Unit> EditCommand { get; private set; }
 
-        public ReactiveCommand<Unit, Unit> CancelCommand { get; private set; }
-        public ReactiveCommand<Unit, Unit> ConfirmCommand { get; private set; }
-
-        [Reactive] public bool ShowDialog { get; set; }
         [Reactive] public PeopleDisplayModel? SelectedPerson { get; set; }
-
-        // Dialog fields
-        [Reactive] public int? SelectedUid { get; set; }
-        [Reactive] public int? SelectedFirstNameId { get; set; }
-        [Reactive] public int? SelectedLastNameId { get; set; }
-        [Reactive] public int? SelectedCommonNameId { get; set; }
-        [Reactive] public short? SelectedNationId { get; set; }
-        [Reactive] public int? SelectedClubId { get; set; }
-        [Reactive] public DateTime? SelectedDateOfBirth { get; set; }
-        [Reactive] public int SelectedType { get; set; }
-        [Reactive] public short? SelectedNationalCaps { get; set; }
-        [Reactive] public short? SelectedNationalGoals { get; set; }
-        [Reactive] public byte? SelectedNationalU21Caps { get; set; }
-        [Reactive] public byte? SelectedNationalU21Goals { get; set; }
-        [Reactive] public byte? SelectedAdaptability { get; set; }
-        [Reactive] public byte? SelectedAmbition { get; set; }
-        [Reactive] public byte? SelectedLoyalty { get; set; }
-        [Reactive] public byte? SelectedPressure { get; set; }
-        [Reactive] public byte? SelectedProfessionalism { get; set; }
-        [Reactive] public byte? SelectedTemperament { get; set; }
-
-        #endregion
 
         [Reactive] public ISnackbarMessageQueue MessageQueue { get; set; }
 
@@ -148,11 +122,8 @@ namespace FMMEditor.ViewModels
             ParsePlayers = ReactiveCommand.CreateFromTask<string, PlayerParser>(PlayerParser.Load);
             ParsePlayers.ToPropertyEx(this, vm => vm.PlayerParser);
 
-            AddCommand = ReactiveCommand.Create(Add);
-            EditCommand = ReactiveCommand.Create<PeopleDisplayModel>(Edit);
-
-            CancelCommand = ReactiveCommand.Create(Cancel);
-            ConfirmCommand = ReactiveCommand.Create(Confirm);
+            AddCommand = ReactiveCommand.CreateFromTask(OpenAddPersonDialogAsync);
+            EditCommand = ReactiveCommand.CreateFromTask<PeopleDisplayModel>(OpenEditPersonDialogAsync);
 
             Save = ReactiveCommand.CreateFromTask(SaveImpl);
             SaveAs = ReactiveCommand.CreateFromTask(SaveAsImpl);
@@ -190,7 +161,7 @@ namespace FMMEditor.ViewModels
 
             this.WhenAnyValue(vm => vm.FolderPath)
                 .WhereNotNull()
-                .Select(x => x + "\\player.dat")
+                .Select(x => x + "\\players.dat")
                 .InvokeCommand(ParsePlayers);
 
             this.WhenAnyValue(vm => vm.FolderPath)
@@ -259,6 +230,118 @@ namespace FMMEditor.ViewModels
                 .Subscribe(x => peopleView.Refresh());
         }
 
+        private async Task OpenAddPersonDialogAsync()
+        {
+            var viewModel = new PersonEditViewModel(FirstNames, LastNames, CommonNames, Nations, Clubs);
+            viewModel.InitializeForAdd();
+
+            var view = new PersonEditView { DataContext = viewModel };
+
+            var result = await DialogHost.Show(view, "PeopleDialogHost");
+
+            if (result is PersonEditViewModel vm && vm.Validate())
+            {
+                AddPerson(vm);
+                RefreshPeopleDisplay();
+            }
+        }
+
+        private async Task OpenEditPersonDialogAsync(PeopleDisplayModel? person)
+        {
+            if (person == null) return;
+
+            var viewModel = new PersonEditViewModel(FirstNames, LastNames, CommonNames, Nations, Clubs);
+            viewModel.InitializeForEdit(person);
+
+            var view = new PersonEditView { DataContext = viewModel };
+
+            var result = await DialogHost.Show(view, "PeopleDialogHost");
+
+            if (result is PersonEditViewModel vm && vm.Validate())
+            {
+                UpdatePerson(vm);
+                RefreshPeopleDisplay();
+            }
+        }
+
+        private void AddPerson(PersonEditViewModel vm)
+        {
+            var nextUid = PeopleParser?.Items.Max(x => x.Uid) + 1 ?? 1;
+
+            var newPerson = new People
+            {
+                Id = -1,
+                Uid = nextUid,
+                FirstNameId = vm.FirstNameId!.Value,
+                LastNameId = vm.LastNameId!.Value,
+                CommonNameId = vm.CommonNameId ?? -1,
+                DateOfBirth = DateConverter.FromDateTime(vm.DateOfBirth),
+                NationId = vm.NationId!.Value,
+                OtherNationalities = [],
+                ClubId = vm.ClubId ?? -1,
+                Type = (byte)vm.PersonType,
+                NationalCaps = vm.NationalCaps ?? 0,
+                NationalGoals = vm.NationalGoals ?? 0,
+                NationalU21Caps = vm.NationalU21Caps ?? 0,
+                NationalU21Goals = vm.NationalU21Goals ?? 0,
+                Adaptability = vm.Adaptability ?? 10,
+                Ambition = vm.Ambition ?? 10,
+                Loyality = vm.Loyalty ?? 10,
+                Pressure = vm.Pressure ?? 10,
+                Professionalism = vm.Professionalism ?? 10,
+                Temperament = vm.Temperament ?? 10,
+                Ethnicity = vm.Ethnicity,
+                Unknown1 = 0,
+                UnknownDate = 0,
+                JoinedDate = 0,
+                Unknown3 = 0,
+                Controversy = 10,
+                Sportmanship = 10,
+                PlayerId = -1,
+                Unknown6b = -1,
+                Unknown6c = -1,
+                Unknown6d = -1,
+                Unknown6e = -1,
+                Unknown6f = -1,
+                Unknown7 = 0,
+                Unknown8 = 0,
+                DefaultLanguages = [],
+                OtherLanguages = [],
+                Relationships = [],
+                Unknown21 = 0
+            };
+
+            PeopleParser?.Add(newPerson);
+            MessageQueue.Enqueue("Person added successfully");
+        }
+
+        private void UpdatePerson(PersonEditViewModel vm)
+        {
+            var existingPerson = PeopleParser?.Items.FirstOrDefault(x => x.Uid == vm.Uid);
+            if (existingPerson == null) return;
+
+            existingPerson.FirstNameId = vm.FirstNameId!.Value;
+            existingPerson.LastNameId = vm.LastNameId!.Value;
+            existingPerson.CommonNameId = vm.CommonNameId ?? -1;
+            existingPerson.DateOfBirth = DateConverter.FromDateTime(vm.DateOfBirth);
+            existingPerson.NationId = vm.NationId!.Value;
+            existingPerson.ClubId = vm.ClubId ?? -1;
+            existingPerson.Type = (byte)vm.PersonType;
+            existingPerson.Ethnicity = vm.Ethnicity;
+            existingPerson.NationalCaps = vm.NationalCaps ?? 0;
+            existingPerson.NationalGoals = vm.NationalGoals ?? 0;
+            existingPerson.NationalU21Caps = vm.NationalU21Caps ?? 0;
+            existingPerson.NationalU21Goals = vm.NationalU21Goals ?? 0;
+            existingPerson.Adaptability = vm.Adaptability ?? 10;
+            existingPerson.Ambition = vm.Ambition ?? 10;
+            existingPerson.Loyality = vm.Loyalty ?? 10;
+            existingPerson.Pressure = vm.Pressure ?? 10;
+            existingPerson.Professionalism = vm.Professionalism ?? 10;
+            existingPerson.Temperament = vm.Temperament ?? 10;
+
+            MessageQueue.Enqueue("Person updated successfully");
+        }
+
         private void RefreshPeopleDisplay()
         {
             if (PeopleParser == null) return;
@@ -285,180 +368,6 @@ namespace FMMEditor.ViewModels
             var settings = new FolderBrowserDialogSettings();
             bool? success = dialogService.ShowFolderBrowserDialog(this, settings);
             return (success == true) ? settings.SelectedPath : null;
-        }
-
-        private void Add()
-        {
-            SelectedUid = -1;
-            SelectedFirstNameId = null;
-            SelectedLastNameId = null;
-            SelectedCommonNameId = null;
-            SelectedNationId = null;
-            SelectedClubId = null;
-            SelectedDateOfBirth = new DateTime(1990, 1, 1);
-            SelectedType = 0;
-            SelectedNationalCaps = 0;
-            SelectedNationalGoals = 0;
-            SelectedNationalU21Caps = 0;
-            SelectedNationalU21Goals = 0;
-            SelectedAdaptability = 10;
-            SelectedAmbition = 10;
-            SelectedLoyalty = 10;
-            SelectedPressure = 10;
-            SelectedProfessionalism = 10;
-            SelectedTemperament = 10;
-
-            ShowDialog = true;
-        }
-
-        private void Edit(PeopleDisplayModel person)
-        {
-            if (person == null) return;
-
-            var p = person.Person;
-            SelectedUid = p.Uid;
-            SelectedFirstNameId = p.FirstNameId;
-            SelectedLastNameId = p.LastNameId;
-            SelectedCommonNameId = p.CommonNameId > 0 ? p.CommonNameId : null;
-            SelectedNationId = p.NationId;
-            SelectedClubId = p.ClubId;
-            SelectedDateOfBirth = DateConverter.ToDateTime(p.DateOfBirth);
-            SelectedType = p.Type;
-            SelectedNationalCaps = p.NationalCaps;
-            SelectedNationalGoals = p.NationalGoals;
-            SelectedNationalU21Caps = p.NationalU21Caps;
-            SelectedNationalU21Goals = p.NationalU21Goals;
-            SelectedAdaptability = p.Adaptability;
-            SelectedAmbition = p.Ambition;
-            SelectedLoyalty = p.Loyality;
-            SelectedPressure = p.Pressure;
-            SelectedProfessionalism = p.Professionalism;
-            SelectedTemperament = p.Temperament;
-
-            ShowDialog = true;
-        }
-
-        private void Cancel()
-        {
-            ResetDialogFields();
-            ShowDialog = false;
-        }
-
-        private void Confirm()
-        {
-            if (SelectedFirstNameId == null || SelectedLastNameId == null || SelectedNationId == null)
-            {
-                MessageQueue.Enqueue("Please fill in required fields (First Name, Last Name, Nation)");
-                return;
-            }
-
-            bool isAddMode = SelectedUid == -1;
-
-            if (isAddMode)
-            {
-                // Create new person
-                var nextUid = PeopleParser?.Items.Max(x => x.Uid) + 1 ?? 1;
-
-                var newPerson = new People
-                {
-                    Id = -1,
-                    Uid = nextUid,
-                    FirstNameId = SelectedFirstNameId.Value,
-                    LastNameId = SelectedLastNameId.Value,
-                    CommonNameId = SelectedCommonNameId ?? -1,
-                    DateOfBirth = DateConverter.FromDateTime(SelectedDateOfBirth),
-                    NationId = SelectedNationId.Value,
-                    OtherNationalities = [],
-                    ClubId = SelectedClubId ?? -1,
-                    Type = (byte)SelectedType,
-                    NationalCaps = SelectedNationalCaps ?? 0,
-                    NationalGoals = SelectedNationalGoals ?? 0,
-                    NationalU21Caps = SelectedNationalU21Caps ?? 0,
-                    NationalU21Goals = SelectedNationalU21Goals ?? 0,
-                    Adaptability = SelectedAdaptability ?? 10,
-                    Ambition = SelectedAmbition ?? 10,
-                    Loyality = SelectedLoyalty ?? 10,
-                    Pressure = SelectedPressure ?? 10,
-                    Professionalism = SelectedProfessionalism ?? 10,
-                    Temperament = SelectedTemperament ?? 10,
-                    // Default values for other fields
-                    Ethnicity = 0,
-                    Unknown1 = 0,
-                    UnknownDate = 0,
-                    JoinedDate = 0,
-                    Unknown3 = 0,
-                    Controversy = 10,
-                    Sportmanship = 10,
-                    PlayerId = -1,
-                    Unknown6b = -1,
-                    Unknown6c = -1,
-                    Unknown6d = -1,
-                    Unknown6e = -1,
-                    Unknown6f = -1,
-                    Unknown7 = 0,
-                    Unknown8 = 0,
-                    DefaultLanguages = [],
-                    OtherLanguages = [],
-                    Relationships = [],
-                    Unknown21 = 0
-                };
-
-                PeopleParser?.Add(newPerson);
-                MessageQueue.Enqueue("Person added successfully");
-            }
-            else
-            {
-                // Edit existing person
-                var existingPerson = PeopleParser?.Items.FirstOrDefault(x => x.Uid == SelectedUid);
-                if (existingPerson != null)
-                {
-                    existingPerson.FirstNameId = SelectedFirstNameId.Value;
-                    existingPerson.LastNameId = SelectedLastNameId.Value;
-                    existingPerson.CommonNameId = SelectedCommonNameId ?? -1;
-                    existingPerson.DateOfBirth = DateConverter.FromDateTime(SelectedDateOfBirth);
-                    existingPerson.NationId = SelectedNationId.Value;
-                    existingPerson.ClubId = SelectedClubId ?? -1;
-                    existingPerson.Type = (byte)SelectedType;
-                    existingPerson.NationalCaps = SelectedNationalCaps ?? 0;
-                    existingPerson.NationalGoals = SelectedNationalGoals ?? 0;
-                    existingPerson.NationalU21Caps = SelectedNationalU21Caps ?? 0;
-                    existingPerson.NationalU21Goals = SelectedNationalU21Goals ?? 0;
-                    existingPerson.Adaptability = SelectedAdaptability ?? 10;
-                    existingPerson.Ambition = SelectedAmbition ?? 10;
-                    existingPerson.Loyality = SelectedLoyalty ?? 10;
-                    existingPerson.Pressure = SelectedPressure ?? 10;
-                    existingPerson.Professionalism = SelectedProfessionalism ?? 10;
-                    existingPerson.Temperament = SelectedTemperament ?? 10;
-
-                    MessageQueue.Enqueue("Person updated successfully");
-                }
-            }
-
-            RefreshPeopleDisplay();
-            ResetDialogFields();
-            ShowDialog = false;
-        }
-
-        private void ResetDialogFields()
-        {
-            SelectedUid = null;
-            SelectedFirstNameId = null;
-            SelectedLastNameId = null;
-            SelectedCommonNameId = null;
-            SelectedNationId = null;
-            SelectedClubId = null;
-            SelectedDateOfBirth = null;
-            SelectedType = 0;
-            SelectedNationalCaps = null;
-            SelectedNationalGoals = null;
-            SelectedNationalU21Caps = null;
-            SelectedNationalU21Goals = null;
-            SelectedAdaptability = null;
-            SelectedAmbition = null;
-            SelectedLoyalty = null;
-            SelectedPressure = null;
-            SelectedProfessionalism = null;
-            SelectedTemperament = null;
         }
 
         private async Task SaveImpl()

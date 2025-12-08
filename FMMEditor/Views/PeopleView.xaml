@@ -45,330 +45,8 @@
         </Style>
     </Window.Resources>
 
-    <Grid>
-        <md:DialogHost IsOpen="{Binding ShowDialog}">
-
-            <!--  Edit/Add Dialog  -->
-            <md:DialogHost.DialogContent>
-                <md:Card md:ElevationAssist.Elevation="Dp0" UniformCornerRadius="4">
-                    <Grid Width="500" Height="620">
-                        <ScrollViewer VerticalScrollBarVisibility="Auto">
-                            <StackPanel Margin="16,0" Orientation="Vertical">
-
-                                <!--  Dialog Title  -->
-                                <TextBlock
-                                    Margin="0,16,0,8"
-                                    FontSize="18"
-                                    FontWeight="SemiBold"
-                                    Foreground="{DynamicResource PrimaryHueLightBrush}"
-                                    Text="{Binding SelectedUid, Converter={StaticResource PeopleDialogModeConverter}, ConverterParameter=Title}"
-                                    TextAlignment="Center" />
-
-                                <!--  First Name  -->
-                                <controls:FilterableComboBox
-                                    Margin="0,8,0,0"
-                                    md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
-                                    md:HintAssist.Hint="First Name *"
-                                    DisplayMemberPath="Value"
-                                    FontSize="14"
-                                    IsEditable="True"
-                                    IsTextSearchEnabled="False"
-                                    ItemsSource="{Binding FirstNames}"
-                                    OnlyValuesInList="True"
-                                    SelectedValue="{Binding SelectedFirstNameId}"
-                                    SelectedValuePath="Id"
-                                    StaysOpenOnEdit="True"
-                                    Style="{DynamicResource MaterialDesignFilledComboBox}">
-                                    <controls:FilterableComboBox.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <VirtualizingStackPanel VirtualizationMode="Recycling" />
-                                        </ItemsPanelTemplate>
-                                    </controls:FilterableComboBox.ItemsPanel>
-                                </controls:FilterableComboBox>
-
-                                <!--  Last Name  -->
-                                <controls:FilterableComboBox
-                                    Margin="0,8,0,0"
-                                    md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
-                                    md:HintAssist.Hint="Last Name *"
-                                    DisplayMemberPath="Value"
-                                    FontSize="14"
-                                    IsEditable="True"
-                                    IsTextSearchEnabled="False"
-                                    ItemsSource="{Binding LastNames}"
-                                    OnlyValuesInList="True"
-                                    SelectedValue="{Binding SelectedLastNameId}"
-                                    SelectedValuePath="Id"
-                                    StaysOpenOnEdit="True"
-                                    Style="{DynamicResource MaterialDesignFilledComboBox}">
-                                    <controls:FilterableComboBox.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <VirtualizingStackPanel VirtualizationMode="Recycling" />
-                                        </ItemsPanelTemplate>
-                                    </controls:FilterableComboBox.ItemsPanel>
-                                </controls:FilterableComboBox>
-
-                                <!--  Common Name  -->
-                                <controls:FilterableComboBox
-                                    Margin="0,8,0,0"
-                                    md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
-                                    md:HintAssist.Hint="Common Name (Optional)"
-                                    DisplayMemberPath="Value"
-                                    FontSize="14"
-                                    IsEditable="True"
-                                    IsTextSearchEnabled="False"
-                                    ItemsSource="{Binding CommonNames}"
-                                    OnlyValuesInList="True"
-                                    SelectedValue="{Binding SelectedCommonNameId}"
-                                    SelectedValuePath="Id"
-                                    StaysOpenOnEdit="True"
-                                    Style="{DynamicResource MaterialDesignFilledComboBox}">
-                                    <controls:FilterableComboBox.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <VirtualizingStackPanel VirtualizationMode="Recycling" />
-                                        </ItemsPanelTemplate>
-                                    </controls:FilterableComboBox.ItemsPanel>
-                                </controls:FilterableComboBox>
-
-                                <!--  Nation  -->
-                                <controls:FilterableComboBox
-                                    Margin="0,8,0,0"
-                                    md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
-                                    md:HintAssist.Hint="Nationality *"
-                                    DisplayMemberPath="Name"
-                                    FontSize="14"
-                                    IsEditable="True"
-                                    IsTextSearchEnabled="False"
-                                    ItemsSource="{Binding Nations}"
-                                    OnlyValuesInList="True"
-                                    SelectedValue="{Binding SelectedNationId}"
-                                    SelectedValuePath="Id"
-                                    StaysOpenOnEdit="True"
-                                    Style="{DynamicResource MaterialDesignFilledComboBox}">
-                                    <controls:FilterableComboBox.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <VirtualizingStackPanel VirtualizationMode="Recycling" />
-                                        </ItemsPanelTemplate>
-                                    </controls:FilterableComboBox.ItemsPanel>
-                                </controls:FilterableComboBox>
-
-                                <!--  Club  -->
-                                <controls:FilterableComboBox
-                                    Margin="0,8,0,0"
-                                    md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
-                                    md:HintAssist.Hint="Club"
-                                    DisplayMemberPath="FullName"
-                                    FontSize="14"
-                                    IsEditable="True"
-                                    IsTextSearchEnabled="False"
-                                    ItemsSource="{Binding Clubs}"
-                                    OnlyValuesInList="True"
-                                    SelectedValue="{Binding SelectedClubId}"
-                                    SelectedValuePath="Uid"
-                                    StaysOpenOnEdit="True"
-                                    Style="{DynamicResource MaterialDesignFilledComboBox}">
-                                    <controls:FilterableComboBox.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <VirtualizingStackPanel VirtualizationMode="Recycling" />
-                                        </ItemsPanelTemplate>
-                                    </controls:FilterableComboBox.ItemsPanel>
-                                </controls:FilterableComboBox>
-
-                                <!--  Date of Birth and Type Row  -->
-                                <Grid Margin="0,8,0,0">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="8" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-
-                                    <DatePicker
-                                        Grid.Column="0"
-                                        md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
-                                        md:HintAssist.Hint="Date of Birth"
-                                        FontSize="14"
-                                        SelectedDate="{Binding SelectedDateOfBirth}"
-                                        Style="{DynamicResource MaterialDesignFilledDatePicker}" />
-
-                                    <ComboBox
-                                        Grid.Column="2"
-                                        md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
-                                        md:HintAssist.Hint="Person Type"
-                                        FontSize="14"
-                                        SelectedIndex="{Binding SelectedType}"
-                                        Style="{DynamicResource MaterialDesignFilledComboBox}">
-                                        <ComboBoxItem Content="Player" />
-                                        <ComboBoxItem Content="Staff" />
-                                        <ComboBoxItem Content="Other" />
-                                    </ComboBox>
-                                </Grid>
-
-                                <!--  National Stats Row  -->
-                                <Grid Margin="0,8,0,0">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="8" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-
-                                    <TextBox
-                                        Grid.Column="0"
-                                        md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
-                                        md:HintAssist.Hint="National Caps"
-                                        FontSize="14"
-                                        Style="{DynamicResource MaterialDesignFilledTextBox}"
-                                        Text="{Binding SelectedNationalCaps}" />
-
-                                    <TextBox
-                                        Grid.Column="2"
-                                        md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
-                                        md:HintAssist.Hint="National Goals"
-                                        FontSize="14"
-                                        Style="{DynamicResource MaterialDesignFilledTextBox}"
-                                        Text="{Binding SelectedNationalGoals}" />
-                                </Grid>
-
-                                <!--  U21 Stats Row  -->
-                                <Grid Margin="0,8,0,0">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="8" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-
-                                    <TextBox
-                                        Grid.Column="0"
-                                        md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
-                                        md:HintAssist.Hint="U21 Caps"
-                                        FontSize="14"
-                                        Style="{DynamicResource MaterialDesignFilledTextBox}"
-                                        Text="{Binding SelectedNationalU21Caps}" />
-
-                                    <TextBox
-                                        Grid.Column="2"
-                                        md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
-                                        md:HintAssist.Hint="U21 Goals"
-                                        FontSize="14"
-                                        Style="{DynamicResource MaterialDesignFilledTextBox}"
-                                        Text="{Binding SelectedNationalU21Goals}" />
-                                </Grid>
-
-                                <!--  Personality Attributes Header  -->
-                                <TextBlock
-                                    Margin="0,16,0,8"
-                                    FontSize="14"
-                                    FontWeight="SemiBold"
-                                    Foreground="{DynamicResource PrimaryHueLightBrush}"
-                                    Text="Personality Attributes" />
-
-                                <!--  Personality Row 1  -->
-                                <Grid Margin="0,4,0,0">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="8" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-
-                                    <TextBox
-                                        Grid.Column="0"
-                                        md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
-                                        md:HintAssist.Hint="Adaptability (1-20)"
-                                        FontSize="14"
-                                        Style="{DynamicResource MaterialDesignFilledTextBox}"
-                                        Text="{Binding SelectedAdaptability}" />
-
-                                    <TextBox
-                                        Grid.Column="2"
-                                        md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
-                                        md:HintAssist.Hint="Ambition (1-20)"
-                                        FontSize="14"
-                                        Style="{DynamicResource MaterialDesignFilledTextBox}"
-                                        Text="{Binding SelectedAmbition}" />
-                                </Grid>
-
-                                <!--  Personality Row 2  -->
-                                <Grid Margin="0,4,0,0">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="8" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-
-                                    <TextBox
-                                        Grid.Column="0"
-                                        md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
-                                        md:HintAssist.Hint="Loyalty (1-20)"
-                                        FontSize="14"
-                                        Style="{DynamicResource MaterialDesignFilledTextBox}"
-                                        Text="{Binding SelectedLoyalty}" />
-
-                                    <TextBox
-                                        Grid.Column="2"
-                                        md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
-                                        md:HintAssist.Hint="Pressure (1-20)"
-                                        FontSize="14"
-                                        Style="{DynamicResource MaterialDesignFilledTextBox}"
-                                        Text="{Binding SelectedPressure}" />
-                                </Grid>
-
-                                <!--  Personality Row 3  -->
-                                <Grid Margin="0,4,0,0">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="8" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-
-                                    <TextBox
-                                        Grid.Column="0"
-                                        md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
-                                        md:HintAssist.Hint="Professionalism (1-20)"
-                                        FontSize="14"
-                                        Style="{DynamicResource MaterialDesignFilledTextBox}"
-                                        Text="{Binding SelectedProfessionalism}" />
-
-                                    <TextBox
-                                        Grid.Column="2"
-                                        md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
-                                        md:HintAssist.Hint="Temperament (1-20)"
-                                        FontSize="14"
-                                        Style="{DynamicResource MaterialDesignFilledTextBox}"
-                                        Text="{Binding SelectedTemperament}" />
-                                </Grid>
-
-                                <!--  Dialog Buttons  -->
-                                <StackPanel
-                                    Margin="0,16,0,16"
-                                    HorizontalAlignment="Right"
-                                    Orientation="Horizontal">
-
-                                    <Button
-                                        Width="90"
-                                        Height="35"
-                                        HorizontalAlignment="Right"
-                                        Command="{Binding CancelCommand}"
-                                        Content="CANCEL"
-                                        FontSize="14"
-                                        Foreground="{StaticResource PrimaryHueLightBrush}"
-                                        Style="{DynamicResource MaterialDesignFlatButton}" />
-
-                                    <Button
-                                        Width="90"
-                                        Height="35"
-                                        HorizontalAlignment="Right"
-                                        Command="{Binding ConfirmCommand}"
-                                        Content="OK"
-                                        FontSize="14"
-                                        Foreground="{StaticResource PrimaryHueLightBrush}"
-                                        Style="{DynamicResource MaterialDesignFlatButton}" />
-
-                                </StackPanel>
-                            </StackPanel>
-                        </ScrollViewer>
-                    </Grid>
-                </md:Card>
-            </md:DialogHost.DialogContent>
-
+    <md:DialogHost Identifier="PeopleDialogHost">
+        <Grid>
             <DockPanel
                 Margin="0,0,0,0"
                 HorizontalAlignment="Stretch"
@@ -786,7 +464,7 @@
                                 Header="Unknown Date"
                                 IsReadOnly="True" />
 
-                            <!--<DataGridTextColumn
+                            <DataGridTextColumn
                                 Width="60"
                                 MinWidth="60"
                                 Binding="{Binding NationalCaps}"
@@ -844,7 +522,7 @@
                                         <Setter Property="HorizontalContentAlignment" Value="Center" />
                                     </Style>
                                 </DataGridTextColumn.HeaderStyle>
-                            </DataGridTextColumn>-->
+                            </DataGridTextColumn>
 
                             <DataGridTextColumn
                                 Width="200"
@@ -977,7 +655,7 @@
 
                             <!--  End of Debug Unknown Value  -->
 
-                            <!--<DataGridTextColumn
+                            <DataGridTextColumn
                                 Width="60"
                                 MinWidth="50"
                                 Binding="{Binding Adaptability}"
@@ -985,11 +663,11 @@
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Ada"
                                 IsReadOnly="True">
-                                <DataGridTextColumn.HeaderStyle>
-                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
-                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                    </Style>
-                                </DataGridTextColumn.HeaderStyle>
+                            <DataGridTextColumn.HeaderStyle>
+                                <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                </Style>
+                            </DataGridTextColumn.HeaderStyle>
                             </DataGridTextColumn>
 
                             <DataGridTextColumn
@@ -1000,11 +678,11 @@
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Amb"
                                 IsReadOnly="True">
-                                <DataGridTextColumn.HeaderStyle>
-                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
-                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                    </Style>
-                                </DataGridTextColumn.HeaderStyle>
+                            <DataGridTextColumn.HeaderStyle>
+                                <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                </Style>
+                            </DataGridTextColumn.HeaderStyle>
                             </DataGridTextColumn>
 
                             <DataGridTextColumn
@@ -1015,11 +693,11 @@
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Con"
                                 IsReadOnly="True">
-                                <DataGridTextColumn.HeaderStyle>
-                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
-                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                    </Style>
-                                </DataGridTextColumn.HeaderStyle>
+                            <DataGridTextColumn.HeaderStyle>
+                                <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                </Style>
+                            </DataGridTextColumn.HeaderStyle>
                             </DataGridTextColumn>
 
                             <DataGridTextColumn
@@ -1030,11 +708,11 @@
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Loy"
                                 IsReadOnly="True">
-                                <DataGridTextColumn.HeaderStyle>
-                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
-                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                    </Style>
-                                </DataGridTextColumn.HeaderStyle>
+                            <DataGridTextColumn.HeaderStyle>
+                                <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                </Style>
+                            </DataGridTextColumn.HeaderStyle>
                             </DataGridTextColumn>
 
                             <DataGridTextColumn
@@ -1045,11 +723,11 @@
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Pre"
                                 IsReadOnly="True">
-                                <DataGridTextColumn.HeaderStyle>
-                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
-                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                    </Style>
-                                </DataGridTextColumn.HeaderStyle>
+                            <DataGridTextColumn.HeaderStyle>
+                                <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                </Style>
+                            </DataGridTextColumn.HeaderStyle>
                             </DataGridTextColumn>
 
                             <DataGridTextColumn
@@ -1060,11 +738,11 @@
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Pro"
                                 IsReadOnly="True">
-                                <DataGridTextColumn.HeaderStyle>
-                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
-                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                    </Style>
-                                </DataGridTextColumn.HeaderStyle>
+                            <DataGridTextColumn.HeaderStyle>
+                                <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                </Style>
+                            </DataGridTextColumn.HeaderStyle>
                             </DataGridTextColumn>
 
                             <DataGridTextColumn
@@ -1075,11 +753,11 @@
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Spo"
                                 IsReadOnly="True">
-                                <DataGridTextColumn.HeaderStyle>
-                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
-                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                    </Style>
-                                </DataGridTextColumn.HeaderStyle>
+                            <DataGridTextColumn.HeaderStyle>
+                                <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                </Style>
+                            </DataGridTextColumn.HeaderStyle>
                             </DataGridTextColumn>
 
                             <DataGridTextColumn
@@ -1090,12 +768,12 @@
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Tem"
                                 IsReadOnly="True">
-                                <DataGridTextColumn.HeaderStyle>
-                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
-                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                    </Style>
-                                </DataGridTextColumn.HeaderStyle>
-                            </DataGridTextColumn>-->
+                            <DataGridTextColumn.HeaderStyle>
+                                <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                </Style>
+                            </DataGridTextColumn.HeaderStyle>
+                            </DataGridTextColumn>
 
                         </DataGrid.Columns>
                     </DataGrid>
@@ -1104,12 +782,11 @@
 
             </DockPanel>
 
-        </md:DialogHost>
-
-        <md:Snackbar
-            Grid.ColumnSpan="2"
-            Margin="1"
-            HorizontalAlignment="Right"
-            MessageQueue="{Binding MessageQueue}" />
-    </Grid>
+            <md:Snackbar
+                Grid.ColumnSpan="2"
+                Margin="1"
+                HorizontalAlignment="Right"
+                MessageQueue="{Binding MessageQueue}" />
+        </Grid>
+    </md:DialogHost>
 </ma:MetroWindow>

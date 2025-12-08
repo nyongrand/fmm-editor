@@ -1,0 +1,814 @@
+<UserControl
+    x:Class="FMMEditor.Views.PersonEditView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:FMMEditor.Controls"
+    xmlns:converter="clr-namespace:FMMEditor.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+    Width="1280"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <converter:VisibilityConverter x:Key="Visibility" />
+    </UserControl.Resources>
+
+    <md:Card
+        Padding="0"
+        md:ElevationAssist.Elevation="Dp4"
+        UniformCornerRadius="4">
+        <Grid MaxHeight="540">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <!--  Title  -->
+            <md:ColorZone
+                Grid.Row="0"
+                Padding="16"
+                Mode="PrimaryMid">
+                <TextBlock
+                    FontSize="18"
+                    FontWeight="SemiBold"
+                    Text="{Binding WindowTitle}" />
+            </md:ColorZone>
+
+            <!--  Content - Two Column Layout  -->
+            <ScrollViewer
+                Grid.Row="1"
+                MaxHeight="550"
+                VerticalScrollBarVisibility="Auto">
+                <Grid Margin="20,16">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="24" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <!--  Left Column - Person Info  -->
+                    <StackPanel Grid.Column="0" Orientation="Vertical">
+                        <TextBlock
+                            FontSize="14"
+                            FontWeight="SemiBold"
+                            Foreground="{DynamicResource PrimaryHueLightBrush}"
+                            Text="Person Information" />
+
+                        <Grid Margin="0,8,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <!--  First Name  -->
+                            <controls:FilterableComboBox
+                                Grid.Column="0"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="First Name *"
+                                DisplayMemberPath="Value"
+                                FontSize="14"
+                                IsEditable="True"
+                                IsTextSearchEnabled="False"
+                                ItemsSource="{Binding FirstNames}"
+                                OnlyValuesInList="True"
+                                SelectedValue="{Binding FirstNameId}"
+                                SelectedValuePath="Id"
+                                StaysOpenOnEdit="True"
+                                Style="{DynamicResource MaterialDesignFilledComboBox}">
+                                <controls:FilterableComboBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <VirtualizingStackPanel VirtualizationMode="Recycling" />
+                                    </ItemsPanelTemplate>
+                                </controls:FilterableComboBox.ItemsPanel>
+                            </controls:FilterableComboBox>
+
+                            <!--  Last Name  -->
+                            <controls:FilterableComboBox
+                                Grid.Column="2"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="Last Name *"
+                                DisplayMemberPath="Value"
+                                FontSize="14"
+                                IsEditable="True"
+                                IsTextSearchEnabled="False"
+                                ItemsSource="{Binding LastNames}"
+                                OnlyValuesInList="True"
+                                SelectedValue="{Binding LastNameId}"
+                                SelectedValuePath="Id"
+                                StaysOpenOnEdit="True"
+                                Style="{DynamicResource MaterialDesignFilledComboBox}">
+                                <controls:FilterableComboBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <VirtualizingStackPanel VirtualizationMode="Recycling" />
+                                    </ItemsPanelTemplate>
+                                </controls:FilterableComboBox.ItemsPanel>
+                            </controls:FilterableComboBox>
+
+                            <!--  Common Name  -->
+                            <controls:FilterableComboBox
+                                Grid.Column="4"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="Common Name"
+                                DisplayMemberPath="Value"
+                                FontSize="14"
+                                IsEditable="True"
+                                IsTextSearchEnabled="False"
+                                ItemsSource="{Binding CommonNames}"
+                                OnlyValuesInList="True"
+                                SelectedValue="{Binding CommonNameId}"
+                                SelectedValuePath="Id"
+                                StaysOpenOnEdit="True"
+                                Style="{DynamicResource MaterialDesignFilledComboBox}">
+                                <controls:FilterableComboBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <VirtualizingStackPanel VirtualizationMode="Recycling" />
+                                    </ItemsPanelTemplate>
+                                </controls:FilterableComboBox.ItemsPanel>
+                            </controls:FilterableComboBox>
+                        </Grid>
+
+                        <Grid Margin="0,8,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <DatePicker
+                                Grid.Column="0"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="Date of Birth"
+                                FontSize="14"
+                                SelectedDate="{Binding DateOfBirth}"
+                                Style="{DynamicResource MaterialDesignFilledDatePicker}" />
+
+                            <!--  Ethnicity  -->
+                            <ComboBox
+                                Grid.Column="2"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="Ethnicity"
+                                DisplayMemberPath="DisplayName"
+                                FontSize="14"
+                                ItemsSource="{Binding EthnicityOptions}"
+                                SelectedValue="{Binding Ethnicity}"
+                                SelectedValuePath="Value"
+                                Style="{DynamicResource MaterialDesignFilledComboBox}" />
+
+                            <!--  Person Type  -->
+                            <ComboBox
+                                Grid.Column="4"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="Person Type"
+                                FontSize="14"
+                                SelectedIndex="{Binding PersonType}"
+                                Style="{DynamicResource MaterialDesignFilledComboBox}">
+                                <ComboBoxItem Content="Player" />
+                                <ComboBoxItem Content="Staff" />
+                                <ComboBoxItem Content="Other" />
+                            </ComboBox>
+                        </Grid>
+
+                        <TextBlock
+                            Margin="0,16,0,8"
+                            FontSize="14"
+                            FontWeight="SemiBold"
+                            Foreground="{DynamicResource PrimaryHueLightBrush}"
+                            Text="Nation Attributes" />
+
+                        <!--  Nationality  -->
+                        <Grid Margin="0,8,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <!--  Nation  -->
+                            <controls:FilterableComboBox
+                                Grid.Column="0"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="Nationality *"
+                                DisplayMemberPath="Name"
+                                FontSize="14"
+                                IsEditable="True"
+                                IsTextSearchEnabled="False"
+                                ItemsSource="{Binding Nations}"
+                                OnlyValuesInList="True"
+                                SelectedValue="{Binding NationId}"
+                                SelectedValuePath="Id"
+                                StaysOpenOnEdit="True"
+                                Style="{DynamicResource MaterialDesignFilledComboBox}">
+                                <controls:FilterableComboBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <VirtualizingStackPanel VirtualizationMode="Recycling" />
+                                    </ItemsPanelTemplate>
+                                </controls:FilterableComboBox.ItemsPanel>
+                            </controls:FilterableComboBox>
+
+                            <!--  Second Nation  -->
+                            <controls:FilterableComboBox
+                                Grid.Column="4"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="Second Nationality"
+                                DisplayMemberPath="Name"
+                                FontSize="14"
+                                IsEditable="True"
+                                IsTextSearchEnabled="False"
+                                ItemsSource="{Binding Nations}"
+                                OnlyValuesInList="True"
+                                SelectedValue="{Binding OtherNationalities[0]}"
+                                SelectedValuePath="Id"
+                                StaysOpenOnEdit="True"
+                                Style="{DynamicResource MaterialDesignFilledComboBox}">
+                                <controls:FilterableComboBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <VirtualizingStackPanel VirtualizationMode="Recycling" />
+                                    </ItemsPanelTemplate>
+                                </controls:FilterableComboBox.ItemsPanel>
+                            </controls:FilterableComboBox>
+                        </Grid>
+
+                        <!--  National Stats Row  -->
+                        <Grid Margin="0,8,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBox
+                                Grid.Column="0"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="National Caps"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding NationalCaps}" />
+
+                            <TextBox
+                                Grid.Column="2"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="National Goals"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding NationalGoals}" />
+
+                            <TextBox
+                                Grid.Column="4"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="U21 Caps"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding NationalU21Caps}" />
+
+                            <TextBox
+                                Grid.Column="6"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="U21 Goals"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding NationalU21Goals}" />
+                        </Grid>
+
+                        <!--  Club Details  -->
+                        <Grid Margin="0,8,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <!--  Club  -->
+                            <controls:FilterableComboBox
+                                Grid.ColumnSpan="3"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="Club"
+                                DisplayMemberPath="FullName"
+                                FontSize="14"
+                                IsEditable="True"
+                                IsTextSearchEnabled="False"
+                                ItemsSource="{Binding Clubs}"
+                                OnlyValuesInList="True"
+                                SelectedValue="{Binding ClubId}"
+                                SelectedValuePath="Uid"
+                                StaysOpenOnEdit="True"
+                                Style="{DynamicResource MaterialDesignFilledComboBox}">
+                                <controls:FilterableComboBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <VirtualizingStackPanel VirtualizationMode="Recycling" />
+                                    </ItemsPanelTemplate>
+                                </controls:FilterableComboBox.ItemsPanel>
+                            </controls:FilterableComboBox>
+
+                            <DatePicker
+                                Grid.Column="4"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="Joined Date"
+                                FontSize="14"
+                                SelectedDate="{Binding DateOfBirth}"
+                                Style="{DynamicResource MaterialDesignFilledDatePicker}" />
+                        </Grid>
+
+                        <!--  U21 Stats Row  -->
+                        <Grid Margin="0,8,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                        </Grid>
+
+                        <!--  Personality Attributes Header  -->
+                        <TextBlock
+                            Margin="0,16,0,8"
+                            FontSize="14"
+                            FontWeight="SemiBold"
+                            Foreground="{DynamicResource PrimaryHueLightBrush}"
+                            Text="Personality Attributes" />
+
+                        <!--  Personality Row 1  -->
+                        <Grid Margin="0,4,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBox
+                                Grid.Column="0"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="Adaptability"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding Adaptability}" />
+
+                            <TextBox
+                                Grid.Column="2"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="Ambition"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding Ambition}" />
+
+                            <TextBox
+                                Grid.Column="4"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="Loyalty"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding Loyalty}" />
+                        </Grid>
+
+                        <!--  Personality Row 2  -->
+                        <Grid Margin="0,4,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBox
+                                Grid.Column="0"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="Pressure"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding Pressure}" />
+
+                            <TextBox
+                                Grid.Column="2"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="Professionalism"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding Professionalism}" />
+
+                            <TextBox
+                                Grid.Column="4"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="Temperament"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding Temperament}" />
+                        </Grid>
+
+                    </StackPanel>
+
+                    <!--  Right Column - Player Attributes  -->
+                    <StackPanel
+                        Grid.Column="2"
+                        Orientation="Vertical"
+                        Visibility="{Binding HasPlayer, Converter={StaticResource Visibility}, ConverterParameter=Boolean}">
+
+                        <!--  Player Attributes Header  -->
+                        <TextBlock
+                            FontSize="14"
+                            FontWeight="SemiBold"
+                            Foreground="{DynamicResource PrimaryHueLightBrush}"
+                            Text="Player Attributes" />
+
+                        <!--  CA/PA Row  -->
+                        <Grid Margin="0,8,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBox
+                                Grid.Column="0"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="CA"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding CA}" />
+
+                            <TextBox
+                                Grid.Column="2"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="PA"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding PA}" />
+
+                            <TextBox
+                                Grid.Column="4"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="Height"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding Height}" />
+
+                            <TextBox
+                                Grid.Column="6"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="Weight"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding Weight}" />
+                        </Grid>
+
+                        <!--  Physical Attributes Header  -->
+                        <TextBlock
+                            Margin="0,12,0,4"
+                            FontSize="12"
+                            Foreground="{DynamicResource MaterialDesignBodyLight}"
+                            Text="Physical" />
+
+                        <!--  Physical Row  -->
+                        <Grid Margin="0,4,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBox
+                                Grid.Column="0"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="Pace"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding Pace}" />
+
+                            <TextBox
+                                Grid.Column="2"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="Stamina"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding Stamina}" />
+
+                            <TextBox
+                                Grid.Column="4"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="Strength"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding Strength}" />
+
+                            <TextBox
+                                Grid.Column="6"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="Agility"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding Agility}" />
+
+                            <TextBox
+                                Grid.Column="8"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="Jumping"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding Jumping}" />
+                        </Grid>
+
+                        <!--  Technical Attributes Header  -->
+                        <TextBlock
+                            Margin="0,12,0,4"
+                            FontSize="12"
+                            Foreground="{DynamicResource MaterialDesignBodyLight}"
+                            Text="Technical" />
+
+                        <!--  Technical Row 1  -->
+                        <Grid Margin="0,4,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBox
+                                Grid.Column="0"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="Finishing"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding Finishing}" />
+
+                            <TextBox
+                                Grid.Column="2"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="Passing"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding Passing}" />
+
+                            <TextBox
+                                Grid.Column="4"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="Dribbling"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding Dribbling}" />
+
+                            <TextBox
+                                Grid.Column="6"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="Tackling"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding Tackling}" />
+
+                            <TextBox
+                                Grid.Column="8"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="Heading"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding Heading}" />
+                        </Grid>
+
+                        <!--  Technical Row 2  -->
+                        <Grid Margin="0,4,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBox
+                                Grid.Column="0"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="Crossing"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding Crossing}" />
+
+                            <TextBox
+                                Grid.Column="2"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="Technique"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding Technique}" />
+
+                            <TextBox
+                                Grid.Column="4"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="Long Shot"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding LongShot}" />
+
+                            <TextBox
+                                Grid.Column="6"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="Set Pieces"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding SetPieces}" />
+                        </Grid>
+
+                        <!--  Mental Attributes Header  -->
+                        <TextBlock
+                            Margin="0,12,0,4"
+                            FontSize="12"
+                            Foreground="{DynamicResource MaterialDesignBodyLight}"
+                            Text="Mental" />
+
+                        <!--  Mental Row 1  -->
+                        <Grid Margin="0,4,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBox
+                                Grid.Column="0"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="Creativity"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding Creativity}" />
+
+                            <TextBox
+                                Grid.Column="2"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="Decision"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding Decision}" />
+
+                            <TextBox
+                                Grid.Column="4"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="Leadership"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding Leadership}" />
+
+                            <TextBox
+                                Grid.Column="6"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="Work Rate"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding WorkRate}" />
+
+                            <TextBox
+                                Grid.Column="8"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="Positioning"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding Positioning}" />
+                        </Grid>
+
+                        <!--  Mental Row 2  -->
+                        <Grid Margin="0,4,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBox
+                                Grid.Column="0"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="Movement"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding Movement}" />
+
+                            <TextBox
+                                Grid.Column="2"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="Flair"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding Flair}" />
+                        </Grid>
+
+                        <!--  Foot Preference Header  -->
+                        <TextBlock
+                            Margin="0,12,0,4"
+                            FontSize="12"
+                            Foreground="{DynamicResource MaterialDesignBodyLight}"
+                            Text="Foot Preference" />
+
+                        <!--  Foot Row  -->
+                        <Grid Margin="0,4,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBox
+                                Grid.Column="0"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="Left Foot (1-20)"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding LeftFoot}" />
+
+                            <TextBox
+                                Grid.Column="2"
+                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                md:HintAssist.Hint="Right Foot (1-20)"
+                                FontSize="14"
+                                Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                Text="{Binding RightFoot}" />
+                        </Grid>
+
+                    </StackPanel>
+
+                    <!--  No Player Message (shown when HasPlayer is false)  -->
+                    <StackPanel
+                        Grid.Column="2"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Visibility="{Binding HasPlayer, Converter={StaticResource Visibility}, ConverterParameter=Inverter}">
+                        <md:PackIcon
+                            Width="48"
+                            Height="48"
+                            HorizontalAlignment="Center"
+                            Foreground="{DynamicResource MaterialDesignBodyLight}"
+                            Kind="AccountOff"
+                            Opacity="0.5" />
+                        <TextBlock
+                            Margin="0,8,0,0"
+                            FontSize="14"
+                            Foreground="{DynamicResource MaterialDesignBodyLight}"
+                            Text="No player data available"
+                            TextAlignment="Center" />
+                    </StackPanel>
+
+                </Grid>
+            </ScrollViewer>
+
+            <!--  Buttons  -->
+            <StackPanel
+                Grid.Row="2"
+                Margin="16"
+                HorizontalAlignment="Right"
+                Orientation="Horizontal">
+
+                <Button
+                    Width="100"
+                    Height="36"
+                    Margin="0,0,8,0"
+                    Command="{x:Static md:DialogHost.CloseDialogCommand}"
+                    CommandParameter="{x:Null}"
+                    Content="CANCEL"
+                    FontSize="14"
+                    Style="{DynamicResource MaterialDesignOutlinedButton}" />
+
+                <Button
+                    Width="100"
+                    Height="36"
+                    Command="{x:Static md:DialogHost.CloseDialogCommand}"
+                    CommandParameter="{Binding}"
+                    Content="SAVE"
+                    FontSize="14"
+                    Style="{DynamicResource MaterialDesignRaisedButton}" />
+
+            </StackPanel>
+        </Grid>
+    </md:Card>
+</UserControl>
