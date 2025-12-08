@@ -51,7 +51,7 @@
         public Name(byte gender, int nationUid, short unknown2, byte unknown3, string value)
         {
             Unknown1 = 0;
-            Id = 0;
+            Id = -1;
             Gender = gender;
             NationUid = nationUid;
             Unknown2 = unknown2;
