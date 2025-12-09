@@ -330,8 +330,8 @@ namespace FMMEditor.ViewModels
                 Unknown6f = -1,
                 Unknown7 = 0,
                 Unknown8 = 0,
-                DefaultLanguages = [],
-                OtherLanguages = [],
+                DefaultLanguages = vm.DefaultLanguages.Select(l => (l.LanguageId, l.Proficiency)).ToArray(),
+                OtherLanguages = vm.OtherLanguages.Select(l => (l.LanguageId, l.Proficiency)).ToArray(),
                 Relationships = [],
                 Unknown21 = 0
             };
@@ -363,6 +363,12 @@ namespace FMMEditor.ViewModels
             existingPerson.Pressure = vm.Pressure ?? 10;
             existingPerson.Professionalism = vm.Professionalism ?? 10;
             existingPerson.Temperament = vm.Temperament ?? 10;
+            existingPerson.Controversy = vm.Controversy ?? 10;
+            existingPerson.Sportmanship = vm.Sportmanship ?? 10;
+
+            // Update languages
+            existingPerson.DefaultLanguages = vm.DefaultLanguages.Select(l => (l.LanguageId, l.Proficiency)).ToArray();
+            existingPerson.OtherLanguages = vm.OtherLanguages.Select(l => (l.LanguageId, l.Proficiency)).ToArray();
 
             // Handle player data
             if (vm.HasPlayer && PlayerParser != null)

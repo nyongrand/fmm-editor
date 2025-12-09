@@ -160,9 +160,9 @@
             Unknown6d = reader.ReadInt32();
             Unknown6e = reader.ReadInt32();
 
-            var isFFFF = reader.ReadInt32();
-            if (isFFFF == -1)
-                Unknown6f = isFFFF;
+            var isFFFFFFFF = reader.ReadInt32();
+            if (isFFFFFFFF == -1)
+                Unknown6f = isFFFFFFFF;
             else
                 reader.BaseStream.Position -= 4;
 
