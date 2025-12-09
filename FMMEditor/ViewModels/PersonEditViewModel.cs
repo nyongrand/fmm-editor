@@ -46,6 +46,7 @@ namespace FMMEditor.ViewModels
         [Reactive] public int? CommonNameId { get; set; }
         [Reactive] public short? NationId { get; set; }
         [Reactive] public int? ClubId { get; set; }
+        [Reactive] public DateTime? JoinedDate { get; set; }
         [Reactive] public DateTime? DateOfBirth { get; set; }
         [Reactive] public int PersonType { get; set; }
         [Reactive] public int Unknown1 { get; set; }
@@ -226,6 +227,7 @@ namespace FMMEditor.ViewModels
             CommonNameId = p.CommonNameId > 0 ? p.CommonNameId : null;
             NationId = p.NationId;
             ClubId = p.ClubId;
+            JoinedDate = DateConverter.ToDateTime(p.JoinedDate);
             DateOfBirth = DateConverter.ToDateTime(p.DateOfBirth);
             PersonType = p.Type;
             Unknown1 = p.Unknown1;
@@ -353,10 +355,11 @@ namespace FMMEditor.ViewModels
             CommonNameId = null;
             NationId = null;
             ClubId = null;
-            DateOfBirth = new DateTime(1990, 1, 1);
+            JoinedDate = new DateTime(2025, 05, 30);
+            DateOfBirth = new DateTime(2000, 1, 1);
             PersonType = 1;
             Unknown1 = -1;
-            UnknownDate = new DateTime(1990, 1, 1);
+            UnknownDate = new DateTime(1900, 1, 1);
             Ethnicity = 0;
             NationalCaps = 0;
             NationalGoals = 0;
