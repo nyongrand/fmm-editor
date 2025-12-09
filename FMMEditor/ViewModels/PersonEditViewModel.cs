@@ -6,6 +6,7 @@ using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace FMMEditor.ViewModels
@@ -22,6 +23,9 @@ namespace FMMEditor.ViewModels
         public BulkObservableCollection<Name> CommonNames { get; }
         public BulkObservableCollection<Nation> Nations { get; }
         public BulkObservableCollection<Club> Clubs { get; }
+
+        // Language collection (derived from Nations)
+        public List<LanguageOption> AvailableLanguages { get; }
 
         // Ethnicity options
         public List<EthnicityOption> EthnicityOptions { get; } = Enum.GetValues<Ethnicity>()
@@ -54,6 +58,15 @@ namespace FMMEditor.ViewModels
         [Reactive] public byte? Professionalism { get; set; }
         [Reactive] public byte? Sportmanship { get; set; }
         [Reactive] public byte? Temperament { get; set; }
+
+        // Language and relationship counts
+        [Reactive] public byte? DefaultLanguageCount { get; set; }
+        [Reactive] public byte? OtherLanguageCount { get; set; }
+        [Reactive] public byte? RelationshipCount { get; set; }
+
+        // Language entries (observable collections for UI binding)
+        public ObservableCollection<LanguageEntry> DefaultLanguages { get; } = [];
+        public ObservableCollection<LanguageEntry> OtherLanguages { get; } = [];
 
         // Player fields
         [Reactive] public bool HasPlayer { get; set; }
@@ -148,6 +161,13 @@ namespace FMMEditor.ViewModels
             Nations = nations;
             Clubs = clubs;
 
+            // Initialize available languages from nations
+            AvailableLanguages = nations.Select(n => new LanguageOption
+            {
+                Value = n.Id,
+                DisplayName = n.Name
+            }).ToList();
+
             this.WhenAnyValue(x => x.IsAddMode)
                 .Subscribe(_ => this.RaisePropertyChanged(nameof(WindowTitle)));
         }
@@ -193,6 +213,22 @@ namespace FMMEditor.ViewModels
             Professionalism = p.Professionalism;
             Sportmanship = p.Sportmanship;
             Temperament = p.Temperament;
+            DefaultLanguageCount = p.DefaultLanguageCount;
+            OtherLanguageCount = p.OtherLanguageCount;
+            RelationshipCount = p.RelationshipCount;
+
+            // Load language entries
+            DefaultLanguages.Clear();
+            foreach (var lang in p.DefaultLanguages)
+            {
+                DefaultLanguages.Add(new LanguageEntry { LanguageId = lang.Id, Proficiency = lang.Proficiency });
+            }
+
+            OtherLanguages.Clear();
+            foreach (var lang in p.OtherLanguages)
+            {
+                OtherLanguages.Add(new LanguageEntry { LanguageId = lang.Id, Proficiency = lang.Proficiency });
+            }
 
             // Load player data if available
             HasPlayer = person.Player != null;
@@ -304,6 +340,11 @@ namespace FMMEditor.ViewModels
             Professionalism = 10;
             Sportmanship = 10;
             Temperament = 10;
+            DefaultLanguageCount = 0;
+            OtherLanguageCount = 0;
+            RelationshipCount = 0;
+            DefaultLanguages.Clear();
+            OtherLanguages.Clear();
             HasPlayer = true;  // Always create a player by default
             ResetPlayerFieldsToDefaults();
         }
@@ -481,5 +522,17 @@ namespace FMMEditor.ViewModels
     {
         public byte Value { get; set; }
         public string DisplayName { get; set; } = string.Empty;
+    }
+
+    public class LanguageOption
+    {
+        public short Value { get; set; }
+        public string DisplayName { get; set; } = string.Empty;
+    }
+
+    public class LanguageEntry : ReactiveObject
+    {
+        [Reactive] public short LanguageId { get; set; }
+        [Reactive] public byte Proficiency { get; set; } = 20;
     }
 }

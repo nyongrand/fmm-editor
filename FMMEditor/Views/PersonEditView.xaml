@@ -457,6 +457,94 @@
                                 Text="{Binding Temperament}" />
                         </Grid>
 
+                        <!--  Languages Header  -->
+                        <TextBlock
+                            Margin="0,16,0,8"
+                            FontSize="14"
+                            FontWeight="SemiBold"
+                            Foreground="{DynamicResource PrimaryHueLightBrush}"
+                            Text="Languages" />
+
+                        <!--  Default Languages  -->
+                        <TextBlock
+                            Margin="0,4,0,4"
+                            FontSize="12"
+                            Foreground="{DynamicResource MaterialDesignBodyLight}"
+                            Text="Default Languages" />
+
+                        <ItemsControl ItemsSource="{Binding DefaultLanguages}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="0,2,0,2">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="8" />
+                                            <ColumnDefinition Width="80" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <ComboBox
+                                            Grid.Column="0"
+                                            md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                            md:HintAssist.Hint="Language"
+                                            DisplayMemberPath="DisplayName"
+                                            FontSize="14"
+                                            ItemsSource="{Binding DataContext.AvailableLanguages, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            SelectedValue="{Binding LanguageId}"
+                                            SelectedValuePath="Value"
+                                            Style="{DynamicResource MaterialDesignFilledComboBox}" />
+
+                                        <TextBox
+                                            Grid.Column="2"
+                                            md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                            md:HintAssist.Hint="Prof."
+                                            FontSize="14"
+                                            Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                            Text="{Binding Proficiency}" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+                        <!--  Other Languages  -->
+                        <TextBlock
+                            Margin="0,8,0,4"
+                            FontSize="12"
+                            Foreground="{DynamicResource MaterialDesignBodyLight}"
+                            Text="Other Languages" />
+
+                        <ItemsControl ItemsSource="{Binding OtherLanguages}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="0,2,0,2">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="8" />
+                                            <ColumnDefinition Width="80" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <ComboBox
+                                            Grid.Column="0"
+                                            md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                            md:HintAssist.Hint="Language"
+                                            DisplayMemberPath="DisplayName"
+                                            FontSize="14"
+                                            ItemsSource="{Binding DataContext.AvailableLanguages, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            SelectedValue="{Binding LanguageId}"
+                                            SelectedValuePath="Value"
+                                            Style="{DynamicResource MaterialDesignFilledComboBox}" />
+
+                                        <TextBox
+                                            Grid.Column="2"
+                                            md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
+                                            md:HintAssist.Hint="Prof."
+                                            FontSize="14"
+                                            Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                            Text="{Binding Proficiency}" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
                     </StackPanel>
 
                     <!--  Right Column - Player Attributes  -->
