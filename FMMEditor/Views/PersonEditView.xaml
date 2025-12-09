@@ -505,11 +505,11 @@
                                             Grid.Column="0"
                                             md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                             md:HintAssist.Hint="Language"
-                                            DisplayMemberPath="DisplayName"
+                                            DisplayMemberPath="Name"
                                             FontSize="14"
                                             ItemsSource="{Binding DataContext.AvailableLanguages, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                             SelectedValue="{Binding LanguageId}"
-                                            SelectedValuePath="Value"
+                                            SelectedValuePath="Id"
                                             Style="{DynamicResource MaterialDesignFilledComboBox}" />
 
                                         <TextBox
@@ -577,11 +577,11 @@
                                             Grid.Column="0"
                                             md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                             md:HintAssist.Hint="Language"
-                                            DisplayMemberPath="DisplayName"
+                                            DisplayMemberPath="Name"
                                             FontSize="14"
                                             ItemsSource="{Binding DataContext.AvailableLanguages, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                             SelectedValue="{Binding LanguageId}"
-                                            SelectedValuePath="Value"
+                                            SelectedValuePath="Id"
                                             Style="{DynamicResource MaterialDesignFilledComboBox}" />
 
                                         <TextBox
@@ -1099,7 +1099,7 @@
                             Foreground="{DynamicResource MaterialDesignBodyLight}"
                             Text="Position Ratings" />
 
-                        <!--  Positions Row 1: LB LWB LM LW  -->
+                        <!--  Positions Row 1  -->
                         <Grid Margin="0,4,0,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
@@ -1116,7 +1116,6 @@
                             </Grid.ColumnDefinitions>
 
                             <Border Grid.Column="0" />
-
                             <TextBox
                                 Grid.Column="2"
                                 md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
@@ -1124,7 +1123,6 @@
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
                                 Text="{Binding LB}" />
-
                             <TextBox
                                 Grid.Column="4"
                                 md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
@@ -1132,7 +1130,6 @@
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
                                 Text="{Binding LWB}" />
-
                             <TextBox
                                 Grid.Column="6"
                                 md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
@@ -1140,7 +1137,6 @@
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
                                 Text="{Binding LM}" />
-
                             <TextBox
                                 Grid.Column="8"
                                 md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
@@ -1148,11 +1144,10 @@
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
                                 Text="{Binding LW}" />
-
                             <Border Grid.Column="10" />
                         </Grid>
 
-                        <!--  Positions Row 2: GK CB DM CM AM CF  -->
+                        <!--  Positions Row 2  -->
                         <Grid Margin="0,4,0,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
@@ -1175,7 +1170,6 @@
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
                                 Text="{Binding GK}" />
-
                             <TextBox
                                 Grid.Column="2"
                                 md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
@@ -1183,7 +1177,6 @@
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
                                 Text="{Binding CB}" />
-
                             <TextBox
                                 Grid.Column="4"
                                 md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
@@ -1191,7 +1184,6 @@
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
                                 Text="{Binding DM}" />
-
                             <TextBox
                                 Grid.Column="6"
                                 md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
@@ -1199,7 +1191,6 @@
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
                                 Text="{Binding CM}" />
-
                             <TextBox
                                 Grid.Column="8"
                                 md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
@@ -1207,7 +1198,6 @@
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
                                 Text="{Binding AM}" />
-
                             <TextBox
                                 Grid.Column="10"
                                 md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
@@ -1217,7 +1207,7 @@
                                 Text="{Binding CF}" />
                         </Grid>
 
-                        <!--  Positions Row 3: RB RWB RM RW  -->
+                        <!--  Positions Row 3  -->
                         <Grid Margin="0,4,0,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
@@ -1234,7 +1224,6 @@
                             </Grid.ColumnDefinitions>
 
                             <Border Grid.Column="0" />
-
                             <TextBox
                                 Grid.Column="2"
                                 md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
@@ -1242,7 +1231,6 @@
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
                                 Text="{Binding RB}" />
-
                             <TextBox
                                 Grid.Column="4"
                                 md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
@@ -1250,7 +1238,6 @@
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
                                 Text="{Binding RWB}" />
-
                             <TextBox
                                 Grid.Column="6"
                                 md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
@@ -1258,7 +1245,6 @@
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
                                 Text="{Binding RM}" />
-
                             <TextBox
                                 Grid.Column="8"
                                 md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
@@ -1266,7 +1252,6 @@
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
                                 Text="{Binding RW}" />
-
                             <Border Grid.Column="10" />
                         </Grid>
 
@@ -1294,7 +1279,6 @@
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
                                 Text="{Binding HomeReputation}" />
-
                             <TextBox
                                 Grid.Column="2"
                                 md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
@@ -1302,7 +1286,6 @@
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
                                 Text="{Binding CurrentReputation}" />
-
                             <TextBox
                                 Grid.Column="4"
                                 md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
@@ -1329,7 +1312,6 @@
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
                                 Text="{Binding SquadNumber}" />
-
                             <TextBox
                                 Grid.Column="2"
                                 md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
@@ -1337,7 +1319,6 @@
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
                                 Text="{Binding PreferredSquadNumber}" />
-
                             <TextBox
                                 Grid.Column="4"
                                 md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
@@ -1349,7 +1330,7 @@
 
                     </StackPanel>
 
-                    <!--  No Player Message (shown when HasPlayer is false)  -->
+                    <!--  No Player Message  -->
                     <StackPanel
                         Grid.Column="2"
                         HorizontalAlignment="Center"
@@ -1379,7 +1360,6 @@
                 Margin="16"
                 HorizontalAlignment="Right"
                 Orientation="Horizontal">
-
                 <Button
                     Width="100"
                     Height="36"
@@ -1389,7 +1369,6 @@
                     Content="CANCEL"
                     FontSize="14"
                     Style="{DynamicResource MaterialDesignOutlinedButton}" />
-
                 <Button
                     Width="100"
                     Height="36"
@@ -1398,7 +1377,6 @@
                     Content="SAVE"
                     FontSize="14"
                     Style="{DynamicResource MaterialDesignRaisedButton}" />
-
             </StackPanel>
         </Grid>
     </md:Card>

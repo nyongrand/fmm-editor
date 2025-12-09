@@ -25,8 +25,8 @@ namespace FMMEditor.ViewModels
         public BulkObservableCollection<Nation> Nations { get; }
         public BulkObservableCollection<Club> Clubs { get; }
 
-        // Language collection (derived from Nations)
-        public List<LanguageOption> AvailableLanguages { get; }
+        // Language collection
+        public BulkObservableCollection<Language> AvailableLanguages { get; }
 
         // Ethnicity options
         public List<EthnicityOption> EthnicityOptions { get; } = Enum.GetValues<Ethnicity>()
@@ -160,20 +160,15 @@ namespace FMMEditor.ViewModels
             BulkObservableCollection<Name> lastNames,
             BulkObservableCollection<Name> commonNames,
             BulkObservableCollection<Nation> nations,
-            BulkObservableCollection<Club> clubs)
+            BulkObservableCollection<Club> clubs,
+            BulkObservableCollection<Language> languages)
         {
             FirstNames = firstNames;
             LastNames = lastNames;
             CommonNames = commonNames;
             Nations = nations;
             Clubs = clubs;
-
-            // Initialize available languages from nations
-            AvailableLanguages = nations.Select(n => new LanguageOption
-            {
-                Value = n.Id,
-                DisplayName = n.Name
-            }).ToList();
+            AvailableLanguages = languages;
 
             // Initialize language commands
             AddDefaultLanguageCommand = ReactiveCommand.Create(AddDefaultLanguage);
@@ -556,12 +551,6 @@ namespace FMMEditor.ViewModels
     public class EthnicityOption
     {
         public byte Value { get; set; }
-        public string DisplayName { get; set; } = string.Empty;
-    }
-
-    public class LanguageOption
-    {
-        public short Value { get; set; }
         public string DisplayName { get; set; } = string.Empty;
     }
 

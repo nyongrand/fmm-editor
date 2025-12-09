@@ -36,6 +36,7 @@ namespace FMMEditor.ViewModels
         public extern NameParser? CommonNameParser { [ObservableAsProperty] get; }
         public extern PeopleParser? PeopleParser { [ObservableAsProperty] get; }
         public extern PlayerParser? PlayerParser { [ObservableAsProperty] get; }
+        public extern LanguageParser? LanguageParser { [ObservableAsProperty] get; }
 
         // Collections for display
         public BulkObservableCollection<Nation> Nations { get; } = [];
@@ -44,6 +45,7 @@ namespace FMMEditor.ViewModels
         public BulkObservableCollection<Name> LastNames { get; } = [];
         public BulkObservableCollection<Name> CommonNames { get; } = [];
         public BulkObservableCollection<PeopleDisplayModel> PeopleList { get; } = [];
+        public BulkObservableCollection<Language> Languages { get; } = [];
 
         // Commands
         public ReactiveCommand<Unit, string?> Load { get; private set; }
@@ -56,6 +58,7 @@ namespace FMMEditor.ViewModels
         public ReactiveCommand<string, NameParser> ParseCommonName { get; private set; }
         public ReactiveCommand<string, PeopleParser> ParsePeople { get; private set; }
         public ReactiveCommand<string, PlayerParser> ParsePlayers { get; private set; }
+        public ReactiveCommand<string, LanguageParser> ParseLanguages { get; private set; }
 
         // Commands for Add/Edit
         public ReactiveCommand<Unit, Unit> AddCommand { get; private set; }
@@ -122,6 +125,9 @@ namespace FMMEditor.ViewModels
             ParsePlayers = ReactiveCommand.CreateFromTask<string, PlayerParser>(PlayerParser.Load);
             ParsePlayers.ToPropertyEx(this, vm => vm.PlayerParser);
 
+            ParseLanguages = ReactiveCommand.CreateFromTask<string, LanguageParser>(LanguageParser.Load);
+            ParseLanguages.ToPropertyEx(this, vm => vm.LanguageParser);
+
             AddCommand = ReactiveCommand.CreateFromTask(OpenAddPersonDialogAsync);
             EditCommand = ReactiveCommand.CreateFromTask<PeopleDisplayModel>(OpenEditPersonDialogAsync);
 
@@ -163,6 +169,11 @@ namespace FMMEditor.ViewModels
                 .WhereNotNull()
                 .Select(x => x + "\\players.dat")
                 .InvokeCommand(ParsePlayers);
+
+            this.WhenAnyValue(vm => vm.FolderPath)
+                .WhereNotNull()
+                .Select(x => x + "\\languages.dat")
+                .InvokeCommand(ParseLanguages);
 
             this.WhenAnyValue(vm => vm.FolderPath)
                 .Select(x => !string.IsNullOrEmpty(x))
@@ -226,13 +237,20 @@ namespace FMMEditor.ViewModels
                     RefreshPeopleDisplay();
                 });
 
+            this.WhenAnyValue(vm => vm.LanguageParser)
+                .WhereNotNull()
+                .Subscribe(x =>
+                {
+                    Languages.Reset(x.Items.OrderBy(y => y.Name));
+                });
+
             this.WhenAnyValue(vm => vm.SearchQuery)
                 .Subscribe(x => peopleView.Refresh());
         }
 
         private async Task OpenAddPersonDialogAsync()
         {
-            var viewModel = new PersonEditViewModel(FirstNames, LastNames, CommonNames, Nations, Clubs);
+            var viewModel = new PersonEditViewModel(FirstNames, LastNames, CommonNames, Nations, Clubs, Languages);
             viewModel.InitializeForAdd();
 
             var view = new PersonEditView { DataContext = viewModel };
@@ -250,7 +268,7 @@ namespace FMMEditor.ViewModels
         {
             if (person == null) return;
 
-            var viewModel = new PersonEditViewModel(FirstNames, LastNames, CommonNames, Nations, Clubs);
+            var viewModel = new PersonEditViewModel(FirstNames, LastNames, CommonNames, Nations, Clubs, Languages);
             viewModel.InitializeForEdit(person);
 
             var view = new PersonEditView { DataContext = viewModel };
