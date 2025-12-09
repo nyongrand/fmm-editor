@@ -23,7 +23,7 @@ namespace FMMEditor.ViewModels
         public BulkObservableCollection<Name> LastNames { get; }
         public BulkObservableCollection<Name> CommonNames { get; }
         public BulkObservableCollection<Nation> Nations { get; }
-        public BulkObservableCollection<Club> Clubs { get; }
+        public List<ClubOption> Clubs { get; }
 
         // Language collection
         public BulkObservableCollection<Language> AvailableLanguages { get; }
@@ -168,7 +168,7 @@ namespace FMMEditor.ViewModels
             LastNames = lastNames;
             CommonNames = commonNames;
             Nations = nations;
-            Clubs = clubs;
+            Clubs = [new ClubOption(-1, "Free Agent"), .. clubs.Select(x => new ClubOption(x.Id, x.FullName))];
             AvailableLanguages = languages;
 
             // Initialize language commands
@@ -549,6 +549,12 @@ namespace FMMEditor.ViewModels
                 _ => ethnicity.ToString()
             };
         }
+    }
+
+    public class ClubOption(int id, string fullname)
+    {
+        public int Id { get; set; } = id;
+        public string FullName { get; set; } = fullname;
     }
 
     public class EthnicityOption
