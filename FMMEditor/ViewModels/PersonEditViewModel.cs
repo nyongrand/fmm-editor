@@ -39,6 +39,10 @@ namespace FMMEditor.ViewModels
         public ReactiveCommand<Unit, Unit> AddOtherLanguageCommand { get; }
         public ReactiveCommand<LanguageEntry, Unit> RemoveOtherLanguageCommand { get; }
 
+        // Other nationality commands
+        public ReactiveCommand<Unit, Unit> AddOtherNationalityCommand { get; }
+        public ReactiveCommand<NationalityEntry, Unit> RemoveOtherNationalityCommand { get; }
+
         // Person fields
         [Reactive] public int? Uid { get; set; }
         [Reactive] public int? FirstNameId { get; set; }
@@ -56,6 +60,9 @@ namespace FMMEditor.ViewModels
         [Reactive] public short? NationalGoals { get; set; }
         [Reactive] public byte? NationalU21Caps { get; set; }
         [Reactive] public byte? NationalU21Goals { get; set; }
+
+        // Other nationalities (observable collection for UI binding)
+        public ObservableCollection<NationalityEntry> OtherNationalities { get; } = [];
 
         // Personality attributes
         [Reactive] public byte? Adaptability { get; set; }
@@ -177,6 +184,10 @@ namespace FMMEditor.ViewModels
             AddOtherLanguageCommand = ReactiveCommand.Create(AddOtherLanguage);
             RemoveOtherLanguageCommand = ReactiveCommand.Create<LanguageEntry>(RemoveOtherLanguage);
 
+            // Initialize other nationality commands
+            AddOtherNationalityCommand = ReactiveCommand.Create(AddOtherNationality);
+            RemoveOtherNationalityCommand = ReactiveCommand.Create<NationalityEntry>(RemoveOtherNationality);
+
             this.WhenAnyValue(x => x.IsAddMode)
                 .Subscribe(_ => this.RaisePropertyChanged(nameof(WindowTitle)));
         }
@@ -201,6 +212,17 @@ namespace FMMEditor.ViewModels
         {
             if (entry != null)
                 OtherLanguages.Remove(entry);
+        }
+
+        private void AddOtherNationality()
+        {
+            OtherNationalities.Add(new NationalityEntry { NationId = 0 });
+        }
+
+        private void RemoveOtherNationality(NationalityEntry entry)
+        {
+            if (entry != null)
+                OtherNationalities.Remove(entry);
         }
 
         public void InitializeForAdd()
@@ -248,6 +270,13 @@ namespace FMMEditor.ViewModels
             DefaultLanguageCount = p.DefaultLanguageCount;
             OtherLanguageCount = p.OtherLanguageCount;
             RelationshipCount = p.RelationshipCount;
+
+            // Load other nationalities
+            OtherNationalities.Clear();
+            foreach (var nationId in p.OtherNationalities)
+            {
+                OtherNationalities.Add(new NationalityEntry { NationId = nationId });
+            }
 
             // Load language entries
             DefaultLanguages.Clear();
@@ -378,6 +407,7 @@ namespace FMMEditor.ViewModels
             RelationshipCount = 0;
             DefaultLanguages.Clear();
             OtherLanguages.Clear();
+            OtherNationalities.Clear();
             HasPlayer = true;  // Always create a player by default
             ResetPlayerFieldsToDefaults();
         }
@@ -567,5 +597,10 @@ namespace FMMEditor.ViewModels
     {
         [Reactive] public short LanguageId { get; set; }
         [Reactive] public byte Proficiency { get; set; } = 20;
+    }
+
+    public class NationalityEntry : ReactiveObject
+    {
+        [Reactive] public short NationId { get; set; }
     }
 }

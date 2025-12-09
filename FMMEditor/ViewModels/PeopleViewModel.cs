@@ -293,6 +293,11 @@ namespace FMMEditor.ViewModels
             PlayerParser.Add(newPlayer);
             playerLookup[newPlayer.Id] = newPlayer;
 
+            var clubId = vm.ClubId ?? -1;
+            var joinedDate = clubId == -1 
+                ? DateConverter.FromDateTime(new DateTime(2025, 5, 30)) 
+                : DateConverter.FromDateTime(vm.JoinedDate);
+
             var newPerson = new People
             {
                 Id = -1,
@@ -302,8 +307,8 @@ namespace FMMEditor.ViewModels
                 CommonNameId = vm.CommonNameId ?? -1,
                 DateOfBirth = DateConverter.FromDateTime(vm.DateOfBirth),
                 NationId = vm.NationId!.Value,
-                OtherNationalities = [],
-                ClubId = vm.ClubId ?? -1,
+                OtherNationalities = vm.OtherNationalities.Select(n => n.NationId).ToList(),
+                ClubId = clubId,
                 Type = (byte)vm.PersonType,
                 NationalCaps = vm.NationalCaps ?? 0,
                 NationalGoals = vm.NationalGoals ?? 0,
@@ -318,7 +323,7 @@ namespace FMMEditor.ViewModels
                 Ethnicity = vm.Ethnicity,
                 Unknown1 = vm.Unknown1,
                 UnknownDate = DateConverter.FromDateTime(vm.UnknownDate),
-                JoinedDate = 0,
+                JoinedDate = joinedDate,
                 Unknown3 = 0,
                 Controversy = vm.Controversy ?? 10,
                 Sportmanship = vm.Sportmanship ?? 10,
@@ -345,12 +350,20 @@ namespace FMMEditor.ViewModels
             var existingPerson = PeopleParser?.Items.FirstOrDefault(x => x.Uid == vm.Uid);
             if (existingPerson == null) return;
 
+            var clubId = vm.ClubId ?? -1;
+            var joinedDate = clubId == -1 
+                ? DateConverter.FromDateTime(new DateTime(2025, 5, 30)) 
+                : DateConverter.FromDateTime(vm.JoinedDate);
+
+            existingPerson.Id = -1;  // Always save Id as -1
             existingPerson.FirstNameId = vm.FirstNameId!.Value;
             existingPerson.LastNameId = vm.LastNameId!.Value;
             existingPerson.CommonNameId = vm.CommonNameId ?? -1;
             existingPerson.DateOfBirth = DateConverter.FromDateTime(vm.DateOfBirth);
             existingPerson.NationId = vm.NationId!.Value;
-            existingPerson.ClubId = vm.ClubId ?? -1;
+            existingPerson.OtherNationalities = vm.OtherNationalities.Select(n => n.NationId).ToList();
+            existingPerson.ClubId = clubId;
+            existingPerson.JoinedDate = joinedDate;
             existingPerson.Type = (byte)vm.PersonType;
             existingPerson.Ethnicity = vm.Ethnicity;
             existingPerson.NationalCaps = vm.NationalCaps ?? 0;

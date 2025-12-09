@@ -50,7 +50,7 @@ namespace FMMEditor.Converters
         public static int FromDateTime(DateTime? date)
         {
             if (date == null) return 0;
-            int days = date.Value.DayOfYear - 1; // Days since Jan 1
+            int days = date.Value.DayOfYear; // Days since Jan 1
             int year = date.Value.Year;
             return (year << 16) | (days & 0xFFFF);
         }
