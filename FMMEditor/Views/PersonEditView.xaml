@@ -466,11 +466,28 @@
                             Text="Languages" />
 
                         <!--  Default Languages  -->
-                        <TextBlock
-                            Margin="0,4,0,4"
-                            FontSize="12"
-                            Foreground="{DynamicResource MaterialDesignBodyLight}"
-                            Text="Default Languages" />
+                        <Grid Margin="0,4,0,4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock
+                                Grid.Column="0"
+                                VerticalAlignment="Center"
+                                FontSize="12"
+                                Foreground="{DynamicResource MaterialDesignBodyLight}"
+                                Text="Default Languages" />
+                            <Button
+                                Grid.Column="1"
+                                Width="28"
+                                Height="28"
+                                Padding="0"
+                                Command="{Binding AddDefaultLanguageCommand}"
+                                Style="{DynamicResource MaterialDesignIconButton}"
+                                ToolTip="Add Default Language">
+                                <md:PackIcon Kind="Plus" />
+                            </Button>
+                        </Grid>
 
                         <ItemsControl ItemsSource="{Binding DefaultLanguages}">
                             <ItemsControl.ItemTemplate>
@@ -480,6 +497,8 @@
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="8" />
                                             <ColumnDefinition Width="80" />
+                                            <ColumnDefinition Width="8" />
+                                            <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
 
                                         <ComboBox
@@ -500,17 +519,47 @@
                                             FontSize="14"
                                             Style="{DynamicResource MaterialDesignFilledTextBox}"
                                             Text="{Binding Proficiency}" />
+
+                                        <Button
+                                            Grid.Column="4"
+                                            Width="28"
+                                            Height="28"
+                                            Padding="0"
+                                            Command="{Binding DataContext.RemoveDefaultLanguageCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            CommandParameter="{Binding}"
+                                            Foreground="{DynamicResource MaterialDesignValidationErrorBrush}"
+                                            Style="{DynamicResource MaterialDesignIconButton}"
+                                            ToolTip="Remove Language">
+                                            <md:PackIcon Kind="Close" />
+                                        </Button>
                                     </Grid>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
 
                         <!--  Other Languages  -->
-                        <TextBlock
-                            Margin="0,8,0,4"
-                            FontSize="12"
-                            Foreground="{DynamicResource MaterialDesignBodyLight}"
-                            Text="Other Languages" />
+                        <Grid Margin="0,8,0,4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock
+                                Grid.Column="0"
+                                VerticalAlignment="Center"
+                                FontSize="12"
+                                Foreground="{DynamicResource MaterialDesignBodyLight}"
+                                Text="Other Languages" />
+                            <Button
+                                Grid.Column="1"
+                                Width="28"
+                                Height="28"
+                                Padding="0"
+                                Command="{Binding AddOtherLanguageCommand}"
+                                Style="{DynamicResource MaterialDesignIconButton}"
+                                ToolTip="Add Other Language">
+                                <md:PackIcon Kind="Plus" />
+                            </Button>
+                        </Grid>
 
                         <ItemsControl ItemsSource="{Binding OtherLanguages}">
                             <ItemsControl.ItemTemplate>
@@ -520,6 +569,8 @@
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="8" />
                                             <ColumnDefinition Width="80" />
+                                            <ColumnDefinition Width="8" />
+                                            <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
 
                                         <ComboBox
@@ -540,6 +591,19 @@
                                             FontSize="14"
                                             Style="{DynamicResource MaterialDesignFilledTextBox}"
                                             Text="{Binding Proficiency}" />
+
+                                        <Button
+                                            Grid.Column="4"
+                                            Width="28"
+                                            Height="28"
+                                            Padding="0"
+                                            Command="{Binding DataContext.RemoveOtherLanguageCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            CommandParameter="{Binding}"
+                                            Foreground="{DynamicResource MaterialDesignValidationErrorBrush}"
+                                            Style="{DynamicResource MaterialDesignIconButton}"
+                                            ToolTip="Remove Language">
+                                            <md:PackIcon Kind="Close" />
+                                        </Button>
                                     </Grid>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>

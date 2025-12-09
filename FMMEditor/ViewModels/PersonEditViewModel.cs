@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reactive;
 
 namespace FMMEditor.ViewModels
 {
@@ -31,6 +32,12 @@ namespace FMMEditor.ViewModels
         public List<EthnicityOption> EthnicityOptions { get; } = Enum.GetValues<Ethnicity>()
             .Select(e => new EthnicityOption { Value = (byte)e, DisplayName = FormatEthnicityName(e) })
             .ToList();
+
+        // Language commands
+        public ReactiveCommand<Unit, Unit> AddDefaultLanguageCommand { get; }
+        public ReactiveCommand<LanguageEntry, Unit> RemoveDefaultLanguageCommand { get; }
+        public ReactiveCommand<Unit, Unit> AddOtherLanguageCommand { get; }
+        public ReactiveCommand<LanguageEntry, Unit> RemoveOtherLanguageCommand { get; }
 
         // Person fields
         [Reactive] public int? Uid { get; set; }
@@ -168,8 +175,36 @@ namespace FMMEditor.ViewModels
                 DisplayName = n.Name
             }).ToList();
 
+            // Initialize language commands
+            AddDefaultLanguageCommand = ReactiveCommand.Create(AddDefaultLanguage);
+            RemoveDefaultLanguageCommand = ReactiveCommand.Create<LanguageEntry>(RemoveDefaultLanguage);
+            AddOtherLanguageCommand = ReactiveCommand.Create(AddOtherLanguage);
+            RemoveOtherLanguageCommand = ReactiveCommand.Create<LanguageEntry>(RemoveOtherLanguage);
+
             this.WhenAnyValue(x => x.IsAddMode)
                 .Subscribe(_ => this.RaisePropertyChanged(nameof(WindowTitle)));
+        }
+
+        private void AddDefaultLanguage()
+        {
+            DefaultLanguages.Add(new LanguageEntry { LanguageId = 0, Proficiency = 20 });
+        }
+
+        private void RemoveDefaultLanguage(LanguageEntry entry)
+        {
+            if (entry != null)
+                DefaultLanguages.Remove(entry);
+        }
+
+        private void AddOtherLanguage()
+        {
+            OtherLanguages.Add(new LanguageEntry { LanguageId = 0, Proficiency = 20 });
+        }
+
+        private void RemoveOtherLanguage(LanguageEntry entry)
+        {
+            if (entry != null)
+                OtherLanguages.Remove(entry);
         }
 
         public void InitializeForAdd()
