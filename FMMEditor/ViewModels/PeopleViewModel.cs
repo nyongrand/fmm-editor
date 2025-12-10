@@ -379,7 +379,7 @@ namespace FMMEditor.ViewModels
                 Unknown6e = -1,
                 Unknown6f = -1,
                 Unknown7 = 0,
-                Unknown8 = 0,
+                Gender = 0,
                 DefaultLanguages = vm.DefaultLanguages.Select(l => (l.LanguageId, l.Proficiency)).ToArray(),
                 OtherLanguages = vm.OtherLanguages.Select(l => (l.LanguageId, l.Proficiency)).ToArray(),
                 Relationships = [],

@@ -85,7 +85,7 @@
         public int? Unknown6f { get; set; }
 
         public byte Unknown7 { get; set; }
-        public byte Unknown8 { get; set; }
+        public byte Gender { get; set; }
         public int? Unknown9 { get; set; }
         public short? Unknown10 { get; set; }
 
@@ -168,7 +168,7 @@
                 reader.BaseStream.Position -= 4;
 
             Unknown7 = reader.ReadByte();
-            Unknown8 = reader.ReadByte();
+            Gender = reader.ReadByte();
 
             var peek2 = reader.ReadInt16();
             reader.BaseStream.Position -= 2;
@@ -248,7 +248,7 @@
             writer.WriteEx(Unknown6f);
 
             writer.WriteEx(Unknown7);
-            writer.WriteEx(Unknown8);
+            writer.WriteEx(Gender);
             writer.WriteEx(Unknown9);
             writer.WriteEx(Unknown10);
 
