@@ -28,6 +28,10 @@
     WindowTitleBrush="{DynamicResource PrimaryHueDarkBrush}"
     mc:Ignorable="d">
 
+    <Window.LayoutTransform>
+        <ScaleTransform CenterX=".5" CenterY=".5" ScaleX=".92" ScaleY=".92" />
+    </Window.LayoutTransform>
+
     <Window.Resources>
         <converter:VisibilityConverter x:Key="Visibility" />
         <converter:BooleanConverter x:Key="Boolean" />
@@ -60,10 +64,6 @@
             <Setter Property="Foreground" Value="{Binding Gender, Converter={StaticResource GenderConverter}, ConverterParameter=Color}" />
         </Style>
     </Window.Resources>
-
-    <Window.LayoutTransform>
-        <ScaleTransform CenterX=".5" CenterY=".5" ScaleX=".92" ScaleY=".92" />
-    </Window.LayoutTransform>
 
     <md:DialogHost Identifier="PeopleDialogHost">
         <Grid>
@@ -207,10 +207,16 @@
                 <StatusBar
                     Height="24"
                     DockPanel.Dock="Bottom"
-                    FontSize="12">
+                    FontSize="10">
+
                     <StatusBarItem>
-                        <TextBlock Text="{Binding FolderPath}" />
+                        <TextBlock>
+                            <Run Text="Folder: " />
+                            <Run Text="{Binding FolderPath, Mode=OneWay}" />
+                        </TextBlock>
                     </StatusBarItem>
+
+                    <Separator />
 
                     <StatusBarItem>
                         <TextBlock>
@@ -375,13 +381,13 @@
                                 <Separator />
                                 <MenuItem Command="{Binding AddCommand}" Header="Add Person" />
                                 <MenuItem
-                                    Command="{Binding EditCommand}"
-                                    CommandParameter="{Binding SelectedPerson}"
-                                    Header="Edit Person" />
-                                <MenuItem
                                     Command="{Binding CopyCommand}"
                                     CommandParameter="{Binding SelectedPerson}"
                                     Header="Copy Person" />
+                                <MenuItem
+                                    Command="{Binding EditCommand}"
+                                    CommandParameter="{Binding SelectedPerson}"
+                                    Header="Edit Person" />
                             </ContextMenu>
                         </DataGrid.Resources>
 

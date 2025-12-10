@@ -26,6 +26,10 @@
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
 
+    <Window.LayoutTransform>
+        <ScaleTransform CenterX=".5" CenterY=".5" ScaleX=".92" ScaleY=".92" />
+    </Window.LayoutTransform>
+
     <Window.Resources>
         <converter:BytesConverter x:Key="bytes" />
         <converter:VisibilityConverter x:Key="Visibility" />

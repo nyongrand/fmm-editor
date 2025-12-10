@@ -12,6 +12,10 @@
     d:DataContext="{d:DesignInstance Type=viewmodels:PersonEditViewModel}"
     mc:Ignorable="d">
 
+    <UserControl.LayoutTransform>
+        <ScaleTransform CenterX=".5" CenterY=".5" ScaleX=".92" ScaleY=".92" />
+    </UserControl.LayoutTransform>
+
     <UserControl.Resources>
         <converter:VisibilityConverter x:Key="Visibility" />
     </UserControl.Resources>
