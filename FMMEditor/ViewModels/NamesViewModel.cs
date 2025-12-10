@@ -421,16 +421,8 @@ namespace FMMEditor.ViewModels
             {
                 if (FirstNameParser != null && SecondNameParser != null && CommonNameParser != null)
                 {
-                    var firstNamesOrdered = FirstNames.OrderBy(x => x.Id).ToList();
-                    FirstNameParser.Replace(firstNamesOrdered);
                     await FirstNameParser.Save();
-
-                    var secondNamesOrdered = SecondNames.OrderBy(x => x.Id).ToList();
-                    SecondNameParser.Replace(secondNamesOrdered);
                     await SecondNameParser.Save();
-
-                    var commonNamesOrdered = CommonNames.OrderBy(x => x.Id).ToList();
-                    CommonNameParser.Replace(commonNamesOrdered);
                     await CommonNameParser.Save();
 
                     MessageQueue.Enqueue("Save Successfull");
@@ -453,14 +445,9 @@ namespace FMMEditor.ViewModels
             {
                 if (FirstNameParser != null && SecondNameParser != null && CommonNameParser != null)
                 {
-                    FirstNameParser.Replace(FirstNames);
-                    await FirstNameParser.Save(settings.SelectedPath + "\\first_name.dat");
-
-                    SecondNameParser.Replace(SecondNames);
-                    await SecondNameParser.Save(settings.SelectedPath + "\\second_name.dat");
-
-                    CommonNameParser.Replace(CommonNames);
-                    await CommonNameParser.Save(settings.SelectedPath + "\\common_name.dat");
+                    await FirstNameParser.Save(settings.SelectedPath + "\\first_names.dat");
+                    await SecondNameParser.Save(settings.SelectedPath + "\\second_names.dat");
+                    await CommonNameParser.Save(settings.SelectedPath + "\\common_names.dat");
 
                     MessageQueue.Enqueue("Save Successfull");
                 }
