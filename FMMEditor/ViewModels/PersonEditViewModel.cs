@@ -581,18 +581,6 @@ namespace FMMEditor.ViewModels
         }
     }
 
-    public class ClubOption(int id, string fullname)
-    {
-        public int Id { get; set; } = id;
-        public string FullName { get; set; } = fullname;
-    }
-
-    public class EthnicityOption
-    {
-        public byte Value { get; set; }
-        public string DisplayName { get; set; } = string.Empty;
-    }
-
     public class LanguageEntry : ReactiveObject
     {
         [Reactive] public short LanguageId { get; set; }
