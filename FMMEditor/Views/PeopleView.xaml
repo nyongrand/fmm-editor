@@ -353,18 +353,23 @@
                         <DataGrid.Resources>
                             <ContextMenu x:Key="menu">
                                 <MenuItem Command="{Binding CopyUidCommand}" Header="Copy UID" />
+                                <MenuItem Command="{Binding CopyUidHexCommand}" Header="Copy UID (Hex)" />
                                 <Separator />
-                                <MenuItem Command="{Binding AddCommand}" Header="Add New Person" />
+                                <MenuItem Command="{Binding AddCommand}" Header="Add Person" />
                                 <MenuItem
                                     Command="{Binding EditCommand}"
                                     CommandParameter="{Binding SelectedPerson}"
                                     Header="Edit Person" />
+                                <MenuItem
+                                    Command="{Binding CopyCommand}"
+                                    CommandParameter="{Binding SelectedPerson}"
+                                    Header="Copy Person" />
                             </ContextMenu>
                         </DataGrid.Resources>
 
                         <DataGrid.Columns>
 
-                            <!--<DataGridTextColumn
+                            <DataGridTextColumn
                                 Width="60"
                                 MinWidth="60"
                                 MaxWidth="110"
@@ -372,7 +377,7 @@
                                 CanUserReorder="False"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="ID"
-                                IsReadOnly="True" />-->
+                                IsReadOnly="True" />
 
                             <DataGridTextColumn
                                 Width="60"
@@ -429,7 +434,7 @@
                                 </DataGridTextColumn.HeaderStyle>
                             </DataGridTextColumn>
 
-                            <!--<DataGridTextColumn
+                            <DataGridTextColumn
                                 Width="60"
                                 MinWidth="60"
                                 MaxWidth="110"
@@ -445,7 +450,7 @@
                                 Binding="{Binding Player.PA}"
                                 CanUserReorder="False"
                                 Header="PA"
-                                IsReadOnly="True" />-->
+                                IsReadOnly="True" />
 
                             <DataGridTextColumn
                                 Width="120"

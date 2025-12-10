@@ -71,14 +71,14 @@
         }
 
         /// <summary>
-        /// Adds the specified name to the collection, assigning a unique identifier if necessary.
+        /// Adds the specified person to the collection. The Id should always be -1 (0xFFFFFFFF).
         /// </summary>
-        /// <param name="item">The name to add to the collection. If the item's Id is less than or equal to zero, a new unique Id is
-        /// assigned.</param>
+        /// <param name="item">The person to add to the collection.</param>
         public void Add(People item)
         {
-            var nextId = Items.Count > 0 ? Items.Max(x => x.Id) + 1 : 0;
-            item.Id = item.Id >= 0 ? item.Id : nextId;
+            // People.Id should always be -1 (0xFFFFFFFF) as per specification
+            item.Id = -1;
+            
             items.Add(item);
             Count++;
         }

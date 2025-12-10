@@ -239,6 +239,17 @@ namespace FMMEditor.ViewModels
             LoadFromPerson(person);
         }
 
+        public void InitializeForCopy(PeopleDisplayModel person)
+        {
+            if (person == null) return;
+
+            IsAddMode = true;
+            LoadFromPerson(person);
+            
+            // Reset IDs to generate new ones
+            Uid = null;
+        }
+
         private void LoadFromPerson(PeopleDisplayModel person)
         {
             var p = person.Person;

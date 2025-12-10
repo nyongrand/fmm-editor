@@ -108,6 +108,7 @@
         /// </summary>
         public People()
         {
+            Id = -1;
             OtherNationalities = [];
             DefaultLanguages = [];
             OtherLanguages = [];

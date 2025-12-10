@@ -63,6 +63,9 @@ namespace FMMEditor.ViewModels
         // Commands for Add/Edit
         public ReactiveCommand<Unit, Unit> AddCommand { get; private set; }
         public ReactiveCommand<PeopleDisplayModel, Unit> EditCommand { get; private set; }
+        public ReactiveCommand<PeopleDisplayModel, Unit> CopyCommand { get; private set; }
+        public ReactiveCommand<Unit, Unit> CopyUidCommand { get; private set; }
+        public ReactiveCommand<Unit, Unit> CopyUidHexCommand { get; private set; }
 
         [Reactive] public PeopleDisplayModel? SelectedPerson { get; set; }
 
@@ -130,6 +133,9 @@ namespace FMMEditor.ViewModels
 
             AddCommand = ReactiveCommand.CreateFromTask(OpenAddPersonDialogAsync);
             EditCommand = ReactiveCommand.CreateFromTask<PeopleDisplayModel>(OpenEditPersonDialogAsync);
+            CopyCommand = ReactiveCommand.CreateFromTask<PeopleDisplayModel>(OpenCopyPersonDialogAsync);
+            CopyUidCommand = ReactiveCommand.Create(CopyUidToClipboard);
+            CopyUidHexCommand = ReactiveCommand.Create(CopyUidHexToClipboard);
 
             Save = ReactiveCommand.CreateFromTask(SaveImpl);
             SaveAs = ReactiveCommand.CreateFromTask(SaveAsImpl);
@@ -279,6 +285,45 @@ namespace FMMEditor.ViewModels
             {
                 UpdatePerson(vm);
                 RefreshPeopleDisplay();
+            }
+        }
+
+        private async Task OpenCopyPersonDialogAsync(PeopleDisplayModel? person)
+        {
+            if (person == null) return;
+
+            var viewModel = new PersonEditViewModel(FirstNames, LastNames, CommonNames, Nations, Clubs, Languages);
+            viewModel.InitializeForCopy(person);
+
+            var view = new PersonEditView { DataContext = viewModel };
+
+            var result = await DialogHost.Show(view, "PeopleDialogHost");
+
+            if (result is PersonEditViewModel vm && vm.Validate())
+            {
+                AddPerson(vm);
+                RefreshPeopleDisplay();
+            }
+        }
+
+        private void CopyUidToClipboard()
+        {
+            if (SelectedPerson != null)
+            {
+                Clipboard.SetText(SelectedPerson.Uid.ToString());
+                MessageQueue.Enqueue("UID copied to clipboard");
+            }
+        }
+
+        private void CopyUidHexToClipboard()
+        {
+            if (SelectedPerson != null)
+            {
+                // Convert UID to little-endian hex bytes
+                byte[] bytes = BitConverter.GetBytes(SelectedPerson.Uid);
+                string hex = BitConverter.ToString(bytes).Replace("-", "");
+                Clipboard.SetText(hex);
+                MessageQueue.Enqueue($"UID hex copied: {hex}");
             }
         }
 
