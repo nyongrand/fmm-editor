@@ -20,6 +20,7 @@
     FontFamily="{md:MaterialDesignFont}"
     FontSize="12"
     GlowBrush="{DynamicResource PrimaryHueDarkBrush}"
+    Style="{StaticResource MaterialDesignWindow}"
     TextElement.FontWeight="Medium"
     TextElement.Foreground="{DynamicResource MaterialDesignBody}"
     TitleBarHeight="20"
@@ -73,13 +74,11 @@
                                 Margin="0,16,0,8"
                                 FontSize="18"
                                 FontWeight="SemiBold"
-                                Foreground="{DynamicResource PrimaryHueLightBrush}"
                                 Text="{Binding SelectedId, Converter={StaticResource DialogModeConverter}, ConverterParameter=Title}"
                                 TextAlignment="Center" />
 
                             <controls:FilterableComboBox
                                 Margin="0,8,0,0"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Country of origin"
                                 DisplayMemberPath="Name"
                                 FontSize="16"
@@ -100,7 +99,6 @@
 
                             <ComboBox
                                 Margin="0,8,0,0"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Gender"
                                 FontSize="16"
                                 SelectedIndex="{Binding SelectedGender}"
@@ -111,7 +109,6 @@
 
                             <TextBox
                                 Margin="0,8,0,0"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.HelperText="Unknown type, valid value are 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10"
                                 md:HintAssist.Hint="Unknown"
                                 FontSize="18"
@@ -121,7 +118,6 @@
                             <!--  TextBox for Adding names (multiline) - shown when SelectedId == -1  -->
                             <TextBox
                                 Margin="0,24,0,0"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.HelperText="Names to add, one name per line"
                                 md:HintAssist.Hint="Names"
                                 AcceptsReturn="True"
@@ -135,7 +131,6 @@
                             <!--  TextBox for Editing name (single line) - shown when SelectedId != -1  -->
                             <TextBox
                                 Margin="0,24,0,0"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.HelperText="Name to edit"
                                 md:HintAssist.Hint="Name"
                                 AcceptsReturn="False"
@@ -158,7 +153,6 @@
                                     Command="{Binding CancelCommand}"
                                     Content="CANCEL"
                                     FontSize="14"
-                                    Foreground="{StaticResource PrimaryHueLightBrush}"
                                     Style="{DynamicResource MaterialDesignFlatButton}" />
 
                                 <Button
@@ -169,7 +163,6 @@
                                     Command="{Binding ConfirmCommand}"
                                     Content="OK"
                                     FontSize="14"
-                                    Foreground="{StaticResource PrimaryHueLightBrush}"
                                     Style="{DynamicResource MaterialDesignFlatButton}" />
 
                             </StackPanel>
@@ -247,7 +240,6 @@
                             VerticalAlignment="Center"
                             FontSize="18"
                             FontWeight="Bold"
-                            Foreground="{DynamicResource MaterialDesignLightBackground}"
                             Text="FMM 26 DB Editor" />
 
                         <!--  Toolbar Menu  -->
@@ -265,7 +257,6 @@
                                     <md:PackIcon
                                         Width="21"
                                         Height="21"
-                                        Foreground="{DynamicResource MaterialDesignLightBackground}"
                                         Kind="Menu" />
                                 </md:PopupBox.ToggleContent>
 
@@ -319,9 +310,6 @@
                     Height="24"
                     DockPanel.Dock="Bottom"
                     FontSize="12">
-                    <StatusBar.Background>
-                        <SolidColorBrush Color="{DynamicResource MahApps.Colors.Flyout}" />
-                    </StatusBar.Background>
 
                     <StatusBarItem>
                         <TextBlock Text="{Binding FolderPath}" />
@@ -356,7 +344,6 @@
                                 Height="80"
                                 Margin="0,0,0,16"
                                 HorizontalAlignment="Center"
-                                Foreground="{DynamicResource PrimaryHueMidBrush}"
                                 Kind="DatabaseOff"
                                 Opacity="0.5" />
 
@@ -364,14 +351,12 @@
                                 Margin="0,0,0,8"
                                 FontSize="24"
                                 FontWeight="Bold"
-                                Foreground="{DynamicResource MaterialDesignBody}"
                                 Text="No Database Loaded"
                                 TextAlignment="Center" />
 
                             <TextBlock
                                 Margin="0,0,0,16"
                                 FontSize="16"
-                                Foreground="{DynamicResource MaterialDesignBodyLight}"
                                 Text="Get started by loading an FM26 database"
                                 TextAlignment="Center"
                                 TextWrapping="Wrap" />
@@ -382,7 +367,6 @@
                                         Margin="0,0,0,16"
                                         FontSize="18"
                                         FontWeight="SemiBold"
-                                        Foreground="{DynamicResource PrimaryHueLightBrush}"
                                         Text="Instructions"
                                         TextAlignment="Left" />
 
@@ -391,7 +375,6 @@
                                             Width="24"
                                             FontSize="16"
                                             FontWeight="Bold"
-                                            Foreground="{DynamicResource PrimaryHueLightBrush}"
                                             Text="1."
                                             TextAlignment="Right" />
                                         <TextBlock
@@ -406,7 +389,6 @@
                                             Width="24"
                                             FontSize="16"
                                             FontWeight="Bold"
-                                            Foreground="{DynamicResource PrimaryHueLightBrush}"
                                             Text="2."
                                             TextAlignment="Right" />
                                         <TextBlock
@@ -421,7 +403,6 @@
                                             Width="24"
                                             FontSize="16"
                                             FontWeight="Bold"
-                                            Foreground="{DynamicResource PrimaryHueLightBrush}"
                                             Text="3."
                                             TextAlignment="Right" />
                                         <TextBlock
@@ -439,7 +420,6 @@
                                             Width="24"
                                             FontSize="16"
                                             FontWeight="Bold"
-                                            Foreground="{DynamicResource PrimaryHueLightBrush}"
                                             Text="4."
                                             TextAlignment="Right" />
                                         <TextBlock
