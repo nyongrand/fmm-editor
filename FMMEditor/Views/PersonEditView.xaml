@@ -55,7 +55,6 @@
                         <TextBlock
                             FontSize="14"
                             FontWeight="SemiBold"
-                            Foreground="{DynamicResource PrimaryHueLightBrush}"
                             Text="Person Information" />
 
                         <Grid Margin="0,8,0,0">
@@ -70,7 +69,6 @@
                             <!--  First Name  -->
                             <controls:FilterableComboBox
                                 Grid.Column="0"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="First Name *"
                                 DisplayMemberPath="Value"
                                 FontSize="14"
@@ -92,7 +90,6 @@
                             <!--  Last Name  -->
                             <controls:FilterableComboBox
                                 Grid.Column="2"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Last Name *"
                                 DisplayMemberPath="Value"
                                 FontSize="14"
@@ -114,7 +111,6 @@
                             <!--  Common Name  -->
                             <controls:FilterableComboBox
                                 Grid.Column="4"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Common Name"
                                 DisplayMemberPath="Value"
                                 FontSize="14"
@@ -145,7 +141,6 @@
 
                             <DatePicker
                                 Grid.Column="0"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Date of Birth"
                                 FontSize="14"
                                 SelectedDate="{Binding DateOfBirth}"
@@ -154,7 +149,6 @@
                             <!--  Ethnicity  -->
                             <ComboBox
                                 Grid.Column="2"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Ethnicity"
                                 DisplayMemberPath="DisplayName"
                                 FontSize="14"
@@ -166,7 +160,6 @@
                             <!--  Person Type  -->
                             <ComboBox
                                 Grid.Column="4"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Person Type"
                                 FontSize="14"
                                 IsEnabled="False"
@@ -189,7 +182,6 @@
 
                             <DatePicker
                                 Grid.Column="0"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Unknown Date"
                                 FontSize="14"
                                 SelectedDate="{Binding UnknownDate}"
@@ -197,7 +189,6 @@
 
                             <TextBox
                                 Grid.Column="2"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Unknown 1"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
@@ -208,7 +199,6 @@
                             Margin="0,16,0,8"
                             FontSize="14"
                             FontWeight="SemiBold"
-                            Foreground="{DynamicResource PrimaryHueLightBrush}"
                             Text="Nation Attributes" />
 
                         <!--  Nationality  -->
@@ -222,7 +212,6 @@
                             <!--  Nation  -->
                             <controls:FilterableComboBox
                                 Grid.Column="0"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Nationality *"
                                 DisplayMemberPath="Name"
                                 FontSize="14"
@@ -244,7 +233,6 @@
                             <!--  Second Nation  -->
                             <controls:FilterableComboBox
                                 Grid.Column="4"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Second Nationality"
                                 DisplayMemberPath="Name"
                                 FontSize="14"
@@ -278,7 +266,6 @@
 
                             <TextBox
                                 Grid.Column="0"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="National Caps"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
@@ -286,7 +273,6 @@
 
                             <TextBox
                                 Grid.Column="2"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="National Goals"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
@@ -294,7 +280,6 @@
 
                             <TextBox
                                 Grid.Column="4"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="U21 Caps"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
@@ -302,7 +287,6 @@
 
                             <TextBox
                                 Grid.Column="6"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="U21 Goals"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
@@ -322,7 +306,6 @@
                             <!--  Club  -->
                             <controls:FilterableComboBox
                                 Grid.ColumnSpan="3"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Club"
                                 DisplayMemberPath="FullName"
                                 FontSize="14"
@@ -343,7 +326,6 @@
 
                             <DatePicker
                                 Grid.Column="4"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Joined Date"
                                 FontSize="14"
                                 SelectedDate="{Binding DateOfBirth}"
@@ -364,7 +346,6 @@
                             Margin="0,16,0,8"
                             FontSize="14"
                             FontWeight="SemiBold"
-                            Foreground="{DynamicResource PrimaryHueLightBrush}"
                             Text="Personality Attributes" />
 
                         <!--  Personality Row 1  -->
@@ -381,7 +362,6 @@
 
                             <TextBox
                                 Grid.Column="0"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Adaptability"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
@@ -389,7 +369,6 @@
 
                             <TextBox
                                 Grid.Column="2"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Ambition"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
@@ -397,7 +376,6 @@
 
                             <TextBox
                                 Grid.Column="4"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Controversy"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
@@ -405,7 +383,6 @@
 
                             <TextBox
                                 Grid.Column="6"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Loyalty"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
@@ -426,7 +403,6 @@
 
                             <TextBox
                                 Grid.Column="0"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Pressure"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
@@ -434,7 +410,6 @@
 
                             <TextBox
                                 Grid.Column="2"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Professionalism"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
@@ -442,7 +417,6 @@
 
                             <TextBox
                                 Grid.Column="4"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Sportmanship"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
@@ -450,7 +424,6 @@
 
                             <TextBox
                                 Grid.Column="6"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Temperament"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
@@ -462,7 +435,6 @@
                             Margin="0,16,0,8"
                             FontSize="14"
                             FontWeight="SemiBold"
-                            Foreground="{DynamicResource PrimaryHueLightBrush}"
                             Text="Languages" />
 
                         <!--  Default Languages  -->
@@ -475,7 +447,6 @@
                                 Grid.Column="0"
                                 VerticalAlignment="Center"
                                 FontSize="12"
-                                Foreground="{DynamicResource MaterialDesignBodyLight}"
                                 Text="Default Languages" />
                             <Button
                                 Grid.Column="1"
@@ -503,7 +474,6 @@
 
                                         <ComboBox
                                             Grid.Column="0"
-                                            md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                             md:HintAssist.Hint="Language"
                                             DisplayMemberPath="Name"
                                             FontSize="14"
@@ -514,7 +484,6 @@
 
                                         <TextBox
                                             Grid.Column="2"
-                                            md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                             md:HintAssist.Hint="Prof."
                                             FontSize="14"
                                             Style="{DynamicResource MaterialDesignFilledTextBox}"
@@ -527,7 +496,6 @@
                                             Padding="0"
                                             Command="{Binding DataContext.RemoveDefaultLanguageCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                             CommandParameter="{Binding}"
-                                            Foreground="{DynamicResource MaterialDesignValidationErrorBrush}"
                                             Style="{DynamicResource MaterialDesignIconButton}"
                                             ToolTip="Remove Language">
                                             <md:PackIcon Kind="Close" />
@@ -547,7 +515,6 @@
                                 Grid.Column="0"
                                 VerticalAlignment="Center"
                                 FontSize="12"
-                                Foreground="{DynamicResource MaterialDesignBodyLight}"
                                 Text="Other Languages" />
                             <Button
                                 Grid.Column="1"
@@ -575,7 +542,6 @@
 
                                         <ComboBox
                                             Grid.Column="0"
-                                            md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                             md:HintAssist.Hint="Language"
                                             DisplayMemberPath="Name"
                                             FontSize="14"
@@ -586,7 +552,6 @@
 
                                         <TextBox
                                             Grid.Column="2"
-                                            md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                             md:HintAssist.Hint="Prof."
                                             FontSize="14"
                                             Style="{DynamicResource MaterialDesignFilledTextBox}"
@@ -599,7 +564,6 @@
                                             Padding="0"
                                             Command="{Binding DataContext.RemoveOtherLanguageCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                             CommandParameter="{Binding}"
-                                            Foreground="{DynamicResource MaterialDesignValidationErrorBrush}"
                                             Style="{DynamicResource MaterialDesignIconButton}"
                                             ToolTip="Remove Language">
                                             <md:PackIcon Kind="Close" />
@@ -621,7 +585,6 @@
                         <TextBlock
                             FontSize="14"
                             FontWeight="SemiBold"
-                            Foreground="{DynamicResource PrimaryHueLightBrush}"
                             Text="Player Attributes" />
 
                         <!--  CA/PA Row  -->
@@ -642,7 +605,6 @@
 
                             <TextBox
                                 Grid.Column="0"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="L Foot (1-20)"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
@@ -650,7 +612,6 @@
 
                             <TextBox
                                 Grid.Column="2"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="R Foot (1-20)"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
@@ -658,7 +619,6 @@
 
                             <TextBox
                                 Grid.Column="4"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="CA (1-200)"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
@@ -666,7 +626,6 @@
 
                             <TextBox
                                 Grid.Column="6"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="PA (1-200)"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
@@ -674,7 +633,6 @@
 
                             <TextBox
                                 Grid.Column="8"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Height"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
@@ -682,7 +640,6 @@
 
                             <TextBox
                                 Grid.Column="10"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Weight"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
@@ -693,7 +650,6 @@
                         <TextBlock
                             Margin="0,12,0,4"
                             FontSize="12"
-                            Foreground="{DynamicResource MaterialDesignBodyLight}"
                             Text="Physical" />
 
                         <!--  Physical Row  -->
@@ -712,7 +668,6 @@
 
                             <TextBox
                                 Grid.Column="0"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Pace"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
@@ -720,7 +675,6 @@
 
                             <TextBox
                                 Grid.Column="2"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Stamina"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
@@ -728,7 +682,6 @@
 
                             <TextBox
                                 Grid.Column="4"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Strength"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
@@ -736,7 +689,6 @@
 
                             <TextBox
                                 Grid.Column="6"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Agility"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
@@ -744,7 +696,6 @@
 
                             <TextBox
                                 Grid.Column="8"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Jumping"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
@@ -755,7 +706,6 @@
                         <TextBlock
                             Margin="0,12,0,4"
                             FontSize="12"
-                            Foreground="{DynamicResource MaterialDesignBodyLight}"
                             Text="Technical" />
 
                         <!--  Technical Row 1  -->
@@ -774,7 +724,6 @@
 
                             <TextBox
                                 Grid.Column="0"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Finishing"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
@@ -782,7 +731,6 @@
 
                             <TextBox
                                 Grid.Column="2"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Passing"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
@@ -790,7 +738,6 @@
 
                             <TextBox
                                 Grid.Column="4"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Dribbling"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
@@ -798,7 +745,6 @@
 
                             <TextBox
                                 Grid.Column="6"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Tackling"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
@@ -806,7 +752,6 @@
 
                             <TextBox
                                 Grid.Column="8"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Heading"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
@@ -827,7 +772,6 @@
 
                             <TextBox
                                 Grid.Column="0"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Crossing"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
@@ -835,7 +779,6 @@
 
                             <TextBox
                                 Grid.Column="2"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Technique"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
@@ -843,7 +786,6 @@
 
                             <TextBox
                                 Grid.Column="4"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Long Shot"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
@@ -851,7 +793,6 @@
 
                             <TextBox
                                 Grid.Column="6"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Set Pieces"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
@@ -862,7 +803,6 @@
                         <TextBlock
                             Margin="0,12,0,4"
                             FontSize="12"
-                            Foreground="{DynamicResource MaterialDesignBodyLight}"
                             Text="Mental" />
 
                         <!--  Mental Row 1  -->
@@ -881,7 +821,6 @@
 
                             <TextBox
                                 Grid.Column="0"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Creativity"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
@@ -889,7 +828,6 @@
 
                             <TextBox
                                 Grid.Column="2"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Decision"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
@@ -897,7 +835,6 @@
 
                             <TextBox
                                 Grid.Column="4"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Leadership"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
@@ -905,7 +842,6 @@
 
                             <TextBox
                                 Grid.Column="6"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Work Rate"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
@@ -913,7 +849,6 @@
 
                             <TextBox
                                 Grid.Column="8"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Positioning"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
@@ -936,7 +871,6 @@
 
                             <TextBox
                                 Grid.Column="0"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Movement"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
@@ -944,7 +878,6 @@
 
                             <TextBox
                                 Grid.Column="2"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Flair"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
@@ -952,7 +885,6 @@
 
                             <TextBox
                                 Grid.Column="4"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Unselfishness"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
@@ -960,7 +892,6 @@
 
                             <TextBox
                                 Grid.Column="6"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Consistency"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
@@ -968,7 +899,6 @@
 
                             <TextBox
                                 Grid.Column="8"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Aggression"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
@@ -989,7 +919,6 @@
 
                             <TextBox
                                 Grid.Column="0"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Big Match"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
@@ -997,7 +926,6 @@
 
                             <TextBox
                                 Grid.Column="2"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Injury Prone"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
@@ -1005,7 +933,6 @@
 
                             <TextBox
                                 Grid.Column="4"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Versatility"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
@@ -1013,7 +940,6 @@
 
                             <TextBox
                                 Grid.Column="6"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Penalty"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
@@ -1024,7 +950,6 @@
                         <TextBlock
                             Margin="0,12,0,4"
                             FontSize="12"
-                            Foreground="{DynamicResource MaterialDesignBodyLight}"
                             Text="Goalkeeper" />
 
                         <!--  Goalkeeper Row  -->
@@ -1045,7 +970,6 @@
 
                             <TextBox
                                 Grid.Column="0"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Handling"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
@@ -1053,7 +977,6 @@
 
                             <TextBox
                                 Grid.Column="2"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Kicking"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
@@ -1061,7 +984,6 @@
 
                             <TextBox
                                 Grid.Column="4"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Aerial"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
@@ -1069,7 +991,6 @@
 
                             <TextBox
                                 Grid.Column="6"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Reflexes"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
@@ -1077,7 +998,6 @@
 
                             <TextBox
                                 Grid.Column="8"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Communic."
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
@@ -1085,7 +1005,6 @@
 
                             <TextBox
                                 Grid.Column="10"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Throwing"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
@@ -1096,7 +1015,6 @@
                         <TextBlock
                             Margin="0,12,0,4"
                             FontSize="12"
-                            Foreground="{DynamicResource MaterialDesignBodyLight}"
                             Text="Position Ratings" />
 
                         <!--  Positions Row 1  -->
@@ -1118,28 +1036,24 @@
                             <Border Grid.Column="0" />
                             <TextBox
                                 Grid.Column="2"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="LB"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
                                 Text="{Binding LB}" />
                             <TextBox
                                 Grid.Column="4"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="LWB"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
                                 Text="{Binding LWB}" />
                             <TextBox
                                 Grid.Column="6"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="LM"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
                                 Text="{Binding LM}" />
                             <TextBox
                                 Grid.Column="8"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="LW"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
@@ -1165,42 +1079,36 @@
 
                             <TextBox
                                 Grid.Column="0"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="GK"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
                                 Text="{Binding GK}" />
                             <TextBox
                                 Grid.Column="2"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="CB"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
                                 Text="{Binding CB}" />
                             <TextBox
                                 Grid.Column="4"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="DM"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
                                 Text="{Binding DM}" />
                             <TextBox
                                 Grid.Column="6"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="CM"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
                                 Text="{Binding CM}" />
                             <TextBox
                                 Grid.Column="8"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="AM"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
                                 Text="{Binding AM}" />
                             <TextBox
                                 Grid.Column="10"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="CF"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
@@ -1226,28 +1134,24 @@
                             <Border Grid.Column="0" />
                             <TextBox
                                 Grid.Column="2"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="RB"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
                                 Text="{Binding RB}" />
                             <TextBox
                                 Grid.Column="4"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="RWB"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
                                 Text="{Binding RWB}" />
                             <TextBox
                                 Grid.Column="6"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="RM"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
                                 Text="{Binding RM}" />
                             <TextBox
                                 Grid.Column="8"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="RW"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
@@ -1259,7 +1163,6 @@
                         <TextBlock
                             Margin="0,12,0,4"
                             FontSize="12"
-                            Foreground="{DynamicResource MaterialDesignBodyLight}"
                             Text="Reputation &amp; Other" />
 
                         <!--  Reputation Row  -->
@@ -1274,21 +1177,18 @@
 
                             <TextBox
                                 Grid.Column="0"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Home Rep"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
                                 Text="{Binding HomeReputation}" />
                             <TextBox
                                 Grid.Column="2"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Current Rep"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
                                 Text="{Binding CurrentReputation}" />
                             <TextBox
                                 Grid.Column="4"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="World Rep"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
@@ -1307,21 +1207,18 @@
 
                             <TextBox
                                 Grid.Column="0"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Squad No."
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
                                 Text="{Binding SquadNumber}" />
                             <TextBox
                                 Grid.Column="2"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Preferred No."
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
                                 Text="{Binding PreferredSquadNumber}" />
                             <TextBox
                                 Grid.Column="4"
-                                md:HintAssist.Foreground="{StaticResource PrimaryHueLightBrush}"
                                 md:HintAssist.Hint="Int. Retirement"
                                 FontSize="14"
                                 Style="{DynamicResource MaterialDesignFilledTextBox}"
@@ -1340,13 +1237,11 @@
                             Width="48"
                             Height="48"
                             HorizontalAlignment="Center"
-                            Foreground="{DynamicResource MaterialDesignBodyLight}"
                             Kind="AccountOff"
                             Opacity="0.5" />
                         <TextBlock
                             Margin="0,8,0,0"
                             FontSize="14"
-                            Foreground="{DynamicResource MaterialDesignBodyLight}"
                             Text="No player data available"
                             TextAlignment="Center" />
                     </StackPanel>

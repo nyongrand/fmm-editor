@@ -15,7 +15,8 @@
     DataContext="{Binding Source={StaticResource Locator}, Path=Main}"
     FontFamily="{md:MaterialDesignFont}"
     FontSize="12"
-    GlowBrush="{DynamicResource PrimaryHueDarkBrush}"
+    GlowBrush="{DynamicResource AccentColorBrush}"
+    Style="{StaticResource MaterialDesignWindow}"
     TextElement.FontWeight="Medium"
     TextElement.Foreground="{DynamicResource MaterialDesignBody}"
     TitleBarHeight="20"
@@ -23,7 +24,7 @@
     WindowTitleBrush="{DynamicResource PrimaryHueDarkBrush}"
     mc:Ignorable="d">
 
-    <DockPanel Background="{DynamicResource MaterialDesignPaper}">
+    <DockPanel>
 
         <!--  Top Bar  -->
         <md:ColorZone
@@ -37,7 +38,6 @@
                     VerticalAlignment="Center"
                     FontSize="18"
                     FontWeight="Bold"
-                    Foreground="{DynamicResource MaterialDesignLightBackground}"
                     Text="FMM 26 DB Editor" />
 
                 <StackPanel
@@ -53,7 +53,6 @@
                             <md:PackIcon
                                 Width="21"
                                 Height="21"
-                                Foreground="{DynamicResource MaterialDesignLightBackground}"
                                 Kind="Menu" />
                         </md:PopupBox.ToggleContent>
 
@@ -75,14 +74,12 @@
                     Margin="0,0,0,16"
                     FontSize="32"
                     FontWeight="Bold"
-                    Foreground="{DynamicResource MaterialDesignBody}"
                     Text="FMM 26 DB Editor"
                     TextAlignment="Center" />
 
                 <TextBlock
                     Margin="0,0,0,48"
                     FontSize="16"
-                    Foreground="{DynamicResource MaterialDesignBodyLight}"
                     Text="Choose an editor to get started"
                     TextAlignment="Center" />
 
@@ -111,13 +108,11 @@
                             <Border
                                 Grid.Row="0"
                                 Padding="24,32"
-                                Background="{DynamicResource PrimaryHueMidBrush}"
                                 CornerRadius="8,8,0,0">
                                 <md:PackIcon
                                     Width="64"
                                     Height="64"
                                     HorizontalAlignment="Center"
-                                    Foreground="{DynamicResource MaterialDesignLightBackground}"
                                     Kind="Trophy" />
                             </Border>
 
@@ -133,7 +128,6 @@
                                 <TextBlock
                                     Margin="0,8,0,16"
                                     FontSize="14"
-                                    Foreground="{DynamicResource MaterialDesignBodyLight}"
                                     Text="Edit competitions and league structures"
                                     TextAlignment="Center"
                                     TextWrapping="Wrap" />
@@ -163,13 +157,11 @@
                             <Border
                                 Grid.Row="0"
                                 Padding="24,32"
-                                Background="{DynamicResource PrimaryHueMidBrush}"
                                 CornerRadius="8,8,0,0">
                                 <md:PackIcon
                                     Width="64"
                                     Height="64"
                                     HorizontalAlignment="Center"
-                                    Foreground="{DynamicResource MaterialDesignLightBackground}"
                                     Kind="TextBox" />
                             </Border>
 
@@ -185,7 +177,6 @@
                                 <TextBlock
                                     Margin="0,8,0,16"
                                     FontSize="14"
-                                    Foreground="{DynamicResource MaterialDesignBodyLight}"
                                     Text="Edit player names and name databases"
                                     TextAlignment="Center"
                                     TextWrapping="Wrap" />
@@ -215,13 +206,11 @@
                             <Border
                                 Grid.Row="0"
                                 Padding="24,32"
-                                Background="{DynamicResource PrimaryHueMidBrush}"
                                 CornerRadius="8,8,0,0">
                                 <md:PackIcon
                                     Width="64"
                                     Height="64"
                                     HorizontalAlignment="Center"
-                                    Foreground="{DynamicResource MaterialDesignLightBackground}"
                                     Kind="AccountGroup" />
                             </Border>
 
@@ -237,7 +226,6 @@
                                 <TextBlock
                                     Margin="0,8,0,16"
                                     FontSize="14"
-                                    Foreground="{DynamicResource MaterialDesignBodyLight}"
                                     Text="Edit players, staff and their attributes"
                                     TextAlignment="Center"
                                     TextWrapping="Wrap" />
@@ -255,7 +243,6 @@
                 <TextBlock
                     Margin="0,48,0,0"
                     FontSize="12"
-                    Foreground="{DynamicResource MaterialDesignBodyLight}"
                     Text="Version 2.26.0"
                     TextAlignment="Center" />
             </StackPanel>

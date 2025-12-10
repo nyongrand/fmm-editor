@@ -14,17 +14,16 @@
     Height="600"
     mg:DialogServiceViews.IsRegistered="True"
     Background="{DynamicResource MaterialDesignPaper}"
-    BorderBrush="{DynamicResource PrimaryHueMidBrush}"
     BorderThickness="1"
     DataContext="{Binding Source={StaticResource Locator}, Path=Competitions}"
     FontFamily="{md:MaterialDesignFont}"
     FontSize="12"
     GlowBrush="{DynamicResource PrimaryHueDarkBrush}"
+    Style="{StaticResource MaterialDesignWindow}"
     TextElement.FontWeight="Medium"
     TextElement.Foreground="{DynamicResource MaterialDesignBody}"
     TitleBarHeight="20"
     WindowStartupLocation="CenterScreen"
-    WindowTitleBrush="{DynamicResource PrimaryHueDarkBrush}"
     mc:Ignorable="d">
 
     <Window.Resources>
@@ -40,11 +39,6 @@
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="Padding" Value="0" />
         </Style>
-
-        <!--  Light pink background for women competitions  -->
-        <!--
-        <SolidColorBrush x:Key="MenCompetitionRowBrush" Color="#99E3F2FD" />
-        <SolidColorBrush x:Key="WomenCompetitionRowBrush" Color="#99FCE4EC" />-->
     </Window.Resources>
 
     <Grid>
@@ -72,7 +66,6 @@
                             <TextBlock
                                 Margin="0,8,0,0"
                                 FontSize="18"
-                                Foreground="{DynamicResource PrimaryHueDarkBrush}"
                                 Text="{Binding SelectedCompetition.FullName}"
                                 TextAlignment="Center" />
 
@@ -171,7 +164,6 @@
 
                             <TextBlock
                                 FontSize="18"
-                                Foreground="{DynamicResource PrimaryHueDarkBrush}"
                                 Text="{Binding SelectedClub.FullName}"
                                 TextAlignment="Center" />
 
@@ -335,7 +327,6 @@
                             VerticalAlignment="Center"
                             FontSize="18"
                             FontWeight="Bold"
-                            Foreground="{DynamicResource MaterialDesignLightBackground}"
                             Text="FMM 26 DB Editor" />
 
                         <!--  Toolbar Menu  -->
@@ -353,7 +344,6 @@
                                     <md:PackIcon
                                         Width="21"
                                         Height="21"
-                                        Foreground="{DynamicResource MaterialDesignLightBackground}"
                                         Kind="Menu" />
                                 </md:PopupBox.ToggleContent>
 
@@ -441,7 +431,6 @@
                                 Height="80"
                                 Margin="0,0,0,16"
                                 HorizontalAlignment="Center"
-                                Foreground="{DynamicResource PrimaryHueMidBrush}"
                                 Kind="DatabaseOff"
                                 Opacity="0.5" />
 
@@ -449,14 +438,12 @@
                                 Margin="0,0,0,8"
                                 FontSize="24"
                                 FontWeight="Bold"
-                                Foreground="{DynamicResource MaterialDesignBody}"
                                 Text="No Database Loaded"
                                 TextAlignment="Center" />
 
                             <TextBlock
                                 Margin="0,0,0,16"
                                 FontSize="16"
-                                Foreground="{DynamicResource MaterialDesignBodyLight}"
                                 Text="Get started by loading an FM26 database"
                                 TextAlignment="Center"
                                 TextWrapping="Wrap" />
@@ -467,7 +454,6 @@
                                         Margin="0,0,0,16"
                                         FontSize="18"
                                         FontWeight="SemiBold"
-                                        Foreground="{DynamicResource PrimaryHueLightBrush}"
                                         Text="Instructions"
                                         TextAlignment="Left" />
 
@@ -476,7 +462,6 @@
                                             Width="24"
                                             FontSize="16"
                                             FontWeight="Bold"
-                                            Foreground="{DynamicResource PrimaryHueLightBrush}"
                                             Text="1."
                                             TextAlignment="Right" />
                                         <TextBlock
@@ -491,7 +476,6 @@
                                             Width="24"
                                             FontSize="16"
                                             FontWeight="Bold"
-                                            Foreground="{DynamicResource PrimaryHueLightBrush}"
                                             Text="2."
                                             TextAlignment="Right" />
                                         <TextBlock
@@ -506,7 +490,6 @@
                                             Width="24"
                                             FontSize="16"
                                             FontWeight="Bold"
-                                            Foreground="{DynamicResource PrimaryHueLightBrush}"
                                             Text="3."
                                             TextAlignment="Right" />
                                         <TextBlock
@@ -524,7 +507,6 @@
                                             Width="24"
                                             FontSize="16"
                                             FontWeight="Bold"
-                                            Foreground="{DynamicResource PrimaryHueLightBrush}"
                                             Text="4."
                                             TextAlignment="Right" />
                                         <TextBlock
@@ -706,10 +688,7 @@
                                     <MenuItem.Header>
                                         <TextBlock>
                                             <Run Text="Add a club to" />
-                                            <Run
-                                                FontWeight="SemiBold"
-                                                Foreground="{DynamicResource PrimaryHueLightBrush}"
-                                                Text="{Binding SelectedCompetition.ShortName}" />
+                                            <Run FontWeight="SemiBold" Text="{Binding SelectedCompetition.ShortName}" />
                                         </TextBlock>
                                     </MenuItem.Header>
                                 </MenuItem>
@@ -718,15 +697,9 @@
                                     <MenuItem.Header>
                                         <TextBlock>
                                             <Run Text="Remove" />
-                                            <Run
-                                                FontWeight="SemiBold"
-                                                Foreground="{DynamicResource PrimaryHueLightBrush}"
-                                                Text="{Binding SelectedClub.ShortName}" />
+                                            <Run FontWeight="SemiBold" Text="{Binding SelectedClub.ShortName}" />
                                             <Run Text="from" />
-                                            <Run
-                                                FontWeight="SemiBold"
-                                                Foreground="{DynamicResource PrimaryHueLightBrush}"
-                                                Text="{Binding SelectedCompetition.ShortName}" />
+                                            <Run FontWeight="SemiBold" Text="{Binding SelectedCompetition.ShortName}" />
                                         </TextBlock>
                                     </MenuItem.Header>
                                 </MenuItem>
@@ -737,10 +710,7 @@
                                     <MenuItem.Header>
                                         <TextBlock>
                                             <Run Text="Switch" />
-                                            <Run
-                                                FontWeight="SemiBold"
-                                                Foreground="{DynamicResource PrimaryHueLightBrush}"
-                                                Text="{Binding SelectedClub.ShortName}" />
+                                            <Run FontWeight="SemiBold" Text="{Binding SelectedClub.ShortName}" />
                                             <Run Text="with..." />
                                         </TextBlock>
                                     </MenuItem.Header>
@@ -887,7 +857,6 @@
                                 Height="64"
                                 Margin="0,0,0,16"
                                 HorizontalAlignment="Center"
-                                Foreground="{DynamicResource PrimaryHueMidBrush}"
                                 Kind="SoccerField"
                                 Opacity="0.3" />
 
@@ -895,14 +864,12 @@
                                 Margin="0,0,0,8"
                                 FontSize="20"
                                 FontWeight="SemiBold"
-                                Foreground="{DynamicResource MaterialDesignBody}"
                                 Text="No Clubs in Competition"
                                 TextAlignment="Center" />
 
                             <TextBlock
                                 Margin="0,0,0,16"
                                 FontSize="14"
-                                Foreground="{DynamicResource MaterialDesignBodyLight}"
                                 TextAlignment="Center"
                                 TextWrapping="Wrap">
                                 <Run Text="The selected competition" />
@@ -910,10 +877,7 @@
                                 <Run Text="does not have any clubs assigned to it." />
                             </TextBlock>
 
-                            <Button
-                                HorizontalAlignment="Center"
-                                Command="{Binding MoveClub}"
-                                Style="{StaticResource MaterialDesignOutlinedDarkButton}">
+                            <!--<Button HorizontalAlignment="Center" Command="{Binding MoveClub}">
                                 <StackPanel Orientation="Horizontal">
                                     <md:PackIcon
                                         Width="18"
@@ -926,7 +890,7 @@
                                         FontSize="14"
                                         Text="ADD CLUB" />
                                 </StackPanel>
-                            </Button>
+                            </Button>-->
 
                         </StackPanel>
                     </Grid>

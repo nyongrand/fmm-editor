@@ -20,6 +20,7 @@
     FontFamily="{md:MaterialDesignFont}"
     FontSize="12"
     GlowBrush="{DynamicResource PrimaryHueDarkBrush}"
+    Style="{StaticResource MaterialDesignWindow}"
     TextElement.FontWeight="Medium"
     TextElement.Foreground="{DynamicResource MaterialDesignBody}"
     TitleBarHeight="20"
@@ -117,7 +118,6 @@
                             VerticalAlignment="Center"
                             FontSize="18"
                             FontWeight="Bold"
-                            Foreground="{DynamicResource MaterialDesignLightBackground}"
                             Text="FMM 26 DB Editor - People" />
 
                         <!--  Toolbar Menu  -->
@@ -135,7 +135,6 @@
                                     <md:PackIcon
                                         Width="21"
                                         Height="21"
-                                        Foreground="{DynamicResource MaterialDesignLightBackground}"
                                         Kind="Menu" />
                                 </md:PopupBox.ToggleContent>
 
@@ -189,10 +188,6 @@
                     Height="24"
                     DockPanel.Dock="Bottom"
                     FontSize="12">
-                    <StatusBar.Background>
-                        <SolidColorBrush Color="{DynamicResource MahApps.Colors.Flyout}" />
-                    </StatusBar.Background>
-
                     <StatusBarItem>
                         <TextBlock Text="{Binding FolderPath}" />
                     </StatusBarItem>
@@ -219,7 +214,6 @@
                                 Height="80"
                                 Margin="0,0,0,16"
                                 HorizontalAlignment="Center"
-                                Foreground="{DynamicResource PrimaryHueMidBrush}"
                                 Kind="DatabaseOff"
                                 Opacity="0.5" />
 
@@ -227,14 +221,12 @@
                                 Margin="0,0,0,8"
                                 FontSize="24"
                                 FontWeight="Bold"
-                                Foreground="{DynamicResource MaterialDesignBody}"
                                 Text="No Database Loaded"
                                 TextAlignment="Center" />
 
                             <TextBlock
                                 Margin="0,0,0,16"
                                 FontSize="16"
-                                Foreground="{DynamicResource MaterialDesignBodyLight}"
                                 Text="Get started by loading an FM26 database"
                                 TextAlignment="Center"
                                 TextWrapping="Wrap" />
@@ -245,7 +237,6 @@
                                         Margin="0,0,0,16"
                                         FontSize="18"
                                         FontWeight="SemiBold"
-                                        Foreground="{DynamicResource PrimaryHueLightBrush}"
                                         Text="Instructions"
                                         TextAlignment="Left" />
 
@@ -254,7 +245,6 @@
                                             Width="24"
                                             FontSize="16"
                                             FontWeight="Bold"
-                                            Foreground="{DynamicResource PrimaryHueLightBrush}"
                                             Text="1."
                                             TextAlignment="Right" />
                                         <TextBlock
@@ -269,7 +259,6 @@
                                             Width="24"
                                             FontSize="16"
                                             FontWeight="Bold"
-                                            Foreground="{DynamicResource PrimaryHueLightBrush}"
                                             Text="2."
                                             TextAlignment="Right" />
                                         <TextBlock
@@ -284,7 +273,6 @@
                                             Width="24"
                                             FontSize="16"
                                             FontWeight="Bold"
-                                            Foreground="{DynamicResource PrimaryHueLightBrush}"
                                             Text="3."
                                             TextAlignment="Right" />
                                         <TextBlock
@@ -302,7 +290,6 @@
                                             Width="24"
                                             FontSize="16"
                                             FontWeight="Bold"
-                                            Foreground="{DynamicResource PrimaryHueLightBrush}"
                                             Text="4."
                                             TextAlignment="Right" />
                                         <TextBlock
@@ -663,11 +650,11 @@
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Ada"
                                 IsReadOnly="True">
-                            <DataGridTextColumn.HeaderStyle>
-                                <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
-                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                </Style>
-                            </DataGridTextColumn.HeaderStyle>
+                                <DataGridTextColumn.HeaderStyle>
+                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                    </Style>
+                                </DataGridTextColumn.HeaderStyle>
                             </DataGridTextColumn>
 
                             <DataGridTextColumn
@@ -678,11 +665,11 @@
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Amb"
                                 IsReadOnly="True">
-                            <DataGridTextColumn.HeaderStyle>
-                                <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
-                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                </Style>
-                            </DataGridTextColumn.HeaderStyle>
+                                <DataGridTextColumn.HeaderStyle>
+                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                    </Style>
+                                </DataGridTextColumn.HeaderStyle>
                             </DataGridTextColumn>
 
                             <DataGridTextColumn
@@ -693,11 +680,11 @@
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Con"
                                 IsReadOnly="True">
-                            <DataGridTextColumn.HeaderStyle>
-                                <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
-                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                </Style>
-                            </DataGridTextColumn.HeaderStyle>
+                                <DataGridTextColumn.HeaderStyle>
+                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                    </Style>
+                                </DataGridTextColumn.HeaderStyle>
                             </DataGridTextColumn>
 
                             <DataGridTextColumn
@@ -708,11 +695,11 @@
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Loy"
                                 IsReadOnly="True">
-                            <DataGridTextColumn.HeaderStyle>
-                                <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
-                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                </Style>
-                            </DataGridTextColumn.HeaderStyle>
+                                <DataGridTextColumn.HeaderStyle>
+                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                    </Style>
+                                </DataGridTextColumn.HeaderStyle>
                             </DataGridTextColumn>
 
                             <DataGridTextColumn
@@ -723,11 +710,11 @@
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Pre"
                                 IsReadOnly="True">
-                            <DataGridTextColumn.HeaderStyle>
-                                <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
-                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                </Style>
-                            </DataGridTextColumn.HeaderStyle>
+                                <DataGridTextColumn.HeaderStyle>
+                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                    </Style>
+                                </DataGridTextColumn.HeaderStyle>
                             </DataGridTextColumn>
 
                             <DataGridTextColumn
@@ -738,11 +725,11 @@
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Pro"
                                 IsReadOnly="True">
-                            <DataGridTextColumn.HeaderStyle>
-                                <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
-                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                </Style>
-                            </DataGridTextColumn.HeaderStyle>
+                                <DataGridTextColumn.HeaderStyle>
+                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                    </Style>
+                                </DataGridTextColumn.HeaderStyle>
                             </DataGridTextColumn>
 
                             <DataGridTextColumn
@@ -753,11 +740,11 @@
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Spo"
                                 IsReadOnly="True">
-                            <DataGridTextColumn.HeaderStyle>
-                                <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
-                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                </Style>
-                            </DataGridTextColumn.HeaderStyle>
+                                <DataGridTextColumn.HeaderStyle>
+                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                    </Style>
+                                </DataGridTextColumn.HeaderStyle>
                             </DataGridTextColumn>
 
                             <DataGridTextColumn
@@ -768,11 +755,11 @@
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Tem"
                                 IsReadOnly="True">
-                            <DataGridTextColumn.HeaderStyle>
-                                <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
-                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                </Style>
-                            </DataGridTextColumn.HeaderStyle>
+                                <DataGridTextColumn.HeaderStyle>
+                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                    </Style>
+                                </DataGridTextColumn.HeaderStyle>
                             </DataGridTextColumn>
 
                         </DataGrid.Columns>
