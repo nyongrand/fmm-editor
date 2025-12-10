@@ -299,6 +299,7 @@
                                     VerticalContentAlignment="Center"
                                     md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
                                     md:HintAssist.Hint="Search Competition Name / Nation"
+                                    md:HintAssist.HintOpacity="0.2"
                                     md:TextFieldAssist.DecorationVisibility="Hidden"
                                     BorderThickness="0"
                                     FontSize="16"
