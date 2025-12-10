@@ -316,14 +316,40 @@
                 <StatusBar
                     Height="24"
                     DockPanel.Dock="Bottom"
-                    FontSize="12">
+                    FontSize="10">
 
                     <StatusBarItem>
-                        <TextBlock Text="{Binding FolderPath}" />
+                        <TextBlock>
+                            <Run Text="Folder: " />
+                            <Run Text="{Binding FolderPath, Mode=OneWay}" />
+                        </TextBlock>
                     </StatusBarItem>
 
+                    <Separator />
+
                     <StatusBarItem>
-                        <TextBlock Text="{Binding ClubsInSelectedCompetition.Count}" />
+                        <TextBlock>
+                            <Run Text="First Name:" />
+                            <Run Text="{Binding FirstNames.Count, Mode=OneWay}" />
+                        </TextBlock>
+                    </StatusBarItem>
+
+                    <Separator />
+
+                    <StatusBarItem>
+                        <TextBlock>
+                            <Run Text="Second Name:" />
+                            <Run Text="{Binding SecondNames.Count, Mode=OneWay}" />
+                        </TextBlock>
+                    </StatusBarItem>
+
+                    <Separator />
+
+                    <StatusBarItem>
+                        <TextBlock>
+                            <Run Text="Common Name:" />
+                            <Run Text="{Binding CommonNames.Count, Mode=OneWay}" />
+                        </TextBlock>
                     </StatusBarItem>
                 </StatusBar>
 
