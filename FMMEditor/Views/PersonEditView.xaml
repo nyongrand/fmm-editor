@@ -496,6 +496,7 @@
                                             Padding="0"
                                             Command="{Binding DataContext.RemoveDefaultLanguageCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                             CommandParameter="{Binding}"
+                                            Foreground="{DynamicResource MaterialDesignValidationErrorBrush}"
                                             Style="{DynamicResource MaterialDesignIconButton}"
                                             ToolTip="Remove Language">
                                             <md:PackIcon Kind="Close" />
@@ -566,7 +567,7 @@
                                             CommandParameter="{Binding}"
                                             Style="{DynamicResource MaterialDesignIconButton}"
                                             ToolTip="Remove Language">
-                                            <md:PackIcon Kind="Close" />
+                                            <md:PackIcon Foreground="{DynamicResource MaterialDesignValidationErrorBrush}" Kind="Close" />
                                         </Button>
                                     </Grid>
                                 </DataTemplate>
