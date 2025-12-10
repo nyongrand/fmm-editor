@@ -10,6 +10,7 @@ namespace FMMEditor.Models
     {
         public People Person { get; set; } = person;
         public Player? Player { get; set; }
+        public int Id => Person.Id;
         public int Uid => Person.Uid;
         public string FirstName { get; set; } = "";
         public string LastName { get; set; } = "";
