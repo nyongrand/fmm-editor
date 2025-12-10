@@ -35,6 +35,7 @@
         <converter:DateConverter x:Key="DateConverter" />
         <converter:PersonTypeConverter x:Key="PersonTypeConverter" />
         <converter:HexConverter x:Key="HexConverter" />
+        <converter:AgeConverter x:Key="AgeConverter" />
 
         <Style
             x:Key="centerHeaderColumnStyle"
@@ -363,7 +364,15 @@
 
                         <DataGrid.Columns>
 
-                            </DataGridTextColumn>
+                            <!--<DataGridTextColumn
+                                Width="60"
+                                MinWidth="60"
+                                MaxWidth="110"
+                                Binding="{Binding Id}"
+                                CanUserReorder="False"
+                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                Header="ID"
+                                IsReadOnly="True" />-->
 
                             <DataGridTextColumn
                                 Width="60"
@@ -404,6 +413,39 @@
                                     </Style>
                                 </DataGridTextColumn.HeaderStyle>
                             </DataGridTextColumn>
+
+                            <DataGridTextColumn
+                                Width="60"
+                                MinWidth="60"
+                                Binding="{Binding Person.DateOfBirth, Converter={StaticResource AgeConverter}}"
+                                CanUserReorder="False"
+                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                Header="Age"
+                                IsReadOnly="True">
+                                <DataGridTextColumn.HeaderStyle>
+                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                    </Style>
+                                </DataGridTextColumn.HeaderStyle>
+                            </DataGridTextColumn>
+
+                            <!--<DataGridTextColumn
+                                Width="60"
+                                MinWidth="60"
+                                MaxWidth="110"
+                                Binding="{Binding Player.CA}"
+                                CanUserReorder="False"
+                                Header="CA"
+                                IsReadOnly="True" />
+
+                            <DataGridTextColumn
+                                Width="60"
+                                MinWidth="60"
+                                MaxWidth="110"
+                                Binding="{Binding Player.PA}"
+                                CanUserReorder="False"
+                                Header="PA"
+                                IsReadOnly="True" />-->
 
                             <DataGridTextColumn
                                 Width="120"
