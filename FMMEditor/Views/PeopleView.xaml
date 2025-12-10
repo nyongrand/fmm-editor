@@ -83,6 +83,7 @@
                                     Padding="0,0,8,0"
                                     VerticalAlignment="Stretch"
                                     VerticalContentAlignment="Center"
+                                    md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
                                     md:HintAssist.Hint="Search Name / Nation / Club"
                                     md:HintAssist.HintOpacity="0.2"
                                     md:TextFieldAssist.DecorationVisibility="Hidden"
@@ -361,6 +362,8 @@
                         </DataGrid.Resources>
 
                         <DataGrid.Columns>
+
+                            </DataGridTextColumn>
 
                             <DataGridTextColumn
                                 Width="60"

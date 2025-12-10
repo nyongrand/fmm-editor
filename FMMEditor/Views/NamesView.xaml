@@ -79,6 +79,7 @@
 
                             <controls:FilterableComboBox
                                 Margin="0,8,0,0"
+                                md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
                                 md:HintAssist.Hint="Country of origin"
                                 DisplayMemberPath="Name"
                                 FontSize="16"
@@ -99,6 +100,7 @@
 
                             <ComboBox
                                 Margin="0,8,0,0"
+                                md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
                                 md:HintAssist.Hint="Gender"
                                 FontSize="16"
                                 SelectedIndex="{Binding SelectedGender}"
@@ -109,6 +111,7 @@
 
                             <TextBox
                                 Margin="0,8,0,0"
+                                md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
                                 md:HintAssist.HelperText="Unknown type, valid value are 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10"
                                 md:HintAssist.Hint="Unknown"
                                 FontSize="18"
@@ -118,6 +121,7 @@
                             <!--  TextBox for Adding names (multiline) - shown when SelectedId == -1  -->
                             <TextBox
                                 Margin="0,24,0,0"
+                                md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
                                 md:HintAssist.HelperText="Names to add, one name per line"
                                 md:HintAssist.Hint="Names"
                                 AcceptsReturn="True"
@@ -131,6 +135,7 @@
                             <!--  TextBox for Editing name (single line) - shown when SelectedId != -1  -->
                             <TextBox
                                 Margin="0,24,0,0"
+                                md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
                                 md:HintAssist.HelperText="Name to edit"
                                 md:HintAssist.Hint="Name"
                                 AcceptsReturn="False"
@@ -206,6 +211,7 @@
                                     Padding="0,0,8,0"
                                     VerticalAlignment="Stretch"
                                     VerticalContentAlignment="Center"
+                                    md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
                                     md:HintAssist.Hint="Search Competition Name / Nation"
                                     md:TextFieldAssist.DecorationVisibility="Hidden"
                                     BorderThickness="0"

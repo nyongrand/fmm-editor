@@ -71,6 +71,7 @@
 
                             <controls:FilterableComboBox
                                 Margin="0,8,0,0"
+                                md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
                                 md:HintAssist.Hint="Filter club by nation"
                                 DisplayMemberPath="Name"
                                 FontSize="16"
@@ -90,6 +91,7 @@
 
                             <controls:FilterableComboBox
                                 Margin="0,8,0,0"
+                                md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
                                 md:HintAssist.Hint="Club to switch"
                                 FontSize="16"
                                 IsEditable="True"
@@ -175,6 +177,7 @@
 
                             <controls:FilterableComboBox
                                 Margin="0,8,0,0"
+                                md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
                                 md:HintAssist.Hint="Filter club by nation"
                                 DisplayMemberPath="Name"
                                 FontSize="16"
@@ -194,6 +197,7 @@
 
                             <controls:FilterableComboBox
                                 Margin="0,8,0,0"
+                                md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
                                 md:HintAssist.Hint="Club to switch"
                                 FontSize="16"
                                 IsEditable="True"
@@ -293,6 +297,7 @@
                                     Padding="0,0,8,0"
                                     VerticalAlignment="Stretch"
                                     VerticalContentAlignment="Center"
+                                    md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
                                     md:HintAssist.Hint="Search Competition Name / Nation"
                                     md:TextFieldAssist.DecorationVisibility="Hidden"
                                     BorderThickness="0"
