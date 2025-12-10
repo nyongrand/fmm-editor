@@ -9,5 +9,6 @@ namespace FMMEditor
         public CompetitionsViewModel Competitions => Ioc.Default.GetRequiredService<CompetitionsViewModel>();
         public NamesViewModel Names => Ioc.Default.GetRequiredService<NamesViewModel>();
         public PeopleViewModel People => Ioc.Default.GetRequiredService<PeopleViewModel>();
+        public ClubsViewModel Clubs => Ioc.Default.GetRequiredService<ClubsViewModel>();
     }
 }

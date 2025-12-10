@@ -1,0 +1,645 @@
+<ma:MetroWindow
+    x:Class="FMMEditor.Views.ClubsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converter="clr-namespace:FMMEditor.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ma="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mg="https://github.com/fantasticfiasco/mvvm-dialogs"
+    Width="1280"
+    Height="600"
+    mg:DialogServiceViews.IsRegistered="True"
+    Background="{DynamicResource MaterialDesignPaper}"
+    BorderBrush="{DynamicResource PrimaryHueMidBrush}"
+    BorderThickness="1"
+    DataContext="{Binding Source={StaticResource Locator}, Path=Clubs}"
+    FontFamily="{md:MaterialDesignFont}"
+    FontSize="12"
+    GlowBrush="{DynamicResource PrimaryHueDarkBrush}"
+    Style="{StaticResource MaterialDesignWindow}"
+    TextElement.FontWeight="Medium"
+    TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+    TitleBarHeight="20"
+    WindowStartupLocation="CenterScreen"
+    WindowTitleBrush="{DynamicResource PrimaryHueDarkBrush}"
+    mc:Ignorable="d">
+
+    <Window.LayoutTransform>
+        <ScaleTransform CenterX=".5" CenterY=".5" ScaleX=".92" ScaleY=".92" />
+    </Window.LayoutTransform>
+
+    <Window.Resources>
+        <converter:VisibilityConverter x:Key="Visibility" />
+        <converter:BooleanConverter x:Key="Boolean" />
+        <converter:HexConverter x:Key="HexConverter" />
+
+        <Style
+            x:Key="centerHeaderColumnStyle"
+            BasedOn="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+            TargetType="{x:Type TextBlock}">
+            <Setter Property="TextAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Padding" Value="0" />
+        </Style>
+    </Window.Resources>
+
+    <md:DialogHost Identifier="ClubsDialogHost">
+        <Grid>
+            <DockPanel
+                Margin="0,0,0,0"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Background="{DynamicResource MaterialDesignPaper}">
+
+                <!--  Title Bar  -->
+                <md:ColorZone
+                    Height="56"
+                    DockPanel.Dock="Top"
+                    Mode="PrimaryMid">
+
+                    <Grid HorizontalAlignment="Stretch">
+
+                        <!--  Search Box  -->
+                        <md:ColorZone
+                            Margin="10,8,0,8"
+                            Padding="10,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Stretch"
+                            Panel.ZIndex="1"
+                            md:ElevationAssist.Elevation="Dp0"
+                            CornerRadius="2"
+                            Mode="Standard">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBox
+                                    Width="335"
+                                    Padding="0,0,8,0"
+                                    VerticalAlignment="Stretch"
+                                    VerticalContentAlignment="Center"
+                                    md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
+                                    md:HintAssist.Hint="Search Club / Nation / Competition"
+                                    md:HintAssist.HintOpacity="0.2"
+                                    md:TextFieldAssist.DecorationVisibility="Hidden"
+                                    BorderThickness="0"
+                                    FontSize="16"
+                                    IsEnabled="{Binding IsDatabaseLoaded}"
+                                    MaxLines="1"
+                                    TabIndex="0"
+                                    Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}" />
+
+                                <Button
+                                    Grid.Column="1"
+                                    IsEnabled="False"
+                                    Style="{StaticResource MaterialDesignToolButton}"
+                                    Visibility="{Binding SearchQuery, Converter={StaticResource Visibility}, ConverterParameter=TextInvert}">
+                                    <md:PackIcon Kind="Search" />
+                                </Button>
+
+                                <Button
+                                    Grid.Column="1"
+                                    Command="{Binding ClearSearch}"
+                                    Style="{StaticResource MaterialDesignToolButton}"
+                                    Visibility="{Binding SearchQuery, Converter={StaticResource Visibility}, ConverterParameter=Text}">
+                                    <md:PackIcon Kind="Close" Opacity=".56" />
+                                </Button>
+                            </Grid>
+                        </md:ColorZone>
+
+                        <TextBlock
+                            Grid.Column="1"
+                            Margin="5"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="18"
+                            FontWeight="Bold"
+                            Text="FMM 26 DB Editor - Clubs" />
+
+                        <!--  Toolbar Menu  -->
+                        <StackPanel
+                            Margin="0,0,16,0"
+                            HorizontalAlignment="Right"
+                            Orientation="Horizontal">
+
+                            <md:PopupBox
+                                Margin="4"
+                                Padding="0"
+                                PlacementMode="BottomAndAlignRightEdges"
+                                StaysOpen="False">
+                                <md:PopupBox.ToggleContent>
+                                    <md:PackIcon
+                                        Width="21"
+                                        Height="21"
+                                        Kind="Menu" />
+                                </md:PopupBox.ToggleContent>
+
+                                <StackPanel>
+                                    <Button Click="Donate_Click" FontSize="16">
+                                        <StackPanel Orientation="Horizontal">
+                                            <md:PackIcon
+                                                Width="18"
+                                                Height="18"
+                                                Margin="0,0,8,0"
+                                                VerticalAlignment="Center"
+                                                Kind="CoffeeOutline" />
+                                            <TextBlock VerticalAlignment="Center" Text="Support me" />
+                                        </StackPanel>
+                                    </Button>
+
+                                    <Separator />
+
+                                    <Button
+                                        Command="{Binding Load}"
+                                        Content="Load Database"
+                                        FontSize="16" />
+
+                                    <Button
+                                        Command="{Binding Save}"
+                                        Content="Save"
+                                        FontSize="16"
+                                        IsEnabled="{Binding IsDatabaseLoaded}" />
+
+                                    <Button
+                                        Command="{Binding SaveAs}"
+                                        Content="Save As..."
+                                        FontSize="16"
+                                        IsEnabled="{Binding IsDatabaseLoaded}" />
+
+                                    <Separator />
+
+                                    <Button
+                                        Click="Exit_Click"
+                                        Content="Exit"
+                                        FontSize="16" />
+                                </StackPanel>
+                            </md:PopupBox>
+                        </StackPanel>
+
+                    </Grid>
+                </md:ColorZone>
+
+                <!--  Status Bar  -->
+                <StatusBar
+                    Height="24"
+                    DockPanel.Dock="Bottom"
+                    FontSize="10">
+
+                    <StatusBarItem>
+                        <TextBlock>
+                            <Run Text="Folder: " />
+                            <Run Text="{Binding FolderPath, Mode=OneWay}" />
+                        </TextBlock>
+                    </StatusBarItem>
+
+                    <Separator />
+
+                    <StatusBarItem>
+                        <TextBlock>
+                            <Run Text="Total Clubs:" />
+                            <Run Text="{Binding ClubsList.Count, Mode=OneWay}" />
+                        </TextBlock>
+                    </StatusBarItem>
+                </StatusBar>
+
+                <!--  Main Content  -->
+                <Grid>
+                    <!--  Empty State View  -->
+                    <Grid Background="{DynamicResource MaterialDesignPaper}" Visibility="{Binding IsDatabaseLoaded, Converter={StaticResource Visibility}, ConverterParameter=Inverter}">
+                        <StackPanel
+                            MaxWidth="600"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center">
+
+                            <md:PackIcon
+                                Width="80"
+                                Height="80"
+                                Margin="0,0,0,16"
+                                HorizontalAlignment="Center"
+                                Kind="DatabaseOff"
+                                Opacity="0.5" />
+
+                            <TextBlock
+                                Margin="0,0,0,8"
+                                FontSize="24"
+                                FontWeight="Bold"
+                                Text="No Database Loaded"
+                                TextAlignment="Center" />
+
+                            <TextBlock
+                                Margin="0,0,0,16"
+                                FontSize="16"
+                                Text="Get started by loading an FM26 database"
+                                TextAlignment="Center"
+                                TextWrapping="Wrap" />
+
+                            <md:Card Padding="24" md:ElevationAssist.Elevation="Dp2">
+                                <StackPanel>
+                                    <TextBlock
+                                        Margin="0,0,0,16"
+                                        FontSize="18"
+                                        FontWeight="SemiBold"
+                                        Text="Instructions"
+                                        TextAlignment="Left" />
+
+                                    <StackPanel Margin="0,0,0,12" Orientation="Horizontal">
+                                        <TextBlock
+                                            Width="24"
+                                            FontSize="16"
+                                            FontWeight="Bold"
+                                            Text="1."
+                                            TextAlignment="Right" />
+                                        <TextBlock
+                                            Margin="12,0,0,0"
+                                            FontSize="14"
+                                            Text="Download the FM26 database files"
+                                            TextWrapping="Wrap" />
+                                    </StackPanel>
+
+                                    <StackPanel Margin="0,0,0,12" Orientation="Horizontal">
+                                        <TextBlock
+                                            Width="24"
+                                            FontSize="16"
+                                            FontWeight="Bold"
+                                            Text="2."
+                                            TextAlignment="Right" />
+                                        <TextBlock
+                                            Margin="12,0,0,0"
+                                            FontSize="14"
+                                            Text="Extract the database files to a folder on your computer"
+                                            TextWrapping="Wrap" />
+                                    </StackPanel>
+
+                                    <StackPanel Margin="0,0,0,12" Orientation="Horizontal">
+                                        <TextBlock
+                                            Width="24"
+                                            FontSize="16"
+                                            FontWeight="Bold"
+                                            Text="3."
+                                            TextAlignment="Right" />
+                                        <TextBlock
+                                            Margin="12,0,0,0"
+                                            FontSize="14"
+                                            TextWrapping="Wrap">
+                                            <Run Text="Click the" />
+                                            <Run FontWeight="SemiBold" Text="menu icon (?)" />
+                                            <Run Text="in the top right corner" />
+                                        </TextBlock>
+                                    </StackPanel>
+
+                                    <StackPanel Margin="0,0,0,0" Orientation="Horizontal">
+                                        <TextBlock
+                                            Width="24"
+                                            FontSize="16"
+                                            FontWeight="Bold"
+                                            Text="4."
+                                            TextAlignment="Right" />
+                                        <TextBlock
+                                            Margin="12,0,0,0"
+                                            FontSize="14"
+                                            TextWrapping="Wrap">
+                                            <Run Text="Select" />
+                                            <Run FontWeight="SemiBold" Text="'Load Database'" />
+                                            <Run Text="and browse to your extracted folder" />
+                                        </TextBlock>
+                                    </StackPanel>
+                                </StackPanel>
+                            </md:Card>
+
+                            <Button
+                                Margin="0,32,0,0"
+                                HorizontalAlignment="Center"
+                                Command="{Binding Load}"
+                                Style="{StaticResource MaterialDesignFlatMidBgButton}">
+                                <StackPanel Orientation="Horizontal">
+                                    <md:PackIcon
+                                        Width="20"
+                                        Height="20"
+                                        Margin="0,0,8,0"
+                                        VerticalAlignment="Center"
+                                        Kind="FolderOpen" />
+                                    <TextBlock
+                                        VerticalAlignment="Center"
+                                        FontSize="14"
+                                        Text="LOAD DATABASE" />
+                                </StackPanel>
+                            </Button>
+
+                        </StackPanel>
+                    </Grid>
+
+                    <!--  Data Grid (shown when database is loaded)  -->
+                    <DataGrid
+                        md:DataGridAssist.SelectedCellBorderBrush="Transparent"
+                        AutoGenerateColumns="False"
+                        BorderThickness="1"
+                        CanUserAddRows="False"
+                        CanUserReorderColumns="False"
+                        CanUserResizeRows="False"
+                        ContextMenu="{DynamicResource menu}"
+                        EnableRowVirtualization="True"
+                        FontSize="12.5"
+                        GridLinesVisibility="All"
+                        IsSynchronizedWithCurrentItem="True"
+                        ItemsSource="{Binding ClubsList}"
+                        RowHeight="33"
+                        ScrollViewer.CanContentScroll="True"
+                        ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                        SelectedItem="{Binding SelectedClub}"
+                        SelectionMode="Single"
+                        SelectionUnit="FullRow"
+                        Visibility="{Binding IsDatabaseLoaded, Converter={StaticResource Visibility}, ConverterParameter=Boolean}">
+
+                        <DataGrid.Resources>
+                            <ContextMenu x:Key="menu">
+                                <MenuItem Command="{Binding CopyUidCommand}" Header="Copy UID" />
+                                <MenuItem Command="{Binding CopyUidHexCommand}" Header="Copy UID (Hex)" />
+                                <Separator />
+                                <MenuItem Command="{Binding AddCommand}" Header="Add Club" />
+                                <MenuItem
+                                    Command="{Binding CopyCommand}"
+                                    CommandParameter="{Binding SelectedClub}"
+                                    Header="Copy Club" />
+                                <MenuItem
+                                    Command="{Binding EditCommand}"
+                                    CommandParameter="{Binding SelectedClub}"
+                                    Header="Edit Club" />
+                            </ContextMenu>
+                        </DataGrid.Resources>
+
+                        <DataGrid.Columns>
+
+                            <DataGridTextColumn
+                                Width="60"
+                                MinWidth="60"
+                                MaxWidth="110"
+                                Binding="{Binding Id}"
+                                CanUserReorder="False"
+                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                Header="ID"
+                                IsReadOnly="True" />
+
+                            <DataGridTextColumn
+                                Width="60"
+                                MinWidth="60"
+                                MaxWidth="110"
+                                Binding="{Binding Uid}"
+                                CanUserReorder="False"
+                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                Header="UID"
+                                IsReadOnly="True">
+                                <DataGridTextColumn.HeaderStyle>
+                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                    </Style>
+                                </DataGridTextColumn.HeaderStyle>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn
+                                Width="250"
+                                MinWidth="200"
+                                Binding="{Binding FullName}"
+                                CanUserReorder="False"
+                                ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                                Header="Full Name"
+                                IsReadOnly="True" />
+
+                            <DataGridTextColumn
+                                Width="150"
+                                MinWidth="120"
+                                Binding="{Binding ShortName}"
+                                CanUserReorder="False"
+                                ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                                Header="Short Name"
+                                IsReadOnly="True" />
+
+                            <DataGridTextColumn
+                                Width="80"
+                                MinWidth="70"
+                                Binding="{Binding SixLetterName}"
+                                CanUserReorder="False"
+                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                Header="6 Lttr"
+                                IsReadOnly="True">
+                                <DataGridTextColumn.HeaderStyle>
+                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                    </Style>
+                                </DataGridTextColumn.HeaderStyle>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn
+                                Width="60"
+                                MinWidth="50"
+                                Binding="{Binding ThreeLetterName}"
+                                CanUserReorder="False"
+                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                Header="3 Lttr"
+                                IsReadOnly="True">
+                                <DataGridTextColumn.HeaderStyle>
+                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                    </Style>
+                                </DataGridTextColumn.HeaderStyle>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn
+                                Width="150"
+                                MinWidth="120"
+                                Binding="{Binding NationName}"
+                                CanUserReorder="False"
+                                Header="Nation"
+                                IsReadOnly="True" />
+
+                            <DataGridTextColumn
+                                Width="100"
+                                MinWidth="80"
+                                Binding="{Binding StatusText}"
+                                CanUserReorder="False"
+                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                Header="Status"
+                                IsReadOnly="True">
+                                <DataGridTextColumn.HeaderStyle>
+                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                    </Style>
+                                </DataGridTextColumn.HeaderStyle>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn
+                                Width="200"
+                                MinWidth="150"
+                                Binding="{Binding CompetitionName}"
+                                CanUserReorder="False"
+                                Header="Competition"
+                                IsReadOnly="True" />
+
+                            <DataGridTextColumn
+                                Width="60"
+                                MinWidth="50"
+                                Binding="{Binding LeaguePos}"
+                                CanUserReorder="False"
+                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                Header="Pos"
+                                IsReadOnly="True">
+                                <DataGridTextColumn.HeaderStyle>
+                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                    </Style>
+                                </DataGridTextColumn.HeaderStyle>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn
+                                Width="70"
+                                MinWidth="60"
+                                Binding="{Binding Reputation}"
+                                CanUserReorder="False"
+                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                Header="Rep"
+                                IsReadOnly="True">
+                                <DataGridTextColumn.HeaderStyle>
+                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                    </Style>
+                                </DataGridTextColumn.HeaderStyle>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn
+                                Width="60"
+                                MinWidth="50"
+                                Binding="{Binding Academy}"
+                                CanUserReorder="False"
+                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                Header="Aca"
+                                IsReadOnly="True">
+                                <DataGridTextColumn.HeaderStyle>
+                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                    </Style>
+                                </DataGridTextColumn.HeaderStyle>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn
+                                Width="60"
+                                MinWidth="50"
+                                Binding="{Binding Facilities}"
+                                CanUserReorder="False"
+                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                Header="Fac"
+                                IsReadOnly="True">
+                                <DataGridTextColumn.HeaderStyle>
+                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                    </Style>
+                                </DataGridTextColumn.HeaderStyle>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn
+                                Width="70"
+                                MinWidth="60"
+                                Binding="{Binding AttAvg}"
+                                CanUserReorder="False"
+                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                Header="Att Avg"
+                                IsReadOnly="True">
+                                <DataGridTextColumn.HeaderStyle>
+                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                    </Style>
+                                </DataGridTextColumn.HeaderStyle>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn
+                                Width="70"
+                                MinWidth="60"
+                                Binding="{Binding AttMin}"
+                                CanUserReorder="False"
+                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                Header="Att Min"
+                                IsReadOnly="True">
+                                <DataGridTextColumn.HeaderStyle>
+                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                    </Style>
+                                </DataGridTextColumn.HeaderStyle>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn
+                                Width="70"
+                                MinWidth="60"
+                                Binding="{Binding AttMax}"
+                                CanUserReorder="False"
+                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                Header="Att Max"
+                                IsReadOnly="True">
+                                <DataGridTextColumn.HeaderStyle>
+                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                    </Style>
+                                </DataGridTextColumn.HeaderStyle>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn
+                                Width="70"
+                                MinWidth="60"
+                                Binding="{Binding PlayerCount}"
+                                CanUserReorder="False"
+                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                Header="Players"
+                                IsReadOnly="True">
+                                <DataGridTextColumn.HeaderStyle>
+                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                    </Style>
+                                </DataGridTextColumn.HeaderStyle>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn
+                                Width="60"
+                                MinWidth="50"
+                                Binding="{Binding IsNationalText}"
+                                CanUserReorder="False"
+                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                Header="Nat"
+                                IsReadOnly="True">
+                                <DataGridTextColumn.HeaderStyle>
+                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                    </Style>
+                                </DataGridTextColumn.HeaderStyle>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn
+                                Width="60"
+                                MinWidth="50"
+                                Binding="{Binding IsWomanText}"
+                                CanUserReorder="False"
+                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                Header="Woman"
+                                IsReadOnly="True">
+                                <DataGridTextColumn.HeaderStyle>
+                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                    </Style>
+                                </DataGridTextColumn.HeaderStyle>
+                            </DataGridTextColumn>
+
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                </Grid>
+
+            </DockPanel>
+
+            <md:Snackbar
+                Grid.ColumnSpan="2"
+                Margin="1"
+                HorizontalAlignment="Right"
+                MessageQueue="{Binding MessageQueue}" />
+        </Grid>
+    </md:DialogHost>
+</ma:MetroWindow>

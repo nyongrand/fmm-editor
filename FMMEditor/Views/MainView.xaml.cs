@@ -22,6 +22,13 @@ namespace FMMEditor.Views
             this.Close();
         }
 
+        private void OpenClubs_Click(object sender, RoutedEventArgs e)
+        {
+            var clubsView = new ClubsView();
+            clubsView.Show();
+            this.Close();
+        }
+
         private void OpenNames_Click(object sender, RoutedEventArgs e)
         {
             var namesView = new NamesView();

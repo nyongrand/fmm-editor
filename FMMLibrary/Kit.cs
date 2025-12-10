@@ -21,6 +21,16 @@
         public short[] Colors { get; set; }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="Kit"/> class with default values.
+        /// </summary>
+        public Kit()
+        {
+            Unknown1 = 0;
+            Unknown2 = 0;
+            Colors = new short[10];
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Kit"/> class by reading from a binary reader.
         /// </summary>
         /// <param name="reader">The binary reader containing the kit data.</param>
