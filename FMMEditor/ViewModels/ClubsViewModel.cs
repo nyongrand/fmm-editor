@@ -1,4 +1,4 @@
-using FMMEditor.Collections;
+﻿using FMMEditor.Collections;
 using FMMEditor.Models;
 using FMMEditor.Views;
 using FMMLibrary;

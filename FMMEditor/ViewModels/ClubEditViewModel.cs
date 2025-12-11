@@ -1,4 +1,4 @@
-using FMMEditor.Collections;
+﻿using FMMEditor.Collections;
 using FMMEditor.Models;
 using FMMLibrary;
 using ReactiveUI;

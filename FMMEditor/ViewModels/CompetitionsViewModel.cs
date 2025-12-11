@@ -1,4 +1,4 @@
-using DynamicData;
+﻿using DynamicData;
 using FMMLibrary;
 using MaterialDesignThemes.Wpf;
 using MvvmDialogs;

@@ -1,4 +1,4 @@
-namespace FMMEditor.Models
+﻿namespace FMMEditor.Models
 {
     public class EthnicityOption
     {
