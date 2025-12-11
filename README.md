@@ -74,7 +74,7 @@ If this tool helps you, you can support development via Ko-fi: https://ko-fi.com
 - Newly added players may not appear in-game even though editing existing players works.
 - Editing a person's second nationality currently does not apply.
 
-## Roadmap
+## Upcoming Features
 
 - Make editing a person's second nationality work end-to-end.
 - Fix newly added players not appearing in-game.

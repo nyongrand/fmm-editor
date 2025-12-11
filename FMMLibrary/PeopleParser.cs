@@ -63,6 +63,8 @@
                 while (ms.Position < ms.Length)
                 {
                     var item = new People(reader);
+                    if (item.Id == -1)
+                        item.Id = parser.Items.Count;
                     parser.items.Add(item);
                 }
             });
@@ -78,7 +80,7 @@
         {
             // People.Id should always be -1 (0xFFFFFFFF) as per specification
             item.Id = -1;
-            
+
             items.Add(item);
             Count++;
         }

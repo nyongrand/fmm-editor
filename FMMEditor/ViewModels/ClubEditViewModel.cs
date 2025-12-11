@@ -5,6 +5,7 @@ using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace FMMEditor.ViewModels
@@ -15,14 +16,22 @@ namespace FMMEditor.ViewModels
         public string WindowTitle => IsAddMode ? "Add New Club" : "Edit Club";
 
         public BulkObservableCollection<Nation> Nations { get; }
-        public List<StatusOption> StatusOptions { get; } = new()
-        {
+        public ObservableCollection<PlayerInfo> Players { get; } = new();
+        
+        private readonly Dictionary<int, People> peopleLookup;
+        private readonly Dictionary<int, Player> playerLookup;
+        private readonly Dictionary<int, string> firstNameLookup;
+        private readonly Dictionary<int, string> lastNameLookup;
+        private readonly Dictionary<int, string> commonNameLookup;
+        
+        public List<StatusOption> StatusOptions { get; } =
+        [
             new StatusOption { Value = 0, DisplayName = "National" },
             new StatusOption { Value = 1, DisplayName = "Professional" },
             new StatusOption { Value = 2, DisplayName = "Semi-Pro" },
             new StatusOption { Value = 3, DisplayName = "Amateur" },
             new StatusOption { Value = 22, DisplayName = "Unknown" }
-        };
+        ];
 
         // Club fields
         [Reactive] public int? Uid { get; set; }
@@ -48,9 +57,20 @@ namespace FMMEditor.ViewModels
         [Reactive] public short IsNational { get; set; }
         [Reactive] public short IsWomanFlag { get; set; }
 
-        public ClubEditViewModel(BulkObservableCollection<Nation> nations)
+        public ClubEditViewModel(
+            BulkObservableCollection<Nation> nations,
+            Dictionary<int, People> peopleLookup,
+            Dictionary<int, Player> playerLookup,
+            Dictionary<int, string> firstNameLookup,
+            Dictionary<int, string> lastNameLookup,
+            Dictionary<int, string> commonNameLookup)
         {
             Nations = nations;
+            this.peopleLookup = peopleLookup;
+            this.playerLookup = playerLookup;
+            this.firstNameLookup = firstNameLookup;
+            this.lastNameLookup = lastNameLookup;
+            this.commonNameLookup = commonNameLookup;
 
             this.WhenAnyValue(x => x.IsAddMode)
                 .Subscribe(_ => this.RaisePropertyChanged(nameof(WindowTitle)));
@@ -105,6 +125,8 @@ namespace FMMEditor.ViewModels
             MainClub = c.MainClub;
             IsNational = c.IsNational;
             IsWomanFlag = c.IsWomanFlag;
+            
+            LoadPlayers(c.Players);
         }
 
         private void ResetToDefaults()
@@ -131,6 +153,53 @@ namespace FMMEditor.ViewModels
             MainClub = -1;
             IsNational = 0;
             IsWomanFlag = 0;
+            
+            Players.Clear();
+        }
+        
+        private void LoadPlayers(int[] playerIds)
+        {
+            Players.Clear();
+            
+            if (playerIds == null || playerIds.Length == 0)
+                return;
+                
+            for (int i = 0; i < playerIds.Length; i++)
+            {
+                var playerId = playerIds[i];
+                var playerName = ResolvePlayerName(playerId);
+                
+                Players.Add(new PlayerInfo
+                {
+                    Index = i + 1,
+                    PlayerId = playerId,
+                    PlayerName = playerName
+                });
+            }
+        }
+        
+        private string ResolvePlayerName(int playerId)
+        {
+            if (!peopleLookup.TryGetValue(playerId, out var person))
+                return $"Unknown (ID: {playerId})";
+            
+            var firstName = firstNameLookup.GetValueOrDefault(person.FirstNameId, "");
+            var lastName = lastNameLookup.GetValueOrDefault(person.LastNameId, "");
+            var commonName = commonNameLookup.GetValueOrDefault(person.CommonNameId, "");
+            
+            if (!string.IsNullOrEmpty(commonName))
+                return commonName;
+            
+            if (!string.IsNullOrEmpty(firstName) && !string.IsNullOrEmpty(lastName))
+                return $"{firstName} {lastName}";
+            
+            if (!string.IsNullOrEmpty(lastName))
+                return lastName;
+            
+            if (!string.IsNullOrEmpty(firstName))
+                return firstName;
+            
+            return $"Unknown (ID: {playerId})";
         }
 
         public bool Validate() => !string.IsNullOrWhiteSpace(FullName) && NationId != null;
@@ -140,5 +209,12 @@ namespace FMMEditor.ViewModels
     {
         public byte Value { get; set; }
         public string DisplayName { get; set; } = "";
+    }
+    
+    public class PlayerInfo
+    {
+        public int Index { get; set; }
+        public int PlayerId { get; set; }
+        public string PlayerName { get; set; } = "";
     }
 }
