@@ -2,20 +2,29 @@
     x:Class="FMMEditor.Views.ClubEditView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converter="clr-namespace:FMMEditor.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:FMMEditor.Views"
-    xmlns:converter="clr-namespace:FMMEditor.Converters"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:viewmodels="clr-namespace:FMMEditor.ViewModels"
     Width="600"
+    d:DataContext="{d:DesignInstance Type=viewmodels:ClubEditViewModel}"
     mc:Ignorable="d">
+
+    <UserControl.LayoutTransform>
+        <ScaleTransform CenterX=".5" CenterY=".5" ScaleX=".92" ScaleY=".92" />
+    </UserControl.LayoutTransform>
 
     <UserControl.Resources>
         <converter:BooleanToShortConverter x:Key="BooleanToShortConverter" />
     </UserControl.Resources>
 
-    <md:Card Margin="16" md:ElevationAssist.Elevation="Dp4">
-        <Grid>
+    <md:Card
+        Padding="0"
+        md:ElevationAssist.Elevation="Dp4"
+        UniformCornerRadius="4">
+        <Grid MaxHeight="600">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
@@ -49,14 +58,16 @@
 
                     <TextBox
                         Margin="0,8"
+                        md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
                         md:HintAssist.Hint="Full Name *"
-                        Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                        Style="{StaticResource MaterialDesignFilledTextBox}"
                         Text="{Binding FullName, UpdateSourceTrigger=PropertyChanged}" />
 
                     <TextBox
                         Margin="0,8"
+                        md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
                         md:HintAssist.Hint="Short Name"
-                        Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                        Style="{StaticResource MaterialDesignFilledTextBox}"
                         Text="{Binding ShortName, UpdateSourceTrigger=PropertyChanged}" />
 
                     <Grid Margin="0,8">
@@ -68,45 +79,50 @@
 
                         <TextBox
                             Grid.Column="0"
+                            md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
                             md:HintAssist.Hint="6 Letter Name"
                             MaxLength="6"
-                            Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                            Style="{StaticResource MaterialDesignFilledTextBox}"
                             Text="{Binding SixLetterName, UpdateSourceTrigger=PropertyChanged}" />
 
                         <TextBox
                             Grid.Column="2"
+                            md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
                             md:HintAssist.Hint="3 Letter Name"
                             MaxLength="3"
-                            Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                            Style="{StaticResource MaterialDesignFilledTextBox}"
                             Text="{Binding ThreeLetterName, UpdateSourceTrigger=PropertyChanged}" />
                     </Grid>
 
                     <ComboBox
                         Margin="0,8"
+                        md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
                         md:HintAssist.Hint="Nation *"
                         DisplayMemberPath="Name"
                         ItemsSource="{Binding Nations}"
                         SelectedValue="{Binding NationId}"
                         SelectedValuePath="Id"
-                        Style="{StaticResource MaterialDesignOutlinedComboBox}" />
+                        Style="{StaticResource MaterialDesignFilledComboBox}" />
 
                     <ComboBox
                         Margin="0,8"
+                        md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
                         md:HintAssist.Hint="Based Nation"
                         DisplayMemberPath="Name"
                         ItemsSource="{Binding Nations}"
                         SelectedValue="{Binding BasedId}"
                         SelectedValuePath="Id"
-                        Style="{StaticResource MaterialDesignOutlinedComboBox}" />
+                        Style="{StaticResource MaterialDesignFilledComboBox}" />
 
                     <ComboBox
                         Margin="0,8"
+                        md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
                         md:HintAssist.Hint="Status"
                         DisplayMemberPath="DisplayName"
                         ItemsSource="{Binding StatusOptions}"
                         SelectedValue="{Binding Status}"
                         SelectedValuePath="Value"
-                        Style="{StaticResource MaterialDesignOutlinedComboBox}" />
+                        Style="{StaticResource MaterialDesignFilledComboBox}" />
 
                     <!--  Facilities  -->
                     <TextBlock
@@ -124,21 +140,24 @@
 
                         <TextBox
                             Grid.Column="0"
+                            md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
                             md:HintAssist.Hint="Academy (0-20)"
-                            Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                            Style="{StaticResource MaterialDesignFilledTextBox}"
                             Text="{Binding Academy, UpdateSourceTrigger=PropertyChanged}" />
 
                         <TextBox
                             Grid.Column="2"
+                            md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
                             md:HintAssist.Hint="Facilities (0-20)"
-                            Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                            Style="{StaticResource MaterialDesignFilledTextBox}"
                             Text="{Binding Facilities, UpdateSourceTrigger=PropertyChanged}" />
                     </Grid>
 
                     <TextBox
                         Margin="0,8"
+                        md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
                         md:HintAssist.Hint="Reputation"
-                        Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                        Style="{StaticResource MaterialDesignFilledTextBox}"
                         Text="{Binding Reputation, UpdateSourceTrigger=PropertyChanged}" />
 
                     <!--  Attendance  -->
@@ -159,20 +178,22 @@
 
                         <TextBox
                             Grid.Column="0"
+                            md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
                             md:HintAssist.Hint="Min"
-                            Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                            Style="{StaticResource MaterialDesignFilledTextBox}"
                             Text="{Binding AttMin, UpdateSourceTrigger=PropertyChanged}" />
 
                         <TextBox
                             Grid.Column="2"
+                            md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
                             md:HintAssist.Hint="Avg"
-                            Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                            Style="{StaticResource MaterialDesignFilledTextBox}"
                             Text="{Binding AttAvg, UpdateSourceTrigger=PropertyChanged}" />
 
                         <TextBox
                             Grid.Column="4"
                             md:HintAssist.Hint="Max"
-                            Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                            Style="{StaticResource MaterialDesignFilledTextBox}"
                             Text="{Binding AttMax, UpdateSourceTrigger=PropertyChanged}" />
                     </Grid>
 
@@ -192,21 +213,24 @@
 
                         <TextBox
                             Grid.Column="0"
+                            md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
                             md:HintAssist.Hint="League ID"
-                            Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                            Style="{StaticResource MaterialDesignFilledTextBox}"
                             Text="{Binding LeagueId, UpdateSourceTrigger=PropertyChanged}" />
 
                         <TextBox
                             Grid.Column="2"
+                            md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
                             md:HintAssist.Hint="League Position"
-                            Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                            Style="{StaticResource MaterialDesignFilledTextBox}"
                             Text="{Binding LeaguePos, UpdateSourceTrigger=PropertyChanged}" />
                     </Grid>
 
                     <TextBox
                         Margin="0,8"
+                        md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
                         md:HintAssist.Hint="Last League ID"
-                        Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                        Style="{StaticResource MaterialDesignFilledTextBox}"
                         Text="{Binding LastLeague, UpdateSourceTrigger=PropertyChanged}" />
 
                     <!--  Other Info  -->
@@ -225,21 +249,24 @@
 
                         <TextBox
                             Grid.Column="0"
+                            md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
                             md:HintAssist.Hint="Stadium ID"
-                            Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                            Style="{StaticResource MaterialDesignFilledTextBox}"
                             Text="{Binding Stadium, UpdateSourceTrigger=PropertyChanged}" />
 
                         <TextBox
                             Grid.Column="2"
+                            md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
                             md:HintAssist.Hint="Reserves"
-                            Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                            Style="{StaticResource MaterialDesignFilledTextBox}"
                             Text="{Binding Reserves, UpdateSourceTrigger=PropertyChanged}" />
                     </Grid>
 
                     <TextBox
                         Margin="0,8"
+                        md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
                         md:HintAssist.Hint="Main Club ID"
-                        Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                        Style="{StaticResource MaterialDesignFilledTextBox}"
                         Text="{Binding MainClub, UpdateSourceTrigger=PropertyChanged}" />
 
                     <Grid Margin="0,8">
