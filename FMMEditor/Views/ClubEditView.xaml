@@ -18,6 +18,7 @@
 
     <UserControl.Resources>
         <converter:BooleanToShortConverter x:Key="BooleanToShortConverter" />
+        <converter:DrawingColorToMediaColorConverter x:Key="DrawingColorToMediaColorConverter" />
     </UserControl.Resources>
 
     <md:Card
@@ -318,6 +319,85 @@
                                 IsChecked="{Binding IsWomanFlag, Converter={StaticResource BooleanToShortConverter}}" />
                         </Grid>
 
+                        <!--  Colors  -->
+                        <TextBlock
+                            Margin="0,16,0,8"
+                            FontSize="16"
+                            FontWeight="SemiBold"
+                            Text="Club Colors" />
+
+                        <Grid Margin="0,8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0">
+                                <TextBlock
+                                    Margin="0,0,0,4"
+                                    FontSize="12"
+                                    Text="Color 1" />
+                                <md:ColorPicker Color="{Binding Color1, Converter={StaticResource DrawingColorToMediaColorConverter}}" />
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="2">
+                                <TextBlock
+                                    Margin="0,0,0,4"
+                                    FontSize="12"
+                                    Text="Color 2" />
+                                <md:ColorPicker Color="{Binding Color2, Converter={StaticResource DrawingColorToMediaColorConverter}}" />
+                            </StackPanel>
+                        </Grid>
+
+                        <Grid Margin="0,8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0">
+                                <TextBlock
+                                    Margin="0,0,0,4"
+                                    FontSize="12"
+                                    Text="Color 3" />
+                                <md:ColorPicker Color="{Binding Color3, Converter={StaticResource DrawingColorToMediaColorConverter}}" />
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="2">
+                                <TextBlock
+                                    Margin="0,0,0,4"
+                                    FontSize="12"
+                                    Text="Color 4" />
+                                <md:ColorPicker Color="{Binding Color4, Converter={StaticResource DrawingColorToMediaColorConverter}}" />
+                            </StackPanel>
+                        </Grid>
+
+                        <Grid Margin="0,8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0">
+                                <TextBlock
+                                    Margin="0,0,0,4"
+                                    FontSize="12"
+                                    Text="Color 5" />
+                                <md:ColorPicker Color="{Binding Color5, Converter={StaticResource DrawingColorToMediaColorConverter}}" />
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="2">
+                                <TextBlock
+                                    Margin="0,0,0,4"
+                                    FontSize="12"
+                                    Text="Color 6" />
+                                <md:ColorPicker Color="{Binding Color6, Converter={StaticResource DrawingColorToMediaColorConverter}}" />
+                            </StackPanel>
+                        </Grid>
+
                     </StackPanel>
 
                     <!--  Players  -->
@@ -325,21 +405,20 @@
                         Grid.Column="1"
                         Margin="16"
                         Orientation="Vertical">
-                        
+
                         <TextBlock
                             Margin="0,0,0,8"
                             FontSize="16"
                             FontWeight="SemiBold"
                             Text="Players" />
-                        
+
                         <TextBlock
                             Margin="0,0,0,8"
                             FontSize="12"
                             Foreground="{DynamicResource MaterialDesign.Brush.Secondary}"
                             Text="{Binding Players.Count, StringFormat='Total Players: {0}'}" />
-                        
+
                         <DataGrid
-                            MaxHeight="500"
                             AutoGenerateColumns="False"
                             CanUserAddRows="False"
                             CanUserDeleteRows="False"
@@ -361,7 +440,7 @@
                                     Header="Player Name" />
                             </DataGrid.Columns>
                         </DataGrid>
-                        
+
                     </StackPanel>
                 </Grid>
             </ScrollViewer>

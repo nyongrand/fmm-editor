@@ -401,6 +401,13 @@ namespace FMMEditor.ViewModels
             newClub.MainClub = vm.MainClub ?? -1;
             newClub.IsNational = vm.IsNational;
             newClub.IsWomanFlag = vm.IsWomanFlag;
+            
+            newClub.Colors[0] = vm.Color1;
+            newClub.Colors[1] = vm.Color2;
+            newClub.Colors[2] = vm.Color3;
+            newClub.Colors[3] = vm.Color4;
+            newClub.Colors[4] = vm.Color5;
+            newClub.Colors[5] = vm.Color6;
 
             ClubParser.Items.Add(newClub);
             MessageQueue.Enqueue("Club added successfully");
@@ -433,6 +440,13 @@ namespace FMMEditor.ViewModels
             existingClub.MainClub = vm.MainClub ?? -1;
             existingClub.IsNational = vm.IsNational;
             existingClub.IsWomanFlag = vm.IsWomanFlag;
+            
+            existingClub.Colors[0] = vm.Color1;
+            existingClub.Colors[1] = vm.Color2;
+            existingClub.Colors[2] = vm.Color3;
+            existingClub.Colors[3] = vm.Color4;
+            existingClub.Colors[4] = vm.Color5;
+            existingClub.Colors[5] = vm.Color6;
 
             MessageQueue.Enqueue("Club updated successfully");
         }

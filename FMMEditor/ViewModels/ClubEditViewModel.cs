@@ -6,6 +6,7 @@ using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Drawing;
 
 namespace FMMEditor.ViewModels
 {
@@ -55,6 +56,14 @@ namespace FMMEditor.ViewModels
         [Reactive] public int? MainClub { get; set; }
         [Reactive] public short IsNational { get; set; }
         [Reactive] public short IsWomanFlag { get; set; }
+
+        // Club colors (6 colors)
+        [Reactive] public Color Color1 { get; set; }
+        [Reactive] public Color Color2 { get; set; }
+        [Reactive] public Color Color3 { get; set; }
+        [Reactive] public Color Color4 { get; set; }
+        [Reactive] public Color Color5 { get; set; }
+        [Reactive] public Color Color6 { get; set; }
 
         public ClubEditViewModel(
             BulkObservableCollection<Nation> nations,
@@ -125,6 +134,7 @@ namespace FMMEditor.ViewModels
             IsNational = c.IsNational;
             IsWomanFlag = c.IsWomanFlag;
             
+            LoadColors(c.Colors);
             LoadPlayers(c.Players);
         }
 
@@ -153,7 +163,35 @@ namespace FMMEditor.ViewModels
             IsNational = 0;
             IsWomanFlag = 0;
             
+            ResetColors();
             Players.Clear();
+        }
+
+        private void LoadColors(Color[] colors)
+        {
+            if (colors != null && colors.Length >= 6)
+            {
+                Color1 = colors[0];
+                Color2 = colors[1];
+                Color3 = colors[2];
+                Color4 = colors[3];
+                Color5 = colors[4];
+                Color6 = colors[5];
+            }
+            else
+            {
+                ResetColors();
+            }
+        }
+
+        private void ResetColors()
+        {
+            Color1 = Color.White;
+            Color2 = Color.Black;
+            Color3 = Color.White;
+            Color4 = Color.Black;
+            Color5 = Color.White;
+            Color6 = Color.Black;
         }
         
         private void LoadPlayers(int[] playerIds)
