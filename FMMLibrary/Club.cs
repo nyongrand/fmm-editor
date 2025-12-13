@@ -1,4 +1,6 @@
-﻿namespace FMMLibrary
+﻿using System.Drawing;
+
+namespace FMMLibrary
 {
     /// <summary>
     /// Represents a football club with all its properties and attributes.
@@ -58,7 +60,7 @@
         /// <summary>
         /// Gets or sets the club's color values (6 colors).
         /// </summary>
-        public short[] Colors { get; set; }
+        public Color[] Colors { get; set; }
 
         /// <summary>
         /// Gets or sets the club's kits (6 kits).
@@ -235,10 +237,10 @@
             BasedId = reader.ReadInt16();
             NationId = reader.ReadInt16();
 
-            Colors = new short[6];
+            Colors = new Color[6];
             for (int i = 0; i < Colors.Length; i++)
             {
-                Colors[i] = reader.ReadInt16();
+                Colors[i] = reader.ReadColor();
             }
 
             Kits = new Kit[6];
@@ -318,67 +320,67 @@
         /// <param name="writer">The binary writer to write the club data to.</param>
         public void Write(BinaryWriter writer)
         {
-            writer.Write(Id);
-            writer.Write(Uid);
+            writer.WriteEx(Id);
+            writer.WriteEx(Uid);
 
             writer.WriteEx(FullName);
-            writer.Write(FullNameTerminator);
+            writer.WriteEx(FullNameTerminator);
             writer.WriteEx(ShortName);
-            writer.Write(ShortNameTerminator);
+            writer.WriteEx(ShortNameTerminator);
             writer.WriteEx(SixLetterName);
             writer.WriteEx(ThreeLetterName);
 
-            writer.Write(BasedId);
-            writer.Write(NationId);
+            writer.WriteEx(BasedId);
+            writer.WriteEx(NationId);
 
             for (int i = 0; i < Colors.Length; i++)
-                writer.Write(Colors[i]);
+                writer.WriteEx(Colors[i]);
 
             for (int i = 0; i < Kits.Length; i++)
                 Kits[i].Write(writer);
 
-            writer.Write(Status);
-            writer.Write(Academy);
-            writer.Write(Facilities);
-            writer.Write(AttAvg);
-            writer.Write(AttMin);
-            writer.Write(AttMax);
-            writer.Write(Reserves);
-            writer.Write(LeagueId);
+            writer.WriteEx(Status);
+            writer.WriteEx(Academy);
+            writer.WriteEx(Facilities);
+            writer.WriteEx(AttAvg);
+            writer.WriteEx(AttMin);
+            writer.WriteEx(AttMax);
+            writer.WriteEx(Reserves);
+            writer.WriteEx(LeagueId);
 
-            writer.Write(OtherDivision);
-            writer.Write(OtherLastPosition);
-            writer.Write(Stadium);
-            writer.Write(LastLeague);
+            writer.WriteEx(OtherDivision);
+            writer.WriteEx(OtherLastPosition);
+            writer.WriteEx(Stadium);
+            writer.WriteEx(LastLeague);
 
-            writer.Write(Unknown4Flag);
+            writer.WriteEx(Unknown4Flag);
             if (Unknown4Flag)
-                writer.Write(Unknown4);
+                writer.WriteEx(Unknown4);
 
-            writer.Write(Unknown5.Length);
-            writer.Write(Unknown5);
+            writer.WriteEx(Unknown5.Length);
+            writer.WriteEx(Unknown5);
 
-            writer.Write(LeaguePos);
-            writer.Write(Reputation);
-            writer.Write(Unknown6);
+            writer.WriteEx(LeaguePos);
+            writer.WriteEx(Reputation);
+            writer.WriteEx(Unknown6);
 
-            writer.Write((short)Affiliates.Length);
+            writer.WriteEx((short)Affiliates.Length);
             for (int i = 0; i < Affiliates.Length; i++)
                 Affiliates[i].Write(writer);
 
-            writer.Write((short)Players.Length);
+            writer.WriteEx((short)Players.Length);
             for (int i = 0; i < Players.Length; i++)
-                writer.Write(Players[i]);
+                writer.WriteEx(Players[i]);
 
             for (int i = 0; i < Unknown7.Length; i++)
-                writer.Write(Unknown7[i]);
+                writer.WriteEx(Unknown7[i]);
 
-            writer.Write(MainClub);
-            writer.Write(IsNational);
+            writer.WriteEx(MainClub);
+            writer.WriteEx(IsNational);
 
-            writer.Write(Unknown8);
-            writer.Write(Unknown9);
-            writer.Write(IsWomanFlag);
+            writer.WriteEx(Unknown8);
+            writer.WriteEx(Unknown9);
+            writer.WriteEx(IsWomanFlag);
         }
 
         /// <summary>

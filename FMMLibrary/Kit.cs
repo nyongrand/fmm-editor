@@ -1,4 +1,6 @@
-﻿namespace FMMLibrary
+﻿using System.Drawing;
+
+namespace FMMLibrary
 {
     /// <summary>
     /// Represents a football kit (uniform) with its colors and properties.
@@ -18,7 +20,7 @@
         /// <summary>
         /// Gets or sets the array of 10 color values for the kit.
         /// </summary>
-        public short[] Colors { get; set; }
+        public Color[] Colors { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Kit"/> class with default values.
@@ -27,7 +29,7 @@
         {
             Unknown1 = 0;
             Unknown2 = 0;
-            Colors = new short[10];
+            Colors = new Color[10];
         }
 
         /// <summary>
@@ -39,10 +41,10 @@
             Unknown1 = reader.ReadByte();
             Unknown2 = reader.ReadByte();
 
-            Colors = new short[10];
+            Colors = new Color[10];
             for (int i = 0; i < Colors.Length; i++)
             {
-                Colors[i] = reader.ReadInt16();
+                Colors[i] = reader.ReadColor();
             }
         }
 
@@ -52,11 +54,11 @@
         /// <param name="writer">The binary writer to write the kit data to.</param>
         public void Write(BinaryWriter writer)
         {
-            writer.Write(Unknown1);
-            writer.Write(Unknown2);
+            writer.WriteEx(Unknown1);
+            writer.WriteEx(Unknown2);
 
             for (int i = 0; i < Colors.Length; i++)
-                writer.Write(Colors[i]);
+                writer.WriteEx(Colors[i]);
         }
     }
 }
