@@ -46,10 +46,11 @@
             <!--  Content  -->
             <ScrollViewer
                 Grid.Row="1"
-                MaxHeight="600"
+                MaxHeight="900"
                 VerticalScrollBarVisibility="Auto">
                 <Grid>
                     <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
@@ -398,6 +399,14 @@
                             </StackPanel>
                         </Grid>
 
+                    </StackPanel>
+
+                    <!--  Unknown Value  -->
+                    <StackPanel
+                        Grid.Column="1"
+                        Margin="16"
+                        Orientation="Vertical">
+                        <!--  TODO: Add unknown value  -->
                     </StackPanel>
 
                     <!--  Players  -->
