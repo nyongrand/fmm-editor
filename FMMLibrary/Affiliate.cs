@@ -51,7 +51,7 @@ namespace FMMLibrary
         /// Initializes a new instance of the <see cref="Affiliate"/> class by reading from a binary reader.
         /// </summary>
         /// <param name="reader">The binary reader containing the affiliate data.</param>
-        public Affiliate(BinaryReader reader)
+        public Affiliate(BinaryReaderEx reader)
         {
             Unknown1 = reader.ReadInt32();
             Club1Id = reader.ReadInt32();
@@ -67,7 +67,7 @@ namespace FMMLibrary
         /// Writes the affiliate data to the specified binary writer.
         /// </summary>
         /// <param name="writer">The binary writer to write the affiliate data to.</param>
-        public void Write(BinaryWriter writer)
+        public void Write(BinaryWriterEx writer)
         {
             writer.Write(Unknown1);
             writer.Write(Club1Id);

@@ -37,7 +37,7 @@
             RWB = 0;
         }
 
-        public PositionRating(BinaryReader reader)
+        public PositionRating(BinaryReaderEx reader)
         {
             GK = reader.ReadByte();
             LIB = reader.ReadByte();
@@ -56,29 +56,29 @@
             RWB = reader.ReadByte();
         }
 
-        public void Write(BinaryWriter writer)
+        public void Write(BinaryWriterEx writer)
         {
-            writer.WriteEx(GK);
-            writer.WriteEx(LIB);
+            writer.Write(GK);
+            writer.Write(LIB);
 
-            writer.WriteEx(DL);
-            writer.WriteEx(DC);
-            writer.WriteEx(DR);
+            writer.Write(DL);
+            writer.Write(DC);
+            writer.Write(DR);
 
-            writer.WriteEx(DMC);
+            writer.Write(DMC);
 
-            writer.WriteEx(LM);
-            writer.WriteEx(CM);
-            writer.WriteEx(RM);
+            writer.Write(LM);
+            writer.Write(CM);
+            writer.Write(RM);
 
-            writer.WriteEx(LW);
-            writer.WriteEx(AM);
-            writer.WriteEx(RW);
+            writer.Write(LW);
+            writer.Write(AM);
+            writer.Write(RW);
 
-            writer.WriteEx(CF);
+            writer.Write(CF);
 
-            writer.WriteEx(LWB);
-            writer.WriteEx(RWB);
+            writer.Write(LWB);
+            writer.Write(RWB);
         }
 
         public override string ToString()

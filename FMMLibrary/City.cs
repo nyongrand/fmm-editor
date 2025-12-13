@@ -11,7 +11,7 @@
         public short RegionId { get; set; }
         public byte Unknown { get; set; }
 
-        public City(BinaryReader reader)
+        public City(BinaryReaderEx reader)
         {
             Id = reader.ReadInt16();
             Uid = reader.ReadInt32();
@@ -27,16 +27,16 @@
         /// Writes the nation data to the specified binary writer.
         /// </summary>
         /// <param name="writer">The binary writer to write the nation data to.</param>
-        public void Write(BinaryWriter writer)
+        public void Write(BinaryWriterEx writer)
         {
-            writer.WriteEx(Id);
-            writer.WriteEx(Uid);
-            writer.WriteEx(NationId);
-            writer.WriteEx(Latitude);
-            writer.WriteEx(Longitude);
-            writer.WriteEx(Attraction);
-            writer.WriteEx(RegionId);
-            writer.WriteEx(Unknown);
+            writer.Write(Id);
+            writer.Write(Uid);
+            writer.Write(NationId);
+            writer.Write(Latitude);
+            writer.Write(Longitude);
+            writer.Write(Attraction);
+            writer.Write(RegionId);
+            writer.Write(Unknown);
         }
 
         /// <summary>
@@ -46,7 +46,7 @@
         public byte[] ToBytes()
         {
             using var stream = new MemoryStream();
-            using var writer = new BinaryWriter(stream);
+            using var writer = new BinaryWriterEx(stream);
             Write(writer);
             return stream.ToArray();
         }

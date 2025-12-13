@@ -115,7 +115,7 @@
             Relationships = [];
         }
 
-        public People(BinaryReader reader)
+        public People(BinaryReaderEx reader)
         {
             Id = reader.ReadInt32();
             Uid = reader.ReadInt32();
@@ -202,81 +202,84 @@
             Unknown21 = reader.ReadByte();
         }
 
-        public void Write(BinaryWriter writer)
+        public void Write(BinaryWriterEx writer)
         {
-            writer.WriteEx(Id);
-            writer.WriteEx(Uid);
+            writer.Write(Id);
+            writer.Write(Uid);
 
-            writer.WriteEx(FirstNameId);
-            writer.WriteEx(LastNameId);
-            writer.WriteEx(CommonNameId);
-            writer.WriteEx(DateOfBirth);
+            writer.Write(FirstNameId);
+            writer.Write(LastNameId);
+            writer.Write(CommonNameId);
+            writer.Write(DateOfBirth);
 
-            writer.WriteEx(NationId);
-            writer.WriteEx((short)OtherNationalities.Count);
+            writer.Write(NationId);
+            writer.Write((short)OtherNationalities.Count);
             foreach (var nat in OtherNationalities)
-                writer.WriteEx(nat);
+                writer.Write(nat);
 
-            writer.WriteEx(Ethnicity);
-            writer.WriteEx(Unknown1);
-            writer.WriteEx(Type);
-            writer.WriteEx(UnknownDate);
+            writer.Write(Ethnicity);
+            writer.Write(Unknown1);
+            writer.Write(Type);
+            writer.Write(UnknownDate);
 
-            writer.WriteEx(NationalCaps);
-            writer.WriteEx(NationalGoals);
-            writer.WriteEx(NationalU21Caps);
-            writer.WriteEx(NationalU21Goals);
+            writer.Write(NationalCaps);
+            writer.Write(NationalGoals);
+            writer.Write(NationalU21Caps);
+            writer.Write(NationalU21Goals);
 
-            writer.WriteEx(ClubId);
-            writer.WriteEx(JoinedDate);
-            writer.WriteEx(Unknown3);
+            writer.Write(ClubId);
+            writer.Write(JoinedDate);
+            writer.Write(Unknown3);
 
-            writer.WriteEx(Adaptability);
-            writer.WriteEx(Ambition);
-            writer.WriteEx(Controversy);
-            writer.WriteEx(Loyality);
-            writer.WriteEx(Pressure);
-            writer.WriteEx(Professionalism);
-            writer.WriteEx(Sportmanship);
-            writer.WriteEx(Temperament);
+            writer.Write(Adaptability);
+            writer.Write(Ambition);
+            writer.Write(Controversy);
+            writer.Write(Loyality);
+            writer.Write(Pressure);
+            writer.Write(Professionalism);
+            writer.Write(Sportmanship);
+            writer.Write(Temperament);
 
-            writer.WriteEx(PlayerId);
-            writer.WriteEx(Unknown6b);
-            writer.WriteEx(Unknown6c);
-            writer.WriteEx(Unknown6d);
-            writer.WriteEx(Unknown6e);
-            writer.WriteEx(Unknown6f);
+            writer.Write(PlayerId);
+            writer.Write(Unknown6b);
+            writer.Write(Unknown6c);
+            writer.Write(Unknown6d);
+            writer.Write(Unknown6e);
+            if (Unknown6f.HasValue)
+                writer.Write(Unknown6f.Value);
 
-            writer.WriteEx(Unknown7);
-            writer.WriteEx(Gender);
-            writer.WriteEx(Unknown9);
-            writer.WriteEx(Unknown10);
+            writer.Write(Unknown7);
+            writer.Write(Gender);
+            if (Unknown9.HasValue)
+                writer.Write(Unknown9.Value);
+            if (Unknown10.HasValue)
+                writer.Write(Unknown10.Value);
 
-            writer.WriteEx((byte)DefaultLanguages.Length);
+            writer.Write((byte)DefaultLanguages.Length);
             foreach (var lang in DefaultLanguages)
             {
-                writer.WriteEx(lang.Id);
-                writer.WriteEx(lang.Proficiency);
+                writer.Write(lang.Id);
+                writer.Write(lang.Proficiency);
             }
 
-            writer.WriteEx((byte)OtherLanguages.Length);
+            writer.Write((byte)OtherLanguages.Length);
             foreach (var lang in OtherLanguages)
             {
-                writer.WriteEx(lang.Id);
-                writer.WriteEx(lang.Proficiency);
+                writer.Write(lang.Id);
+                writer.Write(lang.Proficiency);
             }
 
-            writer.WriteEx((byte)Relationships.Length);
+            writer.Write((byte)Relationships.Length);
             foreach (var relationship in Relationships)
                 relationship.Write(writer);
 
-            writer.WriteEx(Unknown21);
+            writer.Write(Unknown21);
         }
 
         public byte[] ToBytes()
         {
             using var stream = new MemoryStream();
-            using var writer = new BinaryWriter(stream);
+            using var writer = new BinaryWriterEx(stream);
             Write(writer);
             return stream.ToArray();
         }

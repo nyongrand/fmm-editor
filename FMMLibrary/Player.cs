@@ -90,7 +90,7 @@
         {
         }
 
-        public Player(BinaryReader reader)
+        public Player(BinaryReaderEx reader)
         {
             Id = reader.ReadInt32();
             Uid = reader.ReadInt32();
@@ -165,79 +165,79 @@
             Unknown2 = reader.ReadInt32();
         }
 
-        public void Write(BinaryWriter writer)
+        public void Write(BinaryWriterEx writer)
         {
-            writer.WriteEx(Id);
-            writer.WriteEx(Uid);
-            writer.WriteEx(Crossing);
-            writer.WriteEx(Dribbling);
-            writer.WriteEx(Tackling);
-            writer.WriteEx(Finishing);
-            writer.WriteEx(LongShot);
-            writer.WriteEx(Heading);
-            writer.WriteEx(Jumping);
-            writer.WriteEx(Passing);
-            writer.WriteEx(Decision);
-            writer.WriteEx(Unselfishness);
-            writer.WriteEx(Pace);
-            writer.WriteEx(Strength);
-            writer.WriteEx(Stamina);
-            writer.WriteEx(Technique);
-            writer.WriteEx(Consistency);
-            writer.WriteEx(Aggression);
-            writer.WriteEx(BigMatch);
-            writer.WriteEx(InjuryProne);
-            writer.WriteEx(Leadership);
-            writer.WriteEx(Versatility);
-            writer.WriteEx(SetPieces);
-            writer.WriteEx(Penalty);
-            writer.WriteEx(Creativity);
-            writer.WriteEx(Movement);
-            writer.WriteEx(Positioning);
-            writer.WriteEx(WorkRate);
-            writer.WriteEx(Flair);
-            writer.WriteEx(Handling);
-            writer.WriteEx(Kicking);
-            writer.WriteEx(Agility);
-            writer.WriteEx(Aerial);
-            writer.WriteEx(Reflexes);
-            writer.WriteEx(Communication);
-            writer.WriteEx(Throwing);
-            writer.WriteEx(GK);
-            writer.WriteEx(LIB);
-            writer.WriteEx(LB);
-            writer.WriteEx(CB);
-            writer.WriteEx(RB);
-            writer.WriteEx(DM);
-            writer.WriteEx(LM);
-            writer.WriteEx(CM);
-            writer.WriteEx(RM);
-            writer.WriteEx(LW);
-            writer.WriteEx(AM);
-            writer.WriteEx(RW);
-            writer.WriteEx(CF);
-            writer.WriteEx(LWB);
-            writer.WriteEx(RWB);
-            writer.WriteEx(LeftFoot);
-            writer.WriteEx(RightFoot);
-            writer.WriteEx(CA);
-            writer.WriteEx(PA);
-            writer.WriteEx(HomeReputation);
-            writer.WriteEx(CurrentReputation);
-            writer.WriteEx(WorldReputation);
-            writer.WriteEx(InternationalRetirement);
-            writer.WriteEx(Unknown1);
-            writer.WriteEx(SquadNumber);
-            writer.WriteEx(PreferredSquadNumber);
-            writer.WriteEx(Height);
-            writer.WriteEx(Weight);
-            writer.WriteEx(Unknown2);
+            writer.Write(Id);
+            writer.Write(Uid);
+            writer.Write(Crossing);
+            writer.Write(Dribbling);
+            writer.Write(Tackling);
+            writer.Write(Finishing);
+            writer.Write(LongShot);
+            writer.Write(Heading);
+            writer.Write(Jumping);
+            writer.Write(Passing);
+            writer.Write(Decision);
+            writer.Write(Unselfishness);
+            writer.Write(Pace);
+            writer.Write(Strength);
+            writer.Write(Stamina);
+            writer.Write(Technique);
+            writer.Write(Consistency);
+            writer.Write(Aggression);
+            writer.Write(BigMatch);
+            writer.Write(InjuryProne);
+            writer.Write(Leadership);
+            writer.Write(Versatility);
+            writer.Write(SetPieces);
+            writer.Write(Penalty);
+            writer.Write(Creativity);
+            writer.Write(Movement);
+            writer.Write(Positioning);
+            writer.Write(WorkRate);
+            writer.Write(Flair);
+            writer.Write(Handling);
+            writer.Write(Kicking);
+            writer.Write(Agility);
+            writer.Write(Aerial);
+            writer.Write(Reflexes);
+            writer.Write(Communication);
+            writer.Write(Throwing);
+            writer.Write(GK);
+            writer.Write(LIB);
+            writer.Write(LB);
+            writer.Write(CB);
+            writer.Write(RB);
+            writer.Write(DM);
+            writer.Write(LM);
+            writer.Write(CM);
+            writer.Write(RM);
+            writer.Write(LW);
+            writer.Write(AM);
+            writer.Write(RW);
+            writer.Write(CF);
+            writer.Write(LWB);
+            writer.Write(RWB);
+            writer.Write(LeftFoot);
+            writer.Write(RightFoot);
+            writer.Write(CA);
+            writer.Write(PA);
+            writer.Write(HomeReputation);
+            writer.Write(CurrentReputation);
+            writer.Write(WorldReputation);
+            writer.Write(InternationalRetirement);
+            writer.Write(Unknown1);
+            writer.Write(SquadNumber);
+            writer.Write(PreferredSquadNumber);
+            writer.Write(Height);
+            writer.Write(Weight);
+            writer.Write(Unknown2);
         }
 
         public byte[] ToBytes()
         {
             using var stream = new MemoryStream();
-            using var writer = new BinaryWriter(stream);
+            using var writer = new BinaryWriterEx(stream);
             Write(writer);
             return stream.ToArray();
         }

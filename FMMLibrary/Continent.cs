@@ -9,30 +9,30 @@
         public string Nationality { get; set; }
         public byte Unknown2 { get; set; }
 
-        public Continent(BinaryReader reader)
+        public Continent(BinaryReaderEx reader)
         {
             Id = reader.ReadInt16();
-            Name = reader.ReadStringEx();
+            Name = reader.ReadString();
             Unknown1 = reader.ReadByte();
-            CodeName = reader.ReadStringEx();
-            Nationality = reader.ReadStringEx();
+            CodeName = reader.ReadString();
+            Nationality = reader.ReadString();
             Unknown2 = reader.ReadByte();
         }
 
-        public void Write(BinaryWriter writer)
+        public void Write(BinaryWriterEx writer)
         {
-            writer.WriteEx(Id);
-            writer.WriteEx(Name);
-            writer.WriteEx(Unknown1);
-            writer.WriteEx(CodeName);
-            writer.WriteEx(Nationality);
-            writer.WriteEx(Unknown2);
+            writer.Write(Id);
+            writer.Write(Name);
+            writer.Write(Unknown1);
+            writer.Write(CodeName);
+            writer.Write(Nationality);
+            writer.Write(Unknown2);
         }
 
         public byte[] ToBytes()
         {
             using var stream = new MemoryStream();
-            using var writer = new BinaryWriter(stream);
+            using var writer = new BinaryWriterEx(stream);
             Write(writer);
             return stream.ToArray();
         }

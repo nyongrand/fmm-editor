@@ -1,6 +1,6 @@
 ﻿namespace FMMLibrary
 {
-    public class Relationship(BinaryReader reader)
+    public class Relationship(BinaryReaderEx reader)
     {
         public byte Level { get; set; } = reader.ReadByte();
         public byte Type { get; set; } = reader.ReadByte();
@@ -11,8 +11,8 @@
         /// <summary>
         /// Writes the current object's data to the specified binary writer in a predefined format.
         /// </summary>
-        /// <param name="writer">The <see cref="BinaryWriter"/> to which the object's data will be written. Cannot be null.</param>
-        public void Write(BinaryWriter writer)
+        /// <param name="writer">The <see cref="BinaryWriterEx"/> to which the object's data will be written. Cannot be null.</param>
+        public void Write(BinaryWriterEx writer)
         {
             writer.Write(Level);
             writer.Write(Type);

@@ -319,7 +319,7 @@ namespace FMMEditor.ViewModels
 
             // Create a temporary memory stream to initialize the Club
             using var ms = new System.IO.MemoryStream();
-            using var writer = new System.IO.BinaryWriter(ms);
+            using var writer = new BinaryWriterEx(ms);
             
             // Write minimal required data for Club constructor
             writer.Write(-1); // Id
@@ -374,7 +374,7 @@ namespace FMMEditor.ViewModels
             writer.Write((short)0); // IsWomanFlag
             
             ms.Position = 0;
-            using var reader = new System.IO.BinaryReader(ms);
+            using var reader = new BinaryReaderEx(ms);
             var newClub = new Club(reader);
 
             // Now set the actual values

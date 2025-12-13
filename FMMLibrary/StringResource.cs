@@ -2,151 +2,151 @@
 {
     public class StringResource
     {
-        public class ClubName(BinaryReader reader)
+        public class ClubName(BinaryReaderEx reader)
         {
             public int Uid { get; set; } = reader.ReadInt32();
-            public string FullName { get; set; } = reader.ReadStringEx();
+            public string FullName { get; set; } = reader.ReadString();
             public byte FullNameTerminator { get; set; } = reader.ReadByte();
-            public string ShortName { get; set; } = reader.ReadStringEx();
+            public string ShortName { get; set; } = reader.ReadString();
             public byte ShortNameTerminator { get; set; } = reader.ReadByte();
-            public string SixLetterName { get; set; } = reader.ReadStringEx();
-            public string ThreeLetterName { get; set; } = reader.ReadStringEx();
+            public string SixLetterName { get; set; } = reader.ReadString();
+            public string ThreeLetterName { get; set; } = reader.ReadString();
 
             public override string ToString() => FullName;
 
-            public void Write(BinaryWriter writer)
+            public void Write(BinaryWriterEx writer)
             {
-                writer.WriteEx(Uid);
-                writer.WriteEx(FullName);
-                writer.WriteEx(FullNameTerminator);
-                writer.WriteEx(ShortName);
-                writer.WriteEx(ShortNameTerminator);
-                writer.WriteEx(SixLetterName);
-                writer.WriteEx(ThreeLetterName);
+                writer.Write(Uid);
+                writer.Write(FullName);
+                writer.Write(FullNameTerminator);
+                writer.Write(ShortName);
+                writer.Write(ShortNameTerminator);
+                writer.Write(SixLetterName);
+                writer.Write(ThreeLetterName);
             }
         }
 
-        public class NationName(BinaryReader reader)
+        public class NationName(BinaryReaderEx reader)
         {
             public int Uid { get; set; } = reader.ReadInt32();
-            public string Name { get; set; } = reader.ReadStringEx();
+            public string Name { get; set; } = reader.ReadString();
             public byte NameTerminator { get; set; } = reader.ReadByte();
-            public string Demonym { get; set; } = reader.ReadStringEx();
+            public string Demonym { get; set; } = reader.ReadString();
             public byte DemonymTerminator { get; set; } = reader.ReadByte();
-            public string Code { get; set; } = reader.ReadStringEx();
+            public string Code { get; set; } = reader.ReadString();
             public byte Unknown { get; set; } = reader.ReadByte();
 
             public override string ToString() => Name;
 
-            public void Write(BinaryWriter writer)
+            public void Write(BinaryWriterEx writer)
             {
-                writer.WriteEx(Uid);
-                writer.WriteEx(Name);
-                writer.WriteEx(NameTerminator);
-                writer.WriteEx(Demonym);
-                writer.WriteEx(DemonymTerminator);
-                writer.WriteEx(Code);
-                writer.WriteEx(Unknown);
+                writer.Write(Uid);
+                writer.Write(Name);
+                writer.Write(NameTerminator);
+                writer.Write(Demonym);
+                writer.Write(DemonymTerminator);
+                writer.Write(Code);
+                writer.Write(Unknown);
             }
         }
 
-        public class ContinentName(BinaryReader reader)
+        public class ContinentName(BinaryReaderEx reader)
         {
             public int Uid { get; set; } = reader.ReadInt32();
-            public string Name { get; set; } = reader.ReadStringEx();
+            public string Name { get; set; } = reader.ReadString();
             public byte NameTerminator { get; set; } = reader.ReadByte();
-            public string CodeName { get; set; } = reader.ReadStringEx();
-            public string Demonym { get; set; } = reader.ReadStringEx();
+            public string CodeName { get; set; } = reader.ReadString();
+            public string Demonym { get; set; } = reader.ReadString();
             public byte DemonymTerminator { get; set; } = reader.ReadByte();
 
             public override string ToString() => Name;
 
-            public void Write(BinaryWriter writer)
+            public void Write(BinaryWriterEx writer)
             {
-                writer.WriteEx(Uid);
-                writer.WriteEx(Name);
-                writer.WriteEx(NameTerminator);
-                writer.WriteEx(CodeName);
-                writer.WriteEx(Demonym);
-                writer.WriteEx(DemonymTerminator);
+                writer.Write(Uid);
+                writer.Write(Name);
+                writer.Write(NameTerminator);
+                writer.Write(CodeName);
+                writer.Write(Demonym);
+                writer.Write(DemonymTerminator);
             }
         }
 
-        public class CompetitionName(BinaryReader reader)
+        public class CompetitionName(BinaryReaderEx reader)
         {
             public int Uid { get; set; } = reader.ReadInt32();
-            public string FullName { get; set; } = reader.ReadStringEx();
+            public string FullName { get; set; } = reader.ReadString();
             public byte FullNameTerminator { get; set; } = reader.ReadByte();
-            public string ShortName { get; set; } = reader.ReadStringEx();
+            public string ShortName { get; set; } = reader.ReadString();
             public byte ShortNameTerminator { get; set; } = reader.ReadByte();
-            public string CodeName { get; set; } = reader.ReadStringEx();
+            public string CodeName { get; set; } = reader.ReadString();
 
             public override string ToString() => FullName;
 
-            public void Write(BinaryWriter writer)
+            public void Write(BinaryWriterEx writer)
             {
-                writer.WriteEx(Uid);
-                writer.WriteEx(FullName);
-                writer.WriteEx(FullNameTerminator);
-                writer.WriteEx(ShortName);
-                writer.WriteEx(ShortNameTerminator);
-                writer.WriteEx(CodeName);
+                writer.Write(Uid);
+                writer.Write(FullName);
+                writer.Write(FullNameTerminator);
+                writer.Write(ShortName);
+                writer.Write(ShortNameTerminator);
+                writer.Write(CodeName);
             }
         }
 
-        public class StadiumName(BinaryReader reader)
+        public class StadiumName(BinaryReaderEx reader)
         {
             public int Uid { get; set; } = reader.ReadInt32();
-            public string FullName { get; set; } = reader.ReadStringEx();
-            public string ShortName { get; set; } = reader.ReadStringEx();
+            public string FullName { get; set; } = reader.ReadString();
+            public string ShortName { get; set; } = reader.ReadString();
             public byte Terminator { get; set; } = reader.ReadByte();
             public byte Unknown { get; set; } = reader.ReadByte();
 
             public override string ToString() => FullName;
 
-            public void Write(BinaryWriter writer)
+            public void Write(BinaryWriterEx writer)
             {
-                writer.WriteEx(Uid);
-                writer.WriteEx(FullName);
-                writer.WriteEx(ShortName);
-                writer.WriteEx(Terminator);
-                writer.WriteEx(Unknown);
+                writer.Write(Uid);
+                writer.Write(FullName);
+                writer.Write(ShortName);
+                writer.Write(Terminator);
+                writer.Write(Unknown);
             }
         }
 
-        public class AwardName(BinaryReader reader)
+        public class AwardName(BinaryReaderEx reader)
         {
             public int Uid { get; set; } = reader.ReadInt32();
-            public string FullName { get; set; } = reader.ReadStringEx();
+            public string FullName { get; set; } = reader.ReadString();
             public byte FullNameTerminator { get; set; } = reader.ReadByte();
-            public string ShortName { get; set; } = reader.ReadStringEx();
+            public string ShortName { get; set; } = reader.ReadString();
             public byte ShortNameTerminator { get; set; } = reader.ReadByte();
 
             public override string ToString() => FullName;
 
-            public void Write(BinaryWriter writer)
+            public void Write(BinaryWriterEx writer)
             {
-                writer.WriteEx(Uid);
-                writer.WriteEx(FullName);
-                writer.WriteEx(FullNameTerminator);
-                writer.WriteEx(ShortName);
-                writer.WriteEx(ShortNameTerminator);
+                writer.Write(Uid);
+                writer.Write(FullName);
+                writer.Write(FullNameTerminator);
+                writer.Write(ShortName);
+                writer.Write(ShortNameTerminator);
             }
         }
 
-        public class OtherName(BinaryReader reader)
+        public class OtherName(BinaryReaderEx reader)
         {
             public int Uid { get; set; } = reader.ReadInt32();
-            public string Name { get; set; } = reader.ReadStringEx();
+            public string Name { get; set; } = reader.ReadString();
             public byte Terminator { get; set; } = reader.ReadByte();
 
             public override string ToString() => Name;
 
-            public void Write(BinaryWriter writer)
+            public void Write(BinaryWriterEx writer)
             {
-                writer.WriteEx(Uid);
-                writer.WriteEx(Name);
-                writer.WriteEx(Terminator);
+                writer.Write(Uid);
+                writer.Write(Name);
+                writer.Write(Terminator);
             }
         }
     }

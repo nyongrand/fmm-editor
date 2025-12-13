@@ -155,16 +155,16 @@ namespace FMMLibrary
         /// Initializes a new instance of the <see cref="Competition"/> class by reading from a binary reader.
         /// </summary>
         /// <param name="reader">The binary reader containing the competition data.</param>
-        public Competition(BinaryReader reader)
+        public Competition(BinaryReaderEx reader)
         {
             Id = reader.ReadInt16();
             Uid = reader.ReadInt32();
 
-            FullName = reader.ReadStringEx();
+            FullName = reader.ReadString();
             FullNameTerminator = reader.ReadByte();
-            ShortName = reader.ReadStringEx();
+            ShortName = reader.ReadString();
             ShortNameTerminator = reader.ReadByte();
-            CodeName = reader.ReadStringEx();
+            CodeName = reader.ReadString();
 
             Type = reader.ReadByte();
             ContinentId = reader.ReadInt16();
@@ -199,7 +199,7 @@ namespace FMMLibrary
         public byte[] ToBytes()
         {
             using var stream = new MemoryStream();
-            using var writer = new BinaryWriter(stream);
+            using var writer = new BinaryWriterEx(stream);
             Write(writer);
             return stream.ToArray();
         }
@@ -208,40 +208,40 @@ namespace FMMLibrary
         /// Writes the competition data to the specified binary writer.
         /// </summary>
         /// <param name="writer">The binary writer to write the competition data to.</param>
-        public void Write(BinaryWriter writer)
+        public void Write(BinaryWriterEx writer)
         {
-            writer.WriteEx(Id);
-            writer.WriteEx(Uid);
+            writer.Write(Id);
+            writer.Write(Uid);
 
-            writer.WriteEx(FullName);
-            writer.WriteEx(FullNameTerminator);
-            writer.WriteEx(ShortName);
-            writer.WriteEx(ShortNameTerminator);
-            writer.WriteEx(CodeName);
+            writer.Write(FullName);
+            writer.Write(FullNameTerminator);
+            writer.Write(ShortName);
+            writer.Write(ShortNameTerminator);
+            writer.Write(CodeName);
 
-            writer.WriteEx(Type);
-            writer.WriteEx(ContinentId);
-            writer.WriteEx(NationId);
-            writer.WriteEx(ForegroundColor);
-            writer.WriteEx(BackgroundColor);
-            writer.WriteEx(Reputation);
-            writer.WriteEx(Level);
-            writer.WriteEx(ParentCompetitionId);
+            writer.Write(Type);
+            writer.Write(ContinentId);
+            writer.Write(NationId);
+            writer.Write(ForegroundColor);
+            writer.Write(BackgroundColor);
+            writer.Write(Reputation);
+            writer.Write(Level);
+            writer.Write(ParentCompetitionId);
 
-            writer.WriteEx(Qualifiers.Length);
+            writer.Write(Qualifiers.Length);
             for (int i = 0; i < Qualifiers.Length; i++)
             {
-                writer.WriteEx(Qualifiers[i]);
+                writer.Write(Qualifiers[i]);
             }
 
-            writer.WriteEx(Rank1);
-            writer.WriteEx(Rank2);
-            writer.WriteEx(Rank3);
-            writer.WriteEx(Year1);
-            writer.WriteEx(Year2);
-            writer.WriteEx(Year3);
-            writer.WriteEx(Unknown3);
-            writer.WriteEx(IsWomen);
+            writer.Write(Rank1);
+            writer.Write(Rank2);
+            writer.Write(Rank3);
+            writer.Write(Year1);
+            writer.Write(Year2);
+            writer.Write(Year3);
+            writer.Write(Unknown3);
+            writer.Write(IsWomen);
         }
 
         /// <summary>

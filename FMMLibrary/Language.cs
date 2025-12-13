@@ -13,30 +13,30 @@
         /// </summary>
         public byte Difficulty { get; set; }
 
-        public Language(BinaryReader reader)
+        public Language(BinaryReaderEx reader)
         {
             Id = reader.ReadInt16();
             Uid = reader.ReadInt32();
-            Name = reader.ReadStringEx();
-            OtherName = reader.ReadStringEx();
+            Name = reader.ReadString();
+            OtherName = reader.ReadString();
             NationId = reader.ReadInt16();
             Difficulty = reader.ReadByte();
         }
 
-        public void Write(BinaryWriter writer)
+        public void Write(BinaryWriterEx writer)
         {
-            writer.WriteEx(Id);
-            writer.WriteEx(Uid);
-            writer.WriteEx(Name);
-            writer.WriteEx(OtherName);
-            writer.WriteEx(NationId);
-            writer.WriteEx(Difficulty);
+            writer.Write(Id);
+            writer.Write(Uid);
+            writer.Write(Name);
+            writer.Write(OtherName);
+            writer.Write(NationId);
+            writer.Write(Difficulty);
         }
 
         public byte[] ToBytes()
         {
             using var stream = new MemoryStream();
-            using var writer = new BinaryWriter(stream);
+            using var writer = new BinaryWriterEx(stream);
             Write(writer);
             return stream.ToArray();
         }

@@ -32,7 +32,7 @@
         /// </summary>
         /// <param name="path">The file path of the source data.</param>
         /// <param name="reader">The binary reader containing the nation data.</param>
-        private PlayerParser(string path, BinaryReader reader)
+        private PlayerParser(string path, BinaryReaderEx reader)
         {
             FilePath = path;
             Header = reader.ReadBytes(8);
@@ -52,7 +52,7 @@
             fs.CopyTo(ms);
             ms.Position = 0;
 
-            using var reader = new BinaryReader(ms);
+            using var reader = new BinaryReaderEx(ms);
             var parser = new PlayerParser(path, reader);
 
             await Task.Run(() =>
@@ -86,7 +86,7 @@
         public byte[] ToBytes()
         {
             using var stream = new MemoryStream();
-            using var writer = new BinaryWriter(stream);
+            using var writer = new BinaryWriterEx(stream);
 
             writer.Write(Header);
             writer.Write(Count);

@@ -177,16 +177,16 @@
         /// Initializes a new instance of the <see cref="Nation"/> class by reading from a binary reader.
         /// </summary>
         /// <param name="reader">The binary reader containing the nation data.</param>
-        public Nation(BinaryReader reader)
+        public Nation(BinaryReaderEx reader)
         {
             Uid = reader.ReadInt32();
             Id = reader.ReadInt16();
 
-            Name = reader.ReadStringEx();
+            Name = reader.ReadString();
             Terminator1 = reader.ReadByte();
-            Nationality = reader.ReadStringEx();
+            Nationality = reader.ReadString();
             Terminator2 = reader.ReadByte();
-            CodeName = reader.ReadStringEx();
+            CodeName = reader.ReadString();
 
             ContinentId = reader.ReadInt16();
             CapitalId = reader.ReadInt16();
@@ -246,7 +246,7 @@
         public byte[] ToBytes()
         {
             using var stream = new MemoryStream();
-            using var writer = new BinaryWriter(stream);
+            using var writer = new BinaryWriterEx(stream);
             Write(writer);
             return stream.ToArray();
         }
@@ -255,78 +255,78 @@
         /// Writes the nation data to the specified binary writer.
         /// </summary>
         /// <param name="writer">The binary writer to write the nation data to.</param>
-        public void Write(BinaryWriter writer)
+        public void Write(BinaryWriterEx writer)
         {
-            writer.WriteEx(Uid);
-            writer.WriteEx(Id);
+            writer.Write(Uid);
+            writer.Write(Id);
 
-            writer.WriteEx(Name);
-            writer.WriteEx(Terminator1);
-            writer.WriteEx(Nationality);
-            writer.WriteEx(Terminator2);
-            writer.WriteEx(CodeName);
+            writer.Write(Name);
+            writer.Write(Terminator1);
+            writer.Write(Nationality);
+            writer.Write(Terminator2);
+            writer.Write(CodeName);
 
-            writer.WriteEx(ContinentId);
-            writer.WriteEx(CapitalId);
-            writer.WriteEx(StadiumId);
+            writer.Write(ContinentId);
+            writer.Write(CapitalId);
+            writer.Write(StadiumId);
 
-            writer.WriteEx(StateOfDevelopment);
-            writer.WriteEx(Unknown2);
-            writer.WriteEx(Unknown3);
+            writer.Write(StateOfDevelopment);
+            writer.Write(Unknown2);
+            writer.Write(Unknown3);
 
-            writer.WriteEx((byte)Languages.Length);
+            writer.Write((byte)Languages.Length);
             for (int i = 0; i < Languages.Length; i++)
             {
-                writer.WriteEx(Languages[i].Id);
-                writer.WriteEx(Languages[i].Proficiency);
+                writer.Write(Languages[i].Id);
+                writer.Write(Languages[i].Proficiency);
             }
 
-            writer.WriteEx(HasManTeam);
+            writer.Write(HasManTeam);
 
             if (HasManTeam)
             {
-                writer.WriteEx(Color1);
-                writer.WriteEx(Unknown5);
-                writer.WriteEx(Color2);
+                writer.Write(Color1.Value);
+                writer.Write(Unknown5.Value);
+                writer.Write(Color2.Value);
 
-                writer.WriteEx(Unknown6);
-                writer.WriteEx(Unknown7);
-                writer.WriteEx(Unknown8);
+                writer.Write(Unknown6.Value);
+                writer.Write(Unknown7.Value);
+                writer.Write(Unknown8.Value);
 
-                writer.WriteEx(IsRanked);
-                writer.WriteEx(Ranking);
-                writer.WriteEx(Points);
+                writer.Write(IsRanked.Value);
+                writer.Write(Ranking.Value);
+                writer.Write(Points.Value);
 
-                writer.WriteEx(Unknown9);
-                writer.WriteEx((byte)Coefficients1.Length);
+                writer.Write(Unknown9.Value);
+                writer.Write((byte)Coefficients1.Length);
                 for (int i = 0; i < Coefficients1.Length; i++)
                 {
-                    writer.WriteEx(Coefficients1[i]);
+                    writer.Write(Coefficients1[i]);
                 }
 
-                writer.WriteEx(Unknown10);
+                writer.Write(Unknown10);
             }
 
-            writer.WriteEx(HasWomanTeam);
+            writer.Write(HasWomanTeam);
             if (HasWomanTeam)
             {
-                writer.WriteEx(Unknown11);
-                writer.WriteEx(Unknown12);
-                writer.WriteEx(Unknown13);
+                writer.Write(Unknown11);
+                writer.Write(Unknown12.Value);
+                writer.Write(Unknown13.Value);
 
-                writer.WriteEx((byte)Coefficients2.Length);
+                writer.Write((byte)Coefficients2.Length);
                 for (int i = 0; i < Coefficients2.Length; i++)
                 {
-                    writer.WriteEx(Coefficients2[i]);
+                    writer.Write(Coefficients2[i]);
                 }
 
-                writer.WriteEx(Unknown14);
+                writer.Write(Unknown14);
             }
 
             //writer.Write((byte)ExtraNames.Length);
             //for (int i = 0; i < ExtraNames.Length; i++)
             //{
-            //    writer.WriteEx(ExtraNames[i].Item1);
+            //    writer.Write(ExtraNames[i].Item1);
             //    writer.Write(ExtraNames[i].Item2);
             //    writer.Write(ExtraNames[i].Item3);
             //}

@@ -37,7 +37,7 @@
 
         public string Value { get; set; }
 
-        public Name(BinaryReader reader)
+        public Name(BinaryReaderEx reader)
         {
             Unknown1 = reader.ReadInt32();
             Id = reader.ReadInt32();
@@ -45,7 +45,7 @@
             NationUid = reader.ReadInt32();
             Unknown2 = reader.ReadInt16();
             Unknown3 = reader.ReadByte();
-            Value = reader.ReadStringEx();
+            Value = reader.ReadString();
         }
 
         public Name(byte gender, int nationUid, short unknown2, byte unknown3, string value)
@@ -59,15 +59,15 @@
             Value = value;
         }
 
-        public void Write(BinaryWriter writer)
+        public void Write(BinaryWriterEx writer)
         {
-            writer.WriteEx(Unknown1);
-            writer.WriteEx(Id);
-            writer.WriteEx(Gender);
-            writer.WriteEx(NationUid);
-            writer.WriteEx(Unknown2);
-            writer.WriteEx(Unknown3);
-            writer.WriteEx(Value);
+            writer.Write(Unknown1);
+            writer.Write(Id);
+            writer.Write(Gender);
+            writer.Write(NationUid);
+            writer.Write(Unknown2);
+            writer.Write(Unknown3);
+            writer.Write(Value);
         }
 
         public override string ToString() => Value;
