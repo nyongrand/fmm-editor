@@ -507,7 +507,7 @@
                                             FontSize="14"
                                             TextWrapping="Wrap">
                                             <Run Text="Click the" />
-                                            <Run FontWeight="SemiBold" Text="menu icon (?)" />
+                                            <Run FontWeight="SemiBold" Text="menu icon (☰)" />
                                             <Run Text="in the top right corner" />
                                         </TextBlock>
                                     </StackPanel>
