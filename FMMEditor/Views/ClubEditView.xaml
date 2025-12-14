@@ -111,38 +111,35 @@
                                 Text="{Binding ThreeLetterName, UpdateSourceTrigger=PropertyChanged}" />
                         </Grid>
 
-                        <ComboBox
-                            Margin="0,8"
-                            md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
-                            md:HintAssist.Hint="Nation *"
-                            DisplayMemberPath="Name"
-                            FontSize="14"
-                            ItemsSource="{Binding Nations}"
-                            SelectedValue="{Binding NationId}"
-                            SelectedValuePath="Id"
-                            Style="{StaticResource MaterialDesignFilledComboBox}" />
+                        <Grid Margin="0,8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="16" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
 
-                        <ComboBox
-                            Margin="0,8"
-                            md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
-                            md:HintAssist.Hint="Based Nation"
-                            DisplayMemberPath="Name"
-                            FontSize="14"
-                            ItemsSource="{Binding Nations}"
-                            SelectedValue="{Binding BasedId}"
-                            SelectedValuePath="Id"
-                            Style="{StaticResource MaterialDesignFilledComboBox}" />
+                            <ComboBox
+                                Grid.Column="0"
+                                md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
+                                md:HintAssist.Hint="Nation *"
+                                DisplayMemberPath="Name"
+                                FontSize="14"
+                                ItemsSource="{Binding Nations}"
+                                SelectedValue="{Binding NationId}"
+                                SelectedValuePath="Id"
+                                Style="{StaticResource MaterialDesignFilledComboBox}" />
 
-                        <ComboBox
-                            Margin="0,8"
-                            md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
-                            md:HintAssist.Hint="Status"
-                            DisplayMemberPath="DisplayName"
-                            FontSize="14"
-                            ItemsSource="{Binding StatusOptions}"
-                            SelectedValue="{Binding Status}"
-                            SelectedValuePath="Value"
-                            Style="{StaticResource MaterialDesignFilledComboBox}" />
+                            <ComboBox
+                                Grid.Column="2"
+                                md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
+                                md:HintAssist.Hint="Based Nation"
+                                DisplayMemberPath="Name"
+                                FontSize="14"
+                                ItemsSource="{Binding Nations}"
+                                SelectedValue="{Binding BasedId}"
+                                SelectedValuePath="Id"
+                                Style="{StaticResource MaterialDesignFilledComboBox}" />
+                        </Grid>
 
                         <!--  Facilities  -->
                         <TextBlock
@@ -175,13 +172,33 @@
                                 Text="{Binding Facilities, UpdateSourceTrigger=PropertyChanged}" />
                         </Grid>
 
-                        <TextBox
-                            Margin="0,8"
-                            md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
-                            md:HintAssist.Hint="Reputation"
-                            FontSize="14"
-                            Style="{StaticResource MaterialDesignFilledTextBox}"
-                            Text="{Binding Reputation, UpdateSourceTrigger=PropertyChanged}" />
+                        <Grid Margin="0,8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="16" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBox
+                                Grid.Column="0"
+                                md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
+                                md:HintAssist.Hint="Reputation"
+                                FontSize="14"
+                                Style="{StaticResource MaterialDesignFilledTextBox}"
+                                Text="{Binding Reputation, UpdateSourceTrigger=PropertyChanged}" />
+
+                            <ComboBox
+                                Grid.Column="2"
+                                md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
+                                md:HintAssist.Hint="Status"
+                                DisplayMemberPath="DisplayName"
+                                FontSize="14"
+                                ItemsSource="{Binding StatusOptions}"
+                                SelectedValue="{Binding Status}"
+                                SelectedValuePath="Value"
+                                Style="{StaticResource MaterialDesignFilledComboBox}" />
+                        </Grid>
+
 
                         <!--  Attendance  -->
                         <TextBlock
@@ -417,7 +434,7 @@
                         <TextBlock
                             Margin="0,0,0,8"
                             FontSize="12"
-                            Foreground="{DynamicResource MaterialDesign.Brush.Primary.Dark.Foreground}"
+                            Foreground="Orange"
                             Text="⚠️ Advanced: Edit as hexadecimal values (e.g., FFA03C)" />
 
                         <!--  Unknown4Flag  -->
