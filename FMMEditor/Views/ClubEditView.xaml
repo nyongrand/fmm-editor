@@ -20,6 +20,7 @@
         <converter:BooleanToShortConverter x:Key="BooleanToShortConverter" />
         <converter:DrawingColorToMediaColorConverter x:Key="DrawingColorToMediaColorConverter" />
         <converter:BytesConverter x:Key="BytesConverter" />
+        <converter:ColorToHexConverter x:Key="ColorToHexConverter" />
     </UserControl.Resources>
 
     <md:Card
@@ -357,7 +358,27 @@
                                     Margin="0,0,0,4"
                                     FontSize="12"
                                     Text="Color 1" />
-                                <md:ColorPicker Color="{Binding Color1, Converter={StaticResource DrawingColorToMediaColorConverter}}" />
+                                <DockPanel Margin="0,4,0,0" LastChildFill="True">
+                                    <Border
+                                        Width="40"
+                                        Height="32"
+                                        CornerRadius="4"
+                                        DockPanel.Dock="Left">
+                                        <Border.Background>
+                                            <SolidColorBrush Color="{Binding Color1, Converter={StaticResource DrawingColorToMediaColorConverter}}" />
+                                        </Border.Background>
+                                    </Border>
+                                    <TextBox
+                                        Margin="8,0,0,0"
+                                        md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
+                                        md:HintAssist.Hint="Hex (RRGGBB)"
+                                        CharacterCasing="Upper"
+                                        FontFamily="Consolas"
+                                        FontSize="14"
+                                        MaxLength="6"
+                                        Style="{StaticResource MaterialDesignFilledTextBox}"
+                                        Text="{Binding Color1, Converter={StaticResource ColorToHexConverter}, UpdateSourceTrigger=PropertyChanged}" />
+                                </DockPanel>
                             </StackPanel>
 
                             <StackPanel Grid.Column="2">
@@ -365,7 +386,27 @@
                                     Margin="0,0,0,4"
                                     FontSize="12"
                                     Text="Color 2" />
-                                <md:ColorPicker Color="{Binding Color2, Converter={StaticResource DrawingColorToMediaColorConverter}}" />
+                                <DockPanel Margin="0,4,0,0" LastChildFill="True">
+                                    <Border
+                                        Width="40"
+                                        Height="32"
+                                        CornerRadius="4"
+                                        DockPanel.Dock="Left">
+                                        <Border.Background>
+                                            <SolidColorBrush Color="{Binding Color2, Converter={StaticResource DrawingColorToMediaColorConverter}}" />
+                                        </Border.Background>
+                                    </Border>
+                                    <TextBox
+                                        Margin="8,0,0,0"
+                                        md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
+                                        md:HintAssist.Hint="Hex (RRGGBB)"
+                                        CharacterCasing="Upper"
+                                        FontFamily="Consolas"
+                                        FontSize="14"
+                                        MaxLength="6"
+                                        Style="{StaticResource MaterialDesignFilledTextBox}"
+                                        Text="{Binding Color2, Converter={StaticResource ColorToHexConverter}, UpdateSourceTrigger=PropertyChanged}" />
+                                </DockPanel>
                             </StackPanel>
                         </Grid>
 
@@ -381,7 +422,27 @@
                                     Margin="0,0,0,4"
                                     FontSize="12"
                                     Text="Color 3" />
-                                <md:ColorPicker Color="{Binding Color3, Converter={StaticResource DrawingColorToMediaColorConverter}}" />
+                                <DockPanel Margin="0,4,0,0" LastChildFill="True">
+                                    <Border
+                                        Width="40"
+                                        Height="32"
+                                        CornerRadius="4"
+                                        DockPanel.Dock="Left">
+                                        <Border.Background>
+                                            <SolidColorBrush Color="{Binding Color3, Converter={StaticResource DrawingColorToMediaColorConverter}}" />
+                                        </Border.Background>
+                                    </Border>
+                                    <TextBox
+                                        Margin="8,0,0,0"
+                                        md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
+                                        md:HintAssist.Hint="Hex (RRGGBB)"
+                                        CharacterCasing="Upper"
+                                        FontFamily="Consolas"
+                                        FontSize="14"
+                                        MaxLength="6"
+                                        Style="{StaticResource MaterialDesignFilledTextBox}"
+                                        Text="{Binding Color3, Converter={StaticResource ColorToHexConverter}, UpdateSourceTrigger=PropertyChanged}" />
+                                </DockPanel>
                             </StackPanel>
 
                             <StackPanel Grid.Column="2">
@@ -389,7 +450,27 @@
                                     Margin="0,0,0,4"
                                     FontSize="12"
                                     Text="Color 4" />
-                                <md:ColorPicker Color="{Binding Color4, Converter={StaticResource DrawingColorToMediaColorConverter}}" />
+                                <DockPanel Margin="0,4,0,0" LastChildFill="True">
+                                    <Border
+                                        Width="40"
+                                        Height="32"
+                                        CornerRadius="4"
+                                        DockPanel.Dock="Left">
+                                        <Border.Background>
+                                            <SolidColorBrush Color="{Binding Color4, Converter={StaticResource DrawingColorToMediaColorConverter}}" />
+                                        </Border.Background>
+                                    </Border>
+                                    <TextBox
+                                        Margin="8,0,0,0"
+                                        md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
+                                        md:HintAssist.Hint="Hex (RRGGBB)"
+                                        CharacterCasing="Upper"
+                                        FontFamily="Consolas"
+                                        FontSize="14"
+                                        MaxLength="6"
+                                        Style="{StaticResource MaterialDesignFilledTextBox}"
+                                        Text="{Binding Color4, Converter={StaticResource ColorToHexConverter}, UpdateSourceTrigger=PropertyChanged}" />
+                                </DockPanel>
                             </StackPanel>
                         </Grid>
 
@@ -405,7 +486,27 @@
                                     Margin="0,0,0,4"
                                     FontSize="12"
                                     Text="Color 5" />
-                                <md:ColorPicker Color="{Binding Color5, Converter={StaticResource DrawingColorToMediaColorConverter}}" />
+                                <DockPanel Margin="0,4,0,0" LastChildFill="True">
+                                    <Border
+                                        Width="40"
+                                        Height="32"
+                                        CornerRadius="4"
+                                        DockPanel.Dock="Left">
+                                        <Border.Background>
+                                            <SolidColorBrush Color="{Binding Color5, Converter={StaticResource DrawingColorToMediaColorConverter}}" />
+                                        </Border.Background>
+                                    </Border>
+                                    <TextBox
+                                        Margin="8,0,0,0"
+                                        md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
+                                        md:HintAssist.Hint="Hex (RRGGBB)"
+                                        CharacterCasing="Upper"
+                                        FontFamily="Consolas"
+                                        FontSize="14"
+                                        MaxLength="6"
+                                        Style="{StaticResource MaterialDesignFilledTextBox}"
+                                        Text="{Binding Color5, Converter={StaticResource ColorToHexConverter}, UpdateSourceTrigger=PropertyChanged}" />
+                                </DockPanel>
                             </StackPanel>
 
                             <StackPanel Grid.Column="2">
@@ -413,7 +514,27 @@
                                     Margin="0,0,0,4"
                                     FontSize="12"
                                     Text="Color 6" />
-                                <md:ColorPicker Color="{Binding Color6, Converter={StaticResource DrawingColorToMediaColorConverter}}" />
+                                <DockPanel Margin="0,4,0,0" LastChildFill="True">
+                                    <Border
+                                        Width="40"
+                                        Height="32"
+                                        CornerRadius="4"
+                                        DockPanel.Dock="Left">
+                                        <Border.Background>
+                                            <SolidColorBrush Color="{Binding Color6, Converter={StaticResource DrawingColorToMediaColorConverter}}" />
+                                        </Border.Background>
+                                    </Border>
+                                    <TextBox
+                                        Margin="8,0,0,0"
+                                        md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
+                                        md:HintAssist.Hint="Hex (RRGGBB)"
+                                        CharacterCasing="Upper"
+                                        FontFamily="Consolas"
+                                        FontSize="14"
+                                        MaxLength="6"
+                                        Style="{StaticResource MaterialDesignFilledTextBox}"
+                                        Text="{Binding Color6, Converter={StaticResource ColorToHexConverter}, UpdateSourceTrigger=PropertyChanged}" />
+                                </DockPanel>
                             </StackPanel>
                         </Grid>
 
