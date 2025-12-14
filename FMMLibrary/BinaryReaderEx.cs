@@ -25,8 +25,9 @@ namespace FMMLibrary
         /// <returns>A <see cref="Color"/> object representing the RGB color.</returns>
         public Color ReadColor()
         {
-            short color = ReadInt16();
-            int red = color >> 10;
+            ushort color = ReadUInt16();
+
+            int red = (color >> 10) & 0x1F;
             int green = (color >> 5) & 0x1F;
             int blue = color & 0x1F;
 

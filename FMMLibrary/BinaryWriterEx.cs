@@ -17,7 +17,8 @@ namespace FMMLibrary
             int red = value.R >> 3;
             int green = value.G >> 3;
             int blue = value.B >> 3;
-            Write((short)((red << 10) | (green << 5) | blue));
+
+            Write((ushort)((red << 10) | (green << 5) | blue));
         }
 
         public void Write(DateOnly date)
