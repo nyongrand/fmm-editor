@@ -408,6 +408,14 @@ namespace FMMEditor.ViewModels
             newClub.Colors[3] = vm.Color4;
             newClub.Colors[4] = vm.Color5;
             newClub.Colors[5] = vm.Color6;
+            
+            newClub.Unknown4Flag = vm.Unknown4Flag;
+            newClub.Unknown4 = vm.Unknown4 ?? [];
+            newClub.Unknown5 = vm.Unknown5 ?? [];
+            newClub.Unknown6 = vm.Unknown6 ?? new byte[20];
+            newClub.Unknown7 = vm.Unknown7 ?? new int[11];
+            newClub.Unknown8 = vm.Unknown8 ?? new byte[33];
+            newClub.Unknown9 = vm.Unknown9 ?? new byte[40];
 
             ClubParser.Items.Add(newClub);
             MessageQueue.Enqueue("Club added successfully");
@@ -447,6 +455,14 @@ namespace FMMEditor.ViewModels
             existingClub.Colors[3] = vm.Color4;
             existingClub.Colors[4] = vm.Color5;
             existingClub.Colors[5] = vm.Color6;
+            
+            existingClub.Unknown4Flag = vm.Unknown4Flag;
+            existingClub.Unknown4 = vm.Unknown4 ?? [];
+            existingClub.Unknown5 = vm.Unknown5 ?? [];
+            existingClub.Unknown6 = vm.Unknown6 ?? new byte[20];
+            existingClub.Unknown7 = vm.Unknown7 ?? new int[11];
+            existingClub.Unknown8 = vm.Unknown8 ?? new byte[33];
+            existingClub.Unknown9 = vm.Unknown9 ?? new byte[40];
 
             MessageQueue.Enqueue("Club updated successfully");
         }

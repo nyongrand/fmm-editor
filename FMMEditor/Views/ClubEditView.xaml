@@ -8,7 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:viewmodels="clr-namespace:FMMEditor.ViewModels"
-    Width="800"
+    Width="1100"
     d:DataContext="{d:DesignInstance Type=viewmodels:ClubEditViewModel}"
     mc:Ignorable="d">
 
@@ -19,6 +19,7 @@
     <UserControl.Resources>
         <converter:BooleanToShortConverter x:Key="BooleanToShortConverter" />
         <converter:DrawingColorToMediaColorConverter x:Key="DrawingColorToMediaColorConverter" />
+        <converter:BytesConverter x:Key="BytesConverter" />
     </UserControl.Resources>
 
     <md:Card
@@ -46,7 +47,7 @@
             <!--  Content  -->
             <ScrollViewer
                 Grid.Row="1"
-                MaxHeight="900"
+                MaxHeight="600"
                 VerticalScrollBarVisibility="Auto">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -401,17 +402,122 @@
 
                     </StackPanel>
 
-                    <!--  Unknown Value  -->
+                    <!--  Unknown Fields  -->
                     <StackPanel
                         Grid.Column="1"
                         Margin="16"
                         Orientation="Vertical">
-                        <!--  TODO: Add unknown value  -->
+
+                        <TextBlock
+                            Margin="0,0,0,8"
+                            FontSize="16"
+                            FontWeight="SemiBold"
+                            Text="Unknown Data Fields" />
+
+                        <TextBlock
+                            Margin="0,0,0,8"
+                            FontSize="12"
+                            Foreground="{DynamicResource MaterialDesign.Brush.Primary.Dark.Foreground}"
+                            Text="⚠️ Advanced: Edit as hexadecimal values (e.g., FFA03C)" />
+
+                        <!--  Unknown4Flag  -->
+                        <CheckBox
+                            Margin="0,8"
+                            Content="Unknown4 Flag (Enable 68-byte data)"
+                            FontSize="14"
+                            IsChecked="{Binding Unknown4Flag}" />
+
+                        <!--  Unknown4  -->
+                        <TextBox
+                            MaxHeight="100"
+                            Margin="0,0,0,16"
+                            md:HintAssist.HelperText="68 bytes after LastLeague (conditional)"
+                            md:HintAssist.Hint="Unknown4"
+                            AcceptsReturn="True"
+                            FontFamily="Consolas"
+                            FontSize="14"
+                            IsEnabled="{Binding Unknown4Flag}"
+                            Style="{StaticResource MaterialDesignFilledTextBox}"
+                            Text="{Binding Unknown4, Converter={StaticResource BytesConverter}, UpdateSourceTrigger=LostFocus}"
+                            TextWrapping="Wrap"
+                            VerticalScrollBarVisibility="Auto" />
+
+                        <!--  Unknown5  -->
+                        <TextBox
+                            MaxHeight="100"
+                            Margin="0,16"
+                            md:HintAssist.HelperText="Variable-length data after Unknown4"
+                            md:HintAssist.Hint="Unknown5"
+                            AcceptsReturn="True"
+                            FontFamily="Consolas"
+                            FontSize="14"
+                            Style="{StaticResource MaterialDesignFilledTextBox}"
+                            Text="{Binding Unknown5, Converter={StaticResource BytesConverter}, UpdateSourceTrigger=LostFocus}"
+                            TextWrapping="Wrap"
+                            VerticalScrollBarVisibility="Auto" />
+
+                        <!--  Unknown6  -->
+                        <TextBox
+                            MaxHeight="100"
+                            Margin="0,16"
+                            md:HintAssist.HelperText="20 bytes after Reputation"
+                            md:HintAssist.Hint="Unknown6"
+                            AcceptsReturn="True"
+                            FontFamily="Consolas"
+                            FontSize="14"
+                            Style="{StaticResource MaterialDesignFilledTextBox}"
+                            Text="{Binding Unknown6, Converter={StaticResource BytesConverter}, UpdateSourceTrigger=LostFocus}"
+                            TextWrapping="Wrap"
+                            VerticalScrollBarVisibility="Auto" />
+
+                        <!--  Unknown7  -->
+                        <TextBox
+                            MaxHeight="100"
+                            Margin="0,16"
+                            md:HintAssist.HelperText="11 integers (44 bytes) after Player list"
+                            md:HintAssist.Hint="Unknown7"
+                            AcceptsReturn="True"
+                            FontFamily="Consolas"
+                            FontSize="14"
+                            Style="{StaticResource MaterialDesignFilledTextBox}"
+                            Text="{Binding Unknown7, Converter={StaticResource BytesConverter}, UpdateSourceTrigger=LostFocus}"
+                            TextWrapping="Wrap"
+                            VerticalScrollBarVisibility="Auto" />
+
+                        <!--  Unknown8  -->
+                        <TextBox
+                            MaxHeight="100"
+                            Margin="0,16"
+                            md:HintAssist.HelperText="33 bytes after IsNational"
+                            md:HintAssist.Hint="Unknown8"
+                            AcceptsReturn="True"
+                            FontFamily="Consolas"
+                            FontSize="14"
+                            Style="{StaticResource MaterialDesignFilledTextBox}"
+                            Text="{Binding Unknown8, Converter={StaticResource BytesConverter}, UpdateSourceTrigger=LostFocus}"
+                            TextWrapping="Wrap"
+                            VerticalScrollBarVisibility="Auto" />
+
+                        <!--  Unknown9  -->
+                        <TextBox
+                            MaxHeight="100"
+                            Margin="0,16"
+                            md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Dark.Foreground}"
+                            md:HintAssist.HelperText="40 bytes after Unknown8"
+                            md:HintAssist.Hint="Unknown9"
+                            AcceptsReturn="True"
+                            FontFamily="Consolas"
+                            FontSize="14"
+                            Style="{StaticResource MaterialDesignFilledTextBox}"
+                            Text="{Binding Unknown9, Converter={StaticResource BytesConverter}, UpdateSourceTrigger=LostFocus}"
+                            TextWrapping="Wrap"
+                            VerticalScrollBarVisibility="Auto" />
+
                     </StackPanel>
 
                     <!--  Players  -->
                     <StackPanel
-                        Grid.Column="1"
+                        Grid.Column="2"
                         Margin="16"
                         Orientation="Vertical">
 

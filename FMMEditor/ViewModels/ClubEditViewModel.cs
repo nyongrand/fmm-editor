@@ -65,6 +65,15 @@ namespace FMMEditor.ViewModels
         [Reactive] public Color Color5 { get; set; }
         [Reactive] public Color Color6 { get; set; }
 
+        // Unknown fields
+        [Reactive] public bool Unknown4Flag { get; set; }
+        [Reactive] public byte[] Unknown4 { get; set; }
+        [Reactive] public byte[] Unknown5 { get; set; }
+        [Reactive] public byte[] Unknown6 { get; set; }
+        [Reactive] public int[] Unknown7 { get; set; }
+        [Reactive] public byte[] Unknown8 { get; set; }
+        [Reactive] public byte[] Unknown9 { get; set; }
+
         public ClubEditViewModel(
             BulkObservableCollection<Nation> nations,
             Dictionary<int, People> peopleLookup,
@@ -135,6 +144,7 @@ namespace FMMEditor.ViewModels
             IsWomanFlag = c.IsWomanFlag;
             
             LoadColors(c.Colors);
+            LoadUnknownFields(c);
             LoadPlayers(c.Players);
         }
 
@@ -164,6 +174,7 @@ namespace FMMEditor.ViewModels
             IsWomanFlag = 0;
             
             ResetColors();
+            ResetUnknownFields();
             Players.Clear();
         }
 
@@ -192,6 +203,28 @@ namespace FMMEditor.ViewModels
             Color4 = Color.Black;
             Color5 = Color.White;
             Color6 = Color.Black;
+        }
+
+        private void LoadUnknownFields(Club club)
+        {
+            Unknown4Flag = club.Unknown4Flag;
+            Unknown4 = club.Unknown4 ?? [];
+            Unknown5 = club.Unknown5 ?? [];
+            Unknown6 = club.Unknown6 ?? new byte[20];
+            Unknown7 = club.Unknown7 ?? new int[11];
+            Unknown8 = club.Unknown8 ?? new byte[33];
+            Unknown9 = club.Unknown9 ?? new byte[40];
+        }
+
+        private void ResetUnknownFields()
+        {
+            Unknown4Flag = false;
+            Unknown4 = [];
+            Unknown5 = [];
+            Unknown6 = new byte[20];
+            Unknown7 = new int[11];
+            Unknown8 = new byte[33];
+            Unknown9 = new byte[40];
         }
         
         private void LoadPlayers(int[] playerIds)

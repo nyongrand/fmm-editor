@@ -17,7 +17,8 @@
                 <md:BundledTheme
                     BaseTheme="Dark"
                     PrimaryColor="DeepPurple"
-                    SecondaryColor="Purple" />
+                    SecondaryColor="DeepPurple" />
+
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign3.Defaults.xaml" />
 
                 <!--  Material Design: MahApps Compatibility  -->
