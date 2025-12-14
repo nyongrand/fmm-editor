@@ -198,7 +198,7 @@ namespace FMMEditor.ViewModels
                     ClubsAvailableForSwitch.Clear();
                     clubsByLeagueLookup.Clear();
 
-                    var clubs = pair.Item1?.Items;
+                    var clubs = pair.Item1?.Items.ToList();
                     if (clubs != null && clubs.Count != 0)
                     {
                         clubs.ForEach(x =>
@@ -402,9 +402,9 @@ namespace FMMEditor.ViewModels
                     CompParser.Items = [.. Competitions];
                     await CompParser.Save();
 
-                    ClubParser.OriginalCount = Clubs.Count;
-                    ClubParser.Items = [.. Clubs];
-                    await ClubParser.Save();
+                    //ClubParser.Count = Clubs.Count;
+                    //ClubParser.Items = [.. Clubs];
+                    //await ClubParser.Save();
 
                     MessageQueue.Enqueue("Save Successfull");
                 }
@@ -430,9 +430,9 @@ namespace FMMEditor.ViewModels
                     CompParser.Items = [.. Competitions];
                     await CompParser.Save(settings.SelectedPath + "\\competition.dat");
 
-                    ClubParser.OriginalCount = Clubs.Count;
-                    ClubParser.Items = [.. Clubs];
-                    await ClubParser.Save(settings.SelectedPath + "\\club.dat");
+                    //ClubParser.Count = Clubs.Count;
+                    //ClubParser.Items = [.. Clubs];
+                    //await ClubParser.Save(settings.SelectedPath + "\\club.dat");
 
                     MessageQueue.Enqueue("Save Successfull");
                 }

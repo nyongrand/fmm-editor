@@ -219,6 +219,24 @@ namespace FMMLibrary
         #endregion
 
         /// <summary>
+        /// Parameterless constructor for creating new People instances.
+        /// </summary>
+        public Club()
+        {
+            Id = -1;
+            Colors = [];
+            Kits = [];
+            Unknown4 = [];
+            Unknown5 = [];
+            Unknown6 = [];
+            Affiliates = [];
+            Players = [];
+            Unknown7 = [];
+            Unknown8 = [];
+            Unknown9 = [];
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Club"/> class by reading from a binary reader.
         /// </summary>
         /// <param name="reader">The binary reader containing the club data.</param>

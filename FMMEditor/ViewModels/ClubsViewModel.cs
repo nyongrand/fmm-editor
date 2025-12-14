@@ -10,6 +10,7 @@ using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
@@ -317,107 +318,52 @@ namespace FMMEditor.ViewModels
 
             var nextUid = ClubParser.Items.Count > 0 ? ClubParser.Items.Max(x => x.Uid) + 1 : 1;
 
-            // Create a temporary memory stream to initialize the Club
-            using var ms = new System.IO.MemoryStream();
-            using var writer = new BinaryWriterEx(ms);
-            
-            // Write minimal required data for Club constructor
-            writer.Write(-1); // Id
-            writer.Write(nextUid); // Uid
-            writer.Write((byte)0); // FullName length (will be set later)
-            writer.Write((byte)0); // FullName terminator
-            writer.Write((byte)0); // ShortName length
-            writer.Write((byte)0); // ShortName terminator
-            writer.Write((byte)0); // SixLetterName length
-            writer.Write((byte)0); // ThreeLetterName length
-            writer.Write((short)0); // BasedId
-            writer.Write((short)0); // NationId
-            
-            // Colors
-            for (int i = 0; i < 6; i++)
-                writer.Write((short)0);
-            
-            // Kits
-            for (int i = 0; i < 6; i++)
+            var newClub = new Club
             {
-                writer.Write((byte)0); // Unknown1
-                writer.Write((byte)0); // Unknown2
-                for (int j = 0; j < 10; j++)
-                    writer.Write((short)0); // Colors
-            }
-            
-            writer.Write((byte)1); // Status
-            writer.Write((byte)10); // Academy
-            writer.Write((byte)10); // Facilities
-            writer.Write((short)0); // AttAvg
-            writer.Write((short)0); // AttMin
-            writer.Write((short)0); // AttMax
-            writer.Write((byte)0); // Reserves
-            writer.Write((short)-1); // LeagueId
-            writer.Write((short)-1); // OtherDivision
-            writer.Write((byte)0); // OtherLastPosition
-            writer.Write((short)-1); // Stadium
-            writer.Write((short)-1); // LastLeague
-            writer.Write(false); // Unknown4Flag
-            writer.Write(0); // Unknown5 length
-            writer.Write((byte)0); // LeaguePos
-            writer.Write((short)0); // Reputation
-            writer.Write(new byte[20]); // Unknown6
-            writer.Write((short)0); // Affiliates count
-            writer.Write((short)0); // Players count
-            for (int i = 0; i < 11; i++)
-                writer.Write(0); // Unknown7
-            writer.Write(-1); // MainClub
-            writer.Write((short)0); // IsNational
-            writer.Write(new byte[33]); // Unknown8
-            writer.Write(new byte[40]); // Unknown9
-            writer.Write((short)0); // IsWomanFlag
-            
-            ms.Position = 0;
-            using var reader = new BinaryReaderEx(ms);
-            var newClub = new Club(reader);
+                Id = -1,
+                Uid = nextUid,
+                FullName = vm.FullName ?? "",
+                ShortName = vm.ShortName ?? "",
+                SixLetterName = vm.SixLetterName ?? "",
+                ThreeLetterName = vm.ThreeLetterName ?? "",
+                BasedId = vm.BasedId ?? 0,
+                NationId = vm.NationId!.Value,
+                Status = vm.Status,
+                Academy = vm.Academy ?? 10,
+                Facilities = vm.Facilities ?? 10,
+                AttAvg = vm.AttAvg ?? 0,
+                AttMin = vm.AttMin ?? 0,
+                AttMax = vm.AttMax ?? 0,
+                Reserves = vm.Reserves ?? 0,
+                LeagueId = vm.LeagueId ?? -1,
+                LeaguePos = vm.LeaguePos ?? 0,
+                Reputation = vm.Reputation ?? 0,
+                Stadium = vm.Stadium ?? -1,
+                LastLeague = vm.LastLeague ?? -1,
+                MainClub = vm.MainClub ?? -1,
+                IsNational = vm.IsNational,
+                IsWomanFlag = vm.IsWomanFlag,
+                Colors = new Color[6],
+                Affiliates = [],
+                Players = [],
+                
+                Unknown4Flag = vm.Unknown4Flag,
+                Unknown4 = vm.Unknown4 ?? [],
+                Unknown5 = vm.Unknown5 ?? [],
+                Unknown6 = vm.Unknown6 ?? new byte[20],
+                Unknown7 = vm.Unknown7 ?? new int[11],
+                Unknown8 = vm.Unknown8 ?? new byte[33],
+                Unknown9 = vm.Unknown9 ?? new byte[40]
+            };
 
-            // Now set the actual values
-            newClub.Id = -1;
-            newClub.Uid = nextUid;
-            newClub.FullName = vm.FullName ?? "";
-            newClub.ShortName = vm.ShortName ?? "";
-            newClub.SixLetterName = vm.SixLetterName ?? "";
-            newClub.ThreeLetterName = vm.ThreeLetterName ?? "";
-            newClub.BasedId = vm.BasedId ?? 0;
-            newClub.NationId = vm.NationId!.Value;
-            newClub.Status = vm.Status;
-            newClub.Academy = vm.Academy ?? 10;
-            newClub.Facilities = vm.Facilities ?? 10;
-            newClub.AttAvg = vm.AttAvg ?? 0;
-            newClub.AttMin = vm.AttMin ?? 0;
-            newClub.AttMax = vm.AttMax ?? 0;
-            newClub.Reserves = vm.Reserves ?? 0;
-            newClub.LeagueId = vm.LeagueId ?? -1;
-            newClub.LeaguePos = vm.LeaguePos ?? 0;
-            newClub.Reputation = vm.Reputation ?? 0;
-            newClub.Stadium = vm.Stadium ?? -1;
-            newClub.LastLeague = vm.LastLeague ?? -1;
-            newClub.MainClub = vm.MainClub ?? -1;
-            newClub.IsNational = vm.IsNational;
-            newClub.IsWomanFlag = vm.IsWomanFlag;
-            
             newClub.Colors[0] = vm.Color1;
             newClub.Colors[1] = vm.Color2;
             newClub.Colors[2] = vm.Color3;
             newClub.Colors[3] = vm.Color4;
             newClub.Colors[4] = vm.Color5;
             newClub.Colors[5] = vm.Color6;
-            
-            newClub.Unknown4Flag = vm.Unknown4Flag;
-            newClub.Unknown4 = vm.Unknown4 ?? [];
-            newClub.Unknown5 = vm.Unknown5 ?? [];
-            newClub.Unknown6 = vm.Unknown6 ?? new byte[20];
-            newClub.Unknown7 = vm.Unknown7 ?? new int[11];
-            newClub.Unknown8 = vm.Unknown8 ?? new byte[33];
-            newClub.Unknown9 = vm.Unknown9 ?? new byte[40];
 
-            ClubParser.Items.Add(newClub);
+            ClubParser.Add(newClub);
             MessageQueue.Enqueue("Club added successfully");
         }
 
@@ -448,14 +394,14 @@ namespace FMMEditor.ViewModels
             existingClub.MainClub = vm.MainClub ?? -1;
             existingClub.IsNational = vm.IsNational;
             existingClub.IsWomanFlag = vm.IsWomanFlag;
-            
+
             existingClub.Colors[0] = vm.Color1;
             existingClub.Colors[1] = vm.Color2;
             existingClub.Colors[2] = vm.Color3;
             existingClub.Colors[3] = vm.Color4;
             existingClub.Colors[4] = vm.Color5;
             existingClub.Colors[5] = vm.Color6;
-            
+
             existingClub.Unknown4Flag = vm.Unknown4Flag;
             existingClub.Unknown4 = vm.Unknown4 ?? [];
             existingClub.Unknown5 = vm.Unknown5 ?? [];

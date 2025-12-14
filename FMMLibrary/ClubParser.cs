@@ -5,6 +5,8 @@
     /// </summary>
     public class ClubParser
     {
+        private readonly List<Club> items;
+
         /// <summary>
         /// File path
         /// </summary>
@@ -18,12 +20,12 @@
         /// <summary>
         /// Original item count when loading the file.
         /// </summary>
-        public int OriginalCount { get; set; }
+        public int Count { get; set; }
 
         /// <summary>
         /// List of all items
         /// </summary>
-        public List<Club> Items { get; set; }
+        public IReadOnlyList<Club> Items => items.AsReadOnly();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ClubParser"/> class.
@@ -34,8 +36,8 @@
         {
             FilePath = path;
             Header = reader.ReadBytes(8);
-            OriginalCount = reader.ReadInt32();
-            Items = [];
+            Count = reader.ReadInt32();
+            items = [];
         }
 
         /// <summary>
@@ -61,11 +63,24 @@
                     if (item.Id == -1)
                         item.Id = parser.Items.Count;
 
-                    parser.Items.Add(item);
+                    parser.items.Add(item);
                 }
             });
 
             return parser;
+        }
+
+        /// <summary>
+        /// Adds the specified person to the collection. The Id should always be -1 (0xFFFFFFFF).
+        /// </summary>
+        /// <param name="item">The person to add to the collection.</param>
+        public void Add(Club item)
+        {
+            // People.Id should always be -1 (0xFFFFFFFF) as per specification
+            item.Id = -1;
+
+            items.Add(item);
+            Count++;
         }
 
         /// <summary>
