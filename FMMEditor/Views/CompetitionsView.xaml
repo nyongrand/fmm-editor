@@ -13,15 +13,11 @@
     Width="1280"
     Height="600"
     mg:DialogServiceViews.IsRegistered="True"
-    Background="{DynamicResource MaterialDesignPaper}"
     BorderThickness="1"
     DataContext="{Binding Source={StaticResource Locator}, Path=Competitions}"
-    FontFamily="{md:MaterialDesignFont}"
-    FontSize="12"
-    GlowBrush="{DynamicResource PrimaryHueDarkBrush}"
+    FontFamily="{StaticResource MaterialDesignFont}"
+    GlowBrush="{DynamicResource AccentColorBrush}"
     Style="{StaticResource MaterialDesignWindow}"
-    TextElement.FontWeight="Medium"
-    TextElement.Foreground="{DynamicResource MaterialDesignBody}"
     TitleBarHeight="20"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
@@ -31,9 +27,9 @@
     </Window.LayoutTransform>
 
     <Window.Resources>
+        <converter:BooleanConverter x:Key="Boolean" />
         <converter:BytesConverter x:Key="bytes" />
         <converter:VisibilityConverter x:Key="Visibility" />
-        <converter:BooleanConverter x:Key="Boolean" />
 
         <Style
             x:Key="centerHeaderColumnStyle"

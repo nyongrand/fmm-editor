@@ -13,19 +13,13 @@
     Width="1280"
     Height="600"
     mg:DialogServiceViews.IsRegistered="True"
-    Background="{DynamicResource MaterialDesignPaper}"
-    BorderBrush="{DynamicResource PrimaryHueMidBrush}"
     BorderThickness="1"
     DataContext="{Binding Source={StaticResource Locator}, Path=People}"
-    FontFamily="{md:MaterialDesignFont}"
-    FontSize="12"
-    GlowBrush="{DynamicResource PrimaryHueDarkBrush}"
+    FontFamily="{StaticResource MaterialDesignFont}"
+    GlowBrush="{DynamicResource AccentColorBrush}"
     Style="{StaticResource MaterialDesignWindow}"
-    TextElement.FontWeight="Medium"
-    TextElement.Foreground="{DynamicResource MaterialDesignBody}"
     TitleBarHeight="20"
     WindowStartupLocation="CenterScreen"
-    WindowTitleBrush="{DynamicResource PrimaryHueDarkBrush}"
     mc:Ignorable="d">
 
     <Window.LayoutTransform>

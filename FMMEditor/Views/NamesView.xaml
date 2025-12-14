@@ -13,19 +13,13 @@
     Width="1280"
     Height="600"
     mg:DialogServiceViews.IsRegistered="True"
-    Background="{DynamicResource MaterialDesignPaper}"
-    BorderBrush="{DynamicResource PrimaryHueMidBrush}"
     BorderThickness="1"
     DataContext="{Binding Source={StaticResource Locator}, Path=Names}"
-    FontFamily="{md:MaterialDesignFont}"
-    FontSize="12"
-    GlowBrush="{DynamicResource PrimaryHueDarkBrush}"
+    FontFamily="{StaticResource MaterialDesignFont}"
+    GlowBrush="{DynamicResource AccentColorBrush}"
     Style="{StaticResource MaterialDesignWindow}"
-    TextElement.FontWeight="Medium"
-    TextElement.Foreground="{DynamicResource MaterialDesignBody}"
     TitleBarHeight="20"
     WindowStartupLocation="CenterScreen"
-    WindowTitleBrush="{DynamicResource PrimaryHueDarkBrush}"
     mc:Ignorable="d">
 
     <Window.LayoutTransform>
@@ -33,10 +27,10 @@
     </Window.LayoutTransform>
 
     <Window.Resources>
-        <converter:BytesConverter x:Key="bytes" />
-        <converter:VisibilityConverter x:Key="Visibility" />
         <converter:BooleanConverter x:Key="Boolean" />
+        <converter:BytesConverter x:Key="bytes" />
         <converter:GenderConverter x:Key="GenderConverter" />
+        <converter:VisibilityConverter x:Key="Visibility" />
 
         <!--  Converter for dialog title based on SelectedId (-1 = Add, otherwise Edit)  -->
         <converter:DialogModeConverter x:Key="DialogModeConverter" />
