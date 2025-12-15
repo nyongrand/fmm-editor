@@ -663,7 +663,7 @@
                         md:DataGridAssist.SelectedCellBorderBrush="Transparent"
                         AutoGenerateColumns="False"
                         BorderThickness="1"
-                        CanUserAddRows="True"
+                        CanUserAddRows="False"
                         CanUserReorderColumns="False"
                         CanUserResizeRows="False"
                         ContextMenu="{DynamicResource menu}"
@@ -694,7 +694,7 @@
                                     <MenuItem.Header>
                                         <TextBlock>
                                             <Run Text="Add a club to" />
-                                            <Run FontWeight="SemiBold" Text="{Binding SelectedCompetition.ShortName}" />
+                                            <Run FontWeight="SemiBold" Text="{Binding SelectedCompetition.ShortName, Mode=OneWay}" />
                                         </TextBlock>
                                     </MenuItem.Header>
                                 </MenuItem>
@@ -703,9 +703,9 @@
                                     <MenuItem.Header>
                                         <TextBlock>
                                             <Run Text="Remove" />
-                                            <Run FontWeight="SemiBold" Text="{Binding SelectedClub.ShortName}" />
+                                            <Run FontWeight="SemiBold" Text="{Binding SelectedClub.ShortName, Mode=OneWay}" />
                                             <Run Text="from" />
-                                            <Run FontWeight="SemiBold" Text="{Binding SelectedCompetition.ShortName}" />
+                                            <Run FontWeight="SemiBold" Text="{Binding SelectedCompetition.ShortName, Mode=OneWay}" />
                                         </TextBlock>
                                     </MenuItem.Header>
                                 </MenuItem>
@@ -716,7 +716,7 @@
                                     <MenuItem.Header>
                                         <TextBlock>
                                             <Run Text="Switch" />
-                                            <Run FontWeight="SemiBold" Text="{Binding SelectedClub.ShortName}" />
+                                            <Run FontWeight="SemiBold" Text="{Binding SelectedClub.ShortName, Mode=OneWay}" />
                                             <Run Text="with..." />
                                         </TextBlock>
                                     </MenuItem.Header>
@@ -779,7 +779,8 @@
                                 Binding="{Binding Reputation}"
                                 CanUserReorder="False"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
-                                Header="Reputation">
+                                Header="Reputation"
+                                IsReadOnly="True">
                                 <DataGridTextColumn.HeaderStyle>
                                     <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
                                         <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -794,7 +795,8 @@
                                 Binding="{Binding Academy}"
                                 CanUserReorder="False"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
-                                Header="Academy">
+                                Header="Academy"
+                                IsReadOnly="True">
                                 <DataGridTextColumn.HeaderStyle>
                                     <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
                                         <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -809,7 +811,8 @@
                                 Binding="{Binding Facilities}"
                                 CanUserReorder="False"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
-                                Header="Facility">
+                                Header="Facility"
+                                IsReadOnly="True">
                                 <DataGridTextColumn.HeaderStyle>
                                     <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
                                         <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -822,28 +825,16 @@
                                 Binding="{Binding FullName}"
                                 CanUserReorder="False"
                                 ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
-                                Header="Full Name" />
+                                Header="Full Name"
+                                IsReadOnly="True" />
 
                             <DataGridTextColumn
                                 Width="110"
                                 Binding="{Binding ShortName}"
                                 CanUserReorder="False"
                                 ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
-                                Header="Short Name" />
-
-                            <DataGridTextColumn
-                                Width="110"
-                                Binding="{Binding CodeName1}"
-                                CanUserReorder="False"
-                                ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
-                                Header="Code Name 1" />
-
-                            <DataGridTextColumn
-                                Width="110"
-                                Binding="{Binding CodeName2}"
-                                CanUserReorder="False"
-                                ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
-                                Header="Code Name 2" />
+                                Header="Short Name"
+                                IsReadOnly="True" />
 
                         </DataGrid.Columns>
                     </DataGrid>
