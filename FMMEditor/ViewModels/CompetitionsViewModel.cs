@@ -1,4 +1,7 @@
 ﻿using DynamicData;
+using FMMEditor.Collections;
+using FMMEditor.Models;
+using FMMEditor.Views;
 using FMMLibrary;
 using MaterialDesignThemes.Wpf;
 using MvvmDialogs;
@@ -20,11 +23,53 @@ namespace FMMEditor.ViewModels
 {
     public class CompetitionsViewModel : ReactiveObject
     {
-        public extern bool ShowSearch { [ObservableAsProperty] get; }
+        public extern string? FolderPath { [ObservableAsProperty] get; }
+        public extern bool IsDatabaseLoaded { [ObservableAsProperty] get; }
+
         [Reactive] public string SearchQuery { get; set; } = "";
-        [Reactive] public Competition? SelectedCompetition { get; set; }
         public ReactiveCommand<Unit, Unit> ClearSearch { get; private set; }
 
+        // Parsers
+        public extern NationParser? NationParser { [ObservableAsProperty] get; }
+        public extern CompetitionParser? CompParser { [ObservableAsProperty] get; }
+        public extern ClubParser? ClubParser { [ObservableAsProperty] get; }
+
+        // Collections for display
+        public BulkObservableCollection<Nation> Nations { get; } = [];
+        public BulkObservableCollection<CompetitionDisplayModel> CompetitionsList { get; } = [];
+
+        /// <summary>
+        /// All clubs loaded from club.dat
+        /// </summary>
+        public ObservableCollection<Club> Clubs { get; }
+
+        /// <summary>
+        /// Clubs filtered by selected competition
+        /// </summary>
+        public ObservableCollection<Club> ClubsInSelectedCompetition { get; }
+
+        /// <summary>
+        /// Clubs filtered by selected nation for switching / moving
+        /// </summary>
+        public ObservableCollection<Club> ClubsAvailableForSwitch { get; }
+
+        // Commands
+        public ReactiveCommand<Unit, string?> Load { get; private set; }
+        public ReactiveCommand<Unit, Unit> Save { get; private set; }
+        public ReactiveCommand<Unit, Unit> SaveAs { get; private set; }
+        public ReactiveCommand<string, NationParser> ParseNations { get; private set; }
+        public ReactiveCommand<string, CompetitionParser> ParseCompetitions { get; private set; }
+        public ReactiveCommand<string, ClubParser> ParseClubs { get; private set; }
+
+        // Commands for Add/Edit/Copy
+        public ReactiveCommand<Unit, Unit> AddCommand { get; private set; }
+        public ReactiveCommand<CompetitionDisplayModel, Unit> EditCommand { get; private set; }
+        public ReactiveCommand<CompetitionDisplayModel, Unit> CopyCommand { get; private set; }
+
+        [Reactive] public CompetitionDisplayModel? SelectedCompetition { get; set; }
+        [Reactive] public ISnackbarMessageQueue MessageQueue { get; set; }
+
+        // Club management
         [Reactive] public bool ShowMoveDialog { get; set; }
         [Reactive] public bool ShowSwitchDialog { get; set; }
         [Reactive] public bool ShowDialog { get; set; }
@@ -43,49 +88,11 @@ namespace FMMEditor.ViewModels
         public ReactiveCommand<Unit, Unit> ConfirmSwitch { get; private set; }
         public ReactiveCommand<Unit, Unit> ConfirmMove { get; private set; }
 
-        public extern string? FolderPath { [ObservableAsProperty] get; }
-        public extern bool IsDatabaseLoaded { [ObservableAsProperty] get; }
-
-        public extern NationParser? NationParser { [ObservableAsProperty] get; }
-        public extern CompetitionParser? CompParser { [ObservableAsProperty] get; }
-        public extern ClubParser? ClubParser { [ObservableAsProperty] get; }
-
-        /// <summary>
-        /// All nations loaded from nation.dat
-        /// </summary>
-        public ObservableCollection<Nation> Nations { get; }
-
-        /// <summary>
-        /// All competitions loaded from competition.dat
-        /// </summary>
-        public ObservableCollection<Competition> Competitions { get; }
-
-        /// <summary>
-        /// All clubs loaded from club.dat
-        /// </summary>
-        public ObservableCollection<Club> Clubs { get; }
-
-        /// <summary>
-        /// Clubs filtered by selected competition
-        /// </summary>
-        public ObservableCollection<Club> ClubsInSelectedCompetition { get; }
-
-        /// <summary>
-        /// Clubs filtered by selected nation for switching / moving
-        /// </summary>
-        public ObservableCollection<Club> ClubsAvailableForSwitch { get; }
-
-        public ReactiveCommand<Unit, string?> Load { get; private set; }
-        public ReactiveCommand<Unit, Unit> Save { get; private set; }
-        public ReactiveCommand<Unit, Unit> SaveAs { get; private set; }
-        public ReactiveCommand<string, NationParser> ParseNations { get; private set; }
-        public ReactiveCommand<string, CompetitionParser> ParseCompetitions { get; private set; }
-        public ReactiveCommand<string, ClubParser> ParseClubs { get; private set; }
-
-        [Reactive] public ISnackbarMessageQueue MessageQueue { get; set; }
-
-        private readonly ICollectionView compsView;
+        private readonly ICollectionView competitionsView;
         private readonly IDialogService dialogService;
+
+        // Lookup dictionaries for performance
+        private Dictionary<short, string> nationLookup = [];
         private Dictionary<short, List<Club>> clubsByLeagueLookup = [];
 
         public CompetitionsViewModel(IDialogService dialogService, ISnackbarMessageQueue messageQueue)
@@ -95,25 +102,22 @@ namespace FMMEditor.ViewModels
 
             ClearSearch = ReactiveCommand.Create(() => { SearchQuery = ""; }, outputScheduler: RxApp.MainThreadScheduler);
 
-            Nations = [];
-
-            Competitions = [];
-            compsView = CollectionViewSource.GetDefaultView(Competitions);
-            compsView.Filter = obj =>
-            {
-                if (obj is Competition competition)
-                {
-                    return string.IsNullOrEmpty(SearchQuery)
-                    || competition.FullName.Contains(SearchQuery, StringComparison.InvariantCultureIgnoreCase)
-                    || competition.Nation.Contains(SearchQuery, StringComparison.InvariantCultureIgnoreCase);
-                }
-
-                return true;
-            };
-
             Clubs = [];
             ClubsInSelectedCompetition = [];
             ClubsAvailableForSwitch = [];
+
+            competitionsView = CollectionViewSource.GetDefaultView(CompetitionsList);
+            competitionsView.Filter = obj =>
+            {
+                if (obj is CompetitionDisplayModel competition)
+                {
+                    return string.IsNullOrEmpty(SearchQuery)
+                        || competition.FullName.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase)
+                        || competition.NationName.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase)
+                        || competition.ShortName.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase);
+                }
+                return true;
+            };
 
             Load = ReactiveCommand.Create(LoadImpl);
             Load.ToPropertyEx(this, vm => vm.FolderPath);
@@ -127,6 +131,10 @@ namespace FMMEditor.ViewModels
             ParseClubs = ReactiveCommand.CreateFromTask<string, ClubParser>(ClubParser.Load);
             ParseClubs.ToPropertyEx(this, vm => vm.ClubParser);
 
+            AddCommand = ReactiveCommand.CreateFromTask(OpenAddCompetitionDialogAsync);
+            EditCommand = ReactiveCommand.CreateFromTask<CompetitionDisplayModel>(OpenEditCompetitionDialogAsync);
+            CopyCommand = ReactiveCommand.CreateFromTask<CompetitionDisplayModel>(OpenCopyCompetitionDialogAsync);
+
             SwitchClub = ReactiveCommand.Create(SwitchClubImpl);
             MoveClub = ReactiveCommand.Create(MoveClubImpl);
             RemoveClub = ReactiveCommand.Create(RemoveClubImpl);
@@ -138,6 +146,7 @@ namespace FMMEditor.ViewModels
             Save = ReactiveCommand.CreateFromTask(SaveImpl);
             SaveAs = ReactiveCommand.CreateFromTask(SaveAsImpl);
 
+            // Wire up folder path to parsers
             this.WhenAnyValue(vm => vm.FolderPath)
                 .WhereNotNull()
                 .Select(x => x + "\\nation.dat")
@@ -157,54 +166,36 @@ namespace FMMEditor.ViewModels
                 .Select(x => !string.IsNullOrEmpty(x))
                 .ToPropertyEx(this, vm => vm.IsDatabaseLoaded);
 
+            // Build lookup dictionaries when parsers load
             this.WhenAnyValue(vm => vm.NationParser)
                 .WhereNotNull()
                 .Subscribe(x =>
                 {
-                    Nations.Clear();
-                    Nations.AddRange(x.Items.OrderBy(y => y.Name));
+                    Nations.Reset(x.Items.OrderBy(y => y.Name));
+                    nationLookup = x.Items.ToDictionary(n => n.Id, n => n.Name);
+                    RefreshCompetitionsDisplay();
                 });
 
-            this.WhenAnyValue(vm => vm.CompParser, vm => vm.NationParser)
-                .Subscribe(pair =>
-                {
-                    Competitions.Clear();
+            this.WhenAnyValue(vm => vm.CompParser)
+                .WhereNotNull()
+                .Subscribe(x => RefreshCompetitionsDisplay());
 
-                    var competitions = pair.Item1?.Items;
-                    if (competitions != null)
-                    {
-                        competitions.ForEach(x =>
-                        {
-                            x.Nation = GetNationName(pair.Item2?.Items, x.NationId);
-                        });
-
-                        Competitions.AddRange(
-                            competitions
-                                .OrderByDescending(x => x.NationId != -1)
-                                .ThenBy(x => x.IsWomen)
-                                .ThenBy(x => x.Nation)
-                                .ThenBy(x => x.Level)
-                                .ThenBy(x => x.Id)
-                        );
-                    }
-                });
-
-            this.WhenAnyValue(vm => vm.ClubParser, vm => vm.NationParser)
-                .Where(pair => pair.Item1 != null)
-                .Subscribe(pair =>
+            this.WhenAnyValue(vm => vm.ClubParser)
+                .Where(x => x != null)
+                .Subscribe(x =>
                 {
                     Clubs.Clear();
                     ClubsInSelectedCompetition.Clear();
                     ClubsAvailableForSwitch.Clear();
                     clubsByLeagueLookup.Clear();
 
-                    var clubs = pair.Item1?.Items.ToList();
+                    var clubs = x?.Items.ToList();
                     if (clubs != null && clubs.Count != 0)
                     {
-                        clubs.ForEach(x =>
+                        clubs.ForEach(c =>
                         {
-                            x.Based = GetNationName(pair.Item2?.Items, x.BasedId);
-                            x.Nation = GetNationName(pair.Item2?.Items, x.NationId);
+                            c.Based = nationLookup.GetValueOrDefault(c.BasedId, "");
+                            c.Nation = nationLookup.GetValueOrDefault(c.NationId, "");
                         });
 
                         Clubs.AddRange(clubs);
@@ -216,7 +207,6 @@ namespace FMMEditor.ViewModels
                             .ToDictionary(g => g.Key, g => g.ToList());
                     }
 
-                    // Trigger initial filter
                     UpdateFilteredClubs();
                     UpdateFilteredSwitchs();
                 });
@@ -226,7 +216,7 @@ namespace FMMEditor.ViewModels
                 .Subscribe(x => ShowDialog = x);
 
             this.WhenAnyValue(vm => vm.SearchQuery)
-                .Subscribe(x => compsView.Refresh());
+                .Subscribe(x => competitionsView.Refresh());
 
             this.WhenAnyValue(vm => vm.SelectedCompetition)
                 .Subscribe(x => UpdateFilteredClubs());
@@ -237,6 +227,148 @@ namespace FMMEditor.ViewModels
             this.WhenAnyValue(vm => vm.SelectedCompetition, vm => vm.ClubsInSelectedCompetition.Count)
                 .Select(x => x.Item1 != null && x.Item2 == 0)
                 .ToPropertyEx(this, vm => vm.HasNoClubs);
+        }
+
+        private async Task OpenAddCompetitionDialogAsync()
+        {
+            var viewModel = new CompetitionEditViewModel(Nations);
+            viewModel.InitializeForAdd();
+
+            var view = new CompetitionEditView { DataContext = viewModel };
+
+            var result = await DialogHost.Show(view, "CompetitionsDialogHost");
+
+            if (result is CompetitionEditViewModel vm && vm.Validate())
+            {
+                AddCompetition(vm);
+                RefreshCompetitionsDisplay();
+            }
+        }
+
+        private async Task OpenEditCompetitionDialogAsync(CompetitionDisplayModel? competition)
+        {
+            if (competition == null) return;
+
+            var viewModel = new CompetitionEditViewModel(Nations);
+            viewModel.InitializeForEdit(competition);
+
+            var view = new CompetitionEditView { DataContext = viewModel };
+
+            var result = await DialogHost.Show(view, "CompetitionsDialogHost");
+
+            if (result is CompetitionEditViewModel vm && vm.Validate())
+            {
+                UpdateCompetition(vm);
+                RefreshCompetitionsDisplay();
+            }
+        }
+
+        private async Task OpenCopyCompetitionDialogAsync(CompetitionDisplayModel? competition)
+        {
+            if (competition == null) return;
+
+            var viewModel = new CompetitionEditViewModel(Nations);
+            viewModel.InitializeForCopy(competition);
+
+            var view = new CompetitionEditView { DataContext = viewModel };
+
+            var result = await DialogHost.Show(view, "CompetitionsDialogHost");
+
+            if (result is CompetitionEditViewModel vm && vm.Validate())
+            {
+                AddCompetition(vm);
+                RefreshCompetitionsDisplay();
+            }
+        }
+
+        private void AddCompetition(CompetitionEditViewModel vm)
+        {
+            if (CompParser == null) return;
+
+            var nextId = CompParser.Items.Count > 0 ? (short)(CompParser.Items.Max(x => x.Id) + 1) : (short)1;
+            var nextUid = CompParser.Items.Count > 0 ? CompParser.Items.Max(x => x.Uid) + 1 : 1;
+
+            var newCompetition = new Competition(new BinaryReaderEx(new System.IO.MemoryStream()))
+            {
+                Id = nextId,
+                Uid = nextUid,
+                FullName = vm.FullName ?? "",
+                FullNameTerminator = vm.FullNameTerminator,
+                ShortName = vm.ShortName ?? "",
+                ShortNameTerminator = vm.ShortNameTerminator,
+                CodeName = vm.CodeName ?? "",
+                Type = vm.Type,
+                ContinentId = vm.ContinentId,
+                NationId = vm.NationId ?? -1,
+                ForegroundColor = vm.ForegroundColor,
+                BackgroundColor = vm.BackgroundColor,
+                Reputation = vm.Reputation,
+                Level = vm.Level,
+                ParentCompetitionId = vm.ParentCompetitionId,
+                Qualifiers = vm.Qualifiers ?? [],
+                Rank1 = vm.Rank1,
+                Rank2 = vm.Rank2,
+                Rank3 = vm.Rank3,
+                Year1 = vm.Year1,
+                Year2 = vm.Year2,
+                Year3 = vm.Year3,
+                Unknown3 = vm.Unknown3,
+                IsWomen = vm.IsWomen
+            };
+
+            CompParser.Items.Add(newCompetition);
+            MessageQueue.Enqueue("Competition added successfully");
+        }
+
+        private void UpdateCompetition(CompetitionEditViewModel vm)
+        {
+            var existingCompetition = CompParser?.Items.FirstOrDefault(x => x.Uid == vm.Uid);
+            if (existingCompetition == null) return;
+
+            existingCompetition.FullName = vm.FullName ?? "";
+            existingCompetition.FullNameTerminator = vm.FullNameTerminator;
+            existingCompetition.ShortName = vm.ShortName ?? "";
+            existingCompetition.ShortNameTerminator = vm.ShortNameTerminator;
+            existingCompetition.CodeName = vm.CodeName ?? "";
+            existingCompetition.Type = vm.Type;
+            existingCompetition.ContinentId = vm.ContinentId;
+            existingCompetition.NationId = vm.NationId ?? -1;
+            existingCompetition.ForegroundColor = vm.ForegroundColor;
+            existingCompetition.BackgroundColor = vm.BackgroundColor;
+            existingCompetition.Reputation = vm.Reputation;
+            existingCompetition.Level = vm.Level;
+            existingCompetition.ParentCompetitionId = vm.ParentCompetitionId;
+            existingCompetition.Qualifiers = vm.Qualifiers ?? [];
+            existingCompetition.Rank1 = vm.Rank1;
+            existingCompetition.Rank2 = vm.Rank2;
+            existingCompetition.Rank3 = vm.Rank3;
+            existingCompetition.Year1 = vm.Year1;
+            existingCompetition.Year2 = vm.Year2;
+            existingCompetition.Year3 = vm.Year3;
+            existingCompetition.Unknown3 = vm.Unknown3;
+            existingCompetition.IsWomen = vm.IsWomen;
+
+            MessageQueue.Enqueue("Competition updated successfully");
+        }
+
+        private void RefreshCompetitionsDisplay()
+        {
+            if (CompParser == null) return;
+
+            var displayList = CompParser.Items.Select(c =>
+            {
+                var display = new CompetitionDisplayModel(c)
+                {
+                    NationName = nationLookup.GetValueOrDefault(c.NationId, "")
+                };
+                return display;
+            }).OrderByDescending(x => x.Competition.NationId != -1)
+              .ThenBy(x => x.IsWomen)
+              .ThenBy(x => x.NationName)
+              .ThenBy(x => x.Level)
+              .ThenBy(x => x.Id);
+
+            CompetitionsList.Reset(displayList);
         }
 
         private void UpdateFilteredClubs()
@@ -261,7 +393,7 @@ namespace FMMEditor.ViewModels
                     .Where(c => c.NationId == FilterSwitchNation.Id && c.LeagueId != SelectedCompetition.Id)
                     .Select(c =>
                     {
-                        c.Competition = GetCompetitionName(Competitions, c.LeagueId);
+                        c.Competition = GetCompetitionName(c.LeagueId);
                         return c;
                     })
                     .OrderByDescending(c => c.Reputation)
@@ -325,7 +457,7 @@ namespace FMMEditor.ViewModels
         {
             ShowMoveDialog = false;
 
-            if (SelectedCompetition is Competition comp && SwitchedWithClub is not null)
+            if (SelectedCompetition?.Competition is Competition comp && SwitchedWithClub is not null)
             {
                 var oldLeagueId = SwitchedWithClub.LeagueId;
 
@@ -396,17 +528,11 @@ namespace FMMEditor.ViewModels
         {
             try
             {
-                if (CompParser != null && ClubParser != null)
+                if (CompParser != null)
                 {
-                    CompParser.OriginalCount = (short)Competitions.Count;
-                    CompParser.Items = [.. Competitions];
+                    CompParser.OriginalCount = (short)CompParser.Items.Count;
                     await CompParser.Save();
-
-                    //ClubParser.Count = Clubs.Count;
-                    //ClubParser.Items = [.. Clubs];
-                    //await ClubParser.Save();
-
-                    MessageQueue.Enqueue("Save Successfull");
+                    MessageQueue.Enqueue("Save Successful");
                 }
             }
             catch (Exception e)
@@ -424,17 +550,11 @@ namespace FMMEditor.ViewModels
 
             try
             {
-                if (CompParser != null && ClubParser != null)
+                if (CompParser != null)
                 {
-                    CompParser.OriginalCount = (short)Competitions.Count;
-                    CompParser.Items = [.. Competitions];
+                    CompParser.OriginalCount = (short)CompParser.Items.Count;
                     await CompParser.Save(settings.SelectedPath + "\\competition.dat");
-
-                    //ClubParser.Count = Clubs.Count;
-                    //ClubParser.Items = [.. Clubs];
-                    //await ClubParser.Save(settings.SelectedPath + "\\club.dat");
-
-                    MessageQueue.Enqueue("Save Successfull");
+                    MessageQueue.Enqueue("Save Successful");
                 }
             }
             catch (Exception e)
@@ -444,18 +564,9 @@ namespace FMMEditor.ViewModels
             }
         }
 
-        #region Private Methods
-
-        private static string GetCompetitionName(IEnumerable<Competition>? competitions, int id)
+        private string GetCompetitionName(int id)
         {
-            return competitions?.FirstOrDefault(x => x.Id == id)?.FullName ?? "--";
+            return CompParser?.Items.FirstOrDefault(x => x.Id == id)?.FullName ?? "--";
         }
-
-        private static string GetNationName(IEnumerable<Nation>? nations, int id)
-        {
-            return nations?.FirstOrDefault(x => x.Id == id)?.Name ?? "--";
-        }
-
-        #endregion
     }
 }

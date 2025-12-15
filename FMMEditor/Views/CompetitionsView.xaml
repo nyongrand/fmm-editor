@@ -42,7 +42,7 @@
     </Window.Resources>
 
     <Grid>
-        <md:DialogHost IsOpen="{Binding ShowDialog}">
+        <md:DialogHost Identifier="CompetitionsDialogHost" IsOpen="{Binding ShowDialog}">
             <md:DialogHost.DialogContent>
 
                 <md:Card md:ElevationAssist.Elevation="Dp0" UniformCornerRadius="4">
@@ -561,7 +561,7 @@
                         FontSize="12.5"
                         GridLinesVisibility="All"
                         IsSynchronizedWithCurrentItem="True"
-                        ItemsSource="{Binding Competitions}"
+                        ItemsSource="{Binding CompetitionsList}"
                         RowHeight="33"
                         ScrollViewer.HorizontalScrollBarVisibility="Auto"
                         SelectedItem="{Binding SelectedCompetition}"
@@ -618,7 +618,7 @@
                             <DataGridTextColumn
                                 Width="100"
                                 MinWidth="100"
-                                Binding="{Binding Nation}"
+                                Binding="{Binding NationName}"
                                 CanUserReorder="False"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Nation"
