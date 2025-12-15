@@ -323,7 +323,9 @@ namespace FMMEditor.ViewModels
                 Id = -1,
                 Uid = nextUid,
                 FullName = vm.FullName ?? "",
+                FullNameTerminator = vm.FullNameTerminator,
                 ShortName = vm.ShortName ?? "",
+                ShortNameTerminator = vm.ShortNameTerminator,
                 SixLetterName = vm.SixLetterName ?? "",
                 ThreeLetterName = vm.ThreeLetterName ?? "",
                 BasedId = vm.BasedId ?? 0,
@@ -336,15 +338,18 @@ namespace FMMEditor.ViewModels
                 AttMax = vm.AttMax ?? 0,
                 Reserves = vm.Reserves ?? 0,
                 LeagueId = vm.LeagueId ?? -1,
-                LeaguePos = vm.LeaguePos ?? 0,
-                Reputation = vm.Reputation ?? 0,
+                OtherDivision = vm.OtherDivision,
+                OtherLastPosition = vm.OtherLastPosition,
                 Stadium = vm.Stadium ?? -1,
                 LastLeague = vm.LastLeague ?? -1,
+                LeaguePos = vm.LeaguePos ?? 0,
+                Reputation = vm.Reputation ?? 0,
                 MainClub = vm.MainClub ?? -1,
                 IsNational = vm.IsNational,
                 IsWomanFlag = vm.IsWomanFlag,
                 Colors = new Color[6],
-                Affiliates = [],
+                Kits = new Kit[6],
+                Affiliates = vm.Affiliates ?? [],
                 Players = [],
                 
                 Unknown4Flag = vm.Unknown4Flag,
@@ -363,6 +368,11 @@ namespace FMMEditor.ViewModels
             newClub.Colors[4] = vm.Color5;
             newClub.Colors[5] = vm.Color6;
 
+            for (int i = 0; i < 6; i++)
+            {
+                newClub.Kits[i] = vm.Kits?[i] ?? new Kit();
+            }
+
             ClubParser.Add(newClub);
             MessageQueue.Enqueue("Club added successfully");
         }
@@ -374,7 +384,9 @@ namespace FMMEditor.ViewModels
 
             existingClub.Id = -1;
             existingClub.FullName = vm.FullName ?? "";
+            existingClub.FullNameTerminator = vm.FullNameTerminator;
             existingClub.ShortName = vm.ShortName ?? "";
+            existingClub.ShortNameTerminator = vm.ShortNameTerminator;
             existingClub.SixLetterName = vm.SixLetterName ?? "";
             existingClub.ThreeLetterName = vm.ThreeLetterName ?? "";
             existingClub.BasedId = vm.BasedId ?? 0;
@@ -387,10 +399,12 @@ namespace FMMEditor.ViewModels
             existingClub.AttMax = vm.AttMax ?? 0;
             existingClub.Reserves = vm.Reserves ?? 0;
             existingClub.LeagueId = vm.LeagueId ?? -1;
-            existingClub.LeaguePos = vm.LeaguePos ?? 0;
-            existingClub.Reputation = vm.Reputation ?? 0;
+            existingClub.OtherDivision = vm.OtherDivision;
+            existingClub.OtherLastPosition = vm.OtherLastPosition;
             existingClub.Stadium = vm.Stadium ?? -1;
             existingClub.LastLeague = vm.LastLeague ?? -1;
+            existingClub.LeaguePos = vm.LeaguePos ?? 0;
+            existingClub.Reputation = vm.Reputation ?? 0;
             existingClub.MainClub = vm.MainClub ?? -1;
             existingClub.IsNational = vm.IsNational;
             existingClub.IsWomanFlag = vm.IsWomanFlag;
@@ -401,6 +415,13 @@ namespace FMMEditor.ViewModels
             existingClub.Colors[3] = vm.Color4;
             existingClub.Colors[4] = vm.Color5;
             existingClub.Colors[5] = vm.Color6;
+
+            for (int i = 0; i < 6; i++)
+            {
+                existingClub.Kits[i] = vm.Kits?[i] ?? new Kit();
+            }
+
+            existingClub.Affiliates = vm.Affiliates ?? [];
 
             existingClub.Unknown4Flag = vm.Unknown4Flag;
             existingClub.Unknown4 = vm.Unknown4 ?? [];

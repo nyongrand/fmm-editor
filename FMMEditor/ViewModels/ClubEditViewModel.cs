@@ -16,7 +16,7 @@ namespace FMMEditor.ViewModels
         public string WindowTitle => IsAddMode ? "Add New Club" : "Edit Club";
 
         public BulkObservableCollection<Nation> Nations { get; }
-        public ObservableCollection<PlayerInfo> Players { get; } = new();
+        public ObservableCollection<PlayerInfo> Players { get; } = [];
         
         private readonly Dictionary<int, People> peopleLookup;
         private readonly Dictionary<int, Player> playerLookup;
@@ -36,7 +36,9 @@ namespace FMMEditor.ViewModels
         // Club fields
         [Reactive] public int? Uid { get; set; }
         [Reactive] public string? FullName { get; set; }
+        [Reactive] public byte FullNameTerminator { get; set; }
         [Reactive] public string? ShortName { get; set; }
+        [Reactive] public byte ShortNameTerminator { get; set; }
         [Reactive] public string? SixLetterName { get; set; }
         [Reactive] public string? ThreeLetterName { get; set; }
         [Reactive] public short? BasedId { get; set; }
@@ -49,6 +51,8 @@ namespace FMMEditor.ViewModels
         [Reactive] public short? AttMax { get; set; }
         [Reactive] public byte? Reserves { get; set; }
         [Reactive] public short? LeagueId { get; set; }
+        [Reactive] public short OtherDivision { get; set; }
+        [Reactive] public byte OtherLastPosition { get; set; }
         [Reactive] public byte? LeaguePos { get; set; }
         [Reactive] public short? Reputation { get; set; }
         [Reactive] public short? Stadium { get; set; }
@@ -65,14 +69,20 @@ namespace FMMEditor.ViewModels
         [Reactive] public Color Color5 { get; set; }
         [Reactive] public Color Color6 { get; set; }
 
+        // Club kits (6 kits)
+        [Reactive] public Kit[] Kits { get; set; } = [];
+
+        // Affiliates
+        [Reactive] public Affiliate[] Affiliates { get; set; } = [];
+
         // Unknown fields
         [Reactive] public bool Unknown4Flag { get; set; }
-        [Reactive] public byte[] Unknown4 { get; set; }
-        [Reactive] public byte[] Unknown5 { get; set; }
-        [Reactive] public byte[] Unknown6 { get; set; }
-        [Reactive] public int[] Unknown7 { get; set; }
-        [Reactive] public byte[] Unknown8 { get; set; }
-        [Reactive] public byte[] Unknown9 { get; set; }
+        [Reactive] public byte[] Unknown4 { get; set; } = [];
+        [Reactive] public byte[] Unknown5 { get; set; } = [];
+        [Reactive] public byte[] Unknown6 { get; set; } = [];
+        [Reactive] public int[] Unknown7 { get; set; } = [];
+        [Reactive] public byte[] Unknown8 { get; set; } = [];
+        [Reactive] public byte[] Unknown9 { get; set; } = [];
 
         public ClubEditViewModel(
             BulkObservableCollection<Nation> nations,
@@ -122,7 +132,9 @@ namespace FMMEditor.ViewModels
 
             Uid = c.Uid;
             FullName = c.FullName;
+            FullNameTerminator = c.FullNameTerminator;
             ShortName = c.ShortName;
+            ShortNameTerminator = c.ShortNameTerminator;
             SixLetterName = c.SixLetterName;
             ThreeLetterName = c.ThreeLetterName;
             BasedId = c.BasedId;
@@ -135,6 +147,8 @@ namespace FMMEditor.ViewModels
             AttMax = c.AttMax;
             Reserves = c.Reserves;
             LeagueId = c.LeagueId;
+            OtherDivision = c.OtherDivision;
+            OtherLastPosition = c.OtherLastPosition;
             LeaguePos = c.LeaguePos;
             Reputation = c.Reputation;
             Stadium = c.Stadium;
@@ -144,6 +158,8 @@ namespace FMMEditor.ViewModels
             IsWomanFlag = c.IsWomanFlag;
             
             LoadColors(c.Colors);
+            LoadKits(c.Kits);
+            LoadAffiliates(c.Affiliates);
             LoadUnknownFields(c);
             LoadPlayers(c.Players);
         }
@@ -152,7 +168,9 @@ namespace FMMEditor.ViewModels
         {
             Uid = null;
             FullName = "";
+            FullNameTerminator = 0;
             ShortName = "";
+            ShortNameTerminator = 0;
             SixLetterName = "";
             ThreeLetterName = "";
             BasedId = null;
@@ -165,6 +183,8 @@ namespace FMMEditor.ViewModels
             AttMax = 0;
             Reserves = 0;
             LeagueId = -1;
+            OtherDivision = -1;
+            OtherLastPosition = 0;
             LeaguePos = 0;
             Reputation = 0;
             Stadium = -1;
@@ -174,6 +194,8 @@ namespace FMMEditor.ViewModels
             IsWomanFlag = 0;
             
             ResetColors();
+            ResetKits();
+            ResetAffiliates();
             ResetUnknownFields();
             Players.Clear();
         }
@@ -203,6 +225,41 @@ namespace FMMEditor.ViewModels
             Color4 = Color.Black;
             Color5 = Color.White;
             Color6 = Color.Black;
+        }
+
+        private void LoadKits(Kit[] kits)
+        {
+            if (kits != null && kits.Length >= 6)
+            {
+                Kits = new Kit[6];
+                for (int i = 0; i < 6; i++)
+                {
+                    Kits[i] = kits[i];
+                }
+            }
+            else
+            {
+                ResetKits();
+            }
+        }
+
+        private void ResetKits()
+        {
+            Kits = new Kit[6];
+            for (int i = 0; i < 6; i++)
+            {
+                Kits[i] = new Kit();
+            }
+        }
+
+        private void LoadAffiliates(Affiliate[] affiliates)
+        {
+            Affiliates = affiliates ?? [];
+        }
+
+        private void ResetAffiliates()
+        {
+            Affiliates = [];
         }
 
         private void LoadUnknownFields(Club club)
