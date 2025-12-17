@@ -9,23 +9,25 @@ namespace FMMEditor.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            var isWoman = false;
             if (value is byte gender)
+                isWoman = gender == 1;
+
+            if (value is bool woman)
+                isWoman = woman;
+
+            var param = parameter?.ToString();
+            if (param == "Symbol")
             {
-                var param = parameter?.ToString();
-                
-                if (param == "Symbol")
-                {
-                    // 0 = Male, 1 = Female
-                    // Using full-width symbols for better compatibility
-                    return gender == 0 ? "\u2642" : "\u2640";
-                }
-                else if (param == "Color")
-                {
-                    // Blue for Male, Pink for Female
-                    return gender == 0 
-                        ? new SolidColorBrush(Color.FromRgb(33, 150, 243))  // Blue
-                        : new SolidColorBrush(Color.FromRgb(233, 30, 99));   // Pink
-                }
+                // Using full-width symbols for better compatibility
+                return isWoman ? "\u2640" : "\u2642";
+            }
+            else if (param == "Color")
+            {
+                // Blue for Male, Pink for Female
+                return isWoman
+                    ? new SolidColorBrush(Color.FromRgb(233, 30, 99))   // Pink
+                    : new SolidColorBrush(Color.FromRgb(33, 150, 243));  // Blue
             }
 
             return value?.ToString() ?? string.Empty;

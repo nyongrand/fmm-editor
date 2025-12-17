@@ -36,6 +36,5 @@ namespace FMMEditor.Models
         public short Reputation => Competition.Reputation;
         public byte Level => Competition.Level;
         public bool IsWomen => Competition.IsWomen;
-        public string IsWomenText => IsWomen ? "Yes" : "No";
     }
 }
