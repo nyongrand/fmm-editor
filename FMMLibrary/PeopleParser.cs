@@ -3,7 +3,7 @@
     /// <summary>
     /// Parses and manages people data from binary files.
     /// </summary>
-    public class PeopleParser
+    public class PeopleParser : IParser<People>
     {
         private readonly List<People> items;
 

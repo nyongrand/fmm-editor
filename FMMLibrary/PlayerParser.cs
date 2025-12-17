@@ -3,7 +3,7 @@
     /// <summary>
     /// Parses and manages player data from binary files.
     /// </summary>
-    public class PlayerParser
+    public class PlayerParser : IParser<Player>
     {
         private readonly List<Player> items;
 

@@ -3,7 +3,7 @@
     /// <summary>
     /// Parses and manages nation data from binary files.
     /// </summary>
-    public class NationParser
+    public class NationParser : IParser<Nation>
     {
         private readonly List<Nation> items;
 

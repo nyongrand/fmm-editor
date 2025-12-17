@@ -3,7 +3,7 @@
     /// <summary>
     /// Parses and manages name data from binary files.
     /// </summary>
-    public class NameParser
+    public class NameParser : IParser<Name>
     {
         private readonly List<Name> items;
 

@@ -3,7 +3,7 @@
     /// <summary>
     /// Parses and manages language data from binary files.
     /// </summary>
-    public class LanguageParser
+    public class LanguageParser : IParser<Language>
     {
         private readonly List<Language> items;
 

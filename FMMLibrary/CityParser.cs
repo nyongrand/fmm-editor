@@ -3,7 +3,7 @@
     /// <summary>
     /// Parses and manages city data from binary files.
     /// </summary>
-    public class CityParser
+    public class CityParser : IParser<City>
     {
         private readonly List<City> items;
 

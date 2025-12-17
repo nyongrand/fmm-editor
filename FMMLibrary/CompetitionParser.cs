@@ -3,7 +3,7 @@
     /// <summary>
     /// Parses and manages competition data from binary files.
     /// </summary>
-    public class CompetitionParser
+    public class CompetitionParser : IParser<Competition>
     {
         private readonly List<Competition> items;
 

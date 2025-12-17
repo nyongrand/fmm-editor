@@ -3,7 +3,7 @@
     /// <summary>
     /// Parses and manages club data from binary files.
     /// </summary>
-    public class ClubParser
+    public class ClubParser : IParser<Club>
     {
         private readonly List<Club> items;
 

@@ -3,7 +3,7 @@
     /// <summary>
     /// Parses and manages continent data from binary files.
     /// </summary>
-    public class ContinentParser
+    public class ContinentParser : IParser<Continent>
     {
         private readonly List<Continent> items;
 
