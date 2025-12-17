@@ -316,7 +316,7 @@ namespace FMMEditor.ViewModels
                 IsWomen = vm.IsWomen
             };
 
-            CompParser.Items.Add(newCompetition);
+            CompParser.Add(newCompetition);
             MessageQueue.Enqueue("Competition added successfully");
         }
 
@@ -530,7 +530,6 @@ namespace FMMEditor.ViewModels
             {
                 if (CompParser != null)
                 {
-                    CompParser.OriginalCount = (short)CompParser.Items.Count;
                     await CompParser.Save();
                 }
                 
@@ -558,7 +557,6 @@ namespace FMMEditor.ViewModels
             {
                 if (CompParser != null)
                 {
-                    CompParser.OriginalCount = (short)CompParser.Items.Count;
                     await CompParser.Save(settings.SelectedPath + "\\competition.dat");
                 }
                 

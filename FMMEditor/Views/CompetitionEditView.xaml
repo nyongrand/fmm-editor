@@ -1,97 +1,115 @@
-<UserControl x:Class="FMMEditor.Views.CompetitionEditView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             xmlns:local="clr-namespace:FMMEditor.Views"
-             mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="500">
+<UserControl
+    x:Class="FMMEditor.Views.CompetitionEditView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:FMMEditor.Views"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="600"
+    d:DesignWidth="500"
+    mc:Ignorable="d">
     <Grid Margin="16">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <!-- Title -->
-        <TextBlock Grid.Row="0" 
-                   Text="{Binding WindowTitle}" 
-                   Style="{StaticResource MaterialDesignHeadline5TextBlock}"
-                   Margin="0,0,0,16"/>
+        <!--  Title  -->
+        <TextBlock
+            Grid.Row="0"
+            Margin="0,0,0,16"
+            Style="{StaticResource MaterialDesignHeadline5TextBlock}"
+            Text="{Binding WindowTitle}" />
 
-        <!-- Form -->
+        <!--  Form  -->
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
             <StackPanel>
-                <!-- UID (read-only if editing) -->
-                <TextBox materialDesign:HintAssist.Hint="UID"
-                         Text="{Binding Uid}"
-                         IsReadOnly="{Binding IsAddMode, Converter={StaticResource InverseBooleanConverter}}"
-                         Margin="0,0,0,8"/>
+                <!--  UID (read-only if editing)  -->
+                <TextBox
+                    Margin="0,0,0,8"
+                    materialDesign:HintAssist.Hint="UID"
+                    IsReadOnly="{Binding IsAddMode, Converter={StaticResource InverseBooleanConverter}}"
+                    Text="{Binding Uid}" />
 
-                <!-- Full Name -->
-                <TextBox materialDesign:HintAssist.Hint="Full Name"
-                         Text="{Binding FullName, UpdateSourceTrigger=PropertyChanged}"
-                         Margin="0,0,0,8"/>
+                <!--  Full Name  -->
+                <TextBox
+                    Margin="0,0,0,8"
+                    materialDesign:HintAssist.Hint="Full Name"
+                    Text="{Binding FullName, UpdateSourceTrigger=PropertyChanged}" />
 
-                <!-- Short Name -->
-                <TextBox materialDesign:HintAssist.Hint="Short Name"
-                         Text="{Binding ShortName, UpdateSourceTrigger=PropertyChanged}"
-                         Margin="0,0,0,8"/>
+                <!--  Short Name  -->
+                <TextBox
+                    Margin="0,0,0,8"
+                    materialDesign:HintAssist.Hint="Short Name"
+                    Text="{Binding ShortName, UpdateSourceTrigger=PropertyChanged}" />
 
-                <!-- Code Name -->
-                <TextBox materialDesign:HintAssist.Hint="Code Name (3 letters)"
-                         Text="{Binding CodeName, UpdateSourceTrigger=PropertyChanged}"
-                         MaxLength="3"
-                         Margin="0,0,0,8"/>
+                <!--  Code Name  -->
+                <TextBox
+                    Margin="0,0,0,8"
+                    materialDesign:HintAssist.Hint="Code Name (3 letters)"
+                    MaxLength="3"
+                    Text="{Binding CodeName, UpdateSourceTrigger=PropertyChanged}" />
 
-                <!-- Type -->
-                <ComboBox materialDesign:HintAssist.Hint="Type"
-                          ItemsSource="{Binding TypeOptions}"
-                          SelectedValue="{Binding Type}"
-                          SelectedValuePath="Value"
-                          DisplayMemberPath="DisplayName"
-                          Margin="0,0,0,8"/>
+                <!--  Type  -->
+                <ComboBox
+                    Margin="0,0,0,8"
+                    materialDesign:HintAssist.Hint="Type"
+                    DisplayMemberPath="DisplayName"
+                    ItemsSource="{Binding TypeOptions}"
+                    SelectedValue="{Binding Type}"
+                    SelectedValuePath="Value" />
 
-                <!-- Nation -->
-                <ComboBox materialDesign:HintAssist.Hint="Nation"
-                          ItemsSource="{Binding Nations}"
-                          SelectedValue="{Binding NationId}"
-                          SelectedValuePath="Id"
-                          DisplayMemberPath="Name"
-                          Margin="0,0,0,8"/>
+                <!--  Nation  -->
+                <ComboBox
+                    Margin="0,0,0,8"
+                    materialDesign:HintAssist.Hint="Nation"
+                    DisplayMemberPath="Name"
+                    ItemsSource="{Binding Nations}"
+                    SelectedValue="{Binding NationId}"
+                    SelectedValuePath="Id" />
 
-                <!-- Level -->
-                <TextBox materialDesign:HintAssist.Hint="Level"
-                         Text="{Binding Level, UpdateSourceTrigger=PropertyChanged}"
-                         Margin="0,0,0,8"/>
+                <!--  Level  -->
+                <TextBox
+                    Margin="0,0,0,8"
+                    materialDesign:HintAssist.Hint="Level"
+                    Text="{Binding Level, UpdateSourceTrigger=PropertyChanged}" />
 
-                <!-- Reputation -->
-                <TextBox materialDesign:HintAssist.Hint="Reputation (0-200)"
-                         Text="{Binding Reputation, UpdateSourceTrigger=PropertyChanged}"
-                         Margin="0,0,0,8"/>
+                <!--  Reputation  -->
+                <TextBox
+                    Margin="0,0,0,8"
+                    materialDesign:HintAssist.Hint="Reputation (0-200)"
+                    Text="{Binding Reputation, UpdateSourceTrigger=PropertyChanged}" />
 
-                <!-- Is Women -->
-                <CheckBox Content="Women's Competition"
-                          IsChecked="{Binding IsWomen}"
-                          Margin="0,0,0,16"/>
+                <!--  Is Women  -->
+                <CheckBox
+                    Margin="0,0,0,16"
+                    Content="Women's Competition"
+                    IsChecked="{Binding IsWomen}" />
             </StackPanel>
         </ScrollViewer>
 
-        <!-- Actions -->
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,16,0,0">
-            <Button Style="{StaticResource MaterialDesignFlatButton}"
-                    Content="CANCEL"
-                    Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
-                    Margin="0,0,8,0">
+        <!--  Actions  -->
+        <StackPanel
+            Grid.Row="2"
+            Margin="0,16,0,0"
+            HorizontalAlignment="Right"
+            Orientation="Horizontal">
+            <Button
+                Margin="0,0,8,0"
+                Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                Content="CANCEL"
+                Style="{StaticResource MaterialDesignFlatButton}">
                 <Button.CommandParameter>
                     <system:Boolean xmlns:system="clr-namespace:System;assembly=mscorlib">False</system:Boolean>
                 </Button.CommandParameter>
             </Button>
-            <Button Style="{StaticResource MaterialDesignRaisedButton}"
-                    Content="{Binding IsAddMode, Converter={StaticResource BoolToAddUpdateConverter}}"
-                    Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
-                    CommandParameter="{Binding}"/>
+            <Button
+                Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                CommandParameter="{Binding}"
+                Content="{Binding IsAddMode, Converter={StaticResource BoolToAddUpdateConverter}}"
+                Style="{StaticResource MaterialDesignRaisedButton}" />
         </StackPanel>
     </Grid>
 </UserControl>

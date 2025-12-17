@@ -5,6 +5,8 @@
     /// </summary>
     public class CompetitionParser
     {
+        private readonly List<Competition> items;
+
         /// <summary>
         /// File path
         /// </summary>
@@ -18,12 +20,12 @@
         /// <summary>
         /// Original item count when loading the file.
         /// </summary>
-        public short OriginalCount { get; set; }
+        public short Count { get; set; }
 
         /// <summary>
         /// List of all items
         /// </summary>
-        public List<Competition> Items { get; set; }
+        public IReadOnlyList<Competition> Items => items.AsReadOnly();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CompetitionParser"/> class.
@@ -34,8 +36,8 @@
         {
             FilePath = path;
             Header = reader.ReadBytes(8);
-            OriginalCount = reader.ReadInt16();
-            Items = [];
+            Count = reader.ReadInt16();
+            items = [];
         }
 
         /// <summary>
@@ -58,11 +60,21 @@
                 while (ms.Position < ms.Length)
                 {
                     var item = new Competition(reader);
-                    parser.Items.Add(item);
+                    parser.items.Add(item);
                 }
             });
 
             return parser;
+        }
+
+        /// <summary>
+        /// Adds the specified competition to the collection.
+        /// </summary>
+        /// <param name="item">The competition to add to the collection.</param>
+        public void Add(Competition item)
+        {
+            items.Add(item);
+            Count++;
         }
 
         /// <summary>
