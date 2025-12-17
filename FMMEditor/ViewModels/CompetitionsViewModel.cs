@@ -532,8 +532,14 @@ namespace FMMEditor.ViewModels
                 {
                     CompParser.OriginalCount = (short)CompParser.Items.Count;
                     await CompParser.Save();
-                    MessageQueue.Enqueue("Save Successful");
                 }
+                
+                if (ClubParser != null)
+                {
+                    await ClubParser.Save();
+                }
+                
+                MessageQueue.Enqueue("Save Successful");
             }
             catch (Exception e)
             {
@@ -554,8 +560,14 @@ namespace FMMEditor.ViewModels
                 {
                     CompParser.OriginalCount = (short)CompParser.Items.Count;
                     await CompParser.Save(settings.SelectedPath + "\\competition.dat");
-                    MessageQueue.Enqueue("Save Successful");
                 }
+                
+                if (ClubParser != null)
+                {
+                    await ClubParser.Save(settings.SelectedPath + "\\club.dat");
+                }
+                
+                MessageQueue.Enqueue("Save Successful");
             }
             catch (Exception e)
             {
