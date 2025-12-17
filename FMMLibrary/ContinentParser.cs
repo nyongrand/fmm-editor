@@ -2,6 +2,8 @@
 {
     public class ContinentParser
     {
+        private readonly List<Continent> items;
+
         /// <summary>
         /// File path
         /// </summary>
@@ -20,7 +22,7 @@
         /// <summary>
         /// List of all items
         /// </summary>
-        public List<Continent> Items { get; set; }
+        public IReadOnlyList<Continent> Items => items.AsReadOnly();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ContinentParser"/> class.
@@ -32,7 +34,7 @@
             FilePath = path;
             Header = reader.ReadBytes(8);
             Count = reader.ReadInt16();
-            Items = [];
+            items = [];
         }
 
         /// <summary>
@@ -55,11 +57,21 @@
                 while (ms.Position < ms.Length)
                 {
                     var item = new Continent(reader);
-                    parser.Items.Add(item);
+                    parser.items.Add(item);
                 }
             });
 
             return parser;
+        }
+
+        /// <summary>
+        /// Adds the specified competition to the collection.
+        /// </summary>
+        /// <param name="item">The competition to add to the collection.</param>
+        public void Add(Continent item)
+        {
+            items.Add(item);
+            Count++;
         }
 
         /// <summary>

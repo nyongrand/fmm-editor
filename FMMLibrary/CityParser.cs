@@ -5,6 +5,8 @@
     /// </summary>
     public class CityParser
     {
+        private readonly List<City> items;
+
         /// <summary>
         /// File path
         /// </summary>
@@ -18,12 +20,12 @@
         /// <summary>
         /// Item count
         /// </summary>
-        public short OriginalCount { get; set; }
+        public short Count { get; set; }
 
         /// <summary>
         /// List of all items
         /// </summary>
-        public List<City> Items { get; set; }
+        public IReadOnlyList<City> Items => items.AsReadOnly();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CityParser"/> class.
@@ -34,8 +36,8 @@
         {
             FilePath = path;
             Header = reader.ReadBytes(8);
-            OriginalCount = reader.ReadInt16();
-            Items = [];
+            Count = reader.ReadInt16();
+            items = [];
         }
 
         /// <summary>
@@ -58,11 +60,21 @@
                 while (ms.Position < ms.Length)
                 {
                     var item = new City(reader);
-                    parser.Items.Add(item);
+                    parser.items.Add(item);
                 }
             });
 
             return parser;
+        }
+
+        /// <summary>
+        /// Adds the specified competition to the collection.
+        /// </summary>
+        /// <param name="item">The competition to add to the collection.</param>
+        public void Add(City item)
+        {
+            items.Add(item);
+            Count++;
         }
 
         /// <summary>

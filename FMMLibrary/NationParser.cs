@@ -5,6 +5,8 @@
     /// </summary>
     public class NationParser
     {
+        private readonly List<Nation> items;
+
         /// <summary>
         /// File path
         /// </summary>
@@ -23,7 +25,7 @@
         /// <summary>
         /// List of all items
         /// </summary>
-        public List<Nation> Items { get; set; }
+        public IReadOnlyList<Nation> Items => items.AsReadOnly();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NationParser"/> class.
@@ -35,7 +37,7 @@
             FilePath = path;
             Header = reader.ReadBytes(8);
             Count = reader.ReadInt16();
-            Items = [];
+            items = [];
         }
 
         /// <summary>
@@ -58,7 +60,7 @@
                 while (ms.Position < ms.Length)
                 {
                     var item = new Nation(reader);
-                    parser.Items.Add(item);
+                    parser.items.Add(item);
 
                     //// Debug output
                     //Console.WriteLine($"#{item.Id:D3}: {item.Name}");
@@ -66,6 +68,16 @@
             });
 
             return parser;
+        }
+
+        /// <summary>
+        /// Adds the specified person to the collection. The Id should always be -1 (0xFFFFFFFF).
+        /// </summary>
+        /// <param name="item">The person to add to the collection.</param>
+        public void Add(Nation item)
+        {
+            items.Add(item);
+            Count++;
         }
 
         /// <summary>
