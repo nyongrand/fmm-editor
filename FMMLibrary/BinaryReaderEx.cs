@@ -3,8 +3,14 @@ using System.Text;
 
 namespace FMMLibrary
 {
-    public class BinaryReaderEx(Stream input) : BinaryReader(input, Encoding.UTF8, false)
+    public class BinaryReaderEx : BinaryReader
     {
+        private static readonly Encoding Utf8Encoding = Encoding.UTF8;
+
+        public BinaryReaderEx(Stream input) : base(input, Utf8Encoding, false)
+        {
+        }
+
         /// <summary>
         /// Reads a length-prefixed string from the binary reader.
         /// The first 4 bytes represent the string length.
@@ -14,8 +20,11 @@ namespace FMMLibrary
         public override string ReadString()
         {
             int length = ReadInt32();
+            if (length == 0)
+                return string.Empty;
+            
             var bytes = ReadBytes(length);
-            return Encoding.UTF8.GetString(bytes);
+            return Utf8Encoding.GetString(bytes);
         }
 
         /// <summary>

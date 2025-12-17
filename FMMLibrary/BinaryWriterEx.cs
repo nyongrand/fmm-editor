@@ -3,11 +3,23 @@ using System.Text;
 
 namespace FMMLibrary
 {
-    public class BinaryWriterEx(Stream output) : BinaryWriter(output, Encoding.UTF8, false)
+    public class BinaryWriterEx : BinaryWriter
     {
+        private static readonly Encoding Utf8Encoding = Encoding.UTF8;
+
+        public BinaryWriterEx(Stream output) : base(output, Utf8Encoding, false)
+        {
+        }
+
         public override void Write(string value)
         {
-            var bytes = Encoding.UTF8.GetBytes(value);
+            if (string.IsNullOrEmpty(value))
+            {
+                Write(0);
+                return;
+            }
+
+            var bytes = Utf8Encoding.GetBytes(value);
             Write(bytes.Length);
             Write(bytes);
         }
