@@ -29,6 +29,7 @@
     <Window.Resources>
         <converter:BooleanConverter x:Key="Boolean" />
         <converter:BytesConverter x:Key="bytes" />
+        <converter:GenderConverter x:Key="GenderConverter" />
         <converter:VisibilityConverter x:Key="Visibility" />
 
         <Style
@@ -38,6 +39,19 @@
             <Setter Property="TextAlignment" Value="Center" />
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="Padding" Value="0" />
+        </Style>
+
+        <Style
+            x:Key="genderColumnStyle"
+            BasedOn="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+            TargetType="{x:Type TextBlock}">
+            <Setter Property="TextAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="FontFamily" Value="Segoe UI Symbol" />
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Foreground" Value="{Binding IsWomen, Converter={StaticResource GenderConverter}, ConverterParameter=Color}" />
         </Style>
     </Window.Resources>
 
@@ -417,8 +431,8 @@
 
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*" />
                         <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="3*" />
                     </Grid.ColumnDefinitions>
 
                     <!--  Empty State View  -->
@@ -616,6 +630,39 @@
                             </DataGridTextColumn>
 
                             <DataGridTextColumn
+                                Width="65"
+                                MinWidth="65"
+                                MaxWidth="110"
+                                Binding="{Binding Reputation}"
+                                CanUserReorder="False"
+                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                Header="Rep"
+                                IsReadOnly="True">
+                                <DataGridTextColumn.HeaderStyle>
+                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                    </Style>
+                                </DataGridTextColumn.HeaderStyle>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn
+                                Width="50"
+                                MinWidth="50"
+                                MaxWidth="50"
+                                Binding="{Binding IsWomen, Converter={StaticResource GenderConverter}, ConverterParameter=Symbol}"
+                                CanUserReorder="False"
+                                ElementStyle="{StaticResource genderColumnStyle}"
+                                Header="⚥"
+                                IsReadOnly="True">
+                                <DataGridTextColumn.HeaderStyle>
+                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                        <Setter Property="FontSize" Value="18" />
+                                    </Style>
+                                </DataGridTextColumn.HeaderStyle>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn
                                 Width="100"
                                 MinWidth="100"
                                 Binding="{Binding NationName}"
@@ -773,13 +820,13 @@
                             </DataGridTextColumn>-->
 
                             <DataGridTextColumn
-                                Width="105"
-                                MinWidth="105"
-                                MaxWidth="105"
+                                Width="70"
+                                MinWidth="70"
+                                MaxWidth="70"
                                 Binding="{Binding Reputation}"
                                 CanUserReorder="False"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
-                                Header="Reputation"
+                                Header="Rep"
                                 IsReadOnly="True">
                                 <DataGridTextColumn.HeaderStyle>
                                     <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
@@ -789,13 +836,12 @@
                             </DataGridTextColumn>
 
                             <DataGridTextColumn
-                                Width="100"
-                                MinWidth="100"
-                                MaxWidth="100"
+                                Width="60"
+                                MinWidth="50"
                                 Binding="{Binding Academy}"
                                 CanUserReorder="False"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
-                                Header="Academy"
+                                Header="Aca"
                                 IsReadOnly="True">
                                 <DataGridTextColumn.HeaderStyle>
                                     <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
@@ -805,13 +851,12 @@
                             </DataGridTextColumn>
 
                             <DataGridTextColumn
-                                Width="100"
-                                MinWidth="100"
-                                MaxWidth="100"
+                                Width="60"
+                                MinWidth="50"
                                 Binding="{Binding Facilities}"
                                 CanUserReorder="False"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
-                                Header="Facility"
+                                Header="Fac"
                                 IsReadOnly="True">
                                 <DataGridTextColumn.HeaderStyle>
                                     <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
