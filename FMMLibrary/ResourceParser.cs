@@ -3,7 +3,7 @@
 namespace FMMLibrary
 {
     /// <summary>
-    /// Parses and manages club data from binary files.
+    /// Parses and manages resource data from binary files.
     /// </summary>
     public class ResourceParser
     {
@@ -18,7 +18,7 @@ namespace FMMLibrary
         public byte[] Header { get; set; }
 
         /// <summary>
-        /// List of all items
+        /// List of all club names
         /// </summary>
         public List<ClubName> Clubs { get; set; }
 
@@ -44,7 +44,7 @@ namespace FMMLibrary
         /// Initializes a new instance of the <see cref="ResourceParser"/> class.
         /// </summary>
         /// <param name="path">The file path of the source data.</param>
-        /// <param name="reader">The binary reader containing the club data.</param>
+        /// <param name="reader">The binary reader containing the resource data.</param>
         private ResourceParser(string path, BinaryReaderEx reader)
         {
             FilePath = path;
@@ -63,10 +63,10 @@ namespace FMMLibrary
         }
 
         /// <summary>
-        /// Asynchronously loads club data from the specified file path.
+        /// Asynchronously loads resource data from the specified file path.
         /// </summary>
-        /// <param name="path">The file path to load club data from.</param>
-        /// <returns>A task that represents the asynchronous operation. The task result contains the loaded <see cref="ClubParser"/> instance.</returns>
+        /// <param name="path">The file path to load resource data from.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains the loaded <see cref="ResourceParser"/> instance.</returns>
         public static async Task<ResourceParser> Load(string path)
         {
             using var fs = File.OpenRead(path);
@@ -142,9 +142,9 @@ namespace FMMLibrary
         }
 
         /// <summary>
-        /// Converts the club data to a byte array for serialization.
+        /// Converts the resource data to a byte array for serialization.
         /// </summary>
-        /// <returns>A byte array representing the serialized club data.</returns>
+        /// <returns>A byte array representing the serialized resource data.</returns>
         public byte[] ToBytes()
         {
             using var stream = new MemoryStream();

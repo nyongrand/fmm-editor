@@ -1,5 +1,8 @@
 ﻿namespace FMMLibrary
 {
+    /// <summary>
+    /// Parses and manages language data from binary files.
+    /// </summary>
     public class LanguageParser
     {
         private readonly List<Language> items;
@@ -15,7 +18,7 @@
         public byte[] Header { get; set; }
 
         /// <summary>
-        /// Item count
+        /// Original item count when loading the file.
         /// </summary>
         public short Count { get; set; }
 
@@ -28,7 +31,7 @@
         /// Initializes a new instance of the <see cref="LanguageParser"/> class.
         /// </summary>
         /// <param name="path">The file path of the source data.</param>
-        /// <param name="reader">The binary reader containing the city data.</param>
+        /// <param name="reader">The binary reader containing the language data.</param>
         private LanguageParser(string path, BinaryReaderEx reader)
         {
             FilePath = path;
@@ -38,10 +41,10 @@
         }
 
         /// <summary>
-        /// Asynchronously loads nation data from the specified file path.
+        /// Asynchronously loads language data from the specified file path.
         /// </summary>
-        /// <param name="path">The file path to load city data from.</param>
-        /// <returns>A task that represents the asynchronous operation. The task result contains the loaded <see cref="CityParser"/> instance.</returns>
+        /// <param name="path">The file path to load language data from.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains the loaded <see cref="LanguageParser"/> instance.</returns>
         public static async Task<LanguageParser> Load(string path)
         {
             using var fs = File.OpenRead(path);
@@ -58,9 +61,19 @@
         }
 
         /// <summary>
-        /// Converts the nation data to a byte array for serialization.
+        /// Adds the specified language to the collection.
         /// </summary>
-        /// <returns>A byte array representing the serialized nation data.</returns>
+        /// <param name="item">The language to add to the collection.</param>
+        public void Add(Language item)
+        {
+            items.Add(item);
+            Count++;
+        }
+
+        /// <summary>
+        /// Converts the language data to a byte array for serialization.
+        /// </summary>
+        /// <returns>A byte array representing the serialized language data.</returns>
         public byte[] ToBytes()
         {
             using var stream = new MemoryStream();

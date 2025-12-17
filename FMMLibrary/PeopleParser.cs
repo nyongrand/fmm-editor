@@ -1,7 +1,7 @@
 ﻿namespace FMMLibrary
 {
     /// <summary>
-    /// Parses and manages nation data from binary files.
+    /// Parses and manages people data from binary files.
     /// </summary>
     public class PeopleParser
     {
@@ -33,7 +33,7 @@
         /// Initializes a new instance of the <see cref="PeopleParser"/> class.
         /// </summary>
         /// <param name="path">The file path of the source data.</param>
-        /// <param name="reader">The binary reader containing the nation data.</param>
+        /// <param name="reader">The binary reader containing the people data.</param>
         private PeopleParser(string path, BinaryReaderEx reader)
         {
             FilePath = path;
@@ -44,9 +44,9 @@
         }
 
         /// <summary>
-        /// Asynchronously loads nation data from the specified file path.
+        /// Asynchronously loads people data from the specified file path.
         /// </summary>
-        /// <param name="path">The file path to load nation data from.</param>
+        /// <param name="path">The file path to load people data from.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains the loaded <see cref="PeopleParser"/> instance.</returns>
         public static async Task<PeopleParser> Load(string path)
         {
@@ -79,9 +79,9 @@
         }
 
         /// <summary>
-        /// Converts the nation data to a byte array for serialization.
+        /// Converts the people data to a byte array for serialization.
         /// </summary>
-        /// <returns>A byte array representing the serialized nation data.</returns>
+        /// <returns>A byte array representing the serialized people data.</returns>
         public byte[] ToBytes()
         {
             using var stream = new MemoryStream();

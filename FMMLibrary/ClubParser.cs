@@ -64,12 +64,12 @@
         }
 
         /// <summary>
-        /// Adds the specified person to the collection. The Id should always be -1 (0xFFFFFFFF).
+        /// Adds the specified club to the collection. The Id should always be -1 (0xFFFFFFFF).
         /// </summary>
-        /// <param name="item">The person to add to the collection.</param>
+        /// <param name="item">The club to add to the collection.</param>
         public void Add(Club item)
         {
-            // People.Id should always be -1 (0xFFFFFFFF) as per specification
+            // Club.Id should always be -1 (0xFFFFFFFF) as per specification
             item.Id = -1;
 
             items.Add(item);

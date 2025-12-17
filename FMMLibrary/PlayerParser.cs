@@ -1,7 +1,7 @@
 ﻿namespace FMMLibrary
 {
     /// <summary>
-    /// Parses and manages nation data from binary files.
+    /// Parses and manages player data from binary files.
     /// </summary>
     public class PlayerParser
     {
@@ -31,7 +31,7 @@
         /// Initializes a new instance of the <see cref="PlayerParser"/> class.
         /// </summary>
         /// <param name="path">The file path of the source data.</param>
-        /// <param name="reader">The binary reader containing the nation data.</param>
+        /// <param name="reader">The binary reader containing the player data.</param>
         private PlayerParser(string path, BinaryReaderEx reader)
         {
             FilePath = path;
@@ -41,9 +41,9 @@
         }
 
         /// <summary>
-        /// Asynchronously loads nation data from the specified file path.
+        /// Asynchronously loads player data from the specified file path.
         /// </summary>
-        /// <param name="path">The file path to load nation data from.</param>
+        /// <param name="path">The file path to load player data from.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains the loaded <see cref="PlayerParser"/> instance.</returns>
         public static async Task<PlayerParser> Load(string path)
         {
@@ -73,9 +73,9 @@
         }
 
         /// <summary>
-        /// Converts the nation data to a byte array for serialization.
+        /// Converts the player data to a byte array for serialization.
         /// </summary>
-        /// <returns>A byte array representing the serialized nation data.</returns>
+        /// <returns>A byte array representing the serialized player data.</returns>
         public byte[] ToBytes()
         {
             using var stream = new MemoryStream();

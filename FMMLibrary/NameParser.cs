@@ -1,7 +1,7 @@
 ﻿namespace FMMLibrary
 {
     /// <summary>
-    /// Parses and manages nation data from binary files.
+    /// Parses and manages name data from binary files.
     /// </summary>
     public class NameParser
     {
@@ -18,7 +18,7 @@
         public byte[] Header { get; set; }
 
         /// <summary>
-        /// Item count when loading the file.
+        /// Original item count when loading the file.
         /// </summary>
         public int Count { get; private set; }
 
@@ -28,10 +28,10 @@
         public IReadOnlyList<Name> Items => items.AsReadOnly();
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="NationParser"/> class.
+        /// Initializes a new instance of the <see cref="NameParser"/> class.
         /// </summary>
         /// <param name="path">The file path of the source data.</param>
-        /// <param name="reader">The binary reader containing the nation data.</param>
+        /// <param name="reader">The binary reader containing the name data.</param>
         private NameParser(string path, BinaryReaderEx reader)
         {
             FilePath = path;
@@ -41,9 +41,9 @@
         }
 
         /// <summary>
-        /// Asynchronously loads nation data from the specified file path.
+        /// Asynchronously loads name data from the specified file path.
         /// </summary>
-        /// <param name="path">The file path to load nation data from.</param>
+        /// <param name="path">The file path to load name data from.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains the loaded <see cref="NameParser"/> instance.</returns>
         public static async Task<NameParser> Load(string path)
         {
@@ -63,8 +63,7 @@
         /// <summary>
         /// Adds the specified name to the collection, assigning a unique identifier if necessary.
         /// </summary>
-        /// <param name="item">The name to add to the collection. If the item's Id is less than or equal to zero, a new unique Id is
-        /// assigned.</param>
+        /// <param name="item">The name to add to the collection. If the item's Id is less than or equal to zero, a new unique Id is assigned.</param>
         public void Add(Name item)
         {
             var nextId = Items.Count > 0 ? Items.Max(x => x.Id) + 1 : 0;
@@ -85,9 +84,9 @@
         }
 
         /// <summary>
-        /// Converts the nation data to a byte array for serialization.
+        /// Converts the name data to a byte array for serialization.
         /// </summary>
-        /// <returns>A byte array representing the serialized nation data.</returns>
+        /// <returns>A byte array representing the serialized name data.</returns>
         public byte[] ToBytes()
         {
             using var stream = new MemoryStream();

@@ -18,7 +18,7 @@
         public byte[] Header { get; set; }
 
         /// <summary>
-        /// Item count
+        /// Original item count when loading the file.
         /// </summary>
         public short Count { get; set; }
 
@@ -41,7 +41,7 @@
         }
 
         /// <summary>
-        /// Asynchronously loads nation data from the specified file path.
+        /// Asynchronously loads city data from the specified file path.
         /// </summary>
         /// <param name="path">The file path to load city data from.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains the loaded <see cref="CityParser"/> instance.</returns>
@@ -61,9 +61,9 @@
         }
 
         /// <summary>
-        /// Adds the specified competition to the collection.
+        /// Adds the specified city to the collection.
         /// </summary>
-        /// <param name="item">The competition to add to the collection.</param>
+        /// <param name="item">The city to add to the collection.</param>
         public void Add(City item)
         {
             items.Add(item);
@@ -71,9 +71,9 @@
         }
 
         /// <summary>
-        /// Converts the nation data to a byte array for serialization.
+        /// Converts the city data to a byte array for serialization.
         /// </summary>
-        /// <returns>A byte array representing the serialized nation data.</returns>
+        /// <returns>A byte array representing the serialized city data.</returns>
         public byte[] ToBytes()
         {
             using var stream = new MemoryStream();

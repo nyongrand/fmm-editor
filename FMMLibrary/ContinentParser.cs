@@ -1,5 +1,8 @@
 ﻿namespace FMMLibrary
 {
+    /// <summary>
+    /// Parses and manages continent data from binary files.
+    /// </summary>
     public class ContinentParser
     {
         private readonly List<Continent> items;
@@ -15,7 +18,7 @@
         public byte[] Header { get; set; }
 
         /// <summary>
-        /// Item count
+        /// Original item count when loading the file.
         /// </summary>
         public short Count { get; set; }
 
@@ -28,7 +31,7 @@
         /// Initializes a new instance of the <see cref="ContinentParser"/> class.
         /// </summary>
         /// <param name="path">The file path of the source data.</param>
-        /// <param name="reader">The binary reader containing the city data.</param>
+        /// <param name="reader">The binary reader containing the continent data.</param>
         private ContinentParser(string path, BinaryReaderEx reader)
         {
             FilePath = path;
@@ -38,10 +41,10 @@
         }
 
         /// <summary>
-        /// Asynchronously loads nation data from the specified file path.
+        /// Asynchronously loads continent data from the specified file path.
         /// </summary>
-        /// <param name="path">The file path to load city data from.</param>
-        /// <returns>A task that represents the asynchronous operation. The task result contains the loaded <see cref="CityParser"/> instance.</returns>
+        /// <param name="path">The file path to load continent data from.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains the loaded <see cref="ContinentParser"/> instance.</returns>
         public static async Task<ContinentParser> Load(string path)
         {
             using var fs = File.OpenRead(path);
@@ -58,9 +61,9 @@
         }
 
         /// <summary>
-        /// Adds the specified competition to the collection.
+        /// Adds the specified continent to the collection.
         /// </summary>
-        /// <param name="item">The competition to add to the collection.</param>
+        /// <param name="item">The continent to add to the collection.</param>
         public void Add(Continent item)
         {
             items.Add(item);
@@ -68,9 +71,9 @@
         }
 
         /// <summary>
-        /// Converts the nation data to a byte array for serialization.
+        /// Converts the continent data to a byte array for serialization.
         /// </summary>
-        /// <returns>A byte array representing the serialized nation data.</returns>
+        /// <returns>A byte array representing the serialized continent data.</returns>
         public byte[] ToBytes()
         {
             using var stream = new MemoryStream();

@@ -18,7 +18,7 @@
         public byte[] Header { get; set; }
 
         /// <summary>
-        /// Item count
+        /// Original item count when loading the file.
         /// </summary>
         public short Count { get; set; }
 
@@ -61,9 +61,9 @@
         }
 
         /// <summary>
-        /// Adds the specified person to the collection. The Id should always be -1 (0xFFFFFFFF).
+        /// Adds the specified nation to the collection.
         /// </summary>
-        /// <param name="item">The person to add to the collection.</param>
+        /// <param name="item">The nation to add to the collection.</param>
         public void Add(Nation item)
         {
             items.Add(item);
