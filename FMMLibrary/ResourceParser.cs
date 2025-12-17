@@ -70,82 +70,75 @@ namespace FMMLibrary
         public static async Task<ResourceParser> Load(string path)
         {
             using var fs = File.OpenRead(path);
-            using var ms = new MemoryStream();
-            fs.CopyTo(ms);
-            ms.Position = 0;
-
-            using var reader = new BinaryReaderEx(ms);
+            using var reader = new BinaryReaderEx(fs);
             var parser = new ResourceParser(path, reader);
 
-            await Task.Run(() =>
+            var clubCount = reader.ReadInt32();
+            while (clubCount > parser.Clubs.Count)
             {
-                var clubCount = reader.ReadInt32();
-                while (clubCount > parser.Clubs.Count)
-                {
-                    var item = new ClubName(reader);
-                    parser.Clubs.Add(item);
-                }
+                var item = new ClubName(reader);
+                parser.Clubs.Add(item);
+            }
 
-                var nationCount = reader.ReadInt32();
-                while (nationCount > parser.Nations.Count)
-                {
-                    var item = new NationName(reader);
-                    parser.Nations.Add(item);
-                }
+            var nationCount = reader.ReadInt32();
+            while (nationCount > parser.Nations.Count)
+            {
+                var item = new NationName(reader);
+                parser.Nations.Add(item);
+            }
 
-                var continentCount = reader.ReadInt32();
-                while (continentCount > parser.Continents.Count)
-                {
-                    var item = new ContinentName(reader);
-                    parser.Continents.Add(item);
-                }
+            var continentCount = reader.ReadInt32();
+            while (continentCount > parser.Continents.Count)
+            {
+                var item = new ContinentName(reader);
+                parser.Continents.Add(item);
+            }
 
-                var competitionCount = reader.ReadInt32();
-                while (competitionCount > parser.Competitions.Count)
-                {
-                    var item = new CompetitionName(reader);
-                    parser.Competitions.Add(item);
-                }
+            var competitionCount = reader.ReadInt32();
+            while (competitionCount > parser.Competitions.Count)
+            {
+                var item = new CompetitionName(reader);
+                parser.Competitions.Add(item);
+            }
 
-                var stadiumCount = reader.ReadInt32();
-                while (stadiumCount > parser.Stadiums.Count)
-                {
-                    var item = new StadiumName(reader);
-                    parser.Stadiums.Add(item);
-                }
+            var stadiumCount = reader.ReadInt32();
+            while (stadiumCount > parser.Stadiums.Count)
+            {
+                var item = new StadiumName(reader);
+                parser.Stadiums.Add(item);
+            }
 
-                var awardsCount = reader.ReadInt32();
-                while (awardsCount > parser.Awards.Count)
-                {
-                    var item = new AwardName(reader);
-                    parser.Awards.Add(item);
-                }
+            var awardsCount = reader.ReadInt32();
+            while (awardsCount > parser.Awards.Count)
+            {
+                var item = new AwardName(reader);
+                parser.Awards.Add(item);
+            }
 
-                var agreementsCount = reader.ReadInt32();
-                while (agreementsCount > parser.Agreements.Count)
-                {
-                    var item = new OtherName(reader);
-                    parser.Agreements.Add(item);
-                }
+            var agreementsCount = reader.ReadInt32();
+            while (agreementsCount > parser.Agreements.Count)
+            {
+                var item = new OtherName(reader);
+                parser.Agreements.Add(item);
+            }
 
-                var citiesCount = reader.ReadInt32();
-                while (citiesCount > parser.Rivalries.Count)
-                {
-                    var item = new OtherName(reader);
-                    parser.Rivalries.Add(item);
-                }
+            var citiesCount = reader.ReadInt32();
+            while (citiesCount > parser.Rivalries.Count)
+            {
+                var item = new OtherName(reader);
+                parser.Rivalries.Add(item);
+            }
 
-                var unknownsCount = reader.ReadInt32();
-                while (unknownsCount > parser.Regions.Count)
-                {
-                    var item = new OtherName(reader);
-                    parser.Regions.Add(item);
-                }
+            var unknownsCount = reader.ReadInt32();
+            while (unknownsCount > parser.Regions.Count)
+            {
+                var item = new OtherName(reader);
+                parser.Regions.Add(item);
+            }
 
-                parser.UnknownData = reader.ReadBytes((int)(ms.Length - ms.Position));
-            });
+            parser.UnknownData = reader.ReadBytes((int)(fs.Length - fs.Position));
 
-            return parser;
+            return await Task.FromResult(parser);
         }
 
         /// <summary>

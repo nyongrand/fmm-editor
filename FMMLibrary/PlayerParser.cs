@@ -37,7 +37,7 @@
             FilePath = path;
             Header = reader.ReadBytes(8);
             Count = reader.ReadInt32();
-            items = [];
+            items = new List<Player>(Count);
         }
 
         /// <summary>
@@ -48,23 +48,16 @@
         public static async Task<PlayerParser> Load(string path)
         {
             using var fs = File.OpenRead(path);
-            using var ms = new MemoryStream();
-            fs.CopyTo(ms);
-            ms.Position = 0;
-
-            using var reader = new BinaryReaderEx(ms);
+            using var reader = new BinaryReaderEx(fs);
             var parser = new PlayerParser(path, reader);
 
-            await Task.Run(() =>
+            while (fs.Position < fs.Length)
             {
-                while (ms.Position < ms.Length)
-                {
-                    var item = new Player(reader);
-                    parser.items.Add(item);
-                }
-            });
+                var item = new Player(reader);
+                parser.items.Add(item);
+            }
 
-            return parser;
+            return await Task.FromResult(parser);
         }
 
         /// <summary>

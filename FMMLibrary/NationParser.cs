@@ -37,7 +37,7 @@
             FilePath = path;
             Header = reader.ReadBytes(8);
             Count = reader.ReadInt16();
-            items = [];
+            items = new List<Nation>(Count);
         }
 
         /// <summary>
@@ -48,26 +48,16 @@
         public static async Task<NationParser> Load(string path)
         {
             using var fs = File.OpenRead(path);
-            using var ms = new MemoryStream();
-            fs.CopyTo(ms);
-            ms.Position = 0;
-
-            using var reader = new BinaryReaderEx(ms);
+            using var reader = new BinaryReaderEx(fs);
             var parser = new NationParser(path, reader);
 
-            await Task.Run(() =>
+            while (fs.Position < fs.Length)
             {
-                while (ms.Position < ms.Length)
-                {
-                    var item = new Nation(reader);
-                    parser.items.Add(item);
+                var item = new Nation(reader);
+                parser.items.Add(item);
+            }
 
-                    //// Debug output
-                    //Console.WriteLine($"#{item.Id:D3}: {item.Name}");
-                }
-            });
-
-            return parser;
+            return await Task.FromResult(parser);
         }
 
         /// <summary>

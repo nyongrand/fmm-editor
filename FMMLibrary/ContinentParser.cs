@@ -34,7 +34,7 @@
             FilePath = path;
             Header = reader.ReadBytes(8);
             Count = reader.ReadInt16();
-            items = [];
+            items = new List<Continent>(Count);
         }
 
         /// <summary>
@@ -45,23 +45,16 @@
         public static async Task<ContinentParser> Load(string path)
         {
             using var fs = File.OpenRead(path);
-            using var ms = new MemoryStream();
-            fs.CopyTo(ms);
-            ms.Position = 0;
-
-            using var reader = new BinaryReaderEx(ms);
+            using var reader = new BinaryReaderEx(fs);
             var parser = new ContinentParser(path, reader);
 
-            await Task.Run(() =>
+            while (fs.Position < fs.Length)
             {
-                while (ms.Position < ms.Length)
-                {
-                    var item = new Continent(reader);
-                    parser.items.Add(item);
-                }
-            });
+                var item = new Continent(reader);
+                parser.items.Add(item);
+            }
 
-            return parser;
+            return await Task.FromResult(parser);
         }
 
         /// <summary>
