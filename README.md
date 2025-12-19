@@ -72,12 +72,14 @@ If this tool helps you, you can support development via Ko-fi: https://ko-fi.com
 ## Known issues
 
 - Newly added players may not appear in-game even though editing existing players works.
+- Newly added club may not appear in-game even though editing existing clubs works.
 - Editing a person's second nationality currently does not apply.
 
 ## Upcoming Features
 
-- Make editing a person's second nationality work end-to-end.
+- Make editing a person's second nationality work.
 - Fix newly added players not appearing in-game.
+- Fix newly added clubs not appearing in-game.
 - Add the ability to edit and add non-players (coach, scout, etc.).
 - Add player transfer tools to move players between clubs.
 
