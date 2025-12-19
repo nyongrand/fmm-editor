@@ -352,7 +352,6 @@
                         AutoGenerateColumns="False"
                         BorderThickness="1"
                         CanUserAddRows="False"
-                        CanUserReorderColumns="False"
                         CanUserResizeRows="False"
                         ContextMenu="{DynamicResource menu}"
                         EnableRowVirtualization="True"
@@ -387,22 +386,22 @@
 
                         <DataGrid.Columns>
 
-                            <DataGridTextColumn
+                            <!--<DataGridTextColumn
                                 Width="60"
                                 MinWidth="60"
                                 MaxWidth="110"
                                 Binding="{Binding Id}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="ID"
-                                IsReadOnly="True" />
+                                IsReadOnly="True" />-->
 
                             <DataGridTextColumn
                                 Width="60"
                                 MinWidth="60"
                                 MaxWidth="110"
                                 Binding="{Binding Uid}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="UID"
                                 IsReadOnly="True">
@@ -417,7 +416,7 @@
                                 Width="200"
                                 MinWidth="150"
                                 Binding="{Binding FullName}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
                                 Header="Name"
                                 IsReadOnly="True" />
@@ -426,7 +425,7 @@
                                 Width="100"
                                 MinWidth="90"
                                 Binding="{Binding DateOfBirth}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Birth Date"
                                 IsReadOnly="True">
@@ -441,7 +440,7 @@
                                 Width="60"
                                 MinWidth="60"
                                 Binding="{Binding Person.DateOfBirth, Converter={StaticResource AgeConverter}}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Age"
                                 IsReadOnly="True">
@@ -457,7 +456,7 @@
                                 MinWidth="60"
                                 MaxWidth="110"
                                 Binding="{Binding Player.CA}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 Header="CA"
                                 IsReadOnly="True" />
 
@@ -466,7 +465,7 @@
                                 MinWidth="60"
                                 MaxWidth="110"
                                 Binding="{Binding Player.PA}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 Header="PA"
                                 IsReadOnly="True" />
 
@@ -474,7 +473,7 @@
                                 Width="120"
                                 MinWidth="100"
                                 Binding="{Binding NationName}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 Header="Nation"
                                 IsReadOnly="True" />
 
@@ -482,7 +481,7 @@
                                 Width="140"
                                 MinWidth="100"
                                 Binding="{Binding Ethnicity}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 Header="Ethnicity"
                                 IsReadOnly="True" />
 
@@ -490,7 +489,7 @@
                                 Width="94"
                                 MinWidth="94"
                                 Binding="{Binding Person.Unknown1, Converter={StaticResource HexConverter}}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="U1"
                                 IsReadOnly="True" />
@@ -499,7 +498,7 @@
                                 Width="80"
                                 MinWidth="70"
                                 Binding="{Binding Person.Type}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Type"
                                 IsReadOnly="True">
@@ -514,7 +513,7 @@
                                 Width="100"
                                 MinWidth="90"
                                 Binding="{Binding Person.UnknownDate, Converter={StaticResource DateConverter}, StringFormat=yyyy-MM-dd}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Unknown Date"
                                 IsReadOnly="True" />
@@ -523,7 +522,7 @@
                                 Width="60"
                                 MinWidth="60"
                                 Binding="{Binding NationalCaps}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Caps"
                                 IsReadOnly="True">
@@ -538,7 +537,7 @@
                                 Width="60"
                                 MinWidth="60"
                                 Binding="{Binding NationalGoals}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Gls"
                                 IsReadOnly="True">
@@ -553,7 +552,7 @@
                                 Width="60"
                                 MinWidth="60"
                                 Binding="{Binding Person.NationalU21Caps}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="U21"
                                 IsReadOnly="True">
@@ -568,7 +567,7 @@
                                 Width="60"
                                 MinWidth="60"
                                 Binding="{Binding Person.NationalU21Goals}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Gls"
                                 IsReadOnly="True">
@@ -583,7 +582,7 @@
                                 Width="200"
                                 MinWidth="150"
                                 Binding="{Binding ClubName}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
                                 Header="Club"
                                 IsReadOnly="True" />
@@ -592,7 +591,7 @@
                                 Width="100"
                                 MinWidth="90"
                                 Binding="{Binding Person.JoinedDate, Converter={StaticResource DateConverter}, StringFormat=yyyy-MM-dd}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Joined"
                                 IsReadOnly="True" />
@@ -601,7 +600,7 @@
                                 Width="70"
                                 MinWidth="70"
                                 Binding="{Binding Person.Unknown3, Converter={StaticResource HexConverter}}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="U3"
                                 IsReadOnly="True" />
@@ -610,7 +609,7 @@
                                 Width="80"
                                 MinWidth="80"
                                 Binding="{Binding Person.PlayerId}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="PlayerId"
                                 IsReadOnly="True" />
@@ -621,7 +620,7 @@
                                 Width="94"
                                 MinWidth="94"
                                 Binding="{Binding Person.Unknown6b, Converter={StaticResource HexConverter}}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="U6b"
                                 IsReadOnly="True" />
@@ -630,7 +629,7 @@
                                 Width="94"
                                 MinWidth="94"
                                 Binding="{Binding Person.Unknown6c, Converter={StaticResource HexConverter}}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="U6c"
                                 IsReadOnly="True" />
@@ -639,7 +638,7 @@
                                 Width="94"
                                 MinWidth="94"
                                 Binding="{Binding Person.Unknown6d, Converter={StaticResource HexConverter}}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="U6d"
                                 IsReadOnly="True" />
@@ -648,7 +647,7 @@
                                 Width="94"
                                 MinWidth="94"
                                 Binding="{Binding Person.Unknown6e, Converter={StaticResource HexConverter}}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="U6e"
                                 IsReadOnly="True" />
@@ -657,7 +656,7 @@
                                 Width="94"
                                 MinWidth="94"
                                 Binding="{Binding Person.Unknown6f, Converter={StaticResource HexConverter}}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="U6f"
                                 IsReadOnly="True" />
@@ -666,7 +665,7 @@
                                 Width="60"
                                 MinWidth="60"
                                 Binding="{Binding Person.Unknown7, Converter={StaticResource HexConverter}}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="U7"
                                 IsReadOnly="True" />
@@ -676,7 +675,7 @@
                                 MinWidth="50"
                                 MaxWidth="50"
                                 Binding="{Binding Person.Gender, Converter={StaticResource GenderConverter}, ConverterParameter=Symbol}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource genderColumnStyle}"
                                 Header="⚥"
                                 IsReadOnly="True">
@@ -692,7 +691,7 @@
                                 Width="94"
                                 MinWidth="94"
                                 Binding="{Binding Person.Unknown9, Converter={StaticResource HexConverter}}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="U9"
                                 IsReadOnly="True" />
@@ -701,7 +700,7 @@
                                 Width="70"
                                 MinWidth="70"
                                 Binding="{Binding Person.Unknown10, Converter={StaticResource HexConverter}}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="U10"
                                 IsReadOnly="True" />
@@ -710,7 +709,7 @@
                                 Width="60"
                                 MinWidth="60"
                                 Binding="{Binding Person.Unknown21, Converter={StaticResource HexConverter}}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="U11"
                                 IsReadOnly="True" />
@@ -722,7 +721,7 @@
                                 Width="60"
                                 MinWidth="50"
                                 Binding="{Binding Adaptability}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Ada"
                                 IsReadOnly="True">
@@ -737,7 +736,7 @@
                                 Width="60"
                                 MinWidth="50"
                                 Binding="{Binding Person.Ambition}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Amb"
                                 IsReadOnly="True">
@@ -752,7 +751,7 @@
                                 Width="60"
                                 MinWidth="50"
                                 Binding="{Binding Person.Controversy}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Con"
                                 IsReadOnly="True">
@@ -767,7 +766,7 @@
                                 Width="60"
                                 MinWidth="50"
                                 Binding="{Binding Person.Loyality}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Loy"
                                 IsReadOnly="True">
@@ -782,7 +781,7 @@
                                 Width="60"
                                 MinWidth="50"
                                 Binding="{Binding Person.Pressure}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Pre"
                                 IsReadOnly="True">
@@ -797,7 +796,7 @@
                                 Width="60"
                                 MinWidth="50"
                                 Binding="{Binding Person.Professionalism}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Pro"
                                 IsReadOnly="True">
@@ -812,7 +811,7 @@
                                 Width="60"
                                 MinWidth="50"
                                 Binding="{Binding Person.Sportmanship}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Spo"
                                 IsReadOnly="True">
@@ -827,7 +826,7 @@
                                 Width="60"
                                 MinWidth="50"
                                 Binding="{Binding Person.Temperament}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Tem"
                                 IsReadOnly="True">

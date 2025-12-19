@@ -494,7 +494,7 @@
                         AutoGenerateColumns="False"
                         BorderThickness="1"
                         CanUserAddRows="False"
-                        CanUserReorderColumns="False"
+                        CanUserReorderColumns="True"
                         CanUserResizeRows="False"
                         ContextMenu="{DynamicResource menu}"
                         EnableRowVirtualization="True"
@@ -534,7 +534,7 @@
                                 MinWidth="60"
                                 MaxWidth="70"
                                 Binding="{Binding Id}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Id"
                                 IsReadOnly="True">
@@ -550,7 +550,7 @@
                                 MinWidth="50"
                                 MaxWidth="50"
                                 Binding="{Binding Gender, Converter={StaticResource GenderConverter}, ConverterParameter=Symbol}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource genderColumnStyle}"
                                 Header="⚥"
                                 IsReadOnly="True">
@@ -567,7 +567,7 @@
                                 MinWidth="80"
                                 MaxWidth="180"
                                 Binding="{Binding NationName}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Nation"
                                 IsReadOnly="True">
@@ -583,7 +583,7 @@
                                 MinWidth="55"
                                 MaxWidth="55"
                                 Binding="{Binding Unknown2}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="X2">
                                 <DataGridTextColumn.HeaderStyle>
@@ -598,7 +598,7 @@
                                 MinWidth="55"
                                 MaxWidth="55"
                                 Binding="{Binding Unknown3}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="X3">
                                 <DataGridTextColumn.HeaderStyle>
@@ -612,7 +612,7 @@
                                 Width="140"
                                 MinWidth="100"
                                 Binding="{Binding Value}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
                                 Header="First Name" />
 
@@ -625,7 +625,7 @@
                         AutoGenerateColumns="False"
                         BorderThickness="1"
                         CanUserAddRows="True"
-                        CanUserReorderColumns="False"
+                        CanUserReorderColumns="True"
                         CanUserResizeRows="False"
                         ContextMenu="{DynamicResource menu}"
                         EnableRowVirtualization="True"
@@ -664,7 +664,7 @@
                                 MinWidth="60"
                                 MaxWidth="70"
                                 Binding="{Binding Id}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Id"
                                 IsReadOnly="True">
@@ -680,7 +680,7 @@
                                 MinWidth="50"
                                 MaxWidth="50"
                                 Binding="{Binding Gender, Converter={StaticResource GenderConverter}, ConverterParameter=Symbol}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource genderColumnStyle}"
                                 Header="⚥"
                                 IsReadOnly="True">
@@ -697,7 +697,7 @@
                                 MinWidth="80"
                                 MaxWidth="180"
                                 Binding="{Binding NationName}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Nation"
                                 IsReadOnly="True">
@@ -713,7 +713,7 @@
                                 MinWidth="55"
                                 MaxWidth="55"
                                 Binding="{Binding Unknown2}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="X2">
                                 <DataGridTextColumn.HeaderStyle>
@@ -728,7 +728,7 @@
                                 MinWidth="55"
                                 MaxWidth="55"
                                 Binding="{Binding Unknown3}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="X3">
                                 <DataGridTextColumn.HeaderStyle>
@@ -742,7 +742,7 @@
                                 Width="140"
                                 MinWidth="100"
                                 Binding="{Binding Value}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
                                 Header="Second Name" />
 
@@ -755,7 +755,7 @@
                         AutoGenerateColumns="False"
                         BorderThickness="1"
                         CanUserAddRows="True"
-                        CanUserReorderColumns="False"
+                        CanUserReorderColumns="True"
                         CanUserResizeRows="False"
                         ContextMenu="{DynamicResource menu}"
                         EnableRowVirtualization="True"
@@ -794,7 +794,7 @@
                                 MinWidth="60"
                                 MaxWidth="70"
                                 Binding="{Binding Id}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Id"
                                 IsReadOnly="True">
@@ -810,7 +810,7 @@
                                 MinWidth="50"
                                 MaxWidth="50"
                                 Binding="{Binding Gender, Converter={StaticResource GenderConverter}, ConverterParameter=Symbol}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource genderColumnStyle}"
                                 Header="⚥"
                                 IsReadOnly="True">
@@ -827,7 +827,7 @@
                                 MinWidth="80"
                                 MaxWidth="180"
                                 Binding="{Binding NationName}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Nation"
                                 IsReadOnly="True">
@@ -843,7 +843,7 @@
                                 MinWidth="55"
                                 MaxWidth="55"
                                 Binding="{Binding Unknown2}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="X2">
                                 <DataGridTextColumn.HeaderStyle>
@@ -858,7 +858,7 @@
                                 MinWidth="55"
                                 MaxWidth="55"
                                 Binding="{Binding Unknown3}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="X3">
                                 <DataGridTextColumn.HeaderStyle>
@@ -872,7 +872,7 @@
                                 Width="140"
                                 MinWidth="100"
                                 Binding="{Binding Value}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
                                 Header="Common Name" />
 

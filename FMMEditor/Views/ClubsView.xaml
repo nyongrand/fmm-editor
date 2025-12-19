@@ -334,7 +334,7 @@
                         AutoGenerateColumns="False"
                         BorderThickness="1"
                         CanUserAddRows="False"
-                        CanUserReorderColumns="False"
+                        CanUserReorderColumns="True"
                         CanUserResizeRows="False"
                         ContextMenu="{DynamicResource menu}"
                         EnableRowVirtualization="True"
@@ -369,22 +369,22 @@
 
                         <DataGrid.Columns>
 
-                            <DataGridTextColumn
+                            <!--<DataGridTextColumn
                                 Width="60"
                                 MinWidth="60"
                                 MaxWidth="110"
                                 Binding="{Binding Id}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="ID"
-                                IsReadOnly="True" />
+                                IsReadOnly="True" />-->
 
                             <DataGridTextColumn
                                 Width="60"
                                 MinWidth="60"
                                 MaxWidth="110"
                                 Binding="{Binding Uid}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="UID"
                                 IsReadOnly="True">
@@ -399,7 +399,7 @@
                                 Width="250"
                                 MinWidth="200"
                                 Binding="{Binding FullName}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
                                 Header="Full Name"
                                 IsReadOnly="True" />
@@ -408,7 +408,7 @@
                                 Width="150"
                                 MinWidth="120"
                                 Binding="{Binding ShortName}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
                                 Header="Short Name"
                                 IsReadOnly="True" />
@@ -417,7 +417,7 @@
                                 Width="80"
                                 MinWidth="70"
                                 Binding="{Binding SixLetterName}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="6 Lttr"
                                 IsReadOnly="True">
@@ -432,7 +432,7 @@
                                 Width="60"
                                 MinWidth="50"
                                 Binding="{Binding ThreeLetterName}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="3 Lttr"
                                 IsReadOnly="True">
@@ -447,7 +447,7 @@
                                 Width="150"
                                 MinWidth="120"
                                 Binding="{Binding NationName}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 Header="Nation"
                                 IsReadOnly="True" />
 
@@ -455,7 +455,7 @@
                                 Width="100"
                                 MinWidth="80"
                                 Binding="{Binding StatusText}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Status"
                                 IsReadOnly="True">
@@ -470,7 +470,7 @@
                                 Width="200"
                                 MinWidth="150"
                                 Binding="{Binding CompetitionName}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 Header="Competition"
                                 IsReadOnly="True" />
 
@@ -478,7 +478,7 @@
                                 Width="60"
                                 MinWidth="50"
                                 Binding="{Binding LeaguePos}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Pos"
                                 IsReadOnly="True">
@@ -493,7 +493,7 @@
                                 Width="70"
                                 MinWidth="60"
                                 Binding="{Binding Reputation}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Rep"
                                 IsReadOnly="True">
@@ -508,7 +508,7 @@
                                 Width="60"
                                 MinWidth="50"
                                 Binding="{Binding Academy}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Aca"
                                 IsReadOnly="True">
@@ -523,7 +523,7 @@
                                 Width="60"
                                 MinWidth="50"
                                 Binding="{Binding Facilities}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Fac"
                                 IsReadOnly="True">
@@ -538,7 +538,7 @@
                                 Width="70"
                                 MinWidth="60"
                                 Binding="{Binding AttAvg}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Att Avg"
                                 IsReadOnly="True">
@@ -553,7 +553,7 @@
                                 Width="70"
                                 MinWidth="60"
                                 Binding="{Binding AttMin}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Att Min"
                                 IsReadOnly="True">
@@ -568,7 +568,7 @@
                                 Width="70"
                                 MinWidth="60"
                                 Binding="{Binding AttMax}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Att Max"
                                 IsReadOnly="True">
@@ -583,7 +583,7 @@
                                 Width="70"
                                 MinWidth="60"
                                 Binding="{Binding PlayerCount}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Players"
                                 IsReadOnly="True">
@@ -598,7 +598,7 @@
                                 Width="60"
                                 MinWidth="50"
                                 Binding="{Binding IsNationalText}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Nat"
                                 IsReadOnly="True">
@@ -613,7 +613,7 @@
                                 Width="60"
                                 MinWidth="50"
                                 Binding="{Binding IsWomanText}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Woman"
                                 IsReadOnly="True">

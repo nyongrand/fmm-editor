@@ -570,7 +570,7 @@
                         AutoGenerateColumns="False"
                         BorderThickness="1"
                         CanUserAddRows="True"
-                        CanUserReorderColumns="False"
+                        CanUserReorderColumns="True"
                         CanUserResizeRows="False"
                         FontSize="12.5"
                         GridLinesVisibility="All"
@@ -602,7 +602,7 @@
                                 MinWidth="65"
                                 MaxWidth="110"
                                 Binding="{Binding Uid}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="UID"
                                 IsReadOnly="True">
@@ -618,7 +618,7 @@
                                 MinWidth="65"
                                 MaxWidth="65"
                                 Binding="{Binding Level}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Level"
                                 IsReadOnly="True">
@@ -634,7 +634,7 @@
                                 MinWidth="65"
                                 MaxWidth="110"
                                 Binding="{Binding Reputation}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Rep"
                                 IsReadOnly="True">
@@ -650,7 +650,7 @@
                                 MinWidth="50"
                                 MaxWidth="50"
                                 Binding="{Binding IsWomen, Converter={StaticResource GenderConverter}, ConverterParameter=Symbol}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource genderColumnStyle}"
                                 Header="⚥"
                                 IsReadOnly="True">
@@ -666,7 +666,7 @@
                                 Width="100"
                                 MinWidth="100"
                                 Binding="{Binding NationName}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Nation"
                                 IsReadOnly="True">
@@ -681,7 +681,7 @@
                                 Width="400"
                                 MinWidth="400"
                                 Binding="{Binding FullName}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
                                 Header="Competition Name"
                                 IsReadOnly="True" />
@@ -689,7 +689,7 @@
                             <!--<DataGridTextColumn
                                 Width="*"
                                 Binding="{Binding ShortName}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
                                 Header="Competition Name"
                                 IsReadOnly="False" />
@@ -697,7 +697,7 @@
                             <DataGridTextColumn
                                 Width="*"
                                 Binding="{Binding CodeName}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
                                 Header="Competition Name"
                                 IsReadOnly="False" />-->
@@ -711,7 +711,7 @@
                         AutoGenerateColumns="False"
                         BorderThickness="1"
                         CanUserAddRows="False"
-                        CanUserReorderColumns="False"
+                        CanUserReorderColumns="True"
                         CanUserResizeRows="False"
                         ContextMenu="{DynamicResource menu}"
                         FontSize="12.5"
@@ -778,7 +778,7 @@
                                 Width="60"
                                 MinWidth="60"
                                 Binding="{Binding Uid}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="UID"
                                 IsReadOnly="True">
@@ -793,7 +793,7 @@
                                 Width="105"
                                 MinWidth="105"
                                 Binding="{Binding Nation}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Nation"
                                 IsReadOnly="True">
@@ -808,7 +808,7 @@
                                 Width="105"
                                 MinWidth="105"
                                 Binding="{Binding Based}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Based"
                                 IsReadOnly="True">
@@ -824,7 +824,7 @@
                                 MinWidth="70"
                                 MaxWidth="70"
                                 Binding="{Binding Reputation}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Rep"
                                 IsReadOnly="True">
@@ -839,7 +839,7 @@
                                 Width="60"
                                 MinWidth="50"
                                 Binding="{Binding Academy}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Aca"
                                 IsReadOnly="True">
@@ -854,7 +854,7 @@
                                 Width="60"
                                 MinWidth="50"
                                 Binding="{Binding Facilities}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Fac"
                                 IsReadOnly="True">
@@ -868,7 +868,7 @@
                             <DataGridTextColumn
                                 Width="280"
                                 Binding="{Binding FullName}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
                                 Header="Full Name"
                                 IsReadOnly="True" />
@@ -876,7 +876,7 @@
                             <DataGridTextColumn
                                 Width="110"
                                 Binding="{Binding ShortName}"
-                                CanUserReorder="False"
+                                CanUserReorder="True"
                                 ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
                                 Header="Short Name"
                                 IsReadOnly="True" />

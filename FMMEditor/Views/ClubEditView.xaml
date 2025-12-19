@@ -675,7 +675,7 @@
                             AutoGenerateColumns="False"
                             CanUserAddRows="False"
                             CanUserDeleteRows="False"
-                            CanUserReorderColumns="False"
+                            CanUserReorderColumns="True"
                             CanUserResizeRows="False"
                             HeadersVisibility="Column"
                             IsReadOnly="True"
