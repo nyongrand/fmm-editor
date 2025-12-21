@@ -432,6 +432,29 @@
                                 </DataGridTextColumn.HeaderStyle>
                             </DataGridTextColumn>
 
+                            <!--  Always Load Checkbox Column  -->
+                            <DataGridCheckBoxColumn
+                                Width="60"
+                                MinWidth="60"
+                                MaxWidth="60"
+                                Binding="{Binding IsAlwaysLoad, UpdateSourceTrigger=PropertyChanged}"
+                                CanUserReorder="False"
+                                Header="AL"
+                                IsReadOnly="False">
+                                <DataGridCheckBoxColumn.HeaderStyle>
+                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                        <Setter Property="ToolTip" Value="Always Load" />
+                                    </Style>
+                                </DataGridCheckBoxColumn.HeaderStyle>
+                                <DataGridCheckBoxColumn.ElementStyle>
+                                    <Style BasedOn="{StaticResource MaterialDesignCheckBox}" TargetType="CheckBox">
+                                        <Setter Property="HorizontalAlignment" Value="Center" />
+                                        <Setter Property="VerticalAlignment" Value="Center" />
+                                    </Style>
+                                </DataGridCheckBoxColumn.ElementStyle>
+                            </DataGridCheckBoxColumn>
+
                             <DataGridTextColumn
                                 Width="200"
                                 MinWidth="150"

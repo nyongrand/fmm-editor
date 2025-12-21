@@ -1,14 +1,23 @@
 ﻿using FMMEditor.Converters;
 using FMMLibrary;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace FMMEditor.Models
 {
     /// <summary>
     /// Display model for People with resolved names
     /// </summary>
-    public class PeopleDisplayModel(People person)
+    public class PeopleDisplayModel : INotifyPropertyChanged
     {
-        public People Person { get; set; } = person;
+        private bool _isAlwaysLoad;
+
+        public PeopleDisplayModel(People person)
+        {
+            Person = person;
+        }
+
+        public People Person { get; set; }
         public Player? Player { get; set; }
         public int Id => Person.Id;
         public int Uid => Person.Uid;
@@ -30,6 +39,19 @@ namespace FMMEditor.Models
         public byte Professionalism => Person.Professionalism;
         public byte Temperament => Person.Temperament;
         public string Ethnicity => EthnicityConverter.ToDisplayString(Person.Ethnicity);
+
+        public bool IsAlwaysLoad
+        {
+            get => _isAlwaysLoad;
+            set
+            {
+                if (_isAlwaysLoad != value)
+                {
+                    _isAlwaysLoad = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
         // Player attributes (null if not a player)
         public short? CurrentAbility => Player?.CA;
@@ -59,5 +81,12 @@ namespace FMMEditor.Models
         public byte? SetPieces => Player?.SetPieces;
         public byte? LeftFoot => Player?.LeftFoot;
         public byte? RightFoot => Player?.RightFoot;
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }
