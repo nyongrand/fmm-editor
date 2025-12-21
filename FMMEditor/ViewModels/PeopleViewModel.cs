@@ -86,6 +86,7 @@ namespace FMMEditor.ViewModels
         private Dictionary<short, string> nationLookup = [];
         private Dictionary<int, string> clubLookup = [];
         private Dictionary<int, Player> playerLookup = [];
+        private Dictionary<int, byte> firstNameGenderLookup = [];
         private HashSet<int> alwaysLoadMaleUids = [];
         private HashSet<int> alwaysLoadFemaleUids = [];
 
@@ -233,6 +234,7 @@ namespace FMMEditor.ViewModels
                 {
                     FirstNames.Reset(x.Items.OrderBy(y => y.Value));
                     firstNameLookup = x.Items.ToDictionary(n => n.Id, n => n.Value);
+                    firstNameGenderLookup = x.Items.ToDictionary(n => n.Id, n => n.Gender);
                     RefreshPeopleDisplay();
                 });
 
@@ -633,7 +635,8 @@ namespace FMMEditor.ViewModels
 
             var displayList = PeopleParser.Items.Select(p =>
             {
-                var isMale = p.Unknown8 == 0;
+                var gender = firstNameGenderLookup.GetValueOrDefault(p.FirstNameId, (byte)0);
+                var isMale = gender == 0;
                 var display = new PeopleDisplayModel(p)
                 {
                     FirstName = firstNameLookup.GetValueOrDefault(p.FirstNameId, ""),
@@ -642,6 +645,7 @@ namespace FMMEditor.ViewModels
                     NationName = nationLookup.GetValueOrDefault(p.NationId, ""),
                     ClubName = clubLookup.GetValueOrDefault(p.ClubId, "Free Agent"),
                     Player = playerLookup.GetValueOrDefault(p.PlayerId),
+                    Gender = gender,
                     IsAlwaysLoad = isMale ? alwaysLoadMaleUids.Contains(p.Uid) : alwaysLoadFemaleUids.Contains(p.Uid)
                 };
                 

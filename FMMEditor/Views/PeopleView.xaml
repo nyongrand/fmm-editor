@@ -524,7 +524,7 @@
                                 Width="50"
                                 MinWidth="50"
                                 MaxWidth="50"
-                                Binding="{Binding Person.Gender, Converter={StaticResource GenderConverter}, ConverterParameter=Symbol}"
+                                Binding="{Binding Gender, Converter={StaticResource GenderConverter}, ConverterParameter=Symbol}"
                                 CanUserReorder="True"
                                 ElementStyle="{StaticResource genderColumnStyle}"
                                 Header="⚥"
