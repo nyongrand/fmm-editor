@@ -418,7 +418,7 @@ namespace FMMEditor.ViewModels
                 Unknown6e = -1,
                 Unknown6f = -1,
                 Unknown7 = 0,
-                Gender = 0,
+                Unknown8 = 0,
                 DefaultLanguages = vm.DefaultLanguages.Select(l => (l.LanguageId, l.Proficiency)).ToArray(),
                 OtherLanguages = vm.OtherLanguages.Select(l => (l.LanguageId, l.Proficiency)).ToArray(),
                 Relationships = [],
@@ -633,7 +633,7 @@ namespace FMMEditor.ViewModels
 
             var displayList = PeopleParser.Items.Select(p =>
             {
-                var isMale = p.Gender == 0;
+                var isMale = p.Unknown8 == 0;
                 var display = new PeopleDisplayModel(p)
                 {
                     FirstName = firstNameLookup.GetValueOrDefault(p.FirstNameId, ""),

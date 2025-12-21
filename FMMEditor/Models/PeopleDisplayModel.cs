@@ -21,7 +21,7 @@ namespace FMMEditor.Models
         public Player? Player { get; set; }
         public int Id => Person.Id;
         public int Uid => Person.Uid;
-        public byte Gender => Person.Gender;
+        public byte Gender { get; set; } = 0;
         public string FirstName { get; set; } = "";
         public string LastName { get; set; } = "";
         public string CommonName { get; set; } = "";

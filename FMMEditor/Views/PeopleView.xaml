@@ -521,6 +521,23 @@
                                 IsReadOnly="True" />
 
                             <DataGridTextColumn
+                                Width="50"
+                                MinWidth="50"
+                                MaxWidth="50"
+                                Binding="{Binding Person.Gender, Converter={StaticResource GenderConverter}, ConverterParameter=Symbol}"
+                                CanUserReorder="True"
+                                ElementStyle="{StaticResource genderColumnStyle}"
+                                Header="⚥"
+                                IsReadOnly="True">
+                                <DataGridTextColumn.HeaderStyle>
+                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                        <Setter Property="FontSize" Value="18" />
+                                    </Style>
+                                </DataGridTextColumn.HeaderStyle>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn
                                 Width="140"
                                 MinWidth="100"
                                 Binding="{Binding Ethnicity}"
@@ -714,21 +731,13 @@
                                 IsReadOnly="True" />
 
                             <DataGridTextColumn
-                                Width="50"
-                                MinWidth="50"
-                                MaxWidth="50"
-                                Binding="{Binding Person.Gender, Converter={StaticResource GenderConverter}, ConverterParameter=Symbol}"
+                                Width="60"
+                                MinWidth="60"
+                                Binding="{Binding Person.Unknown8, Converter={StaticResource HexConverter}}"
                                 CanUserReorder="True"
-                                ElementStyle="{StaticResource genderColumnStyle}"
-                                Header="⚥"
-                                IsReadOnly="True">
-                                <DataGridTextColumn.HeaderStyle>
-                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
-                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                        <Setter Property="FontSize" Value="18" />
-                                    </Style>
-                                </DataGridTextColumn.HeaderStyle>
-                            </DataGridTextColumn>
+                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                Header="U8"
+                                IsReadOnly="True" />
 
                             <DataGridTextColumn
                                 Width="94"
