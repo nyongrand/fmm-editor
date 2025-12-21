@@ -396,6 +396,26 @@
                                 Header="ID"
                                 IsReadOnly="True" />-->
 
+                            <!--<DataGridTextColumn
+                                Width="100"
+                                MinWidth="100"
+                                MaxWidth="100"
+                                Binding="{Binding Id, Converter={StaticResource HexConverter}}"
+                                CanUserReorder="True"
+                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                Header="ID"
+                                IsReadOnly="True" />-->
+
+                            <!--<DataGridTextColumn
+                                Width="100"
+                                MinWidth="100"
+                                MaxWidth="100"
+                                Binding="{Binding Uid, Converter={StaticResource HexConverter}}"
+                                CanUserReorder="True"
+                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                Header="UID"
+                                IsReadOnly="True" />-->
+
                             <DataGridTextColumn
                                 Width="60"
                                 MinWidth="60"
