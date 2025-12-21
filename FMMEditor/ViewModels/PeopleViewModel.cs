@@ -10,6 +10,7 @@ using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -26,8 +27,16 @@ namespace FMMEditor.ViewModels
         public extern string? FolderPath { [ObservableAsProperty] get; }
         public extern bool IsDatabaseLoaded { [ObservableAsProperty] get; }
 
-        [Reactive] public string SearchQuery { get; set; } = "";
-        public ReactiveCommand<Unit, Unit> ClearSearch { get; private set; }
+        public IReadOnlyList<string> FilterOperatorOptions => filter.OperatorOptions;
+        public ObservableCollection<FilterCondition> FilterConditions => filter.Conditions;
+        public IReadOnlyList<FilterField<PeopleDisplayModel>> FilterFields => filter.Fields;
+        public IReadOnlyList<string> StringComparisons => FilterOptions.StringComparisonOptions;
+        public IReadOnlyList<string> NumberComparisons => FilterOptions.NumberComparisonOptions;
+        public IReadOnlyList<string> GenderOptions { get; } = ["Male", "Female"];
+        public ReactiveCommand<Unit, Unit> AddConditionCommand => filter.AddConditionCommand;
+        public ReactiveCommand<Unit, Unit> ClearConditionsCommand => filter.ClearConditionsCommand;
+        public ReactiveCommand<Unit, Unit> ApplyFilterCommand => filter.ApplyFilterCommand;
+        public ReactiveCommand<FilterCondition, Unit> RemoveConditionCommand => filter.RemoveConditionCommand;
 
         // Parsers
         public extern NationParser? NationParser { [ObservableAsProperty] get; }
@@ -78,6 +87,7 @@ namespace FMMEditor.ViewModels
 
         private readonly ICollectionView peopleView;
         private readonly IDialogService dialogService;
+        private readonly AdvancedFilter<PeopleDisplayModel> filter;
 
         // Lookup dictionaries for performance
         private Dictionary<int, string> firstNameLookup = [];
@@ -95,19 +105,30 @@ namespace FMMEditor.ViewModels
             this.dialogService = dialogService;
             MessageQueue = messageQueue;
 
-            ClearSearch = ReactiveCommand.Create(() => { SearchQuery = ""; }, outputScheduler: RxApp.MainThreadScheduler);
-
             peopleView = CollectionViewSource.GetDefaultView(PeopleList);
+
+            var filterFields = new List<FilterField<PeopleDisplayModel>>
+            {
+                new("name", "Name", FilterFieldKind.String, p => p.FullName),
+                new("firstName", "First Name", FilterFieldKind.String, p => p.FirstName),
+                new("lastName", "Last Name", FilterFieldKind.String, p => p.LastName),
+                new("nation", "Nation", FilterFieldKind.String, p => p.NationName),
+                new("gender", "Gender", FilterFieldKind.String, p => p.Gender == 0 ? "Male" : "Female"),
+                new("club", "Club", FilterFieldKind.String, p => p.ClubName),
+                new("personType", "Person Type", FilterFieldKind.String, p => p.PersonType),
+                new("ethnicity", "Ethnicity", FilterFieldKind.String, p => p.Ethnicity),
+                new("uid", "UID", FilterFieldKind.Number, p => p.Uid),
+                new("ca", "CA", FilterFieldKind.Number, p => p.Player?.CA),
+                new("pa", "PA", FilterFieldKind.Number, p => p.Player?.PA),
+                new("age", "Age", FilterFieldKind.Number, p => GetAge(p))
+            };
+            filter = new AdvancedFilter<PeopleDisplayModel>(filterFields, () => peopleView.Refresh(), RxApp.MainThreadScheduler);
+
             peopleView.Filter = obj =>
             {
                 if (obj is PeopleDisplayModel person)
                 {
-                    return string.IsNullOrEmpty(SearchQuery)
-                        || person.FullName.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase)
-                        || person.FirstName.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase)
-                        || person.LastName.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase)
-                        || person.NationName.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase)
-                        || person.ClubName.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase);
+                    return filter.Matches(person);
                 }
                 return true;
             };
@@ -279,7 +300,7 @@ namespace FMMEditor.ViewModels
                 .WhereNotNull()
                 .Subscribe(x =>
                 {
-                    alwaysLoadMaleUids = x.Items.ToHashSet();
+                    alwaysLoadMaleUids = [.. x.Items];
                     RefreshPeopleDisplay();
                 });
 
@@ -287,12 +308,9 @@ namespace FMMEditor.ViewModels
                 .WhereNotNull()
                 .Subscribe(x =>
                 {
-                    alwaysLoadFemaleUids = x.Items.ToHashSet();
+                    alwaysLoadFemaleUids = [.. x.Items];
                     RefreshPeopleDisplay();
                 });
-
-            this.WhenAnyValue(vm => vm.SearchQuery)
-                .Subscribe(x => peopleView.Refresh());
         }
 
         private async Task OpenAddPersonDialogAsync()
@@ -380,8 +398,8 @@ namespace FMMEditor.ViewModels
             playerLookup[newPlayer.Id] = newPlayer;
 
             var clubId = vm.ClubId ?? -1;
-            var joinedDate = clubId == -1 
-                ? DateConverter.FromDateTime(new DateTime(2025, 5, 30)) 
+            var joinedDate = clubId == -1
+                ? DateConverter.FromDateTime(new DateTime(2025, 5, 30))
                 : DateConverter.FromDateTime(vm.JoinedDate);
 
             var newPerson = new People
@@ -393,7 +411,7 @@ namespace FMMEditor.ViewModels
                 CommonNameId = vm.CommonNameId ?? -1,
                 DateOfBirth = DateConverter.FromDateTime(vm.DateOfBirth),
                 NationId = vm.NationId!.Value,
-                OtherNationalities = vm.OtherNationalities.Select(n => n.NationId).ToList(),
+                OtherNationalities = [.. vm.OtherNationalities.Select(n => n.NationId)],
                 ClubId = clubId,
                 Type = (byte)vm.PersonType,
                 NationalCaps = vm.NationalCaps ?? 0,
@@ -421,8 +439,8 @@ namespace FMMEditor.ViewModels
                 Unknown6f = -1,
                 Unknown7 = 0,
                 Unknown8 = 0,
-                DefaultLanguages = vm.DefaultLanguages.Select(l => (l.LanguageId, l.Proficiency)).ToArray(),
-                OtherLanguages = vm.OtherLanguages.Select(l => (l.LanguageId, l.Proficiency)).ToArray(),
+                DefaultLanguages = [.. vm.DefaultLanguages.Select(l => (l.LanguageId, l.Proficiency))],
+                OtherLanguages = [.. vm.OtherLanguages.Select(l => (l.LanguageId, l.Proficiency))],
                 Relationships = [],
                 Unknown21 = 0
             };
@@ -437,8 +455,8 @@ namespace FMMEditor.ViewModels
             if (existingPerson == null) return;
 
             var clubId = vm.ClubId ?? -1;
-            var joinedDate = clubId == -1 
-                ? DateConverter.FromDateTime(new DateTime(2025, 5, 30)) 
+            var joinedDate = clubId == -1
+                ? DateConverter.FromDateTime(new DateTime(2025, 5, 30))
                 : DateConverter.FromDateTime(vm.JoinedDate);
 
             existingPerson.Id = -1;  // Always save Id as -1
@@ -447,7 +465,7 @@ namespace FMMEditor.ViewModels
             existingPerson.CommonNameId = vm.CommonNameId ?? -1;
             existingPerson.DateOfBirth = DateConverter.FromDateTime(vm.DateOfBirth);
             existingPerson.NationId = vm.NationId!.Value;
-            existingPerson.OtherNationalities = vm.OtherNationalities.Select(n => n.NationId).ToList();
+            existingPerson.OtherNationalities = [.. vm.OtherNationalities.Select(n => n.NationId)];
             existingPerson.ClubId = clubId;
             existingPerson.JoinedDate = joinedDate;
             existingPerson.Type = (byte)vm.PersonType;
@@ -466,8 +484,8 @@ namespace FMMEditor.ViewModels
             existingPerson.Sportmanship = vm.Sportmanship ?? 10;
 
             // Update languages
-            existingPerson.DefaultLanguages = vm.DefaultLanguages.Select(l => (l.LanguageId, l.Proficiency)).ToArray();
-            existingPerson.OtherLanguages = vm.OtherLanguages.Select(l => (l.LanguageId, l.Proficiency)).ToArray();
+            existingPerson.DefaultLanguages = [.. vm.DefaultLanguages.Select(l => (l.LanguageId, l.Proficiency))];
+            existingPerson.OtherLanguages = [.. vm.OtherLanguages.Select(l => (l.LanguageId, l.Proficiency))];
 
             // Handle player data
             if (vm.HasPlayer && PlayerParser != null)
@@ -492,7 +510,7 @@ namespace FMMEditor.ViewModels
             MessageQueue.Enqueue("Person updated successfully");
         }
 
-        private Player CreatePlayerFromViewModel(PersonEditViewModel vm, int uid)
+        private static Player CreatePlayerFromViewModel(PersonEditViewModel vm, int uid)
         {
             return new Player
             {
@@ -564,7 +582,7 @@ namespace FMMEditor.ViewModels
             };
         }
 
-        private void UpdatePlayerFromViewModel(Player player, PersonEditViewModel vm)
+        private static void UpdatePlayerFromViewModel(Player player, PersonEditViewModel vm)
         {
             player.CA = vm.CA ?? player.CA;
             player.PA = vm.PA ?? player.PA;
@@ -648,7 +666,7 @@ namespace FMMEditor.ViewModels
                     Gender = gender,
                     IsAlwaysLoad = isMale ? alwaysLoadMaleUids.Contains(p.Uid) : alwaysLoadFemaleUids.Contains(p.Uid)
                 };
-                
+
                 // Subscribe to changes in IsAlwaysLoad
                 display.PropertyChanged += (s, e) =>
                 {
@@ -657,7 +675,7 @@ namespace FMMEditor.ViewModels
                         OnAlwaysLoadChanged(model);
                     }
                 };
-                
+
                 return display;
             });
 
@@ -754,7 +772,7 @@ namespace FMMEditor.ViewModels
             }
         }
 
-        private async Task SaveAlwaysLoadParser(AlwaysLoadParser parser, HashSet<int> uids, string? filePath = null)
+        private static async Task SaveAlwaysLoadParser(AlwaysLoadParser parser, HashSet<int> uids, string? filePath = null)
         {
             if (parser == null) return;
 
@@ -762,7 +780,7 @@ namespace FMMEditor.ViewModels
             await File.WriteAllBytesAsync(filePath ?? parser.FilePath, bytes);
         }
 
-        private byte[] ToAlwaysLoadBytes(AlwaysLoadParser parser, HashSet<int> uids)
+        private static byte[] ToAlwaysLoadBytes(AlwaysLoadParser parser, HashSet<int> uids)
         {
             if (parser == null) return [];
 
@@ -777,6 +795,17 @@ namespace FMMEditor.ViewModels
                 writer.Write(uid);
 
             return stream.ToArray();
+        }
+
+        private static int? GetAge(PeopleDisplayModel person)
+        {
+            var dob = DateConverter.ToDateTime(person.Person.DateOfBirth);
+            if (dob == null) return null;
+
+            var today = DateTime.Today;
+            var age = today.Year - dob.Value.Year;
+            if (dob.Value.Date > today.AddYears(-age)) age--;
+            return age;
         }
     }
 }

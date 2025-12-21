@@ -60,333 +60,487 @@
     </Window.Resources>
 
     <md:DialogHost Identifier="PeopleDialogHost">
-        <Grid>
-            <DockPanel
-                Margin="0,0,0,0"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch"
-                Background="{DynamicResource MaterialDesignPaper}">
+        <md:DrawerHost x:Name="FilterDrawerHost">
+            <md:DrawerHost.LeftDrawerContent>
+                <Border
+                    Width="400"
+                    Padding="12"
+                    Background="{DynamicResource MaterialDesignPaper}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
 
-                <!--  Title Bar  -->
-                <md:ColorZone
-                    Height="56"
-                    DockPanel.Dock="Top"
-                    Mode="PrimaryMid">
-
-                    <Grid HorizontalAlignment="Stretch">
-
-                        <!--  Search Box  -->
-                        <md:ColorZone
-                            Margin="10,8,0,8"
-                            Padding="10,0"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Stretch"
-                            Panel.ZIndex="1"
-                            md:ElevationAssist.Elevation="Dp0"
-                            CornerRadius="2"
-                            Mode="Standard">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-
-                                <TextBox
-                                    Width="335"
-                                    Padding="0,0,8,0"
-                                    VerticalAlignment="Stretch"
-                                    VerticalContentAlignment="Center"
-                                    md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
-                                    md:HintAssist.Hint="Search Name / Nation / Club"
-                                    md:HintAssist.HintOpacity="0.2"
-                                    md:TextFieldAssist.DecorationVisibility="Hidden"
-                                    BorderThickness="0"
-                                    FontSize="16"
-                                    IsEnabled="{Binding IsDatabaseLoaded}"
-                                    MaxLines="1"
-                                    TabIndex="0"
-                                    Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}" />
-
-                                <Button
-                                    Grid.Column="1"
-                                    IsEnabled="False"
-                                    Style="{StaticResource MaterialDesignToolButton}"
-                                    Visibility="{Binding SearchQuery, Converter={StaticResource Visibility}, ConverterParameter=TextInvert}">
-                                    <md:PackIcon Kind="Search" />
-                                </Button>
-
-                                <Button
-                                    Grid.Column="1"
-                                    Command="{Binding ClearSearch}"
-                                    Style="{StaticResource MaterialDesignToolButton}"
-                                    Visibility="{Binding SearchQuery, Converter={StaticResource Visibility}, ConverterParameter=Text}">
-                                    <md:PackIcon Kind="Close" Opacity=".56" />
-                                </Button>
-                            </Grid>
-                        </md:ColorZone>
-
-                        <TextBlock
-                            Grid.Column="1"
-                            Margin="5"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            FontSize="18"
-                            FontWeight="Bold"
-                            Text="FMM 26 DB Editor - People" />
-
-                        <!--  Toolbar Menu  -->
-                        <StackPanel
-                            Margin="0,0,16,0"
-                            HorizontalAlignment="Right"
-                            Orientation="Horizontal">
-
-                            <md:PopupBox
-                                Margin="4"
-                                Padding="0"
-                                PlacementMode="BottomAndAlignRightEdges"
-                                StaysOpen="False">
-                                <md:PopupBox.ToggleContent>
-                                    <md:PackIcon
-                                        Width="21"
-                                        Height="21"
-                                        Kind="Menu" />
-                                </md:PopupBox.ToggleContent>
-
-                                <StackPanel>
-                                    <Button Click="Donate_Click" FontSize="16">
-                                        <StackPanel Orientation="Horizontal">
-                                            <md:PackIcon
-                                                Width="18"
-                                                Height="18"
-                                                Margin="0,0,8,0"
-                                                VerticalAlignment="Center"
-                                                Kind="CoffeeOutline" />
-                                            <TextBlock VerticalAlignment="Center" Text="Support me" />
-                                        </StackPanel>
-                                    </Button>
-
-                                    <Separator />
-
-                                    <Button
-                                        Command="{Binding Load}"
-                                        Content="Load Database"
-                                        FontSize="16" />
-
-                                    <Button
-                                        Command="{Binding Save}"
-                                        Content="Save"
-                                        FontSize="16"
-                                        IsEnabled="{Binding IsDatabaseLoaded}" />
-
-                                    <Button
-                                        Command="{Binding SaveAs}"
-                                        Content="Save As..."
-                                        FontSize="16"
-                                        IsEnabled="{Binding IsDatabaseLoaded}" />
-
-                                    <Separator />
-
-                                    <Button
-                                        Click="Exit_Click"
-                                        Content="Exit"
-                                        FontSize="16" />
-                                </StackPanel>
-                            </md:PopupBox>
+                        <StackPanel Grid.Row="0" Margin="0,0,0,16">
+                            <TextBlock
+                                FontSize="18"
+                                FontWeight="SemiBold"
+                                Text="Advanced search" />
+                            <TextBlock TextWrapping="Wrap">
+                                Use filters to chain conditions. The first row is always active; additional rows use AND/OR.
+                            </TextBlock>
                         </StackPanel>
 
-                    </Grid>
-                </md:ColorZone>
-
-                <!--  Status Bar  -->
-                <StatusBar
-                    Height="24"
-                    DockPanel.Dock="Bottom"
-                    FontSize="10">
-
-                    <StatusBarItem>
-                        <TextBlock>
-                            <Run Text="Folder: " />
-                            <Run Text="{Binding FolderPath, Mode=OneWay}" />
-                        </TextBlock>
-                    </StatusBarItem>
-
-                    <Separator />
-
-                    <StatusBarItem>
-                        <TextBlock>
-                            <Run Text="Total People:" />
-                            <Run Text="{Binding PeopleList.Count, Mode=OneWay}" />
-                        </TextBlock>
-                    </StatusBarItem>
-                </StatusBar>
-
-                <!--  Main Content  -->
-                <Grid>
-                    <!--  Empty State View  -->
-                    <Grid Background="{DynamicResource MaterialDesignPaper}" Visibility="{Binding IsDatabaseLoaded, Converter={StaticResource Visibility}, ConverterParameter=Inverter}">
-                        <StackPanel
-                            MaxWidth="600"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center">
-
-                            <md:PackIcon
-                                Width="80"
-                                Height="80"
-                                Margin="0,0,0,16"
-                                HorizontalAlignment="Center"
-                                Kind="DatabaseOff"
-                                Opacity="0.5" />
-
-                            <TextBlock
-                                Margin="0,0,0,8"
-                                FontSize="24"
-                                FontWeight="Bold"
-                                Text="No Database Loaded"
-                                TextAlignment="Center" />
-
-                            <TextBlock
-                                Margin="0,0,0,16"
-                                FontSize="16"
-                                Text="Get started by loading an FM26 database"
-                                TextAlignment="Center"
-                                TextWrapping="Wrap" />
-
-                            <md:Card Padding="24" md:ElevationAssist.Elevation="Dp2">
-                                <StackPanel>
-                                    <TextBlock
-                                        Margin="0,0,0,16"
-                                        FontSize="18"
-                                        FontWeight="SemiBold"
-                                        Text="Instructions"
-                                        TextAlignment="Left" />
-
-                                    <StackPanel Margin="0,0,0,12" Orientation="Horizontal">
-                                        <TextBlock
-                                            Width="24"
-                                            FontSize="16"
-                                            FontWeight="Bold"
-                                            Text="1."
-                                            TextAlignment="Right" />
-                                        <TextBlock
-                                            Margin="12,0,0,0"
-                                            FontSize="14"
-                                            Text="Download the FM26 database files"
-                                            TextWrapping="Wrap" />
-                                    </StackPanel>
-
-                                    <StackPanel Margin="0,0,0,12" Orientation="Horizontal">
-                                        <TextBlock
-                                            Width="24"
-                                            FontSize="16"
-                                            FontWeight="Bold"
-                                            Text="2."
-                                            TextAlignment="Right" />
-                                        <TextBlock
-                                            Margin="12,0,0,0"
-                                            FontSize="14"
-                                            Text="Extract the database files to a folder on your computer"
-                                            TextWrapping="Wrap" />
-                                    </StackPanel>
-
-                                    <StackPanel Margin="0,0,0,12" Orientation="Horizontal">
-                                        <TextBlock
-                                            Width="24"
-                                            FontSize="16"
-                                            FontWeight="Bold"
-                                            Text="3."
-                                            TextAlignment="Right" />
-                                        <TextBlock
-                                            Margin="12,0,0,0"
-                                            FontSize="14"
-                                            TextWrapping="Wrap">
-                                            <Run Text="Click the" />
-                                            <Run FontWeight="SemiBold" Text="menu icon (☰)" />
-                                            <Run Text="in the top right corner" />
-                                        </TextBlock>
-                                    </StackPanel>
-
-                                    <StackPanel Margin="0,0,0,0" Orientation="Horizontal">
-                                        <TextBlock
-                                            Width="24"
-                                            FontSize="16"
-                                            FontWeight="Bold"
-                                            Text="4."
-                                            TextAlignment="Right" />
-                                        <TextBlock
-                                            Margin="12,0,0,0"
-                                            FontSize="14"
-                                            TextWrapping="Wrap">
-                                            <Run Text="Select" />
-                                            <Run FontWeight="SemiBold" Text="'Load Database'" />
-                                            <Run Text="and browse to your extracted folder" />
-                                        </TextBlock>
-                                    </StackPanel>
-                                </StackPanel>
-                            </md:Card>
+                        <StackPanel Grid.Row="1" Orientation="Horizontal">
+                            <Button
+                                Width="130"
+                                Margin="0,0,8,0"
+                                Command="{Binding AddConditionCommand}"
+                                Content="Add Condition"
+                                Style="{StaticResource MaterialDesignFlatMidBgButton}" />
 
                             <Button
-                                Margin="0,32,0,0"
-                                HorizontalAlignment="Center"
-                                Command="{Binding Load}"
+                                Width="110"
+                                Margin="0,0,8,0"
+                                Command="{Binding ClearConditionsCommand}"
+                                Content="Clear Filter"
+                                Style="{StaticResource MaterialDesignFlatMidBgButton}" />
+
+                            <Button
+                                Width="120"
+                                Margin="0,0,16,0"
+                                Command="{Binding ApplyFilterCommand}"
+                                Content="Apply Filter"
+                                Style="{StaticResource MaterialDesignFlatMidBgButton}" />
+                        </StackPanel>
+
+                        <ScrollViewer
+                            Grid.Row="2"
+                            HorizontalScrollBarVisibility="Auto"
+                            VerticalScrollBarVisibility="Auto">
+                            <ItemsControl
+                                Margin="0,8,0,0"
+                                AlternationCount="256"
+                                ItemsSource="{Binding FilterConditions}">
+
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border
+                                            Margin="0,4,0,0"
+                                            Padding="8"
+                                            Background="{DynamicResource MaterialDesignPaper}"
+                                            BorderBrush="{DynamicResource MaterialDesignDivider}"
+                                            BorderThickness="1">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="90" />
+                                                    <ColumnDefinition Width="160" />
+                                                    <ColumnDefinition Width="105" />
+                                                </Grid.ColumnDefinitions>
+
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+
+                                                <ComboBox
+                                                    Grid.Row="0"
+                                                    Grid.Column="0"
+                                                    Margin="0,0,8,0"
+                                                    HorizontalAlignment="Stretch"
+                                                    ItemsSource="{Binding DataContext.FilterOperatorOptions, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+                                                    SelectedItem="{Binding LogicalOperator, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                                    <ComboBox.Style>
+                                                        <Style BasedOn="{StaticResource MaterialDesignFilledComboBox}" TargetType="ComboBox">
+                                                            <Setter Property="IsEnabled" Value="True" />
+                                                            <Setter Property="Opacity" Value="1" />
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding (ItemsControl.AlternationIndex), RelativeSource={RelativeSource AncestorType={x:Type ContentPresenter}}}" Value="0">
+                                                                    <Setter Property="IsEnabled" Value="False" />
+                                                                    <Setter Property="Opacity" Value="0.3" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </ComboBox.Style>
+                                                </ComboBox>
+
+                                                <ComboBox
+                                                    Grid.Row="0"
+                                                    Grid.Column="1"
+                                                    Margin="0,0,8,0"
+                                                    HorizontalAlignment="Stretch"
+                                                    DisplayMemberPath="DisplayName"
+                                                    ItemsSource="{Binding DataContext.FilterFields, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+                                                    SelectedValue="{Binding PropertyKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                    SelectedValuePath="Key"
+                                                    Style="{StaticResource MaterialDesignFilledComboBox}" />
+
+                                                <ComboBox
+                                                    Grid.Row="0"
+                                                    Grid.Column="2"
+                                                    HorizontalAlignment="Stretch"
+                                                    ItemsSource="{Binding AvailableComparisons}"
+                                                    SelectedItem="{Binding Comparison, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                    Style="{StaticResource MaterialDesignFilledComboBox}" />
+
+                                                <!--<CheckBox
+                                                    Grid.Row="1"
+                                                    Grid.Column="0"
+                                                    Margin="0,8,0,0"
+                                                    HorizontalAlignment="Left"
+                                                    Command="{Binding DataContext.RemoveConditionCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+                                                    CommandParameter="{Binding}" />-->
+
+                                                <Button
+                                                    Grid.Row="1"
+                                                    Grid.Column="0"
+                                                    Margin="0,8,8,0"
+                                                    HorizontalAlignment="Stretch"
+                                                    Background="DarkRed"
+                                                    Command="{Binding DataContext.RemoveConditionCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+                                                    CommandParameter="{Binding}"
+                                                    Content="Remove"
+                                                    Foreground="White"
+                                                    Style="{StaticResource MaterialDesignFlatDarkButton}" />
+
+                                                <ComboBox
+                                                    Grid.Row="1"
+                                                    Grid.Column="1"
+                                                    Grid.ColumnSpan="2"
+                                                    Margin="0,8,0,0"
+                                                    HorizontalAlignment="Stretch"
+                                                    ItemsSource="{Binding DataContext.GenderOptions, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+                                                    SelectedItem="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                                    <ComboBox.Style>
+                                                        <Style TargetType="ComboBox" BasedOn="{StaticResource MaterialDesignFilledComboBox}">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding PropertyKey}" Value="gender">
+                                                                    <Setter Property="Visibility" Value="Visible" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </ComboBox.Style>
+                                                </ComboBox>
+
+                                                <TextBox
+                                                    Grid.Row="1"
+                                                    Grid.Column="1"
+                                                    Grid.ColumnSpan="2"
+                                                    Margin="0,8,0,0"
+                                                    HorizontalAlignment="Stretch"
+                                                    Text="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                                    <TextBox.Style>
+                                                        <Style TargetType="TextBox" BasedOn="{StaticResource MaterialDesignFilledTextBox}">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding PropertyKey}" Value="gender">
+                                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBox.Style>
+                                                </TextBox>
+
+                                             </Grid>
+                                         </Border>
+                                     </DataTemplate>
+                                 </ItemsControl.ItemTemplate>
+                             </ItemsControl>
+                         </ScrollViewer>
+                     </Grid>
+                 </Border>
+             </md:DrawerHost.LeftDrawerContent>
+
+            <Grid>
+                <DockPanel
+                    Margin="0,0,0,0"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    Background="{DynamicResource MaterialDesignPaper}">
+
+                    <!--  Title Bar  -->
+                    <md:ColorZone
+                        Height="40"
+                        DockPanel.Dock="Top"
+                        Mode="PrimaryMid">
+
+                        <Grid HorizontalAlignment="Stretch">
+
+                            <Button
+                                Margin="0,0,8,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Click="OpenDrawer_Click"
                                 Style="{StaticResource MaterialDesignFlatMidBgButton}">
-                                <StackPanel Orientation="Horizontal">
-                                    <md:PackIcon
-                                        Width="20"
-                                        Height="20"
-                                        Margin="0,0,8,0"
-                                        VerticalAlignment="Center"
-                                        Kind="FolderOpen" />
-                                    <TextBlock
-                                        VerticalAlignment="Center"
-                                        FontSize="14"
-                                        Text="LOAD DATABASE" />
-                                </StackPanel>
+                                <md:PackIcon
+                                    Width="18"
+                                    Height="18"
+                                    Margin="0,0,8,0"
+                                    VerticalAlignment="Center"
+                                    Kind="Menu" />
                             </Button>
 
-                        </StackPanel>
-                    </Grid>
+                            <TextBlock
+                                Grid.Column="1"
+                                Margin="5"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="18"
+                                FontWeight="Bold"
+                                Text="FMM 26 DB Editor - People" />
 
-                    <!--  Data Grid (shown when database is loaded)  -->
-                    <DataGrid
-                        md:DataGridAssist.SelectedCellBorderBrush="Transparent"
-                        AutoGenerateColumns="False"
-                        BorderThickness="1"
-                        CanUserAddRows="False"
-                        CanUserResizeRows="False"
-                        ContextMenu="{DynamicResource menu}"
-                        EnableRowVirtualization="True"
-                        FontSize="12.5"
-                        GridLinesVisibility="All"
-                        IsSynchronizedWithCurrentItem="True"
-                        ItemsSource="{Binding PeopleList}"
-                        RowHeight="33"
-                        ScrollViewer.CanContentScroll="True"
-                        ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                        SelectedItem="{Binding SelectedPerson}"
-                        SelectionMode="Single"
-                        SelectionUnit="FullRow"
-                        Visibility="{Binding IsDatabaseLoaded, Converter={StaticResource Visibility}, ConverterParameter=Boolean}">
+                            <!--  Toolbar Menu  -->
+                            <StackPanel
+                                Margin="0,0,16,0"
+                                HorizontalAlignment="Right"
+                                Orientation="Horizontal">
 
-                        <DataGrid.Resources>
-                            <ContextMenu x:Key="menu">
-                                <MenuItem Command="{Binding CopyUidCommand}" Header="Copy UID" />
-                                <MenuItem Command="{Binding CopyUidHexCommand}" Header="Copy UID (Hex)" />
-                                <Separator />
-                                <MenuItem Command="{Binding AddCommand}" Header="Add Person" />
-                                <MenuItem
-                                    Command="{Binding CopyCommand}"
-                                    CommandParameter="{Binding SelectedPerson}"
-                                    Header="Copy Person" />
-                                <MenuItem
-                                    Command="{Binding EditCommand}"
-                                    CommandParameter="{Binding SelectedPerson}"
-                                    Header="Edit Person" />
-                            </ContextMenu>
-                        </DataGrid.Resources>
+                                <md:PopupBox
+                                    Margin="4"
+                                    Padding="0"
+                                    PlacementMode="BottomAndAlignRightEdges"
+                                    StaysOpen="False">
+                                    <md:PopupBox.ToggleContent>
+                                        <md:PackIcon
+                                            Width="21"
+                                            Height="21"
+                                            Kind="DotsVertical" />
+                                    </md:PopupBox.ToggleContent>
 
-                        <DataGrid.Columns>
+                                    <StackPanel>
+                                        <Button Click="Donate_Click" FontSize="16">
+                                            <StackPanel Orientation="Horizontal">
+                                                <md:PackIcon
+                                                    Width="18"
+                                                    Height="18"
+                                                    Margin="0,0,8,0"
+                                                    VerticalAlignment="Center"
+                                                    Kind="CoffeeOutline" />
+                                                <TextBlock VerticalAlignment="Center" Text="Support me" />
+                                            </StackPanel>
+                                        </Button>
 
-                            <!--<DataGridTextColumn
+                                        <Separator />
+
+                                        <Button
+                                            Command="{Binding Load}"
+                                            Content="Load Database"
+                                            FontSize="16" />
+
+                                        <Button
+                                            Command="{Binding Save}"
+                                            Content="Save"
+                                            FontSize="16"
+                                            IsEnabled="{Binding IsDatabaseLoaded}" />
+
+                                        <Button
+                                            Command="{Binding SaveAs}"
+                                            Content="Save As..."
+                                            FontSize="16"
+                                            IsEnabled="{Binding IsDatabaseLoaded}" />
+
+                                        <Separator />
+
+                                        <Button
+                                            Click="Exit_Click"
+                                            Content="Exit"
+                                            FontSize="16" />
+                                    </StackPanel>
+                                </md:PopupBox>
+                            </StackPanel>
+
+                        </Grid>
+                    </md:ColorZone>
+
+                    <!--  Status Bar  -->
+                    <StatusBar
+                        Height="24"
+                        DockPanel.Dock="Bottom"
+                        FontSize="10">
+
+                        <StatusBarItem>
+                            <TextBlock>
+                                <Run Text="Folder: " />
+                                <Run Text="{Binding FolderPath, Mode=OneWay}" />
+                            </TextBlock>
+                        </StatusBarItem>
+
+                        <Separator />
+
+                        <StatusBarItem>
+                            <TextBlock>
+                                <Run Text="Total People:" />
+                                <Run Text="{Binding PeopleList.Count, Mode=OneWay}" />
+                            </TextBlock>
+                        </StatusBarItem>
+                    </StatusBar>
+
+                    <!--  Main Content  -->
+                    <Grid>
+                        <!--  Empty State View  -->
+                        <Grid Background="{DynamicResource MaterialDesignPaper}" Visibility="{Binding IsDatabaseLoaded, Converter={StaticResource Visibility}, ConverterParameter=Inverter}">
+                            <StackPanel
+                                MaxWidth="600"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center">
+
+                                <md:PackIcon
+                                    Width="80"
+                                    Height="80"
+                                    Margin="0,0,0,16"
+                                    HorizontalAlignment="Center"
+                                    Kind="DatabaseOff"
+                                    Opacity="0.5" />
+
+                                <TextBlock
+                                    Margin="0,0,0,8"
+                                    FontSize="24"
+                                    FontWeight="Bold"
+                                    Text="No Database Loaded"
+                                    TextAlignment="Center" />
+
+                                <TextBlock
+                                    Margin="0,0,0,16"
+                                    FontSize="16"
+                                    Text="Get started by loading an FM26 database"
+                                    TextAlignment="Center"
+                                    TextWrapping="Wrap" />
+
+                                <md:Card Padding="24" md:ElevationAssist.Elevation="Dp2">
+                                    <StackPanel>
+                                        <TextBlock
+                                            Margin="0,0,0,16"
+                                            FontSize="18"
+                                            FontWeight="SemiBold"
+                                            Text="Instructions"
+                                            TextAlignment="Left" />
+
+                                        <StackPanel Margin="0,0,0,12" Orientation="Horizontal">
+                                            <TextBlock
+                                                Width="24"
+                                                FontSize="16"
+                                                FontWeight="Bold"
+                                                Text="1."
+                                                TextAlignment="Right" />
+                                            <TextBlock
+                                                Margin="12,0,0,0"
+                                                FontSize="14"
+                                                Text="Download the FM26 database files"
+                                                TextWrapping="Wrap" />
+                                        </StackPanel>
+
+                                        <StackPanel Margin="0,0,0,12" Orientation="Horizontal">
+                                            <TextBlock
+                                                Width="24"
+                                                FontSize="16"
+                                                FontWeight="Bold"
+                                                Text="2."
+                                                TextAlignment="Right" />
+                                            <TextBlock
+                                                Margin="12,0,0,0"
+                                                FontSize="14"
+                                                Text="Extract the database files to a folder on your computer"
+                                                TextWrapping="Wrap" />
+                                        </StackPanel>
+
+                                        <StackPanel Margin="0,0,0,12" Orientation="Horizontal">
+                                            <TextBlock
+                                                Width="24"
+                                                FontSize="16"
+                                                FontWeight="Bold"
+                                                Text="3."
+                                                TextAlignment="Right" />
+                                            <TextBlock
+                                                Margin="12,0,0,0"
+                                                FontSize="14"
+                                                TextWrapping="Wrap">
+                                                <Run Text="Click the" />
+                                                <Run FontWeight="SemiBold" Text="menu icon (☰)" />
+                                                <Run Text="in the top right corner" />
+                                            </TextBlock>
+                                        </StackPanel>
+
+                                        <StackPanel Margin="0,0,0,0" Orientation="Horizontal">
+                                            <TextBlock
+                                                Width="24"
+                                                FontSize="16"
+                                                FontWeight="Bold"
+                                                Text="4."
+                                                TextAlignment="Right" />
+                                            <TextBlock
+                                                Margin="12,0,0,0"
+                                                FontSize="14"
+                                                TextWrapping="Wrap">
+                                                <Run Text="Select" />
+                                                <Run FontWeight="SemiBold" Text="'Load Database'" />
+                                                <Run Text="and browse to your extracted folder" />
+                                            </TextBlock>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </md:Card>
+
+                                <Button
+                                    Margin="0,32,0,0"
+                                    HorizontalAlignment="Center"
+                                    Command="{Binding Load}"
+                                    Style="{StaticResource MaterialDesignFlatMidBgButton}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <md:PackIcon
+                                            Width="20"
+                                            Height="20"
+                                            Margin="0,0,8,0"
+                                            VerticalAlignment="Center"
+                                            Kind="FolderOpen" />
+                                        <TextBlock
+                                            VerticalAlignment="Center"
+                                            FontSize="14"
+                                            Text="LOAD DATABASE" />
+                                    </StackPanel>
+                                </Button>
+
+                            </StackPanel>
+                        </Grid>
+
+                        <!--  Data Grid (shown when database is loaded)  -->
+                        <DataGrid
+                            md:DataGridAssist.SelectedCellBorderBrush="Transparent"
+                            AutoGenerateColumns="False"
+                            BorderThickness="1"
+                            CanUserAddRows="False"
+                            CanUserResizeRows="False"
+                            ContextMenu="{DynamicResource menu}"
+                            EnableRowVirtualization="True"
+                            FontSize="12.5"
+                            GridLinesVisibility="All"
+                            IsSynchronizedWithCurrentItem="True"
+                            ItemsSource="{Binding PeopleList}"
+                            RowHeight="33"
+                            ScrollViewer.CanContentScroll="True"
+                            ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                            SelectedItem="{Binding SelectedPerson}"
+                            SelectionMode="Single"
+                            SelectionUnit="FullRow"
+                            Visibility="{Binding IsDatabaseLoaded, Converter={StaticResource Visibility}, ConverterParameter=Boolean}">
+
+                            <DataGrid.Resources>
+                                <ContextMenu x:Key="menu">
+                                    <MenuItem Command="{Binding CopyUidCommand}" Header="Copy UID" />
+                                    <MenuItem Command="{Binding CopyUidHexCommand}" Header="Copy UID (Hex)" />
+                                    <Separator />
+                                    <MenuItem Command="{Binding AddCommand}" Header="Add Person" />
+                                    <MenuItem
+                                        Command="{Binding CopyCommand}"
+                                        CommandParameter="{Binding SelectedPerson}"
+                                        Header="Copy Person" />
+                                    <MenuItem
+                                        Command="{Binding EditCommand}"
+                                        CommandParameter="{Binding SelectedPerson}"
+                                        Header="Edit Person" />
+                                </ContextMenu>
+                            </DataGrid.Resources>
+
+                            <DataGrid.Columns>
+
+                                <!--<DataGridTextColumn
                                 Width="60"
                                 MinWidth="60"
                                 MaxWidth="110"
@@ -396,7 +550,7 @@
                                 Header="ID"
                                 IsReadOnly="True" />-->
 
-                            <!--<DataGridTextColumn
+                                <!--<DataGridTextColumn
                                 Width="100"
                                 MinWidth="100"
                                 MaxWidth="100"
@@ -406,7 +560,7 @@
                                 Header="ID"
                                 IsReadOnly="True" />-->
 
-                            <!--<DataGridTextColumn
+                                <!--<DataGridTextColumn
                                 Width="100"
                                 MinWidth="100"
                                 MaxWidth="100"
@@ -416,491 +570,492 @@
                                 Header="UID"
                                 IsReadOnly="True" />-->
 
-                            <DataGridTextColumn
-                                Width="60"
-                                MinWidth="60"
-                                MaxWidth="110"
-                                Binding="{Binding Uid}"
-                                CanUserReorder="True"
-                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
-                                Header="UID"
-                                IsReadOnly="True">
-                                <DataGridTextColumn.HeaderStyle>
-                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
-                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                    </Style>
-                                </DataGridTextColumn.HeaderStyle>
-                            </DataGridTextColumn>
+                                <DataGridTextColumn
+                                    Width="60"
+                                    MinWidth="60"
+                                    MaxWidth="110"
+                                    Binding="{Binding Uid}"
+                                    CanUserReorder="True"
+                                    ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                    Header="UID"
+                                    IsReadOnly="True">
+                                    <DataGridTextColumn.HeaderStyle>
+                                        <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                        </Style>
+                                    </DataGridTextColumn.HeaderStyle>
+                                </DataGridTextColumn>
 
-                            <!--  Always Load Checkbox Column  -->
-                            <DataGridCheckBoxColumn
-                                Width="60"
-                                MinWidth="60"
-                                MaxWidth="60"
-                                Binding="{Binding IsAlwaysLoad, UpdateSourceTrigger=PropertyChanged}"
-                                CanUserReorder="False"
-                                Header="AL"
-                                IsReadOnly="False">
-                                <DataGridCheckBoxColumn.HeaderStyle>
-                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
-                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                        <Setter Property="ToolTip" Value="Always Load" />
-                                    </Style>
-                                </DataGridCheckBoxColumn.HeaderStyle>
-                                <DataGridCheckBoxColumn.ElementStyle>
-                                    <Style BasedOn="{StaticResource MaterialDesignCheckBox}" TargetType="CheckBox">
-                                        <Setter Property="HorizontalAlignment" Value="Center" />
-                                        <Setter Property="VerticalAlignment" Value="Center" />
-                                    </Style>
-                                </DataGridCheckBoxColumn.ElementStyle>
-                            </DataGridCheckBoxColumn>
+                                <!--  Always Load Checkbox Column  -->
+                                <DataGridCheckBoxColumn
+                                    Width="60"
+                                    MinWidth="60"
+                                    MaxWidth="60"
+                                    Binding="{Binding IsAlwaysLoad, UpdateSourceTrigger=PropertyChanged}"
+                                    CanUserReorder="False"
+                                    Header="AL"
+                                    IsReadOnly="False">
+                                    <DataGridCheckBoxColumn.HeaderStyle>
+                                        <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                            <Setter Property="ToolTip" Value="Always Load" />
+                                        </Style>
+                                    </DataGridCheckBoxColumn.HeaderStyle>
+                                    <DataGridCheckBoxColumn.ElementStyle>
+                                        <Style BasedOn="{StaticResource MaterialDesignCheckBox}" TargetType="CheckBox">
+                                            <Setter Property="HorizontalAlignment" Value="Center" />
+                                            <Setter Property="VerticalAlignment" Value="Center" />
+                                        </Style>
+                                    </DataGridCheckBoxColumn.ElementStyle>
+                                </DataGridCheckBoxColumn>
 
-                            <DataGridTextColumn
-                                Width="200"
-                                MinWidth="150"
-                                Binding="{Binding FullName}"
-                                CanUserReorder="True"
-                                ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
-                                Header="Name"
-                                IsReadOnly="True" />
+                                <DataGridTextColumn
+                                    Width="200"
+                                    MinWidth="150"
+                                    Binding="{Binding FullName}"
+                                    CanUserReorder="True"
+                                    ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                                    Header="Name"
+                                    IsReadOnly="True" />
 
-                            <DataGridTextColumn
-                                Width="100"
-                                MinWidth="90"
-                                Binding="{Binding DateOfBirth}"
-                                CanUserReorder="True"
-                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
-                                Header="Birth Date"
-                                IsReadOnly="True">
-                                <DataGridTextColumn.HeaderStyle>
-                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
-                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                    </Style>
-                                </DataGridTextColumn.HeaderStyle>
-                            </DataGridTextColumn>
+                                <DataGridTextColumn
+                                    Width="100"
+                                    MinWidth="90"
+                                    Binding="{Binding DateOfBirth}"
+                                    CanUserReorder="True"
+                                    ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                    Header="Birth Date"
+                                    IsReadOnly="True">
+                                    <DataGridTextColumn.HeaderStyle>
+                                        <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                        </Style>
+                                    </DataGridTextColumn.HeaderStyle>
+                                </DataGridTextColumn>
 
-                            <DataGridTextColumn
-                                Width="60"
-                                MinWidth="60"
-                                Binding="{Binding Person.DateOfBirth, Converter={StaticResource AgeConverter}}"
-                                CanUserReorder="True"
-                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
-                                Header="Age"
-                                IsReadOnly="True">
-                                <DataGridTextColumn.HeaderStyle>
-                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
-                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                    </Style>
-                                </DataGridTextColumn.HeaderStyle>
-                            </DataGridTextColumn>
+                                <DataGridTextColumn
+                                    Width="60"
+                                    MinWidth="60"
+                                    Binding="{Binding Person.DateOfBirth, Converter={StaticResource AgeConverter}}"
+                                    CanUserReorder="True"
+                                    ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                    Header="Age"
+                                    IsReadOnly="True">
+                                    <DataGridTextColumn.HeaderStyle>
+                                        <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                        </Style>
+                                    </DataGridTextColumn.HeaderStyle>
+                                </DataGridTextColumn>
 
-                            <DataGridTextColumn
-                                Width="60"
-                                MinWidth="60"
-                                MaxWidth="110"
-                                Binding="{Binding Player.CA}"
-                                CanUserReorder="True"
-                                Header="CA"
-                                IsReadOnly="True" />
+                                <DataGridTextColumn
+                                    Width="60"
+                                    MinWidth="60"
+                                    MaxWidth="110"
+                                    Binding="{Binding Player.CA}"
+                                    CanUserReorder="True"
+                                    Header="CA"
+                                    IsReadOnly="True" />
 
-                            <DataGridTextColumn
-                                Width="60"
-                                MinWidth="60"
-                                MaxWidth="110"
-                                Binding="{Binding Player.PA}"
-                                CanUserReorder="True"
-                                Header="PA"
-                                IsReadOnly="True" />
+                                <DataGridTextColumn
+                                    Width="60"
+                                    MinWidth="60"
+                                    MaxWidth="110"
+                                    Binding="{Binding Player.PA}"
+                                    CanUserReorder="True"
+                                    Header="PA"
+                                    IsReadOnly="True" />
 
-                            <DataGridTextColumn
-                                Width="120"
-                                MinWidth="100"
-                                Binding="{Binding NationName}"
-                                CanUserReorder="True"
-                                Header="Nation"
-                                IsReadOnly="True" />
+                                <DataGridTextColumn
+                                    Width="120"
+                                    MinWidth="100"
+                                    Binding="{Binding NationName}"
+                                    CanUserReorder="True"
+                                    Header="Nation"
+                                    IsReadOnly="True" />
 
-                            <DataGridTextColumn
-                                Width="50"
-                                MinWidth="50"
-                                MaxWidth="50"
-                                Binding="{Binding Gender, Converter={StaticResource GenderConverter}, ConverterParameter=Symbol}"
-                                CanUserReorder="True"
-                                ElementStyle="{StaticResource genderColumnStyle}"
-                                Header="⚥"
-                                IsReadOnly="True">
-                                <DataGridTextColumn.HeaderStyle>
-                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
-                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                        <Setter Property="FontSize" Value="18" />
-                                    </Style>
-                                </DataGridTextColumn.HeaderStyle>
-                            </DataGridTextColumn>
+                                <DataGridTextColumn
+                                    Width="50"
+                                    MinWidth="50"
+                                    MaxWidth="50"
+                                    Binding="{Binding Gender, Converter={StaticResource GenderConverter}, ConverterParameter=Symbol}"
+                                    CanUserReorder="True"
+                                    ElementStyle="{StaticResource genderColumnStyle}"
+                                    Header="⚥"
+                                    IsReadOnly="True">
+                                    <DataGridTextColumn.HeaderStyle>
+                                        <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                            <Setter Property="FontSize" Value="18" />
+                                        </Style>
+                                    </DataGridTextColumn.HeaderStyle>
+                                </DataGridTextColumn>
 
-                            <DataGridTextColumn
-                                Width="140"
-                                MinWidth="100"
-                                Binding="{Binding Ethnicity}"
-                                CanUserReorder="True"
-                                Header="Ethnicity"
-                                IsReadOnly="True" />
+                                <DataGridTextColumn
+                                    Width="140"
+                                    MinWidth="100"
+                                    Binding="{Binding Ethnicity}"
+                                    CanUserReorder="True"
+                                    Header="Ethnicity"
+                                    IsReadOnly="True" />
 
-                            <DataGridTextColumn
-                                Width="94"
-                                MinWidth="94"
-                                Binding="{Binding Person.Unknown1, Converter={StaticResource HexConverter}}"
-                                CanUserReorder="True"
-                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
-                                Header="U1"
-                                IsReadOnly="True" />
+                                <DataGridTextColumn
+                                    Width="94"
+                                    MinWidth="94"
+                                    Binding="{Binding Person.Unknown1, Converter={StaticResource HexConverter}}"
+                                    CanUserReorder="True"
+                                    ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                    Header="U1"
+                                    IsReadOnly="True" />
 
-                            <DataGridTextColumn
-                                Width="80"
-                                MinWidth="70"
-                                Binding="{Binding Person.Type}"
-                                CanUserReorder="True"
-                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
-                                Header="Type"
-                                IsReadOnly="True">
-                                <DataGridTextColumn.HeaderStyle>
-                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
-                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                    </Style>
-                                </DataGridTextColumn.HeaderStyle>
-                            </DataGridTextColumn>
+                                <DataGridTextColumn
+                                    Width="80"
+                                    MinWidth="70"
+                                    Binding="{Binding Person.Type}"
+                                    CanUserReorder="True"
+                                    ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                    Header="Type"
+                                    IsReadOnly="True">
+                                    <DataGridTextColumn.HeaderStyle>
+                                        <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                        </Style>
+                                    </DataGridTextColumn.HeaderStyle>
+                                </DataGridTextColumn>
 
-                            <DataGridTextColumn
-                                Width="100"
-                                MinWidth="90"
-                                Binding="{Binding Person.UnknownDate, Converter={StaticResource DateConverter}, StringFormat=yyyy-MM-dd}"
-                                CanUserReorder="True"
-                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
-                                Header="Unknown Date"
-                                IsReadOnly="True" />
+                                <DataGridTextColumn
+                                    Width="100"
+                                    MinWidth="90"
+                                    Binding="{Binding Person.UnknownDate, Converter={StaticResource DateConverter}, StringFormat=yyyy-MM-dd}"
+                                    CanUserReorder="True"
+                                    ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                    Header="Unknown Date"
+                                    IsReadOnly="True" />
 
-                            <DataGridTextColumn
-                                Width="60"
-                                MinWidth="60"
-                                Binding="{Binding NationalCaps}"
-                                CanUserReorder="True"
-                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
-                                Header="Caps"
-                                IsReadOnly="True">
-                                <DataGridTextColumn.HeaderStyle>
-                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
-                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                    </Style>
-                                </DataGridTextColumn.HeaderStyle>
-                            </DataGridTextColumn>
+                                <DataGridTextColumn
+                                    Width="60"
+                                    MinWidth="60"
+                                    Binding="{Binding NationalCaps}"
+                                    CanUserReorder="True"
+                                    ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                    Header="Caps"
+                                    IsReadOnly="True">
+                                    <DataGridTextColumn.HeaderStyle>
+                                        <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                        </Style>
+                                    </DataGridTextColumn.HeaderStyle>
+                                </DataGridTextColumn>
 
-                            <DataGridTextColumn
-                                Width="60"
-                                MinWidth="60"
-                                Binding="{Binding NationalGoals}"
-                                CanUserReorder="True"
-                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
-                                Header="Gls"
-                                IsReadOnly="True">
-                                <DataGridTextColumn.HeaderStyle>
-                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
-                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                    </Style>
-                                </DataGridTextColumn.HeaderStyle>
-                            </DataGridTextColumn>
+                                <DataGridTextColumn
+                                    Width="60"
+                                    MinWidth="60"
+                                    Binding="{Binding NationalGoals}"
+                                    CanUserReorder="True"
+                                    ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                    Header="Gls"
+                                    IsReadOnly="True">
+                                    <DataGridTextColumn.HeaderStyle>
+                                        <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                        </Style>
+                                    </DataGridTextColumn.HeaderStyle>
+                                </DataGridTextColumn>
 
-                            <DataGridTextColumn
-                                Width="60"
-                                MinWidth="60"
-                                Binding="{Binding Person.NationalU21Caps}"
-                                CanUserReorder="True"
-                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
-                                Header="U21"
-                                IsReadOnly="True">
-                                <DataGridTextColumn.HeaderStyle>
-                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
-                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                    </Style>
-                                </DataGridTextColumn.HeaderStyle>
-                            </DataGridTextColumn>
+                                <DataGridTextColumn
+                                    Width="60"
+                                    MinWidth="60"
+                                    Binding="{Binding Person.NationalU21Caps}"
+                                    CanUserReorder="True"
+                                    ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                    Header="U21"
+                                    IsReadOnly="True">
+                                    <DataGridTextColumn.HeaderStyle>
+                                        <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                        </Style>
+                                    </DataGridTextColumn.HeaderStyle>
+                                </DataGridTextColumn>
 
-                            <DataGridTextColumn
-                                Width="60"
-                                MinWidth="60"
-                                Binding="{Binding Person.NationalU21Goals}"
-                                CanUserReorder="True"
-                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
-                                Header="Gls"
-                                IsReadOnly="True">
-                                <DataGridTextColumn.HeaderStyle>
-                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
-                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                    </Style>
-                                </DataGridTextColumn.HeaderStyle>
-                            </DataGridTextColumn>
+                                <DataGridTextColumn
+                                    Width="60"
+                                    MinWidth="60"
+                                    Binding="{Binding Person.NationalU21Goals}"
+                                    CanUserReorder="True"
+                                    ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                    Header="Gls"
+                                    IsReadOnly="True">
+                                    <DataGridTextColumn.HeaderStyle>
+                                        <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                        </Style>
+                                    </DataGridTextColumn.HeaderStyle>
+                                </DataGridTextColumn>
 
-                            <DataGridTextColumn
-                                Width="200"
-                                MinWidth="150"
-                                Binding="{Binding ClubName}"
-                                CanUserReorder="True"
-                                ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
-                                Header="Club"
-                                IsReadOnly="True" />
+                                <DataGridTextColumn
+                                    Width="200"
+                                    MinWidth="150"
+                                    Binding="{Binding ClubName}"
+                                    CanUserReorder="True"
+                                    ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                                    Header="Club"
+                                    IsReadOnly="True" />
 
-                            <DataGridTextColumn
-                                Width="100"
-                                MinWidth="90"
-                                Binding="{Binding Person.JoinedDate, Converter={StaticResource DateConverter}, StringFormat=yyyy-MM-dd}"
-                                CanUserReorder="True"
-                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
-                                Header="Joined"
-                                IsReadOnly="True" />
+                                <DataGridTextColumn
+                                    Width="100"
+                                    MinWidth="90"
+                                    Binding="{Binding Person.JoinedDate, Converter={StaticResource DateConverter}, StringFormat=yyyy-MM-dd}"
+                                    CanUserReorder="True"
+                                    ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                    Header="Joined"
+                                    IsReadOnly="True" />
 
-                            <DataGridTextColumn
-                                Width="70"
-                                MinWidth="70"
-                                Binding="{Binding Person.Unknown3, Converter={StaticResource HexConverter}}"
-                                CanUserReorder="True"
-                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
-                                Header="U3"
-                                IsReadOnly="True" />
+                                <DataGridTextColumn
+                                    Width="70"
+                                    MinWidth="70"
+                                    Binding="{Binding Person.Unknown3, Converter={StaticResource HexConverter}}"
+                                    CanUserReorder="True"
+                                    ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                    Header="U3"
+                                    IsReadOnly="True" />
 
-                            <DataGridTextColumn
-                                Width="80"
-                                MinWidth="80"
-                                Binding="{Binding Person.PlayerId}"
-                                CanUserReorder="True"
-                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
-                                Header="PlayerId"
-                                IsReadOnly="True" />
+                                <DataGridTextColumn
+                                    Width="80"
+                                    MinWidth="80"
+                                    Binding="{Binding Person.PlayerId}"
+                                    CanUserReorder="True"
+                                    ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                    Header="PlayerId"
+                                    IsReadOnly="True" />
 
-                            <!--  Start of Debug Unknown Value  -->
+                                <!--  Start of Debug Unknown Value  -->
 
-                            <DataGridTextColumn
-                                Width="94"
-                                MinWidth="94"
-                                Binding="{Binding Person.Unknown6b, Converter={StaticResource HexConverter}}"
-                                CanUserReorder="True"
-                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
-                                Header="U6b"
-                                IsReadOnly="True" />
+                                <DataGridTextColumn
+                                    Width="94"
+                                    MinWidth="94"
+                                    Binding="{Binding Person.Unknown6b, Converter={StaticResource HexConverter}}"
+                                    CanUserReorder="True"
+                                    ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                    Header="U6b"
+                                    IsReadOnly="True" />
 
-                            <DataGridTextColumn
-                                Width="94"
-                                MinWidth="94"
-                                Binding="{Binding Person.Unknown6c, Converter={StaticResource HexConverter}}"
-                                CanUserReorder="True"
-                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
-                                Header="U6c"
-                                IsReadOnly="True" />
+                                <DataGridTextColumn
+                                    Width="94"
+                                    MinWidth="94"
+                                    Binding="{Binding Person.Unknown6c, Converter={StaticResource HexConverter}}"
+                                    CanUserReorder="True"
+                                    ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                    Header="U6c"
+                                    IsReadOnly="True" />
 
-                            <DataGridTextColumn
-                                Width="94"
-                                MinWidth="94"
-                                Binding="{Binding Person.Unknown6d, Converter={StaticResource HexConverter}}"
-                                CanUserReorder="True"
-                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
-                                Header="U6d"
-                                IsReadOnly="True" />
+                                <DataGridTextColumn
+                                    Width="94"
+                                    MinWidth="94"
+                                    Binding="{Binding Person.Unknown6d, Converter={StaticResource HexConverter}}"
+                                    CanUserReorder="True"
+                                    ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                    Header="U6d"
+                                    IsReadOnly="True" />
 
-                            <DataGridTextColumn
-                                Width="94"
-                                MinWidth="94"
-                                Binding="{Binding Person.Unknown6e, Converter={StaticResource HexConverter}}"
-                                CanUserReorder="True"
-                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
-                                Header="U6e"
-                                IsReadOnly="True" />
+                                <DataGridTextColumn
+                                    Width="94"
+                                    MinWidth="94"
+                                    Binding="{Binding Person.Unknown6e, Converter={StaticResource HexConverter}}"
+                                    CanUserReorder="True"
+                                    ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                    Header="U6e"
+                                    IsReadOnly="True" />
 
-                            <DataGridTextColumn
-                                Width="94"
-                                MinWidth="94"
-                                Binding="{Binding Person.Unknown6f, Converter={StaticResource HexConverter}}"
-                                CanUserReorder="True"
-                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
-                                Header="U6f"
-                                IsReadOnly="True" />
+                                <DataGridTextColumn
+                                    Width="94"
+                                    MinWidth="94"
+                                    Binding="{Binding Person.Unknown6f, Converter={StaticResource HexConverter}}"
+                                    CanUserReorder="True"
+                                    ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                    Header="U6f"
+                                    IsReadOnly="True" />
 
-                            <DataGridTextColumn
-                                Width="60"
-                                MinWidth="60"
-                                Binding="{Binding Person.Unknown7, Converter={StaticResource HexConverter}}"
-                                CanUserReorder="True"
-                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
-                                Header="U7"
-                                IsReadOnly="True" />
+                                <DataGridTextColumn
+                                    Width="60"
+                                    MinWidth="60"
+                                    Binding="{Binding Person.Unknown7, Converter={StaticResource HexConverter}}"
+                                    CanUserReorder="True"
+                                    ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                    Header="U7"
+                                    IsReadOnly="True" />
 
-                            <DataGridTextColumn
-                                Width="60"
-                                MinWidth="60"
-                                Binding="{Binding Person.Unknown8, Converter={StaticResource HexConverter}}"
-                                CanUserReorder="True"
-                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
-                                Header="U8"
-                                IsReadOnly="True" />
+                                <DataGridTextColumn
+                                    Width="60"
+                                    MinWidth="60"
+                                    Binding="{Binding Person.Unknown8, Converter={StaticResource HexConverter}}"
+                                    CanUserReorder="True"
+                                    ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                    Header="U8"
+                                    IsReadOnly="True" />
 
-                            <DataGridTextColumn
-                                Width="94"
-                                MinWidth="94"
-                                Binding="{Binding Person.Unknown9, Converter={StaticResource HexConverter}}"
-                                CanUserReorder="True"
-                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
-                                Header="U9"
-                                IsReadOnly="True" />
+                                <DataGridTextColumn
+                                    Width="94"
+                                    MinWidth="94"
+                                    Binding="{Binding Person.Unknown9, Converter={StaticResource HexConverter}}"
+                                    CanUserReorder="True"
+                                    ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                    Header="U9"
+                                    IsReadOnly="True" />
 
-                            <DataGridTextColumn
-                                Width="70"
-                                MinWidth="70"
-                                Binding="{Binding Person.Unknown10, Converter={StaticResource HexConverter}}"
-                                CanUserReorder="True"
-                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
-                                Header="U10"
-                                IsReadOnly="True" />
+                                <DataGridTextColumn
+                                    Width="70"
+                                    MinWidth="70"
+                                    Binding="{Binding Person.Unknown10, Converter={StaticResource HexConverter}}"
+                                    CanUserReorder="True"
+                                    ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                    Header="U10"
+                                    IsReadOnly="True" />
 
-                            <DataGridTextColumn
-                                Width="60"
-                                MinWidth="60"
-                                Binding="{Binding Person.Unknown21, Converter={StaticResource HexConverter}}"
-                                CanUserReorder="True"
-                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
-                                Header="U11"
-                                IsReadOnly="True" />
+                                <DataGridTextColumn
+                                    Width="60"
+                                    MinWidth="60"
+                                    Binding="{Binding Person.Unknown21, Converter={StaticResource HexConverter}}"
+                                    CanUserReorder="True"
+                                    ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                    Header="U11"
+                                    IsReadOnly="True" />
 
 
-                            <!--  End of Debug Unknown Value  -->
+                                <!--  End of Debug Unknown Value  -->
 
-                            <DataGridTextColumn
-                                Width="60"
-                                MinWidth="50"
-                                Binding="{Binding Adaptability}"
-                                CanUserReorder="True"
-                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
-                                Header="Ada"
-                                IsReadOnly="True">
-                                <DataGridTextColumn.HeaderStyle>
-                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
-                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                    </Style>
-                                </DataGridTextColumn.HeaderStyle>
-                            </DataGridTextColumn>
+                                <DataGridTextColumn
+                                    Width="60"
+                                    MinWidth="50"
+                                    Binding="{Binding Adaptability}"
+                                    CanUserReorder="True"
+                                    ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                    Header="Ada"
+                                    IsReadOnly="True">
+                                    <DataGridTextColumn.HeaderStyle>
+                                        <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                        </Style>
+                                    </DataGridTextColumn.HeaderStyle>
+                                </DataGridTextColumn>
 
-                            <DataGridTextColumn
-                                Width="60"
-                                MinWidth="50"
-                                Binding="{Binding Person.Ambition}"
-                                CanUserReorder="True"
-                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
-                                Header="Amb"
-                                IsReadOnly="True">
-                                <DataGridTextColumn.HeaderStyle>
-                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
-                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                    </Style>
-                                </DataGridTextColumn.HeaderStyle>
-                            </DataGridTextColumn>
+                                <DataGridTextColumn
+                                    Width="60"
+                                    MinWidth="50"
+                                    Binding="{Binding Person.Ambition}"
+                                    CanUserReorder="True"
+                                    ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                    Header="Amb"
+                                    IsReadOnly="True">
+                                    <DataGridTextColumn.HeaderStyle>
+                                        <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                        </Style>
+                                    </DataGridTextColumn.HeaderStyle>
+                                </DataGridTextColumn>
 
-                            <DataGridTextColumn
-                                Width="60"
-                                MinWidth="50"
-                                Binding="{Binding Person.Controversy}"
-                                CanUserReorder="True"
-                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
-                                Header="Con"
-                                IsReadOnly="True">
-                                <DataGridTextColumn.HeaderStyle>
-                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
-                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                    </Style>
-                                </DataGridTextColumn.HeaderStyle>
-                            </DataGridTextColumn>
+                                <DataGridTextColumn
+                                    Width="60"
+                                    MinWidth="50"
+                                    Binding="{Binding Person.Controversy}"
+                                    CanUserReorder="True"
+                                    ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                    Header="Con"
+                                    IsReadOnly="True">
+                                    <DataGridTextColumn.HeaderStyle>
+                                        <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                        </Style>
+                                    </DataGridTextColumn.HeaderStyle>
+                                </DataGridTextColumn>
 
-                            <DataGridTextColumn
-                                Width="60"
-                                MinWidth="50"
-                                Binding="{Binding Person.Loyality}"
-                                CanUserReorder="True"
-                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
-                                Header="Loy"
-                                IsReadOnly="True">
-                                <DataGridTextColumn.HeaderStyle>
-                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
-                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                    </Style>
-                                </DataGridTextColumn.HeaderStyle>
-                            </DataGridTextColumn>
+                                <DataGridTextColumn
+                                    Width="60"
+                                    MinWidth="50"
+                                    Binding="{Binding Person.Loyality}"
+                                    CanUserReorder="True"
+                                    ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                    Header="Loy"
+                                    IsReadOnly="True">
+                                    <DataGridTextColumn.HeaderStyle>
+                                        <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                        </Style>
+                                    </DataGridTextColumn.HeaderStyle>
+                                </DataGridTextColumn>
 
-                            <DataGridTextColumn
-                                Width="60"
-                                MinWidth="50"
-                                Binding="{Binding Person.Pressure}"
-                                CanUserReorder="True"
-                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
-                                Header="Pre"
-                                IsReadOnly="True">
-                                <DataGridTextColumn.HeaderStyle>
-                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
-                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                    </Style>
-                                </DataGridTextColumn.HeaderStyle>
-                            </DataGridTextColumn>
+                                <DataGridTextColumn
+                                    Width="60"
+                                    MinWidth="50"
+                                    Binding="{Binding Person.Pressure}"
+                                    CanUserReorder="True"
+                                    ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                    Header="Pre"
+                                    IsReadOnly="True">
+                                    <DataGridTextColumn.HeaderStyle>
+                                        <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                        </Style>
+                                    </DataGridTextColumn.HeaderStyle>
+                                </DataGridTextColumn>
 
-                            <DataGridTextColumn
-                                Width="60"
-                                MinWidth="50"
-                                Binding="{Binding Person.Professionalism}"
-                                CanUserReorder="True"
-                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
-                                Header="Pro"
-                                IsReadOnly="True">
-                                <DataGridTextColumn.HeaderStyle>
-                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
-                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                    </Style>
-                                </DataGridTextColumn.HeaderStyle>
-                            </DataGridTextColumn>
+                                <DataGridTextColumn
+                                    Width="60"
+                                    MinWidth="50"
+                                    Binding="{Binding Person.Professionalism}"
+                                    CanUserReorder="True"
+                                    ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                    Header="Pro"
+                                    IsReadOnly="True">
+                                    <DataGridTextColumn.HeaderStyle>
+                                        <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                        </Style>
+                                    </DataGridTextColumn.HeaderStyle>
+                                </DataGridTextColumn>
 
-                            <DataGridTextColumn
-                                Width="60"
-                                MinWidth="50"
-                                Binding="{Binding Person.Sportmanship}"
-                                CanUserReorder="True"
-                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
-                                Header="Spo"
-                                IsReadOnly="True">
-                                <DataGridTextColumn.HeaderStyle>
-                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
-                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                    </Style>
-                                </DataGridTextColumn.HeaderStyle>
-                            </DataGridTextColumn>
+                                <DataGridTextColumn
+                                    Width="60"
+                                    MinWidth="50"
+                                    Binding="{Binding Person.Sportmanship}"
+                                    CanUserReorder="True"
+                                    ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                    Header="Spo"
+                                    IsReadOnly="True">
+                                    <DataGridTextColumn.HeaderStyle>
+                                        <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                        </Style>
+                                    </DataGridTextColumn.HeaderStyle>
+                                </DataGridTextColumn>
 
-                            <DataGridTextColumn
-                                Width="60"
-                                MinWidth="50"
-                                Binding="{Binding Person.Temperament}"
-                                CanUserReorder="True"
-                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
-                                Header="Tem"
-                                IsReadOnly="True">
-                                <DataGridTextColumn.HeaderStyle>
-                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
-                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                    </Style>
-                                </DataGridTextColumn.HeaderStyle>
-                            </DataGridTextColumn>
+                                <DataGridTextColumn
+                                    Width="60"
+                                    MinWidth="50"
+                                    Binding="{Binding Person.Temperament}"
+                                    CanUserReorder="True"
+                                    ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                    Header="Tem"
+                                    IsReadOnly="True">
+                                    <DataGridTextColumn.HeaderStyle>
+                                        <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                        </Style>
+                                    </DataGridTextColumn.HeaderStyle>
+                                </DataGridTextColumn>
 
-                        </DataGrid.Columns>
-                    </DataGrid>
+                            </DataGrid.Columns>
+                        </DataGrid>
 
-                </Grid>
+                    </Grid>
 
-            </DockPanel>
+                </DockPanel>
 
-            <md:Snackbar
-                Grid.ColumnSpan="2"
-                Margin="1"
-                HorizontalAlignment="Right"
-                MessageQueue="{Binding MessageQueue}" />
-        </Grid>
+                <md:Snackbar
+                    Grid.ColumnSpan="2"
+                    Margin="1"
+                    HorizontalAlignment="Right"
+                    MessageQueue="{Binding MessageQueue}" />
+            </Grid>
+        </md:DrawerHost>
     </md:DialogHost>
 </ma:MetroWindow>

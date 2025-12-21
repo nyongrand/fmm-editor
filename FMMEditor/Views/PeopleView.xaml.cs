@@ -32,5 +32,13 @@ namespace FMMEditor.Views
             }
             catch (Exception) { }
         }
+
+        private void OpenDrawer_Click(object sender, RoutedEventArgs e)
+        {
+            if (FilterDrawerHost != null)
+            {
+                FilterDrawerHost.IsLeftDrawerOpen = true;
+            }
+        }
     }
 }
