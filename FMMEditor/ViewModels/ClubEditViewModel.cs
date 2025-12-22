@@ -58,7 +58,7 @@ namespace FMMEditor.ViewModels
         [Reactive] public short? Stadium { get; set; }
         [Reactive] public short? LastLeague { get; set; }
         [Reactive] public int? MainClub { get; set; }
-        [Reactive] public short IsNational { get; set; }
+        [Reactive] public byte Type { get; set; }
         [Reactive] public byte Gender { get; set; }
 
         // Club colors (6 colors)
@@ -154,7 +154,7 @@ namespace FMMEditor.ViewModels
             Stadium = c.Stadium;
             LastLeague = c.LastLeague;
             MainClub = c.MainClub;
-            IsNational = c.IsNational;
+            Type = c.Type;
             Gender = c.Gender;
 
             LoadColors(c.Colors);
@@ -190,7 +190,7 @@ namespace FMMEditor.ViewModels
             Stadium = -1;
             LastLeague = -1;
             MainClub = -1;
-            IsNational = 0;
+            Type = 0;
             Gender = 0;
 
             ResetColors();
@@ -269,8 +269,8 @@ namespace FMMEditor.ViewModels
             Unknown5 = club.Unknown5 ?? [];
             Unknown6 = club.Unknown6 ?? new byte[20];
             Unknown7 = club.Unknown7 ?? new int[11];
-            Unknown8 = club.Unknown8 ?? new byte[33];
-            Unknown9 = club.Unknown9 ?? new byte[40];
+            Unknown8 = club.Unknown8 ?? new byte[34];
+            Unknown9 = club.Unknown9 ?? new byte[41];
         }
 
         private void ResetUnknownFields()
@@ -280,8 +280,8 @@ namespace FMMEditor.ViewModels
             Unknown5 = [];
             Unknown6 = new byte[20];
             Unknown7 = new int[11];
-            Unknown8 = new byte[33];
-            Unknown9 = new byte[40];
+            Unknown8 = new byte[34];
+            Unknown9 = new byte[41];
         }
 
         private void LoadPlayers(int[] playerIds)

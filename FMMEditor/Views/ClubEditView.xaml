@@ -330,7 +330,7 @@
                                 Grid.Column="0"
                                 Content="Is National Team"
                                 FontSize="14"
-                                IsChecked="{Binding IsNational, Converter={StaticResource BooleanToShortConverter}}" />
+                                IsChecked="{Binding Type, Converter={StaticResource BooleanToShortConverter}}" />
 
                             <CheckBox
                                 Grid.Column="2"

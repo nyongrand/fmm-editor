@@ -345,7 +345,7 @@ namespace FMMEditor.ViewModels
                 LeaguePos = vm.LeaguePos ?? 0,
                 Reputation = vm.Reputation ?? 0,
                 MainClub = vm.MainClub ?? -1,
-                IsNational = vm.IsNational,
+                Type = vm.Type,
                 Gender = vm.Gender,
                 Colors = new Color[6],
                 Kits = new Kit[6],
@@ -406,7 +406,7 @@ namespace FMMEditor.ViewModels
             existingClub.LeaguePos = vm.LeaguePos ?? 0;
             existingClub.Reputation = vm.Reputation ?? 0;
             existingClub.MainClub = vm.MainClub ?? -1;
-            existingClub.IsNational = vm.IsNational;
+            existingClub.Type = vm.Type;
             existingClub.Gender = vm.Gender;
 
             existingClub.Colors[0] = vm.Color1;

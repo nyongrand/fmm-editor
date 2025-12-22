@@ -183,17 +183,21 @@ namespace FMMLibrary
         public int MainClub { get; set; }
 
         /// <summary>
-        /// Gets or sets whether this is a national team.
+        /// Indicates the type associated with the club.<br/>
+        /// Possible values:<br/>
+        /// 0 - Club<br/>
+        /// 1 - National<br/>
+        /// 2 - Unknown<br/>
         /// </summary>
-        public short IsNational { get; set; }
+        public byte Type { get; set; }
 
         /// <summary>
-        /// Gets or sets unknown data (33 bytes).
+        /// Gets or sets unknown data (34 bytes).
         /// </summary>
         public byte[] Unknown8 { get; set; }
 
         /// <summary>
-        /// Gets or sets unknown data (40 bytes).
+        /// Gets or sets unknown data (41 bytes).
         /// </summary>
         public byte[] Unknown9 { get; set; }
 
@@ -315,9 +319,9 @@ namespace FMMLibrary
             }
 
             MainClub = reader.ReadInt32();
-            IsNational = reader.ReadInt16();
+            Type = reader.ReadByte();
 
-            Unknown8 = reader.ReadBytes(33);
+            Unknown8 = reader.ReadBytes(34);
             Unknown9 = reader.ReadBytes(41);
 
             Gender = reader.ReadByte();
@@ -397,10 +401,11 @@ namespace FMMLibrary
                 writer.Write(Unknown7[i]);
 
             writer.Write(MainClub);
-            writer.Write(IsNational);
+            writer.Write(Type);
 
             writer.Write(Unknown8);
             writer.Write(Unknown9);
+
             writer.Write(Gender);
         }
 

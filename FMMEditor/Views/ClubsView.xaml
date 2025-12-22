@@ -611,10 +611,10 @@
                             <DataGridTextColumn
                                 Width="60"
                                 MinWidth="50"
-                                Binding="{Binding IsNationalText}"
+                                Binding="{Binding TypeText}"
                                 CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
-                                Header="Nat"
+                                Header="Type"
                                 IsReadOnly="True">
                                 <DataGridTextColumn.HeaderStyle>
                                     <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
