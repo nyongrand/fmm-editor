@@ -346,12 +346,12 @@ namespace FMMEditor.ViewModels
                 Reputation = vm.Reputation ?? 0,
                 MainClub = vm.MainClub ?? -1,
                 IsNational = vm.IsNational,
-                IsWomanFlag = vm.IsWomanFlag,
+                Gender = vm.Gender,
                 Colors = new Color[6],
                 Kits = new Kit[6],
                 Affiliates = vm.Affiliates ?? [],
                 Players = [],
-                
+
                 Unknown4Flag = vm.Unknown4Flag,
                 Unknown4 = vm.Unknown4 ?? [],
                 Unknown5 = vm.Unknown5 ?? [],
@@ -407,7 +407,7 @@ namespace FMMEditor.ViewModels
             existingClub.Reputation = vm.Reputation ?? 0;
             existingClub.MainClub = vm.MainClub ?? -1;
             existingClub.IsNational = vm.IsNational;
-            existingClub.IsWomanFlag = vm.IsWomanFlag;
+            existingClub.Gender = vm.Gender;
 
             existingClub.Colors[0] = vm.Color1;
             existingClub.Colors[1] = vm.Color2;

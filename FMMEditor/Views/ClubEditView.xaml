@@ -336,7 +336,7 @@
                                 Grid.Column="2"
                                 Content="Is Women's Team"
                                 FontSize="14"
-                                IsChecked="{Binding IsWomanFlag, Converter={StaticResource BooleanToShortConverter}}" />
+                                IsChecked="{Binding Gender, Converter={StaticResource BooleanToShortConverter}}" />
                         </Grid>
 
                         <!--  Colors  -->

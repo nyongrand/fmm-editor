@@ -198,9 +198,12 @@ namespace FMMLibrary
         public byte[] Unknown9 { get; set; }
 
         /// <summary>
-        /// Gets or sets unknown data (2 bytes).
+        /// Indicates the gender associated with the club.<br/>
+        /// Possible values:<br/>
+        /// 0 - Male<br/>
+        /// 1 - Female<br/>
         /// </summary>
-        public short IsWomanFlag { get; set; }
+        public byte Gender { get; set; }
 
         #region Extra
 
@@ -315,9 +318,9 @@ namespace FMMLibrary
             IsNational = reader.ReadInt16();
 
             Unknown8 = reader.ReadBytes(33);
-            Unknown9 = reader.ReadBytes(40);
+            Unknown9 = reader.ReadBytes(41);
 
-            IsWomanFlag = reader.ReadInt16();
+            Gender = reader.ReadByte();
         }
 
         /// <summary>
@@ -398,7 +401,7 @@ namespace FMMLibrary
 
             writer.Write(Unknown8);
             writer.Write(Unknown9);
-            writer.Write(IsWomanFlag);
+            writer.Write(Gender);
         }
 
         /// <summary>

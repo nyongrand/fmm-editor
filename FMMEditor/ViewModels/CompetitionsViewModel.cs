@@ -389,7 +389,7 @@ namespace FMMEditor.ViewModels
             {
                 var switchClubs = Clubs
                     .Where(x => x.IsNational == 0)
-                    .Where(x => x.IsWomanFlag == SelectedClub?.IsWomanFlag)
+                    .Where(x => x.Gender == SelectedClub?.Gender)
                     .Where(c => c.NationId == FilterSwitchNation.Id && c.LeagueId != SelectedCompetition.Id)
                     .Select(c =>
                     {

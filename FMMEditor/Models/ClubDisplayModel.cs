@@ -24,7 +24,6 @@ namespace FMMEditor.Models
             1 => "Professional",
             2 => "Semi-Pro",
             3 => "Amateur",
-            22 => "Unknown",
             _ => $"Status: {Status}"
         };
         public byte Academy => Club.Academy;
@@ -39,8 +38,7 @@ namespace FMMEditor.Models
         public int MainClub => Club.MainClub;
         public short IsNational => Club.IsNational;
         public string IsNationalText => IsNational == 1 ? "Yes" : "No";
-        public short IsWomanFlag => Club.IsWomanFlag;
-        public string IsWomanText => IsWomanFlag == 1 ? "Yes" : "No";
+        public byte Gender => Club.Gender;
         public int PlayerCount => Club.Players?.Length ?? 0;
     }
 }
