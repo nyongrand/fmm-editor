@@ -55,7 +55,7 @@
                             <md:PackIcon
                                 Width="21"
                                 Height="21"
-                                Kind="Menu" />
+                                Kind="DotsVertical" />
                         </md:PopupBox.ToggleContent>
 
                         <StackPanel>

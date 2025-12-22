@@ -210,7 +210,7 @@
                                                     ItemsSource="{Binding DataContext.GenderOptions, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
                                                     SelectedItem="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                                                     <ComboBox.Style>
-                                                        <Style TargetType="ComboBox" BasedOn="{StaticResource MaterialDesignFilledComboBox}">
+                                                        <Style BasedOn="{StaticResource MaterialDesignFilledComboBox}" TargetType="ComboBox">
                                                             <Setter Property="Visibility" Value="Collapsed" />
                                                             <Style.Triggers>
                                                                 <DataTrigger Binding="{Binding PropertyKey}" Value="gender">
@@ -229,7 +229,7 @@
                                                     HorizontalAlignment="Stretch"
                                                     Text="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                                                     <TextBox.Style>
-                                                        <Style TargetType="TextBox" BasedOn="{StaticResource MaterialDesignFilledTextBox}">
+                                                        <Style BasedOn="{StaticResource MaterialDesignFilledTextBox}" TargetType="TextBox">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                             <Style.Triggers>
                                                                 <DataTrigger Binding="{Binding PropertyKey}" Value="gender">
@@ -240,15 +240,15 @@
                                                     </TextBox.Style>
                                                 </TextBox>
 
-                                             </Grid>
-                                         </Border>
-                                     </DataTemplate>
-                                 </ItemsControl.ItemTemplate>
-                             </ItemsControl>
-                         </ScrollViewer>
-                     </Grid>
-                 </Border>
-             </md:DrawerHost.LeftDrawerContent>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </Grid>
+                </Border>
+            </md:DrawerHost.LeftDrawerContent>
 
             <Grid>
                 <DockPanel
@@ -270,7 +270,8 @@
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
                                 Click="OpenDrawer_Click"
-                                Style="{StaticResource MaterialDesignFlatMidBgButton}">
+                                Style="{StaticResource MaterialDesignFlatMidBgButton}"
+                                Visibility="{Binding IsDatabaseLoaded, Converter={StaticResource BooleanToVisibilityConverter}}">
                                 <md:PackIcon
                                     Width="18"
                                     Height="18"
@@ -454,7 +455,7 @@
                                                 FontSize="14"
                                                 TextWrapping="Wrap">
                                                 <Run Text="Click the" />
-                                                <Run FontWeight="SemiBold" Text="menu icon (☰)" />
+                                                <Run FontWeight="SemiBold" Text="menu icon (⋮)" />
                                                 <Run Text="in the top right corner" />
                                             </TextBlock>
                                         </StackPanel>

@@ -347,7 +347,7 @@
                             VerticalAlignment="Center"
                             FontSize="18"
                             FontWeight="Bold"
-                            Text="FMM 26 DB Editor" />
+                            Text="FMM 26 DB Editor - Competitions" />
 
                         <!--  Toolbar Menu  -->
                         <StackPanel
@@ -364,7 +364,7 @@
                                     <md:PackIcon
                                         Width="21"
                                         Height="21"
-                                        Kind="Menu" />
+                                        Kind="DotsVertical" />
                                 </md:PopupBox.ToggleContent>
 
                                 <StackPanel>
@@ -517,7 +517,7 @@
                                             FontSize="14"
                                             TextWrapping="Wrap">
                                             <Run Text="Click the" />
-                                            <Run FontWeight="SemiBold" Text="menu icon (☰)" />
+                                            <Run FontWeight="SemiBold" Text="menu icon (⋮)" />
                                             <Run Text="in the top right corner" />
                                         </TextBlock>
                                     </StackPanel>
