@@ -17,7 +17,6 @@
     </UserControl.LayoutTransform>
 
     <UserControl.Resources>
-        <converter:BooleanToShortConverter x:Key="BooleanToShortConverter" />
         <converter:DrawingColorToMediaColorConverter x:Key="DrawingColorToMediaColorConverter" />
         <converter:BytesConverter x:Key="BytesConverter" />
         <converter:ColorToHexConverter x:Key="ColorToHexConverter" />
@@ -326,17 +325,28 @@
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
 
-                            <CheckBox
+                            <ComboBox
                                 Grid.Column="0"
-                                Content="Is National Team"
+                                md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
+                                md:HintAssist.Hint="Type"
                                 FontSize="14"
-                                IsChecked="{Binding IsNational, Converter={StaticResource BooleanToShortConverter}}" />
+                                SelectedIndex="{Binding Type}"
+                                Style="{StaticResource MaterialDesignFilledComboBox}">
+                                <ComboBoxItem Content="Club" />
+                                <ComboBoxItem Content="National" />
+                                <ComboBoxItem Content="Unknown" />
+                            </ComboBox>
 
-                            <CheckBox
+                            <ComboBox
                                 Grid.Column="2"
-                                Content="Is Women's Team"
+                                md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
+                                md:HintAssist.Hint="Player Gender"
                                 FontSize="14"
-                                IsChecked="{Binding IsWomanFlag, Converter={StaticResource BooleanToShortConverter}}" />
+                                SelectedIndex="{Binding Gender}"
+                                Style="{StaticResource MaterialDesignFilledComboBox}">
+                                <ComboBoxItem Content="Male" />
+                                <ComboBoxItem Content="Female" />
+                            </ComboBox>
                         </Grid>
 
                         <!--  Colors  -->

@@ -30,6 +30,7 @@
         <converter:BooleanConverter x:Key="Boolean" />
         <converter:HexConverter x:Key="HexConverter" />
         <converter:VisibilityConverter x:Key="Visibility" />
+        <converter:GenderConverter x:Key="GenderConverter" />
 
         <Style
             x:Key="centerHeaderColumnStyle"
@@ -38,6 +39,19 @@
             <Setter Property="TextAlignment" Value="Center" />
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="Padding" Value="0" />
+        </Style>
+
+        <Style
+            x:Key="genderColumnStyle"
+            BasedOn="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+            TargetType="{x:Type TextBlock}">
+            <Setter Property="TextAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="FontFamily" Value="Segoe UI Symbol" />
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Foreground" Value="{Binding Gender, Converter={StaticResource GenderConverter}, ConverterParameter=Color}" />
         </Style>
     </Window.Resources>
 
@@ -131,7 +145,7 @@
                                     <md:PackIcon
                                         Width="21"
                                         Height="21"
-                                        Kind="Menu" />
+                                        Kind="DotsVertical" />
                                 </md:PopupBox.ToggleContent>
 
                                 <StackPanel>
@@ -282,7 +296,7 @@
                                             FontSize="14"
                                             TextWrapping="Wrap">
                                             <Run Text="Click the" />
-                                            <Run FontWeight="SemiBold" Text="menu icon (☰)" />
+                                            <Run FontWeight="SemiBold" Text="menu icon (⋮)" />
                                             <Run Text="in the top right corner" />
                                         </TextBlock>
                                     </StackPanel>
@@ -597,10 +611,10 @@
                             <DataGridTextColumn
                                 Width="60"
                                 MinWidth="50"
-                                Binding="{Binding IsNationalText}"
+                                Binding="{Binding TypeText}"
                                 CanUserReorder="True"
                                 ElementStyle="{StaticResource centerHeaderColumnStyle}"
-                                Header="Nat"
+                                Header="Type"
                                 IsReadOnly="True">
                                 <DataGridTextColumn.HeaderStyle>
                                     <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
@@ -610,16 +624,17 @@
                             </DataGridTextColumn>
 
                             <DataGridTextColumn
-                                Width="60"
+                                Width="50"
                                 MinWidth="50"
-                                Binding="{Binding IsWomanText}"
+                                Binding="{Binding Gender, Converter={StaticResource GenderConverter}, ConverterParameter=Symbol}"
                                 CanUserReorder="True"
-                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
-                                Header="Woman"
+                                ElementStyle="{StaticResource genderColumnStyle}"
+                                Header="⚥"
                                 IsReadOnly="True">
                                 <DataGridTextColumn.HeaderStyle>
                                     <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
                                         <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                        <Setter Property="FontSize" Value="18" />
                                     </Style>
                                 </DataGridTextColumn.HeaderStyle>
                             </DataGridTextColumn>

@@ -388,8 +388,8 @@ namespace FMMEditor.ViewModels
             if (FilterSwitchNation?.Id != null && SelectedCompetition?.Id != null)
             {
                 var switchClubs = Clubs
-                    .Where(x => x.IsNational == 0)
-                    .Where(x => x.IsWomanFlag == SelectedClub?.IsWomanFlag)
+                    .Where(x => x.Type == 0)
+                    .Where(x => x.Gender == SelectedClub?.Gender)
                     .Where(c => c.NationId == FilterSwitchNation.Id && c.LeagueId != SelectedCompetition.Id)
                     .Select(c =>
                     {

@@ -24,7 +24,6 @@ namespace FMMEditor.Models
             1 => "Professional",
             2 => "Semi-Pro",
             3 => "Amateur",
-            22 => "Unknown",
             _ => $"Status: {Status}"
         };
         public byte Academy => Club.Academy;
@@ -37,10 +36,16 @@ namespace FMMEditor.Models
         public byte LeaguePos => Club.LeaguePos;
         public short Reputation => Club.Reputation;
         public int MainClub => Club.MainClub;
-        public short IsNational => Club.IsNational;
-        public string IsNationalText => IsNational == 1 ? "Yes" : "No";
-        public short IsWomanFlag => Club.IsWomanFlag;
-        public string IsWomanText => IsWomanFlag == 1 ? "Yes" : "No";
+        public byte Type => Club.Type;
+        public string TypeText => Type switch
+        {
+            0 => "Club",
+            1 => "National",
+            2 => "Unknown",
+            _ => $"Type: {Type}"
+        };
+        public byte Gender => Club.Gender;
+        public string GenderText => Gender == 1 ? "Yes" : "No";
         public int PlayerCount => Club.Players?.Length ?? 0;
     }
 }

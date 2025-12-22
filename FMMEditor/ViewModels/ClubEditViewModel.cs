@@ -17,13 +17,13 @@ namespace FMMEditor.ViewModels
 
         public BulkObservableCollection<Nation> Nations { get; }
         public ObservableCollection<PlayerInfo> Players { get; } = [];
-        
+
         private readonly Dictionary<int, People> peopleLookup;
         private readonly Dictionary<int, Player> playerLookup;
         private readonly Dictionary<int, string> firstNameLookup;
         private readonly Dictionary<int, string> lastNameLookup;
         private readonly Dictionary<int, string> commonNameLookup;
-        
+
         public List<StatusOption> StatusOptions { get; } =
         [
             new StatusOption { Value = 0, DisplayName = "National" },
@@ -58,8 +58,8 @@ namespace FMMEditor.ViewModels
         [Reactive] public short? Stadium { get; set; }
         [Reactive] public short? LastLeague { get; set; }
         [Reactive] public int? MainClub { get; set; }
-        [Reactive] public short IsNational { get; set; }
-        [Reactive] public short IsWomanFlag { get; set; }
+        [Reactive] public byte Type { get; set; }
+        [Reactive] public byte Gender { get; set; }
 
         // Club colors (6 colors)
         [Reactive] public Color Color1 { get; set; }
@@ -154,9 +154,9 @@ namespace FMMEditor.ViewModels
             Stadium = c.Stadium;
             LastLeague = c.LastLeague;
             MainClub = c.MainClub;
-            IsNational = c.IsNational;
-            IsWomanFlag = c.IsWomanFlag;
-            
+            Type = c.Type;
+            Gender = c.Gender;
+
             LoadColors(c.Colors);
             LoadKits(c.Kits);
             LoadAffiliates(c.Affiliates);
@@ -190,9 +190,9 @@ namespace FMMEditor.ViewModels
             Stadium = -1;
             LastLeague = -1;
             MainClub = -1;
-            IsNational = 0;
-            IsWomanFlag = 0;
-            
+            Type = 0;
+            Gender = 0;
+
             ResetColors();
             ResetKits();
             ResetAffiliates();
@@ -269,8 +269,8 @@ namespace FMMEditor.ViewModels
             Unknown5 = club.Unknown5 ?? [];
             Unknown6 = club.Unknown6 ?? new byte[20];
             Unknown7 = club.Unknown7 ?? new int[11];
-            Unknown8 = club.Unknown8 ?? new byte[33];
-            Unknown9 = club.Unknown9 ?? new byte[40];
+            Unknown8 = club.Unknown8 ?? new byte[34];
+            Unknown9 = club.Unknown9 ?? new byte[41];
         }
 
         private void ResetUnknownFields()
@@ -280,22 +280,22 @@ namespace FMMEditor.ViewModels
             Unknown5 = [];
             Unknown6 = new byte[20];
             Unknown7 = new int[11];
-            Unknown8 = new byte[33];
-            Unknown9 = new byte[40];
+            Unknown8 = new byte[34];
+            Unknown9 = new byte[41];
         }
-        
+
         private void LoadPlayers(int[] playerIds)
         {
             Players.Clear();
-            
+
             if (playerIds == null || playerIds.Length == 0)
                 return;
-                
+
             for (int i = 0; i < playerIds.Length; i++)
             {
                 var playerId = playerIds[i];
                 var playerName = ResolvePlayerName(playerId);
-                
+
                 Players.Add(new PlayerInfo
                 {
                     Index = i + 1,
@@ -304,28 +304,28 @@ namespace FMMEditor.ViewModels
                 });
             }
         }
-        
+
         private string ResolvePlayerName(int playerId)
         {
             if (!peopleLookup.TryGetValue(playerId, out var person))
                 return $"Unknown (ID: {playerId})";
-            
+
             var firstName = firstNameLookup.GetValueOrDefault(person.FirstNameId, "");
             var lastName = lastNameLookup.GetValueOrDefault(person.LastNameId, "");
             var commonName = commonNameLookup.GetValueOrDefault(person.CommonNameId, "");
-            
+
             if (!string.IsNullOrEmpty(commonName))
                 return commonName;
-            
+
             if (!string.IsNullOrEmpty(firstName) && !string.IsNullOrEmpty(lastName))
                 return $"{firstName} {lastName}";
-            
+
             if (!string.IsNullOrEmpty(lastName))
                 return lastName;
-            
+
             if (!string.IsNullOrEmpty(firstName))
                 return firstName;
-            
+
             return $"Unknown (ID: {playerId})";
         }
 
@@ -337,7 +337,7 @@ namespace FMMEditor.ViewModels
         public byte Value { get; set; }
         public string DisplayName { get; set; } = "";
     }
-    
+
     public class PlayerInfo
     {
         public int Index { get; set; }

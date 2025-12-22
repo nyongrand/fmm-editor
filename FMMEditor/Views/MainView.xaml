@@ -55,7 +55,7 @@
                             <md:PackIcon
                                 Width="21"
                                 Height="21"
-                                Kind="Menu" />
+                                Kind="DotsVertical" />
                         </md:PopupBox.ToggleContent>
 
                         <StackPanel>
@@ -296,7 +296,7 @@
                 <TextBlock
                     Margin="0,48,0,0"
                     FontSize="12"
-                    Text="Version 2.26.0"
+                    Text="Version 2.26.2"
                     TextAlignment="Center" />
             </StackPanel>
         </Grid>
