@@ -1,4 +1,6 @@
-﻿namespace FMMLibrary
+﻿using System.Drawing;
+
+namespace FMMLibrary
 {
     /// <summary>
     /// Represents a nation with all its properties and attributes.
@@ -81,97 +83,131 @@
         /// <summary>
         /// Gets or sets whether the nation is active in the game (1 = active, 0 = inactive).
         /// </summary>
-        public bool HasManTeam { get; set; }
+        public bool HasMaleTeam { get; set; }
 
-        /// <summary>
-        /// Gets or sets the first national color (nullable, only if IsActive is 1).
-        /// </summary>
-        public short? Color1 { get; set; }
-
-        /// <summary>
-        /// Gets or sets an unknown integer value (nullable, only if IsActive is 1).
-        /// </summary>
-        public int? Unknown5 { get; set; }
-
-        /// <summary>
-        /// Gets or sets the second national color (nullable, only if IsActive is 1).
-        /// </summary>
-        public short? Color2 { get; set; }
-
-        /// <summary>
-        /// Gets or sets an unknown byte value (nullable, only if IsActive is 1).
-        /// </summary>
-        public byte? Unknown6 { get; set; }
-
-        /// <summary>
-        /// Gets or sets an unknown short value (nullable, only if IsActive is 1).
-        /// </summary>
-        public short? Unknown7 { get; set; }
-
-        /// <summary>
-        /// Gets or sets an unknown byte value (nullable, only if IsActive is 1).
-        /// </summary>
-        public byte? Unknown8 { get; set; }
-
-        /// <summary>
-        /// Gets or sets whether the nation has a FIFA/UEFA ranking (nullable, only if IsActive is 1).
-        /// </summary>
-        public bool? IsRanked { get; set; }
-
-        /// <summary>
-        /// Gets or sets the FIFA/UEFA ranking position (nullable, only if IsActive is 1).
-        /// </summary>
-        public short? Ranking { get; set; }
-
-        /// <summary>
-        /// Gets or sets the ranking points (nullable, only if IsActive is 1).
-        /// </summary>
-        public short? Points { get; set; }
-
-        /// <summary>
-        /// Gets or sets an unknown short value (nullable, only if IsActive is 1).
-        /// </summary>
-        public short? Unknown9 { get; set; }
-
-        /// <summary>
-        /// Gets or sets the first set of coefficient values (only if IsActive is 1).
-        /// </summary>
-        public float[] Coefficients1 { get; set; } = [];
-
-        /// <summary>
-        /// Gets or sets unknown data (11 bytes, only if IsActive is 1).
-        /// </summary>
-        public byte[] Unknown10 { get; set; } = [];
+        public NationalTeam? MaleTeam { get; set; }
 
         /// <summary>
         /// Gets or sets whether the nation has a second coefficient set (1 = has coefficients, 0 = no coefficients).
         /// </summary>
-        public bool HasWomanTeam { get; set; }
+        public bool HasFemaleTeam { get; set; }
 
-        /// <summary>
-        /// Gets or sets unknown data (16 bytes, only if HasCoefficient2 is 1).
-        /// </summary>
-        public byte[] Unknown11 { get; set; } = [];
+        public NationalTeam? FemaleTeam { get; set; }
 
-        /// <summary>
-        /// Gets or sets an unknown byte value (nullable, only if HasCoefficient2 is 1).
-        /// </summary>
-        public byte? Unknown12 { get; set; }
+        public class NationalTeam
+        {
+            /// <summary>
+            /// Gets or sets the first national color (nullable, only if IsActive is 1).
+            /// </summary>
+            public Color Color1 { get; set; }
 
-        /// <summary>
-        /// Gets or sets an unknown short value (nullable, only if HasCoefficient2 is 1).
-        /// </summary>
-        public short? Unknown13 { get; set; }
+            /// <summary>
+            /// Gets or sets an unknown integer value (nullable, only if IsActive is 1).
+            /// </summary>
+            public Color Color2 { get; set; }
 
-        /// <summary>
-        /// Gets or sets the second set of coefficient values (only if HasCoefficient2 is 1).
-        /// </summary>
-        public float[] Coefficients2 { get; set; } = [];
+            /// <summary>
+            /// Gets or sets an unknown integer value (nullable, only if IsActive is 1).
+            /// </summary>
+            public Color Color3 { get; set; }
 
-        /// <summary>
-        /// Gets or sets unknown data (11 bytes, only if HasCoefficient2 is 1).
-        /// </summary>
-        public byte[] Unknown14 { get; set; } = [];
+            /// <summary>
+            /// Gets or sets the second national color (nullable, only if IsActive is 1).
+            /// </summary>
+            public Color Color4 { get; set; }
+
+            /// <summary>
+            /// Gets or sets an unknown byte value (nullable, only if IsActive is 1).
+            /// </summary>
+            public byte Unknown6 { get; set; }
+
+            /// <summary>
+            /// Gets or sets an unknown short value (nullable, only if IsActive is 1).
+            /// </summary>
+            public short Unknown7 { get; set; }
+
+            /// <summary>
+            /// Gets or sets an unknown byte value (nullable, only if IsActive is 1).
+            /// </summary>
+            public byte Unknown8 { get; set; }
+
+            /// <summary>
+            /// Gets or sets whether the nation has a FIFA/UEFA ranking (nullable, only if IsActive is 1).
+            /// </summary>
+            public bool IsRanked { get; set; }
+
+            /// <summary>
+            /// Gets or sets the FIFA/UEFA ranking position (nullable, only if IsActive is 1).
+            /// </summary>
+            public short Ranking { get; set; }
+
+            /// <summary>
+            /// Gets or sets the ranking points (nullable, only if IsActive is 1).
+            /// </summary>
+            public short Points { get; set; }
+
+            /// <summary>
+            /// Gets or sets an unknown short value (nullable, only if IsActive is 1).
+            /// </summary>
+            public short Unknown9 { get; set; }
+
+            /// <summary>
+            /// Gets or sets the first set of coefficient values (only if IsActive is 1).
+            /// </summary>
+            public float[] MaleCoefficients { get; set; } = [];
+
+            /// <summary>
+            /// Gets or sets unknown data (11 bytes, only if IsActive is 1).
+            /// </summary>
+            public byte[] Unknown10 { get; set; } = [];
+
+            public NationalTeam(BinaryReaderEx reader)
+            {
+                Color1 = reader.ReadColor();
+                Color2 = reader.ReadColor();
+                Color3 = reader.ReadColor();
+                Color4 = reader.ReadColor();
+
+                Unknown6 = reader.ReadByte();
+                Unknown7 = reader.ReadInt16();
+                Unknown8 = reader.ReadByte();
+
+                IsRanked = reader.ReadBoolean();
+                Ranking = reader.ReadInt16();
+                Points = reader.ReadInt16();
+
+                Unknown9 = reader.ReadInt16();
+
+                MaleCoefficients = new float[reader.ReadByte()];
+                for (int i = 0; i < MaleCoefficients.Length; i++)
+                    MaleCoefficients[i] = reader.ReadSingle();
+
+                Unknown10 = reader.ReadBytes(11);
+            }
+
+            public void Write(BinaryWriterEx writer)
+            {
+                writer.Write(Color1);
+                writer.Write(Color2);
+                writer.Write(Color3);
+                writer.Write(Color4);
+
+                writer.Write(Unknown6);
+                writer.Write(Unknown7);
+                writer.Write(Unknown8);
+
+                writer.Write(IsRanked);
+                writer.Write(Ranking);
+                writer.Write(Points);
+
+                writer.Write(Unknown9);
+                writer.Write((byte)MaleCoefficients.Length);
+                for (int i = 0; i < MaleCoefficients.Length; i++)
+                    writer.Write(MaleCoefficients[i]);
+
+                writer.Write(Unknown10);
+            }
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Nation"/> class by reading from a binary reader.
@@ -200,43 +236,11 @@
             for (int i = 0; i < Languages.Length; i++)
                 Languages[i] = (reader.ReadInt16(), reader.ReadByte());
 
-            HasManTeam = reader.ReadBoolean();
-            if (HasManTeam)
-            {
-                Color1 = reader.ReadInt16();
-                Unknown5 = reader.ReadInt32();
-                Color2 = reader.ReadInt16();
+            HasMaleTeam = reader.ReadBoolean();
+            MaleTeam = HasMaleTeam ? new NationalTeam(reader) : null;
 
-                Unknown6 = reader.ReadByte();
-                Unknown7 = reader.ReadInt16();
-                Unknown8 = reader.ReadByte();
-
-                IsRanked = reader.ReadBoolean();
-                Ranking = reader.ReadInt16();
-                Points = reader.ReadInt16();
-
-                Unknown9 = reader.ReadInt16();
-
-                Coefficients1 = new float[reader.ReadByte()];
-                for (int i = 0; i < Coefficients1.Length; i++)
-                    Coefficients1[i] = reader.ReadSingle();
-
-                Unknown10 = reader.ReadBytes(11);
-            }
-
-            HasWomanTeam = reader.ReadBoolean();
-            if (HasWomanTeam)
-            {
-                Unknown11 = reader.ReadBytes(16);
-                Unknown12 = reader.ReadByte();
-                Unknown13 = reader.ReadInt16();
-
-                Coefficients2 = new float[reader.ReadByte()];
-                for (int i = 0; i < Coefficients2.Length; i++)
-                    Coefficients2[i] = reader.ReadSingle();
-
-                Unknown14 = reader.ReadBytes(11);
-            }
+            HasFemaleTeam = reader.ReadBoolean();
+            FemaleTeam = HasFemaleTeam ? new NationalTeam(reader) : null;
         }
 
         /// <summary>
@@ -281,56 +285,15 @@
                 writer.Write(Languages[i].Proficiency);
             }
 
-            writer.Write(HasManTeam);
+            writer.Write(HasMaleTeam);
+            if (HasMaleTeam && MaleTeam != null)
+                MaleTeam.Write(writer);
 
-            if (HasManTeam)
-            {
-                writer.Write(Color1.Value);
-                writer.Write(Unknown5.Value);
-                writer.Write(Color2.Value);
-
-                writer.Write(Unknown6.Value);
-                writer.Write(Unknown7.Value);
-                writer.Write(Unknown8.Value);
-
-                writer.Write(IsRanked.Value);
-                writer.Write(Ranking.Value);
-                writer.Write(Points.Value);
-
-                writer.Write(Unknown9.Value);
-                writer.Write((byte)Coefficients1.Length);
-                for (int i = 0; i < Coefficients1.Length; i++)
-                {
-                    writer.Write(Coefficients1[i]);
-                }
-
-                writer.Write(Unknown10);
-            }
-
-            writer.Write(HasWomanTeam);
-            if (HasWomanTeam)
-            {
-                writer.Write(Unknown11);
-                writer.Write(Unknown12.Value);
-                writer.Write(Unknown13.Value);
-
-                writer.Write((byte)Coefficients2.Length);
-                for (int i = 0; i < Coefficients2.Length; i++)
-                {
-                    writer.Write(Coefficients2[i]);
-                }
-
-                writer.Write(Unknown14);
-            }
-
-            //writer.Write((byte)ExtraNames.Length);
-            //for (int i = 0; i < ExtraNames.Length; i++)
-            //{
-            //    writer.Write(ExtraNames[i].Item1);
-            //    writer.Write(ExtraNames[i].Item2);
-            //    writer.Write(ExtraNames[i].Item3);
-            //}
+            writer.Write(HasFemaleTeam);
+            if (HasFemaleTeam && FemaleTeam != null)
+                FemaleTeam.Write(writer);
         }
+
         public override string ToString()
         {
             return $"{Name}";
