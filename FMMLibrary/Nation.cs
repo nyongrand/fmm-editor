@@ -3,92 +3,101 @@
 namespace FMMLibrary
 {
     /// <summary>
-    /// Represents a nation with all its properties and attributes.
+    /// Represents a nation entry in an FMM database (.dat) with identification data,
+    /// textual metadata, language list, and optional male/female national team blocks.
     /// </summary>
     public class Nation
     {
         /// <summary>
-        /// Gets or sets the unique identifier for the nation.
+        /// Unique database identifier for the nation (int32 in the file).
         /// </summary>
         public int Uid { get; set; }
 
         /// <summary>
-        /// Gets or sets the nation identifier.
+        /// Short identifier used by references elsewhere in the database (int16).
         /// </summary>
         public short Id { get; set; }
 
         /// <summary>
-        /// Gets or sets the name of the nation.
+        /// Display name of the nation (zero-terminated string in the file).
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        /// Gets or sets the terminator byte after the name.
+        /// Single terminator byte that follows <see cref="Name"/> in the binary data.
         /// </summary>
         public byte Terminator1 { get; set; }
 
         /// <summary>
-        /// Gets or sets the nationality descriptor.
+        /// Demonym / nationality adjective for the nation (zero-terminated string).
         /// </summary>
         public string Nationality { get; set; }
 
         /// <summary>
-        /// Gets or sets the terminator byte after the nationality.
+        /// Single terminator byte that follows <see cref="Nationality"/> in the binary data.
         /// </summary>
         public byte Terminator2 { get; set; }
 
         /// <summary>
-        /// Gets or sets the code name of the nation.
+        /// Internal short code name for the nation (zero-terminated string).
         /// </summary>
         public string CodeName { get; set; }
 
         /// <summary>
-        /// Gets or sets the continent identifier.
+        /// Identifier of the continent the nation belongs to.
         /// </summary>
         public short ContinentId { get; set; }
 
         /// <summary>
-        /// Capital city identifier.
+        /// Identifier of the nation's capital city.
         /// </summary>
         public short CapitalId { get; set; }
 
         /// <summary>
-        /// Gets or sets the main stadium identifier.
+        /// Identifier of the nation's primary stadium.
         /// </summary>
         public short StadiumId { get; set; }
 
         /// <summary>
-        /// The state of development of the nation.
-        /// 1 - Developed
-        /// 2 - Developing
-        /// 3 - Third World
+        /// Development state flag (1 = Developed, 2 = Developing, 3 = Third World).
         /// </summary>
-        public int StateOfDevelopment { get; set; }
+        public byte StateOfDevelopment { get; set; }
 
         /// <summary>
-        /// Gets or sets an unknown short value.
+        /// Unknown flag byte; may indicate EU membership or similar region flag.
+        /// </summary>
+        public byte Unknown1 { get; set; }
+
+        /// <summary>
+        /// Always 0x0000 in observed files (reserved padding).
         /// </summary>
         public short Unknown2 { get; set; }
 
         /// <summary>
-        /// Gets or sets an unknown byte value.
+        /// Region identifier used for grouping nations.
+        /// </summary>
+        public short Region { get; set; }
+
+        /// <summary>
+        /// Always 0x00 in observed files (reserved padding).
         /// </summary>
         public byte Unknown3 { get; set; }
 
         /// <summary>
-        /// Gets or sets the array of languages spoken in the nation (language ID and proficiency level).
+        /// Languages spoken in the nation as pairs of language ID and proficiency level.
+        /// The count is stored as a single byte in the file.
         /// </summary>
         public (short Id, byte Proficiency)[] Languages { get; set; }
 
         /// <summary>
-        /// Gets or sets whether the nation is active in the game (1 = active, 0 = inactive).
+        /// Indicates whether a male national team block follows in the file.
         /// </summary>
         public bool HasMaleTeam { get; set; }
 
         public NationalTeam? MaleTeam { get; set; }
 
         /// <summary>
-        /// Gets or sets whether the nation has a second coefficient set (1 = has coefficients, 0 = no coefficients).
+        /// Indicates whether a female national team block follows in the file.
         /// </summary>
         public bool HasFemaleTeam { get; set; }
 
@@ -97,70 +106,74 @@ namespace FMMLibrary
         public class NationalTeam
         {
             /// <summary>
-            /// Gets or sets the first national color (nullable, only if IsActive is 1).
+            /// First kit or emblem color.
             /// </summary>
             public Color Color1 { get; set; }
 
             /// <summary>
-            /// Gets or sets an unknown integer value (nullable, only if IsActive is 1).
+            /// Second kit or emblem color.
             /// </summary>
             public Color Color2 { get; set; }
 
             /// <summary>
-            /// Gets or sets an unknown integer value (nullable, only if IsActive is 1).
+            /// Third kit or accent color.
             /// </summary>
             public Color Color3 { get; set; }
 
             /// <summary>
-            /// Gets or sets the second national color (nullable, only if IsActive is 1).
+            /// Fourth kit or accent color.
             /// </summary>
             public Color Color4 { get; set; }
 
             /// <summary>
-            /// Gets or sets an unknown byte value (nullable, only if IsActive is 1).
+            /// Importance value used by scheduling/AI.
             /// </summary>
-            public byte Unknown6 { get; set; }
+            public byte GameImportance { get; set; }
 
             /// <summary>
-            /// Gets or sets an unknown short value (nullable, only if IsActive is 1).
+            /// Rival nation identifier.
             /// </summary>
-            public short Unknown7 { get; set; }
+            public short RivalId { get; set; }
 
             /// <summary>
-            /// Gets or sets an unknown byte value (nullable, only if IsActive is 1).
+            /// Unknown flag byte.
             /// </summary>
             public byte Unknown8 { get; set; }
 
             /// <summary>
-            /// Gets or sets whether the nation has a FIFA/UEFA ranking (nullable, only if IsActive is 1).
+            /// Whether the team has an official ranking.
             /// </summary>
             public bool IsRanked { get; set; }
 
             /// <summary>
-            /// Gets or sets the FIFA/UEFA ranking position (nullable, only if IsActive is 1).
+            /// FIFA/UEFA ranking position.
             /// </summary>
             public short Ranking { get; set; }
 
             /// <summary>
-            /// Gets or sets the ranking points (nullable, only if IsActive is 1).
+            /// Ranking points value.
             /// </summary>
             public short Points { get; set; }
 
             /// <summary>
-            /// Gets or sets an unknown short value (nullable, only if IsActive is 1).
+            /// Additional unknown short field.
             /// </summary>
             public short Unknown9 { get; set; }
 
             /// <summary>
-            /// Gets or sets the first set of coefficient values (only if IsActive is 1).
+            /// Coefficient values (count stored as a single byte).
             /// </summary>
             public float[] MaleCoefficients { get; set; } = [];
 
             /// <summary>
-            /// Gets or sets unknown data (11 bytes, only if IsActive is 1).
+            /// Unknown data block (11 bytes).
             /// </summary>
             public byte[] Unknown10 { get; set; } = [];
 
+            /// <summary>
+            /// Reads a national team block from the provided binary reader.
+            /// </summary>
+            /// <param name="reader">Binary reader positioned at the start of the team block.</param>
             public NationalTeam(BinaryReaderEx reader)
             {
                 Color1 = reader.ReadColor();
@@ -168,8 +181,8 @@ namespace FMMLibrary
                 Color3 = reader.ReadColor();
                 Color4 = reader.ReadColor();
 
-                Unknown6 = reader.ReadByte();
-                Unknown7 = reader.ReadInt16();
+                GameImportance = reader.ReadByte();
+                RivalId = reader.ReadInt16();
                 Unknown8 = reader.ReadByte();
 
                 IsRanked = reader.ReadBoolean();
@@ -185,6 +198,10 @@ namespace FMMLibrary
                 Unknown10 = reader.ReadBytes(11);
             }
 
+            /// <summary>
+            /// Writes this national team block to the provided binary writer.
+            /// </summary>
+            /// <param name="writer">Binary writer positioned where the block should be emitted.</param>
             public void Write(BinaryWriterEx writer)
             {
                 writer.Write(Color1);
@@ -192,8 +209,8 @@ namespace FMMLibrary
                 writer.Write(Color3);
                 writer.Write(Color4);
 
-                writer.Write(Unknown6);
-                writer.Write(Unknown7);
+                writer.Write(GameImportance);
+                writer.Write(RivalId);
                 writer.Write(Unknown8);
 
                 writer.Write(IsRanked);
@@ -210,9 +227,9 @@ namespace FMMLibrary
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Nation"/> class by reading from a binary reader.
+        /// Creates a nation by reading its binary representation from the provided reader.
         /// </summary>
-        /// <param name="reader">The binary reader containing the nation data.</param>
+        /// <param name="reader">Binary reader positioned at the start of the nation record.</param>
         public Nation(BinaryReaderEx reader)
         {
             Uid = reader.ReadInt32();
@@ -228,8 +245,10 @@ namespace FMMLibrary
             CapitalId = reader.ReadInt16();
             StadiumId = reader.ReadInt16();
 
-            StateOfDevelopment = reader.ReadInt32();
+            StateOfDevelopment = reader.ReadByte();
+            Unknown1 = reader.ReadByte();
             Unknown2 = reader.ReadInt16();
+            Region = reader.ReadInt16();
             Unknown3 = reader.ReadByte();
 
             Languages = new (short Id, byte Proficiency)[reader.ReadByte()];
@@ -244,9 +263,9 @@ namespace FMMLibrary
         }
 
         /// <summary>
-        /// Converts the nation data to a byte array.
+        /// Serializes the nation to a byte array using the game file format.
         /// </summary>
-        /// <returns>A byte array representing the serialized nation data.</returns>
+        /// <returns>Byte array containing the serialized nation.</returns>
         public byte[] ToBytes()
         {
             using var stream = new MemoryStream();
@@ -256,9 +275,9 @@ namespace FMMLibrary
         }
 
         /// <summary>
-        /// Writes the nation data to the specified binary writer.
+        /// Writes this nation to a binary writer using the game file layout.
         /// </summary>
-        /// <param name="writer">The binary writer to write the nation data to.</param>
+        /// <param name="writer">Binary writer to receive the nation data.</param>
         public void Write(BinaryWriterEx writer)
         {
             writer.Write(Uid);
@@ -275,7 +294,9 @@ namespace FMMLibrary
             writer.Write(StadiumId);
 
             writer.Write(StateOfDevelopment);
+            writer.Write(Unknown1);
             writer.Write(Unknown2);
+            writer.Write(Region);
             writer.Write(Unknown3);
 
             writer.Write((byte)Languages.Length);
