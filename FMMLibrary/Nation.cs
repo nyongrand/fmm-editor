@@ -106,27 +106,28 @@ namespace FMMLibrary
         public class NationalTeam
         {
             /// <summary>
-            /// First kit or emblem color.
+            /// Probably deprecated, all Nations have the value 0xFF7F
             /// </summary>
-            public Color Color1 { get; set; }
+            public short Color1 { get; set; }
 
             /// <summary>
-            /// Second kit or emblem color.
+            /// Probably deprecated, all Nations have the value 0xD400
             /// </summary>
-            public Color Color2 { get; set; }
+            public short Color2 { get; set; }
 
             /// <summary>
-            /// Third kit or accent color.
+            /// Probably deprecated, all Nations have the valuee 0x0000
             /// </summary>
-            public Color Color3 { get; set; }
+            public short Color3 { get; set; }
 
             /// <summary>
-            /// Fourth kit or accent color.
+            /// Probably deprecated, all Nations have the value 0xFF7F
             /// </summary>
-            public Color Color4 { get; set; }
+            public short Color4 { get; set; }
 
             /// <summary>
-            /// Importance value used by scheduling/AI.
+            /// Importance rating used by scheduling/AI: 0 = Not set, 1 = Very important,
+            /// 2 = Important, 3 = Fairly unimportant, 4 = Unimportant.
             /// </summary>
             public byte GameImportance { get; set; }
 
@@ -138,7 +139,7 @@ namespace FMMLibrary
             /// <summary>
             /// Unknown flag byte.
             /// </summary>
-            public byte Unknown8 { get; set; }
+            public byte Unknown4 { get; set; }
 
             /// <summary>
             /// Whether the team has an official ranking.
@@ -156,19 +157,20 @@ namespace FMMLibrary
             public short Points { get; set; }
 
             /// <summary>
-            /// Additional unknown short field.
+            /// Always 0x0000 in observed files (reserved padding).
             /// </summary>
-            public short Unknown9 { get; set; }
+            public short Unknown5 { get; set; }
 
             /// <summary>
-            /// Coefficient values (count stored as a single byte).
+            /// Coefficient values for European competition seeding, stored per season
+            /// from 2014/15 through 2024/25 (count stored as a single byte in file).
             /// </summary>
-            public float[] MaleCoefficients { get; set; } = [];
+            public float[] Coefficients { get; set; } = [];
 
             /// <summary>
             /// Unknown data block (11 bytes).
             /// </summary>
-            public byte[] Unknown10 { get; set; } = [];
+            public byte[] Unknown6 { get; set; } = [];
 
             /// <summary>
             /// Reads a national team block from the provided binary reader.
@@ -176,26 +178,26 @@ namespace FMMLibrary
             /// <param name="reader">Binary reader positioned at the start of the team block.</param>
             public NationalTeam(BinaryReaderEx reader)
             {
-                Color1 = reader.ReadColor();
-                Color2 = reader.ReadColor();
-                Color3 = reader.ReadColor();
-                Color4 = reader.ReadColor();
+                Color1 = reader.ReadInt16();
+                Color2 = reader.ReadInt16();
+                Color3 = reader.ReadInt16();
+                Color4 = reader.ReadInt16();
 
                 GameImportance = reader.ReadByte();
                 RivalId = reader.ReadInt16();
-                Unknown8 = reader.ReadByte();
+                Unknown4 = reader.ReadByte();
 
                 IsRanked = reader.ReadBoolean();
                 Ranking = reader.ReadInt16();
                 Points = reader.ReadInt16();
 
-                Unknown9 = reader.ReadInt16();
+                Unknown5 = reader.ReadInt16();
 
-                MaleCoefficients = new float[reader.ReadByte()];
-                for (int i = 0; i < MaleCoefficients.Length; i++)
-                    MaleCoefficients[i] = reader.ReadSingle();
+                Coefficients = new float[reader.ReadByte()];
+                for (int i = 0; i < Coefficients.Length; i++)
+                    Coefficients[i] = reader.ReadSingle();
 
-                Unknown10 = reader.ReadBytes(11);
+                Unknown6 = reader.ReadBytes(11);
             }
 
             /// <summary>
@@ -211,18 +213,19 @@ namespace FMMLibrary
 
                 writer.Write(GameImportance);
                 writer.Write(RivalId);
-                writer.Write(Unknown8);
+                writer.Write(Unknown4);
 
                 writer.Write(IsRanked);
                 writer.Write(Ranking);
                 writer.Write(Points);
 
-                writer.Write(Unknown9);
-                writer.Write((byte)MaleCoefficients.Length);
-                for (int i = 0; i < MaleCoefficients.Length; i++)
-                    writer.Write(MaleCoefficients[i]);
+                writer.Write(Unknown5);
 
-                writer.Write(Unknown10);
+                writer.Write((byte)Coefficients.Length);
+                for (int i = 0; i < Coefficients.Length; i++)
+                    writer.Write(Coefficients[i]);
+
+                writer.Write(Unknown6);
             }
         }
 
