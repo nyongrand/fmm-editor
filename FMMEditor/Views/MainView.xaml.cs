@@ -29,6 +29,13 @@ namespace FMMEditor.Views
             this.Close();
         }
 
+        private void OpenNations_Click(object sender, RoutedEventArgs e)
+        {
+            var nationView = new NationsView();
+            nationView.Show();
+            this.Close();
+        }
+
         private void OpenNames_Click(object sender, RoutedEventArgs e)
         {
             var namesView = new NamesView();
