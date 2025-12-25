@@ -8,7 +8,7 @@
         /// <summary>
         /// Unique database identifier.
         /// </summary>
-        public int Uid { get; set; }
+        public short Uid { get; set; }
 
         /// <summary>
         /// Display name of the currency.
@@ -18,7 +18,7 @@
         /// <summary>
         /// Exchange rate relative to the game's base currency.
         /// </summary>
-        public int ExchangeRate { get; set; }
+        public float ExchangeRate { get; set; }
 
         /// <summary>
         /// Creates a currency by reading its binary representation from the provided reader.
@@ -26,9 +26,9 @@
         /// <param name="reader">Binary reader positioned at the start of the currency record.</param>
         public Currency(BinaryReaderEx reader)
         {
-            Uid = reader.ReadInt32();
+            Uid = reader.ReadInt16();
             Name = reader.ReadString();
-            ExchangeRate = reader.ReadInt32();
+            ExchangeRate = reader.ReadSingle();
         }
 
         /// <summary>
