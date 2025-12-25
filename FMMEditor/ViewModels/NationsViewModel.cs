@@ -28,15 +28,21 @@ namespace FMMEditor.ViewModels
 
         public extern NationParser? NationParser { [ObservableAsProperty] get; }
         public extern ContinentParser? ContinentParser { [ObservableAsProperty] get; }
+        public extern StadiumParser? StadiumParser { [ObservableAsProperty] get; }
+        public extern RegionParser? RegionParser { [ObservableAsProperty] get; }
 
         public BulkObservableCollection<NationDisplayModel> NationsList { get; } = [];
         public BulkObservableCollection<Continent> Continents { get; } = [];
+        public BulkObservableCollection<Stadium> Stadiums { get; } = [];
+        public BulkObservableCollection<Region> Regions { get; } = [];
 
         public ReactiveCommand<Unit, string?> Load { get; private set; }
         public ReactiveCommand<Unit, Unit> Save { get; private set; }
         public ReactiveCommand<Unit, Unit> SaveAs { get; private set; }
         public ReactiveCommand<string, NationParser> ParseNations { get; private set; }
         public ReactiveCommand<string, ContinentParser> ParseContinents { get; private set; }
+        public ReactiveCommand<string, StadiumParser> ParseStadiums { get; private set; }
+        public ReactiveCommand<string, RegionParser> ParseRegions { get; private set; }
 
         public ReactiveCommand<Unit, Unit> CopyUidCommand { get; private set; }
         public ReactiveCommand<Unit, Unit> CopyUidHexCommand { get; private set; }
@@ -47,6 +53,8 @@ namespace FMMEditor.ViewModels
         private readonly ICollectionView nationsView;
         private readonly IDialogService dialogService;
         private Dictionary<short, string> continentLookup = [];
+        private Dictionary<short, string> stadiumLookup = [];
+        private Dictionary<short, string> regionLookup = [];
 
         public NationsViewModel(IDialogService dialogService, ISnackbarMessageQueue messageQueue)
         {
@@ -64,7 +72,9 @@ namespace FMMEditor.ViewModels
                         || nation.Name.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase)
                         || nation.Nationality.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase)
                         || nation.CodeName.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase)
-                        || nation.ContinentName.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase);
+                        || nation.ContinentName.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase)
+                        || nation.StadiumName.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase)
+                        || nation.RegionName.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase);
                 }
 
                 return true;
@@ -78,6 +88,12 @@ namespace FMMEditor.ViewModels
 
             ParseContinents = ReactiveCommand.CreateFromTask<string, ContinentParser>(ContinentParser.Load);
             ParseContinents.ToPropertyEx(this, vm => vm.ContinentParser);
+
+            ParseStadiums = ReactiveCommand.CreateFromTask<string, StadiumParser>(StadiumParser.Load);
+            ParseStadiums.ToPropertyEx(this, vm => vm.StadiumParser);
+
+            ParseRegions = ReactiveCommand.CreateFromTask<string, RegionParser>(RegionParser.Load);
+            ParseRegions.ToPropertyEx(this, vm => vm.RegionParser);
 
             Save = ReactiveCommand.CreateFromTask(SaveImpl);
             SaveAs = ReactiveCommand.CreateFromTask(SaveAsImpl);
@@ -96,6 +112,16 @@ namespace FMMEditor.ViewModels
                 .InvokeCommand(ParseContinents);
 
             this.WhenAnyValue(vm => vm.FolderPath)
+                .WhereNotNull()
+                .Select(path => path + "\\stadium.dat")
+                .InvokeCommand(ParseStadiums);
+
+            this.WhenAnyValue(vm => vm.FolderPath)
+                .WhereNotNull()
+                .Select(path => path + "\\regions.dat")
+                .InvokeCommand(ParseRegions);
+
+            this.WhenAnyValue(vm => vm.FolderPath)
                 .Select(path => !string.IsNullOrEmpty(path))
                 .ToPropertyEx(this, vm => vm.IsDatabaseLoaded);
 
@@ -105,6 +131,24 @@ namespace FMMEditor.ViewModels
                 {
                     Continents.Reset(parser.Items.OrderBy(c => c.Name));
                     continentLookup = parser.Items.ToDictionary(c => c.Id, c => c.Name);
+                    RefreshNationsDisplay();
+                });
+
+            this.WhenAnyValue(vm => vm.StadiumParser)
+                .WhereNotNull()
+                .Subscribe(parser =>
+                {
+                    Stadiums.Reset(parser.Items.OrderBy(s => s.Name));
+                    stadiumLookup = parser.Items.ToDictionary(s => (short)s.Id, s => s.Name);
+                    RefreshNationsDisplay();
+                });
+
+            this.WhenAnyValue(vm => vm.RegionParser)
+                .WhereNotNull()
+                .Subscribe(parser =>
+                {
+                    Regions.Reset(parser.Items.OrderBy(r => r.Name));
+                    regionLookup = parser.Items.ToDictionary(r => r.Id, r => r.Name);
                     RefreshNationsDisplay();
                 });
 
@@ -123,7 +167,9 @@ namespace FMMEditor.ViewModels
             var displayList = NationParser.Items
                 .Select(n => new NationDisplayModel(n)
                 {
-                    ContinentName = continentLookup.GetValueOrDefault(n.ContinentId, "None")
+                    ContinentName = continentLookup.GetValueOrDefault(n.ContinentId, "-"),
+                    StadiumName = stadiumLookup.GetValueOrDefault(n.StadiumId, "-"),
+                    RegionName = regionLookup.GetValueOrDefault(n.Region, "-")
                 })
                 .OrderBy(n => n.Name);
 

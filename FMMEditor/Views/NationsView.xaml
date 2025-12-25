@@ -364,15 +364,8 @@
                                 MaxWidth="110"
                                 Binding="{Binding Id}"
                                 CanUserReorder="True"
-                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="ID"
-                                IsReadOnly="True">
-                                <DataGridTextColumn.HeaderStyle>
-                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
-                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                    </Style>
-                                </DataGridTextColumn.HeaderStyle>
-                            </DataGridTextColumn>
+                                IsReadOnly="True" />
 
                             <DataGridTextColumn
                                 Width="70"
@@ -380,15 +373,8 @@
                                 MaxWidth="110"
                                 Binding="{Binding Uid}"
                                 CanUserReorder="True"
-                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="UID"
-                                IsReadOnly="True">
-                                <DataGridTextColumn.HeaderStyle>
-                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
-                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                    </Style>
-                                </DataGridTextColumn.HeaderStyle>
-                            </DataGridTextColumn>
+                                IsReadOnly="True" />
 
                             <DataGridTextColumn
                                 Width="220"
@@ -441,34 +427,13 @@
                             </DataGridTextColumn>
 
                             <DataGridTextColumn
-                                Width="90"
-                                MinWidth="80"
-                                Binding="{Binding CapitalId}"
+                                Width="290"
+                                MinWidth="130"
+                                Binding="{Binding StadiumName}"
                                 CanUserReorder="True"
-                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
-                                Header="Capital"
-                                IsReadOnly="True">
-                                <DataGridTextColumn.HeaderStyle>
-                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
-                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                    </Style>
-                                </DataGridTextColumn.HeaderStyle>
-                            </DataGridTextColumn>
-
-                            <DataGridTextColumn
-                                Width="90"
-                                MinWidth="80"
-                                Binding="{Binding StadiumId}"
-                                CanUserReorder="True"
-                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
+                                ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
                                 Header="Stadium"
-                                IsReadOnly="True">
-                                <DataGridTextColumn.HeaderStyle>
-                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
-                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                    </Style>
-                                </DataGridTextColumn.HeaderStyle>
-                            </DataGridTextColumn>
+                                IsReadOnly="True" />
 
                             <DataGridTextColumn
                                 Width="130"
@@ -502,63 +467,12 @@
                             </DataGridTextColumn>
 
                             <DataGridTextColumn
-                                Width="80"
-                                MinWidth="70"
-                                Binding="{Binding Region}"
+                                Width="120"
+                                MinWidth="110"
+                                Binding="{Binding RegionName}"
                                 CanUserReorder="True"
-                                ElementStyle="{StaticResource centerHeaderColumnStyle}"
                                 Header="Region"
-                                IsReadOnly="True">
-                                <DataGridTextColumn.HeaderStyle>
-                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
-                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                    </Style>
-                                </DataGridTextColumn.HeaderStyle>
-                            </DataGridTextColumn>
-
-                            <DataGridCheckBoxColumn
-                                Width="75"
-                                MinWidth="75"
-                                MaxWidth="75"
-                                Binding="{Binding HasMaleTeam, Mode=OneWay}"
-                                CanUserReorder="True"
-                                Header="Male"
-                                IsReadOnly="True">
-                                <DataGridCheckBoxColumn.HeaderStyle>
-                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
-                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                    </Style>
-                                </DataGridCheckBoxColumn.HeaderStyle>
-                                <DataGridCheckBoxColumn.ElementStyle>
-                                    <Style BasedOn="{StaticResource MaterialDesignCheckBox}" TargetType="CheckBox">
-                                        <Setter Property="HorizontalAlignment" Value="Center" />
-                                        <Setter Property="VerticalAlignment" Value="Center" />
-                                        <Setter Property="IsHitTestVisible" Value="False" />
-                                    </Style>
-                                </DataGridCheckBoxColumn.ElementStyle>
-                            </DataGridCheckBoxColumn>
-
-                            <DataGridCheckBoxColumn
-                                Width="75"
-                                MinWidth="75"
-                                MaxWidth="75"
-                                Binding="{Binding HasFemaleTeam, Mode=OneWay}"
-                                CanUserReorder="True"
-                                Header="Female"
-                                IsReadOnly="True">
-                                <DataGridCheckBoxColumn.HeaderStyle>
-                                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
-                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                    </Style>
-                                </DataGridCheckBoxColumn.HeaderStyle>
-                                <DataGridCheckBoxColumn.ElementStyle>
-                                    <Style BasedOn="{StaticResource MaterialDesignCheckBox}" TargetType="CheckBox">
-                                        <Setter Property="HorizontalAlignment" Value="Center" />
-                                        <Setter Property="VerticalAlignment" Value="Center" />
-                                        <Setter Property="IsHitTestVisible" Value="False" />
-                                    </Style>
-                                </DataGridCheckBoxColumn.ElementStyle>
-                            </DataGridCheckBoxColumn>
+                                IsReadOnly="True" />
 
                         </DataGrid.Columns>
                     </DataGrid>

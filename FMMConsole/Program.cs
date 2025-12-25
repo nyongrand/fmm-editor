@@ -196,9 +196,9 @@ static async Task SwitchNationClubsWithTopContinentClubsAsync(int[] leagueIds, p
 
     // Filter top continent clubs
     var topClubs = clubParser.Items
-        .Where(x => x.IsWomanFlag == 0)
+        //.Where(x => x.IsWomanFlag == 0)
         .Where(x => x.MainClub == -1)
-        .Where(x => x.IsNational == 0)
+        //.Where(x => x.IsNational == 0)
         .Where(x => nationIds.Contains(x.BasedId))
         .GroupBy(x => x.BasedId)
         .OrderByDescending(g => g.Max(c => c.Reputation))

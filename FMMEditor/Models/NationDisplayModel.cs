@@ -23,6 +23,7 @@ namespace FMMEditor.Models
         public string ContinentName { get; set; } = "";
         public short CapitalId => Nation.CapitalId;
         public short StadiumId => Nation.StadiumId;
+        public string StadiumName { get; set; } = "";
         public byte StateOfDevelopment => Nation.StateOfDevelopment;
         public string StateOfDevelopmentText => StateOfDevelopment switch
         {
@@ -32,6 +33,7 @@ namespace FMMEditor.Models
             _ => $"State {StateOfDevelopment}"
         };
         public short Region => Nation.Region;
+        public string RegionName { get; set; } = "";
         public byte LanguageCount => (byte)(Nation.Languages?.Length ?? 0);
         public string Languages => Nation.Languages?.Length > 0
             ? string.Join(", ", Nation.Languages.Select(l => $"{l.Id} ({l.Proficiency})"))
