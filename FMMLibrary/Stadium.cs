@@ -1,49 +1,53 @@
 ﻿namespace FMMLibrary
 {
     /// <summary>
-    /// Represents a stadium entry with identifiers, metadata, and display name.
+    /// Represents a stadium record loaded from or written to the game data files.
     /// </summary>
     public class Stadium
     {
         /// <summary>
-        /// Internal identifier (can be -1 for new items).
+        /// Record index identifier.
         /// </summary>
         public int Id { get; set; }
 
         /// <summary>
-        /// Unique database identifier.
+        /// Unique stadium identifier used by the game database.
         /// </summary>
         public int Uid { get; set; }
 
         /// <summary>
-        /// Unknown 16-bit field following identifiers.
+        /// <see cref="City"/> reference key from the game data.
         /// </summary>
-        public short Unknown1 { get; set; }
+        public short CityId { get; set; }
 
         /// <summary>
-        /// Unknown 32-bit value (reserved/flags).
+        /// Base seating capacity.
         /// </summary>
-        public int Unknown2 { get; set; }
+        public int Capacity { get; set; }
 
         /// <summary>
-        /// Unknown 32-bit value (reserved/flags).
+        /// Maximum seating capacity after expansion.
         /// </summary>
-        public int Unknown3 { get; set; }
+        public int ExpansionCapacity { get; set; }
 
         /// <summary>
-        /// Display name of the stadium.
+        /// Primary display name.
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        /// Unknown 32-bit value (reserved/flags).
+        /// Secondary display name.
         /// </summary>
-        public int Unknown4 { get; set; }
+        public string Name2 { get; set; }
 
         /// <summary>
-        /// Unknown 32-bit value (reserved/flags).
+        /// Record terminator byte used in the binary layout.
         /// </summary>
-        public int Unknown5 { get; set; }
+        public byte Terminator { get; set; }
+
+        public byte Unknown3 { get; set; }
+        public byte Unknown4 { get; set; }
+        public byte Unknown5 { get; set; }
 
         /// <summary>
         /// Creates a stadium by reading its binary representation from the provided reader.
@@ -53,12 +57,15 @@
         {
             Id = reader.ReadInt32();
             Uid = reader.ReadInt32();
-            Unknown1 = reader.ReadInt16();
-            Unknown2 = reader.ReadInt32();
-            Unknown3 = reader.ReadInt32();
+            CityId = reader.ReadInt16();
+            Capacity = reader.ReadInt32();
+            ExpansionCapacity = reader.ReadInt32();
             Name = reader.ReadString();
-            Unknown4 = reader.ReadInt32();
-            Unknown5 = reader.ReadInt32();
+            Name2 = reader.ReadString();
+            Terminator = reader.ReadByte();
+            Unknown3 = reader.ReadByte();
+            Unknown4 = reader.ReadByte();
+            Unknown5 = reader.ReadByte();
         }
 
         /// <summary>
@@ -69,10 +76,13 @@
         {
             writer.Write(Id);
             writer.Write(Uid);
-            writer.Write(Unknown1);
-            writer.Write(Unknown2);
-            writer.Write(Unknown3);
+            writer.Write(CityId);
+            writer.Write(Capacity);
+            writer.Write(ExpansionCapacity);
             writer.Write(Name);
+            writer.Write(Name2);
+            writer.Write(Terminator);
+            writer.Write(Unknown3);
             writer.Write(Unknown4);
             writer.Write(Unknown5);
         }
@@ -91,7 +101,7 @@
 
         public override string ToString()
         {
-            return $"{Id} {Name}";
+            return $"{Uid} {Name}";
         }
     }
 }
