@@ -21,24 +21,19 @@
         public string Name { get; set; }
 
         /// <summary>
-        /// Identifier of the nation this region belongs to.
+        /// Single terminator byte that follows <see cref="Name"/> in the binary data.
+        /// </summary>
+        public byte Terminator { get; set; }
+
+        /// <summary>
+        /// Identifier of the <see cref="Nation"/> this region belongs to.
         /// </summary>
         public short NationId { get; set; }
 
         /// <summary>
         /// Unknown flag/metadata byte.
         /// </summary>
-        public byte Unknown1 { get; set; }
-
-        /// <summary>
-        /// Unknown flag/metadata byte.
-        /// </summary>
-        public byte Unknown2 { get; set; }
-
-        /// <summary>
-        /// Unknown flag/metadata byte.
-        /// </summary>
-        public byte Unknown3 { get; set; }
+        public short WeatherId { get; set; }
 
         /// <summary>
         /// Creates a region by reading its binary representation from the provided reader.
@@ -49,10 +44,9 @@
             Id = reader.ReadInt16();
             Uid = reader.ReadInt32();
             Name = reader.ReadString();
+            Terminator = reader.ReadByte();
             NationId = reader.ReadInt16();
-            Unknown1 = reader.ReadByte();
-            Unknown2 = reader.ReadByte();
-            Unknown3 = reader.ReadByte();
+            WeatherId = reader.ReadInt16();
         }
 
         /// <summary>
@@ -64,10 +58,9 @@
             writer.Write(Id);
             writer.Write(Uid);
             writer.Write(Name);
+            writer.Write(Terminator);
             writer.Write(NationId);
-            writer.Write(Unknown1);
-            writer.Write(Unknown2);
-            writer.Write(Unknown3);
+            writer.Write(WeatherId);
         }
 
         /// <summary>
