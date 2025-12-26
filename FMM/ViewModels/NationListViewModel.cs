@@ -1,46 +1,64 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using FMMLibrary;
+﻿using FMMLibrary;
 using FMM.Models;
-using System.Collections.ObjectModel;
+using ReactiveUI;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Reactive;
+using System.Reactive.Linq;
 using System.Threading.Tasks;
-using System;
 
 namespace FMM.ViewModels;
 
-public partial class NationListViewModel : ViewModelBase
+public class NationListViewModel : ViewModelBase
 {
-    [ObservableProperty]
     private string? folderPath;
-
-    [ObservableProperty]
     private bool isDatabaseLoaded;
-
-    [ObservableProperty]
     private string searchQuery = string.Empty;
-
-    [ObservableProperty]
     private NationDisplayModel? selectedNation;
+
+    public string? FolderPath
+    {
+        get => folderPath;
+        set => this.RaiseAndSetIfChanged(ref folderPath, value);
+    }
+
+    public bool IsDatabaseLoaded
+    {
+        get => isDatabaseLoaded;
+        set => this.RaiseAndSetIfChanged(ref isDatabaseLoaded, value);
+    }
+
+    public string SearchQuery
+    {
+        get => searchQuery;
+        set => this.RaiseAndSetIfChanged(ref searchQuery, value);
+    }
+
+    public NationDisplayModel? SelectedNation
+    {
+        get => selectedNation;
+        set => this.RaiseAndSetIfChanged(ref selectedNation, value);
+    }
 
     public ObservableCollection<NationDisplayModel> Nations { get; } = new();
 
     public IEnumerable<NationDisplayModel> FilteredNations => string.IsNullOrWhiteSpace(SearchQuery)
         ? Nations
         : Nations.Where(n =>
-            n.Name.Contains(SearchQuery, System.StringComparison.OrdinalIgnoreCase) ||
-            n.Nationality.Contains(SearchQuery, System.StringComparison.OrdinalIgnoreCase) ||
-            n.CodeName.Contains(SearchQuery, System.StringComparison.OrdinalIgnoreCase) ||
-            n.ContinentName.Contains(SearchQuery, System.StringComparison.OrdinalIgnoreCase) ||
-            n.StadiumName.Contains(SearchQuery, System.StringComparison.OrdinalIgnoreCase) ||
-            n.RegionName.Contains(SearchQuery, System.StringComparison.OrdinalIgnoreCase));
+            n.Name.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase) ||
+            n.Nationality.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase) ||
+            n.CodeName.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase) ||
+            n.ContinentName.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase) ||
+            n.StadiumName.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase) ||
+            n.RegionName.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase));
 
-    public IRelayCommand ClearSearchCommand { get; }
-    public IAsyncRelayCommand<string?> LoadCommand { get; }
-    public IAsyncRelayCommand SaveCommand { get; }
-    public IAsyncRelayCommand<string?> SaveAsCommand { get; }
+    public ReactiveCommand<Unit, Unit> ClearSearchCommand { get; }
+    public ReactiveCommand<string?, Unit> LoadCommand { get; }
+    public ReactiveCommand<Unit, Unit> SaveCommand { get; }
+    public ReactiveCommand<string?, Unit> SaveAsCommand { get; }
 
     private NationParser? nationParser;
     private ContinentParser? continentParser;
@@ -53,25 +71,25 @@ public partial class NationListViewModel : ViewModelBase
 
     public NationListViewModel()
     {
-        ClearSearchCommand = new RelayCommand(() => SearchQuery = string.Empty);
-        LoadCommand = new AsyncRelayCommand<string?>(LoadFromFolderAsync);
-        SaveCommand = new AsyncRelayCommand(SaveAsync, () => IsDatabaseLoaded);
-        SaveAsCommand = new AsyncRelayCommand<string?>(SaveAsAsync, path => IsDatabaseLoaded);
-
-        Nations.CollectionChanged += (_, _) => OnPropertyChanged(nameof(FilteredNations));
-        PropertyChanged += (_, e) =>
+        ClearSearchCommand = ReactiveCommand.Create(() => { SearchQuery = string.Empty; });
+        LoadCommand = ReactiveCommand.CreateFromTask<string?, Unit>(async path =>
         {
-            if (e.PropertyName == nameof(SearchQuery))
-            {
-                OnPropertyChanged(nameof(FilteredNations));
-            }
+            await LoadFromFolderAsync(path);
+            return Unit.Default;
+        });
 
-            if (e.PropertyName == nameof(IsDatabaseLoaded))
-            {
-                SaveCommand.NotifyCanExecuteChanged();
-                SaveAsCommand.NotifyCanExecuteChanged();
-            }
-        };
+        var canSave = this.WhenAnyValue(vm => vm.IsDatabaseLoaded);
+        SaveCommand = ReactiveCommand.CreateFromTask(SaveAsync, canSave);
+        SaveAsCommand = ReactiveCommand.CreateFromTask<string?, Unit>(async path =>
+        {
+            await SaveAsAsync(path);
+            return Unit.Default;
+        }, canSave);
+
+        Nations.CollectionChanged += (_, _) => this.RaisePropertyChanged(nameof(FilteredNations));
+
+        this.WhenAnyValue(vm => vm.SearchQuery)
+            .Subscribe(_ => this.RaisePropertyChanged(nameof(FilteredNations)));
     }
 
     public async Task LoadFromFolderAsync(string? path)
@@ -124,7 +142,7 @@ public partial class NationListViewModel : ViewModelBase
             });
         }
 
-        OnPropertyChanged(nameof(FilteredNations));
+        this.RaisePropertyChanged(nameof(FilteredNations));
     }
 
     private static async Task<TParser?> LoadOptional<TParser>(string filePath, Func<string, Task<TParser>> loader)

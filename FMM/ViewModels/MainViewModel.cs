@@ -1,9 +1,14 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using ReactiveUI;
 
 namespace FMM.ViewModels;
 
-public partial class MainViewModel : ViewModelBase
+public class MainViewModel : ViewModelBase
 {
-    [ObservableProperty]
-    private string _greeting = "Welcome to Avalonia!";
+    private string greeting = "Welcome to Avalonia!";
+
+    public string Greeting
+    {
+        get => greeting;
+        set => this.RaiseAndSetIfChanged(ref greeting, value);
+    }
 }
