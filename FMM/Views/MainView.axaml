@@ -1,16 +1,209 @@
-<UserControl xmlns="https://github.com/avaloniaui"
+﻿<UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:FMM.ViewModels"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="FMM.Views.MainView"
-             x:DataType="vm:MainViewModel">
+             x:DataType="vm:MainViewModel"
+             mc:Ignorable="d"
+             d:DesignWidth="1280"
+             d:DesignHeight="720">
   <Design.DataContext>
-    <!-- This only sets the DataContext for the previewer in an IDE,
-         to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
     <vm:MainViewModel />
   </Design.DataContext>
 
-  <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+  <UserControl.Styles>
+    <Style Selector="Button.card">
+      <Setter Property="Padding" Value="0" />
+      <Setter Property="Margin" Value="0,0,16,16" />
+      <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+      <Setter Property="VerticalContentAlignment" Value="Stretch" />
+      <Setter Property="CornerRadius" Value="8" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="BorderBrush" Value="#1F000000" />
+      <Setter Property="Background" Value="#FFFAFAFA" />
+      <Setter Property="Focusable" Value="False" />
+    </Style>
+
+    <Style Selector="Border.open-label">
+      <Setter Property="HorizontalAlignment" Value="Center" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+      <Setter Property="CornerRadius" Value="4" />
+      <Setter Property="Padding" Value="12,6" />
+      <Setter Property="Background" Value="#FF1976D2" />
+      <Setter Property="BorderBrush" Value="#FF1976D2" />
+      <Setter Property="BorderThickness" Value="1" />
+    </Style>
+  </UserControl.Styles>
+
+  <Grid RowDefinitions="56,*">
+    <Border Grid.Row="0" Background="#FF2B2B2B" BorderBrush="#33000000" BorderThickness="0,0,0,1">
+      <Grid>
+        <TextBlock Margin="12,0,0,0"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Center"
+                   FontSize="18"
+                   FontWeight="Bold"
+                   Foreground="White"
+                   Text="FMM 26 DB Editor" />
+
+        <StackPanel Margin="0,0,12,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+          <Button Width="32" Height="32" Padding="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Button.Content>
+              <TextBlock Text="⋮" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Button.Content>
+            <Button.Flyout>
+              <MenuFlyout Placement="BottomEdgeAlignedRight">
+                <MenuItem Header="Exit" Click="Exit_Click" />
+              </MenuFlyout>
+            </Button.Flyout>
+          </Button>
+        </StackPanel>
+      </Grid>
+    </Border>
+
+    <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled">
+      <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,24">
+        <TextBlock Margin="0,0,0,16"
+                   FontSize="32"
+                   FontWeight="Bold"
+                   Text="FMM 26 DB Editor"
+                   TextAlignment="Center" />
+        <TextBlock Margin="0,0,0,32"
+                   FontSize="16"
+                   Text="Choose an editor to get started"
+                   TextAlignment="Center" />
+
+        <WrapPanel HorizontalAlignment="Center" MaxWidth="1200">
+          <Button Classes="card" Width="220" Height="260" Click="OpenCompetitions_Click">
+            <Grid>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+              </Grid.RowDefinitions>
+
+              <Border Grid.Row="0" Padding="24,32" CornerRadius="8,8,0,0">
+                <TextBlock Text="🏆" FontSize="48" HorizontalAlignment="Center" />
+              </Border>
+
+              <StackPanel Grid.Row="1" Margin="24" VerticalAlignment="Center" Spacing="8">
+                <TextBlock FontSize="20" FontWeight="SemiBold" Text="Competitions" TextAlignment="Center" />
+                <TextBlock FontSize="14"
+                           Text="Edit competitions and league structures"
+                           TextAlignment="Center"
+                           TextWrapping="Wrap" />
+                <Border Classes="open-label">
+                  <TextBlock Text="OPEN" Foreground="White" FontWeight="SemiBold" />
+                </Border>
+              </StackPanel>
+            </Grid>
+          </Button>
+
+          <Button Classes="card" Width="220" Height="260" Click="OpenClubs_Click">
+            <Grid>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+              </Grid.RowDefinitions>
+
+              <Border Grid.Row="0" Padding="24,32" CornerRadius="8,8,0,0">
+                <TextBlock Text="🛡️" FontSize="48" HorizontalAlignment="Center" />
+              </Border>
+
+              <StackPanel Grid.Row="1" Margin="24" VerticalAlignment="Center" Spacing="8">
+                <TextBlock FontSize="20" FontWeight="SemiBold" Text="Clubs" TextAlignment="Center" />
+                <TextBlock FontSize="14"
+                           Text="Edit clubs and team information"
+                           TextAlignment="Center"
+                           TextWrapping="Wrap" />
+                <Border Classes="open-label">
+                  <TextBlock Text="OPEN" Foreground="White" FontWeight="SemiBold" />
+                </Border>
+              </StackPanel>
+            </Grid>
+          </Button>
+
+          <Button Classes="card" Width="220" Height="260" Click="OpenNations_Click">
+            <Grid>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+              </Grid.RowDefinitions>
+
+              <Border Grid.Row="0" Padding="24,32" CornerRadius="8,8,0,0">
+                <TextBlock Text="🚩" FontSize="48" HorizontalAlignment="Center" />
+              </Border>
+
+              <StackPanel Grid.Row="1" Margin="24" VerticalAlignment="Center" Spacing="8">
+                <TextBlock FontSize="20" FontWeight="SemiBold" Text="Nations" TextAlignment="Center" />
+                <TextBlock FontSize="14"
+                           Text="View nation data"
+                           TextAlignment="Center"
+                           TextWrapping="Wrap" />
+                <Border Classes="open-label">
+                  <TextBlock Text="OPEN" Foreground="White" FontWeight="SemiBold" />
+                </Border>
+              </StackPanel>
+            </Grid>
+          </Button>
+
+          <Button Classes="card" Width="220" Height="260" Click="OpenNames_Click">
+            <Grid>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+              </Grid.RowDefinitions>
+
+              <Border Grid.Row="0" Padding="24,32" CornerRadius="8,8,0,0">
+                <TextBlock Text="🔤" FontSize="48" HorizontalAlignment="Center" />
+              </Border>
+
+              <StackPanel Grid.Row="1" Margin="24" VerticalAlignment="Center" Spacing="8">
+                <TextBlock FontSize="20" FontWeight="SemiBold" Text="Names" TextAlignment="Center" />
+                <TextBlock FontSize="14"
+                           Text="Edit player names and name databases"
+                           TextAlignment="Center"
+                           TextWrapping="Wrap" />
+                <Border Classes="open-label">
+                  <TextBlock Text="OPEN" Foreground="White" FontWeight="SemiBold" />
+                </Border>
+              </StackPanel>
+            </Grid>
+          </Button>
+
+          <Button Classes="card" Width="220" Height="260" Click="OpenPeople_Click">
+            <Grid>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+              </Grid.RowDefinitions>
+
+              <Border Grid.Row="0" Padding="24,32" CornerRadius="8,8,0,0">
+                <TextBlock Text="👥" FontSize="48" HorizontalAlignment="Center" />
+              </Border>
+
+              <StackPanel Grid.Row="1" Margin="24" VerticalAlignment="Center" Spacing="8">
+                <TextBlock FontSize="20" FontWeight="SemiBold" Text="People" TextAlignment="Center" />
+                <TextBlock FontSize="14"
+                           Text="Edit players, staff and their attributes"
+                           TextAlignment="Center"
+                           TextWrapping="Wrap" />
+                <Border Classes="open-label">
+                  <TextBlock Text="OPEN" Foreground="White" FontWeight="SemiBold" />
+                </Border>
+              </StackPanel>
+            </Grid>
+          </Button>
+        </WrapPanel>
+
+        <TextBlock Margin="0,32,0,0"
+                   FontSize="12"
+                   Text="Version 2.26.2"
+                   TextAlignment="Center" />
+      </StackPanel>
+    </ScrollViewer>
+  </Grid>
 </UserControl>
