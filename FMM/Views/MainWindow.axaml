@@ -16,14 +16,15 @@
 						   Name="navigateView"
 						   IsPaneToggleButtonVisible="True"
 						   IsSettingsVisible="False"
-						   PaneDisplayMode="LeftMinimal">
+						   PaneDisplayMode="LeftMinimal"
+						   SelectionChanged="NavigationView_SelectionChanged">
 
 			<ui:NavigationView.MenuItems>
-				<ui:NavigationViewItem Content="Competitions"/>
-				<ui:NavigationViewItem Content="Clubs"/>
-				<ui:NavigationViewItem Content="Nations"/>
-				<ui:NavigationViewItem Content="Names"/>
-				<ui:NavigationViewItem Content="People"/>
+				<ui:NavigationViewItem Content="Competitions" Tag="Competitions"/>
+				<ui:NavigationViewItem Content="Clubs" Tag="Clubs"/>
+				<ui:NavigationViewItem Content="Nations" Tag="Nations"/>
+				<ui:NavigationViewItem Content="Names" Tag="Names"/>
+				<ui:NavigationViewItem Content="People" Tag="People"/>
 			</ui:NavigationView.MenuItems>
 		</ui:NavigationView>
 	</Grid>
