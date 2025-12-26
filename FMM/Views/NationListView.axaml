@@ -2,7 +2,115 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="FMM.NationListView">
-  Welcome to Avalonia!
+             xmlns:vm="using:FMM.ViewModels"
+             x:Class="FMM.Views.NationListView"
+             x:DataType="vm:NationListViewModel"
+             mc:Ignorable="d"
+             d:DesignWidth="1280"
+             d:DesignHeight="720">
+  <UserControl.DataContext>
+    <vm:NationListViewModel />
+  </UserControl.DataContext>
+
+  <UserControl.Styles>
+    <Style Selector="Border.toolbar">
+      <Setter Property="Background" Value="#FF2B2B2B" />
+      <Setter Property="BorderBrush" Value="#33000000" />
+      <Setter Property="BorderThickness" Value="0,0,0,1" />
+    </Style>
+    <Style Selector="TextBox.search">
+      <Setter Property="Height" Value="32" />
+      <Setter Property="Padding" Value="10,0" />
+      <Setter Property="Watermark" Value="Search Nation / Nationality / Code" />
+    </Style>
+    <Style Selector="Button.menu">
+      <Setter Property="Width" Value="32" />
+      <Setter Property="Height" Value="32" />
+      <Setter Property="Padding" Value="0" />
+    </Style>
+    <Style Selector="DataGrid">
+      <Setter Property="GridLinesVisibility" Value="All" />
+      <Setter Property="HeadersVisibility" Value="All" />
+      <Setter Property="RowHeight" Value="32" />
+    </Style>
+  </UserControl.Styles>
+
+  <Grid RowDefinitions="56,*,32">
+    <Border Classes="toolbar" Grid.Row="0">
+      <Grid ColumnDefinitions="Auto,*,Auto" VerticalAlignment="Center" Margin="12,0">
+        <Border Background="#22FFFFFF" Padding="8,0" CornerRadius="4" VerticalAlignment="Center">
+          <Grid ColumnDefinitions="*,Auto" VerticalAlignment="Center">
+            <TextBox Classes="search"
+                     Text="{Binding SearchQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <Button Grid.Column="1"
+                    Margin="8,0,0,0"
+                    Command="{Binding ClearSearchCommand}"
+                    VerticalAlignment="Center"
+                    Content="?" />
+          </Grid>
+        </Border>
+
+        <TextBlock Grid.Column="1"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   FontSize="18"
+                   FontWeight="Bold"
+                   Foreground="White"
+                   Text="FMM 26 DB Editor - Nations" />
+
+        <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+          <Button Classes="menu">
+            <Button.Content>
+              <TextBlock Text="?" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Button.Content>
+            <Button.Flyout>
+              <MenuFlyout Placement="BottomEdgeAlignedRight">
+                <MenuItem Header="Load Database" Click="Load_Click" />
+                <MenuItem Header="Save" Click="Save_Click" IsEnabled="{Binding IsDatabaseLoaded}" />
+                <MenuItem Header="Save As..." Click="SaveAs_Click" IsEnabled="{Binding IsDatabaseLoaded}" />
+                <Separator />
+                <MenuItem Header="Copy UID" Click="CopyUid_Click" />
+                <MenuItem Header="Copy UID (Hex)" Click="CopyUidHex_Click" />
+                <Separator />
+                <MenuItem Header="Exit" Click="Exit_Click" />
+              </MenuFlyout>
+            </Button.Flyout>
+          </Button>
+        </StackPanel>
+      </Grid>
+    </Border>
+
+    <Border Grid.Row="1" Padding="12">
+      <DataGrid ItemsSource="{Binding FilteredNations}"
+                AutoGenerateColumns="False"
+                IsReadOnly="True"
+                SelectionMode="Single"
+                SelectedItem="{Binding SelectedNation, Mode=TwoWay}">
+        <DataGrid.Columns>
+          <DataGridTextColumn Header="ID" Width="70" Binding="{Binding Id}" />
+          <DataGridTextColumn Header="UID" Width="90" Binding="{Binding Uid}" />
+          <DataGridTextColumn Header="Name" Width="200" Binding="{Binding Name}" />
+          <DataGridTextColumn Header="Nationality" Width="160" Binding="{Binding Nationality}" />
+          <DataGridTextColumn Header="Code" Width="80" Binding="{Binding CodeName}" />
+          <DataGridTextColumn Header="Continent" Width="150" Binding="{Binding ContinentName}" />
+          <DataGridTextColumn Header="Stadium" Width="200" Binding="{Binding StadiumName}" />
+          <DataGridTextColumn Header="Development" Width="130" Binding="{Binding StateOfDevelopmentText}" />
+          <DataGridTextColumn Header="Region" Width="140" Binding="{Binding RegionName}" />
+        </DataGrid.Columns>
+      </DataGrid>
+    </Border>
+
+    <Border Grid.Row="2" Background="#11000000" Padding="12,6">
+      <StackPanel Orientation="Horizontal" Spacing="16">
+        <TextBlock>
+          <Run Text="Folder: " />
+          <Run Text="{Binding FolderPath}" />
+        </TextBlock>
+        <TextBlock>
+          <Run Text="Total Nations: " />
+          <Run Text="{Binding Nations.Count}" />
+        </TextBlock>
+      </StackPanel>
+    </Border>
+  </Grid>
 </UserControl>
