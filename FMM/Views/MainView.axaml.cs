@@ -1,54 +1,58 @@
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.VisualTree;
+using FluentAvalonia.UI.Controls;
+using System.Linq;
 
 namespace FMM.Views;
 
 public partial class MainView : UserControl
 {
+    private readonly HomeView _homeView;
+    private readonly CompetitionListView _competitionListView = new();
+    private readonly ClubListView _clubListView = new();
+    private readonly NationListView _nationListView = new();
+    private readonly NameListView _nameListView = new();
+    private readonly PeopleListView _peopleListView = new();
+
     public MainView()
     {
         InitializeComponent();
+
+        _homeView = new HomeView();
+        navigateView.Content = _homeView;
     }
 
-    private void Exit_Click(object? sender, RoutedEventArgs e)
+    private void NavigationView_SelectionChanged(object? sender, NavigationViewSelectionChangedEventArgs e)
     {
-        if (this.GetVisualRoot() is Window window)
+        if (e.SelectedItem is NavigationViewItem item && item.Tag is string target)
         {
-            window.Close();
+            NavigateTo(target, false);
         }
     }
 
-    private void OpenCompetitions_Click(object? sender, RoutedEventArgs e)
+    public void NavigateTo(string target, bool updateSelection = true)
     {
-        NavigateFromDashboard("Competitions");
-    }
-
-    private void OpenClubs_Click(object? sender, RoutedEventArgs e)
-    {
-        NavigateFromDashboard("Clubs");
-    }
-
-    private void OpenNations_Click(object? sender, RoutedEventArgs e)
-    {
-        NavigateFromDashboard("Nations");
-    }
-
-    private void OpenNames_Click(object? sender, RoutedEventArgs e)
-    {
-        NavigateFromDashboard("Names");
-    }
-
-    private void OpenPeople_Click(object? sender, RoutedEventArgs e)
-    {
-        NavigateFromDashboard("People");
-    }
-
-    private void NavigateFromDashboard(string target)
-    {
-        if (this.GetVisualRoot() is MainWindow window)
+        navigateView.Content = target switch
         {
-            window.NavigateTo(target);
+            "Competitions" => _competitionListView,
+            "Clubs" => _clubListView,
+            "Nations" => _nationListView,
+            "Names" => _nameListView,
+            "People" => _peopleListView,
+            _ => _homeView
+        };
+
+        if (updateSelection)
+        {
+            var match = navigateView.MenuItems
+                .OfType<NavigationViewItem>()
+                .FirstOrDefault(i => i.Tag is string tag && tag == target);
+
+            if (match != null && navigateView.SelectedItem != match)
+            {
+                navigateView.SelectedItem = match;
+            }
         }
     }
 }

@@ -5,27 +5,9 @@
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:views="using:FMM.Views"
 		WindowStartupLocation="CenterOwner"
-		xmlns:ui="using:FluentAvalonia.UI.Controls"
 		mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
 		x:Class="FMM.Views.MainWindow"
 		Icon="/Assets/avalonia-logo.ico"
 		Title="FMM">
-	<Grid ColumnDefinitions="*">
-
-		<ui:NavigationView Grid.Row="0"
-						   Name="navigateView"
-						   IsPaneToggleButtonVisible="True"
-						   IsSettingsVisible="False"
-						   PaneDisplayMode="LeftMinimal"
-						   SelectionChanged="NavigationView_SelectionChanged">
-
-			<ui:NavigationView.MenuItems>
-				<ui:NavigationViewItem Content="Competitions" Tag="Competitions"/>
-				<ui:NavigationViewItem Content="Clubs" Tag="Clubs"/>
-				<ui:NavigationViewItem Content="Nations" Tag="Nations"/>
-				<ui:NavigationViewItem Content="Names" Tag="Names"/>
-				<ui:NavigationViewItem Content="People" Tag="People"/>
-			</ui:NavigationView.MenuItems>
-		</ui:NavigationView>
-	</Grid>
+        <views:MainView />
 </Window>
