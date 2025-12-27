@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
@@ -37,6 +38,8 @@ namespace FMMEditor.ViewModels
         public extern NameParser? FirstNameParser { [ObservableAsProperty] get; }
         public extern NameParser? SecondNameParser { [ObservableAsProperty] get; }
         public extern NameParser? CommonNameParser { [ObservableAsProperty] get; }
+        public extern AlwaysLoadParser? AlwaysLoadMaleParser { [ObservableAsProperty] get; }
+        public extern AlwaysLoadParser? AlwaysLoadFemaleParser { [ObservableAsProperty] get; }
 
         // Collections for display
         public BulkObservableCollection<Nation> Nations { get; } = [];
@@ -54,6 +57,8 @@ namespace FMMEditor.ViewModels
         public ReactiveCommand<string, NameParser> ParseFirstName { get; private set; }
         public ReactiveCommand<string, NameParser> ParseSecondName { get; private set; }
         public ReactiveCommand<string, NameParser> ParseCommonName { get; private set; }
+        public ReactiveCommand<string, AlwaysLoadParser> ParseAlwaysLoadMale { get; private set; }
+        public ReactiveCommand<string, AlwaysLoadParser> ParseAlwaysLoadFemale { get; private set; }
 
         // Commands for Add/Edit
         public ReactiveCommand<Unit, Unit> AddCommand { get; private set; }
@@ -76,6 +81,8 @@ namespace FMMEditor.ViewModels
         private Dictionary<int, string> firstNameLookup = [];
         private Dictionary<int, string> lastNameLookup = [];
         private Dictionary<int, string> commonNameLookup = [];
+        private HashSet<int> alwaysLoadMaleUids = [];
+        private HashSet<int> alwaysLoadFemaleUids = [];
 
         public ClubsViewModel(IDialogService dialogService, ISnackbarMessageQueue messageQueue)
         {
@@ -124,6 +131,12 @@ namespace FMMEditor.ViewModels
 
             ParseCommonName = ReactiveCommand.CreateFromTask<string, NameParser>(NameParser.Load);
             ParseCommonName.ToPropertyEx(this, vm => vm.CommonNameParser);
+
+            ParseAlwaysLoadMale = ReactiveCommand.CreateFromTask<string, AlwaysLoadParser>(AlwaysLoadParser.Load);
+            ParseAlwaysLoadMale.ToPropertyEx(this, vm => vm.AlwaysLoadMaleParser);
+
+            ParseAlwaysLoadFemale = ReactiveCommand.CreateFromTask<string, AlwaysLoadParser>(AlwaysLoadParser.Load);
+            ParseAlwaysLoadFemale.ToPropertyEx(this, vm => vm.AlwaysLoadFemaleParser);
 
             AddCommand = ReactiveCommand.CreateFromTask(OpenAddClubDialogAsync);
             EditCommand = ReactiveCommand.CreateFromTask<ClubDisplayModel>(OpenEditClubDialogAsync);
@@ -174,6 +187,16 @@ namespace FMMEditor.ViewModels
                 .WhereNotNull()
                 .Select(x => x + "\\common_names.dat")
                 .InvokeCommand(ParseCommonName);
+
+            this.WhenAnyValue(vm => vm.FolderPath)
+                .WhereNotNull()
+                .Select(x => x + "\\clubs_to_always_load_male.dat")
+                .InvokeCommand(ParseAlwaysLoadMale);
+
+            this.WhenAnyValue(vm => vm.FolderPath)
+                .WhereNotNull()
+                .Select(x => x + "\\clubs_to_always_load_female.dat")
+                .InvokeCommand(ParseAlwaysLoadFemale);
 
             this.WhenAnyValue(vm => vm.FolderPath)
                 .Select(x => !string.IsNullOrEmpty(x))
@@ -234,6 +257,22 @@ namespace FMMEditor.ViewModels
                 .Subscribe(x =>
                 {
                     commonNameLookup = x.Items.ToDictionary(n => n.Id, n => n.Value);
+                });
+
+            this.WhenAnyValue(vm => vm.AlwaysLoadMaleParser)
+                .WhereNotNull()
+                .Subscribe(x =>
+                {
+                    alwaysLoadMaleUids = x.Items.ToHashSet();
+                    RefreshClubsDisplay();
+                });
+
+            this.WhenAnyValue(vm => vm.AlwaysLoadFemaleParser)
+                .WhereNotNull()
+                .Subscribe(x =>
+                {
+                    alwaysLoadFemaleUids = x.Items.ToHashSet();
+                    RefreshClubsDisplay();
                 });
 
             this.WhenAnyValue(vm => vm.SearchQuery)
@@ -440,16 +479,48 @@ namespace FMMEditor.ViewModels
 
             var displayList = ClubParser.Items.Select(c =>
             {
+                var isMale = c.Gender == 0;
                 var display = new ClubDisplayModel(c)
                 {
                     NationName = nationLookup.GetValueOrDefault(c.NationId, ""),
                     BasedName = nationLookup.GetValueOrDefault(c.BasedId, ""),
-                    CompetitionName = competitionLookup.GetValueOrDefault(c.LeagueId, "")
+                    CompetitionName = competitionLookup.GetValueOrDefault(c.LeagueId, ""),
+                    IsAlwaysLoad = isMale ? alwaysLoadMaleUids.Contains(c.Uid) : alwaysLoadFemaleUids.Contains(c.Uid)
                 };
+
+                display.PropertyChanged += (s, e) =>
+                {
+                    if (e.PropertyName == nameof(ClubDisplayModel.IsAlwaysLoad) && s is ClubDisplayModel model)
+                    {
+                        OnAlwaysLoadChanged(model);
+                    }
+                };
+
                 return display;
             });
 
             ClubsList.Reset(displayList);
+        }
+
+        private void OnAlwaysLoadChanged(ClubDisplayModel club)
+        {
+            var isMale = club.Gender == 0;
+            var targetSet = isMale ? alwaysLoadMaleUids : alwaysLoadFemaleUids;
+
+            if (club.IsAlwaysLoad)
+            {
+                if (!targetSet.Contains(club.Uid))
+                {
+                    targetSet.Add(club.Uid);
+                }
+            }
+            else
+            {
+                if (targetSet.Contains(club.Uid))
+                {
+                    targetSet.Remove(club.Uid);
+                }
+            }
         }
 
         private string? LoadImpl()
@@ -466,6 +537,14 @@ namespace FMMEditor.ViewModels
                 if (ClubParser != null)
                 {
                     await ClubParser.Save();
+                }
+                if (AlwaysLoadMaleParser != null)
+                {
+                    await SaveAlwaysLoadParser(AlwaysLoadMaleParser, alwaysLoadMaleUids);
+                }
+                if (AlwaysLoadFemaleParser != null)
+                {
+                    await SaveAlwaysLoadParser(AlwaysLoadFemaleParser, alwaysLoadFemaleUids);
                 }
                 MessageQueue.Enqueue("Save Successful");
             }
@@ -488,6 +567,14 @@ namespace FMMEditor.ViewModels
                 {
                     await ClubParser.Save(settings.SelectedPath + "\\club.dat");
                 }
+                if (AlwaysLoadMaleParser != null)
+                {
+                    await SaveAlwaysLoadParser(AlwaysLoadMaleParser, alwaysLoadMaleUids, settings.SelectedPath + "\\clubs_to_always_load_male.dat");
+                }
+                if (AlwaysLoadFemaleParser != null)
+                {
+                    await SaveAlwaysLoadParser(AlwaysLoadFemaleParser, alwaysLoadFemaleUids, settings.SelectedPath + "\\clubs_to_always_load_female.dat");
+                }
                 MessageQueue.Enqueue("Save Successful");
             }
             catch (Exception e)
@@ -495,6 +582,31 @@ namespace FMMEditor.ViewModels
                 dialogService.ShowMessageBox(this, $"Save error: {e.Message}",
                     "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        private static async Task SaveAlwaysLoadParser(AlwaysLoadParser parser, HashSet<int> uids, string? filePath = null)
+        {
+            if (parser == null) return;
+
+            var bytes = ToAlwaysLoadBytes(parser, uids);
+            await File.WriteAllBytesAsync(filePath ?? parser.FilePath, bytes);
+        }
+
+        private static byte[] ToAlwaysLoadBytes(AlwaysLoadParser parser, HashSet<int> uids)
+        {
+            if (parser == null) return [];
+
+            using var stream = new MemoryStream();
+            using var writer = new BinaryWriterEx(stream);
+
+            writer.Write(parser.Header);
+            writer.Write(uids.Count);
+            writer.Write((int)0);
+
+            foreach (var uid in uids.OrderBy(x => x))
+                writer.Write(uid);
+
+            return stream.ToArray();
         }
     }
 }
