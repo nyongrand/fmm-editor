@@ -67,7 +67,7 @@
 						<Button.Flyout>
 							<MenuFlyout Placement="BottomEdgeAlignedRight">
 								<MenuItem Header="Load Database" Click="Load_Click" />
-								<MenuItem Header="Save" Click="Save_Click" IsEnabled="{Binding IsDatabaseLoaded}" />
+								<MenuItem Header="Save" Command="{Binding SaveCommand}" IsEnabled="{Binding IsDatabaseLoaded}" />
 								<MenuItem Header="Save As..." Click="SaveAs_Click" IsEnabled="{Binding IsDatabaseLoaded}" />
 								<Separator />
 								<MenuItem Header="Exit" Click="Exit_Click" />

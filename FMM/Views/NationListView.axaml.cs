@@ -3,6 +3,7 @@ using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
 using Avalonia.VisualTree;
 using FMM.ViewModels;
+using ReactiveUI;
 using System.Linq;
 
 namespace FMM.Views;
@@ -35,14 +36,6 @@ public partial class NationListView : UserControl
         }
     }
 
-    private async void Save_Click(object? sender, RoutedEventArgs e)
-    {
-        if (ViewModel != null)
-        {
-            await ViewModel.SaveAsync();
-        }
-    }
-
     private async void SaveAs_Click(object? sender, RoutedEventArgs e)
     {
         var topLevel = TopLevel.GetTopLevel(this);
@@ -58,7 +51,7 @@ public partial class NationListView : UserControl
         var path = folder?.FirstOrDefault()?.Path.LocalPath;
         if (!string.IsNullOrWhiteSpace(path))
         {
-            await ViewModel.SaveAsAsync(path);
+            ViewModel.SaveAsCommand.Execute(path);
         }
     }
 
