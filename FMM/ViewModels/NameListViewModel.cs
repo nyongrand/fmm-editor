@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FMM.ViewModels
 {
-    public class NamesListViewModel : ViewModelBase
+    public class NameListViewModel : ViewModelBase
     {
     }
 }
