@@ -408,14 +408,15 @@
                                     </Style>
                                 </DataGridTextColumn.HeaderStyle>
                             </DataGridTextColumn>
+
                             <DataGridCheckBoxColumn
-                                    Width="60"
-                                    MinWidth="60"
-                                    MaxWidth="60"
-                                    Binding="{Binding IsAlwaysLoad, UpdateSourceTrigger=PropertyChanged}"
-                                    CanUserReorder="False"
-                                    Header="AL"
-                                    IsReadOnly="False">
+                                Width="60"
+                                MinWidth="60"
+                                MaxWidth="60"
+                                Binding="{Binding IsAlwaysLoad, UpdateSourceTrigger=PropertyChanged}"
+                                CanUserReorder="False"
+                                Header="AL"
+                                IsReadOnly="False">
                                 <DataGridCheckBoxColumn.HeaderStyle>
                                     <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
                                         <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -550,6 +551,7 @@
                                 <DataGridTextColumn.HeaderStyle>
                                     <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
                                         <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                        <Setter Property="ToolTip" Value="Academy Rating" />
                                     </Style>
                                 </DataGridTextColumn.HeaderStyle>
                             </DataGridTextColumn>
@@ -565,6 +567,7 @@
                                 <DataGridTextColumn.HeaderStyle>
                                     <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
                                         <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                        <Setter Property="ToolTip" Value="Facilities Rating" />
                                     </Style>
                                 </DataGridTextColumn.HeaderStyle>
                             </DataGridTextColumn>
@@ -580,6 +583,7 @@
                                 <DataGridTextColumn.HeaderStyle>
                                     <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
                                         <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                        <Setter Property="ToolTip" Value="Average Attendance" />
                                     </Style>
                                 </DataGridTextColumn.HeaderStyle>
                             </DataGridTextColumn>
@@ -595,6 +599,7 @@
                                 <DataGridTextColumn.HeaderStyle>
                                     <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
                                         <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                        <Setter Property="ToolTip" Value="Minimum Attendance" />
                                     </Style>
                                 </DataGridTextColumn.HeaderStyle>
                             </DataGridTextColumn>
@@ -610,6 +615,7 @@
                                 <DataGridTextColumn.HeaderStyle>
                                     <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
                                         <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                        <Setter Property="ToolTip" Value="Maximum Attendance" />
                                     </Style>
                                 </DataGridTextColumn.HeaderStyle>
                             </DataGridTextColumn>
