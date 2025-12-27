@@ -8,6 +8,7 @@
 			 mc:Ignorable="d"
 			 d:DesignWidth="1280"
 			 d:DesignHeight="720">
+
 	<Design.DataContext>
 		<vm:HomeViewModel />
 	</Design.DataContext>
@@ -20,19 +21,7 @@
 			<Setter Property="VerticalContentAlignment" Value="Stretch" />
 			<Setter Property="CornerRadius" Value="8" />
 			<Setter Property="BorderThickness" Value="1" />
-			<Setter Property="BorderBrush" Value="#1F000000" />
-			<Setter Property="Background" Value="#FFFAFAFA" />
 			<Setter Property="Focusable" Value="False" />
-		</Style>
-
-		<Style Selector="Border.open-label">
-			<Setter Property="HorizontalAlignment" Value="Center" />
-			<Setter Property="VerticalAlignment" Value="Center" />
-			<Setter Property="CornerRadius" Value="4" />
-			<Setter Property="Padding" Value="12,6" />
-			<Setter Property="Background" Value="#FF1976D2" />
-			<Setter Property="BorderBrush" Value="#FF1976D2" />
-			<Setter Property="BorderThickness" Value="1" />
 		</Style>
 	</UserControl.Styles>
 
@@ -95,9 +84,6 @@
 										   Text="Edit competitions and league structures"
 										   TextAlignment="Center"
 										   TextWrapping="Wrap" />
-								<Border Classes="open-label">
-									<TextBlock Text="OPEN" Foreground="White" FontWeight="SemiBold" />
-								</Border>
 							</StackPanel>
 						</Grid>
 					</Button>
@@ -119,9 +105,6 @@
 										   Text="Edit clubs and team information"
 										   TextAlignment="Center"
 										   TextWrapping="Wrap" />
-								<Border Classes="open-label">
-									<TextBlock Text="OPEN" Foreground="White" FontWeight="SemiBold" />
-								</Border>
 							</StackPanel>
 						</Grid>
 					</Button>
@@ -143,9 +126,6 @@
 										   Text="View nation data"
 										   TextAlignment="Center"
 										   TextWrapping="Wrap" />
-								<Border Classes="open-label">
-									<TextBlock Text="OPEN" Foreground="White" FontWeight="SemiBold" />
-								</Border>
 							</StackPanel>
 						</Grid>
 					</Button>
@@ -167,9 +147,6 @@
 										   Text="Edit player names and name databases"
 										   TextAlignment="Center"
 										   TextWrapping="Wrap" />
-								<Border Classes="open-label">
-									<TextBlock Text="OPEN" Foreground="White" FontWeight="SemiBold" />
-								</Border>
 							</StackPanel>
 						</Grid>
 					</Button>
@@ -191,9 +168,6 @@
 										   Text="Edit players, staff and their attributes"
 										   TextAlignment="Center"
 										   TextWrapping="Wrap" />
-								<Border Classes="open-label">
-									<TextBlock Text="OPEN" Foreground="White" FontWeight="SemiBold" />
-								</Border>
 							</StackPanel>
 						</Grid>
 					</Button>
