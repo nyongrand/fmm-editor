@@ -20,12 +20,23 @@ public class ViewLocator : IDataTemplate
         if (param is null)
             return null;
 
-        var name = param.GetType().FullName!.Replace("ViewModel", "View", StringComparison.Ordinal);
-        var type = Type.GetType(name);
-
-        if (type != null)
+        var name = param.GetType().FullName!;
+        var candidates = new[]
         {
-            return (Control)Activator.CreateInstance(type)!;
+            name.Replace("ViewModel", "View", StringComparison.Ordinal),
+            name.Replace("ViewModels", "Views", StringComparison.Ordinal)
+                .Replace("ViewModel", "View", StringComparison.Ordinal),
+            name.Replace(".ViewModels.", ".", StringComparison.Ordinal)
+                .Replace("ViewModel", "View", StringComparison.Ordinal)
+        };
+
+        foreach (var candidate in candidates)
+        {
+            var type = Type.GetType(candidate);
+            if (type != null)
+            {
+                return (Control)Activator.CreateInstance(type)!;
+            }
         }
 
         return new TextBlock { Text = "Not Found: " + name };

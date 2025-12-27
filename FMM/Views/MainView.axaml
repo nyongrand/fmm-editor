@@ -20,15 +20,18 @@
 						   IsPaneToggleButtonVisible="True"
 						   IsSettingsVisible="False"
 						   PaneDisplayMode="LeftMinimal"
-						   SelectionChanged="NavigationView_SelectionChanged">
+						   SelectedItem="{Binding SelectedNavigationItem, Mode=TwoWay}"
+						   Content="{Binding CurrentViewModel}">
 
-			<ui:NavigationView.MenuItems>
-				<ui:NavigationViewItem Content="Competitions" Tag="Competitions"/>
-				<ui:NavigationViewItem Content="Clubs" Tag="Clubs"/>
-				<ui:NavigationViewItem Content="Nations" Tag="Nations"/>
-				<ui:NavigationViewItem Content="Names" Tag="Names"/>
-				<ui:NavigationViewItem Content="People" Tag="People"/>
-			</ui:NavigationView.MenuItems>
+			<ui:NavigationView.MenuItemTemplate>
+				<DataTemplate x:DataType="vm:NavigationItem">
+					<ui:NavigationViewItem Content="{Binding Label}" Tag="{Binding Target}" />
+				</DataTemplate>
+			</ui:NavigationView.MenuItemTemplate>
+
+			<ui:NavigationView.MenuItemsSource>
+				<Binding Path="NavigationItems" />
+			</ui:NavigationView.MenuItemsSource>
 		</ui:NavigationView>
 	</Grid>
 </UserControl>

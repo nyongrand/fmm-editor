@@ -18,33 +18,4 @@ public partial class HomeView : UserControl
             window.Close();
         }
     }
-
-    private void OpenCompetitions_Click(object? sender, RoutedEventArgs e)
-    {
-        NavigateFromDashboard("Competitions");
-    }
-
-    private void OpenClubs_Click(object? sender, RoutedEventArgs e)
-    {
-        NavigateFromDashboard("Clubs");
-    }
-
-    private void OpenNations_Click(object? sender, RoutedEventArgs e)
-    {
-        NavigateFromDashboard("Nations");
-    }
-
-    private void OpenNames_Click(object? sender, RoutedEventArgs e)
-    {
-        NavigateFromDashboard("Names");
-    }
-
-    private void OpenPeople_Click(object? sender, RoutedEventArgs e)
-    {
-        NavigateFromDashboard("People");
-    }
-
-    private void NavigateFromDashboard(string target)
-    {
-    }
 }
