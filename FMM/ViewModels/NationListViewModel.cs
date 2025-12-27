@@ -90,9 +90,26 @@ public class NationListViewModel : ViewModelBase
 
         this.WhenAnyValue(vm => vm.SearchQuery)
             .Subscribe(_ => this.RaisePropertyChanged(nameof(FilteredNations)));
+    [ReactiveCommand]
+    private async Task CopyUid(Nation? nation)
+    {
+        if (nation != null)
+        {
+            // TODO: Use Avalonia clipboard service to copy nation uid to clipboard
+        }
     }
 
     public async Task LoadFromFolderAsync(string? path)
+    [ReactiveCommand]
+    private async Task CopyUidHex(Nation? nation)
+    {
+        if (nation != null)
+        {
+            byte[] bytes = BitConverter.GetBytes(nation.Uid);
+            string hex = Convert.ToHexString(bytes);
+            // TODO: Use Avalonia clipboard service to copy nation uid to clipboard
+        }
+    }
     {
         if (string.IsNullOrWhiteSpace(path)) return;
 

@@ -70,9 +70,6 @@
 								<MenuItem Header="Save" Click="Save_Click" IsEnabled="{Binding IsDatabaseLoaded}" />
 								<MenuItem Header="Save As..." Click="SaveAs_Click" IsEnabled="{Binding IsDatabaseLoaded}" />
 								<Separator />
-								<MenuItem Header="Copy UID" Click="CopyUid_Click" />
-								<MenuItem Header="Copy UID (Hex)" Click="CopyUidHex_Click" />
-								<Separator />
 								<MenuItem Header="Exit" Click="Exit_Click" />
 							</MenuFlyout>
 						</Button.Flyout>
@@ -87,6 +84,14 @@
 					  IsReadOnly="True"
 					  SelectionMode="Single"
 					  SelectedItem="{Binding SelectedNation, Mode=TwoWay}">
+
+				<DataGrid.ContextFlyout>
+					<MenuFlyout>
+						<MenuItem Header="Copy UID" Command="{Binding CopyUidCommand}" CommandParameter="{Binding SelectedNation}" />
+						<MenuItem Header="Copy UID (Hex)" Command="{Binding CopyUidHexCommand}" CommandParameter="{Binding SelectedNation}" />
+					</MenuFlyout>
+				</DataGrid.ContextFlyout>
+
 				<DataGrid.Columns>
 					<DataGridTextColumn Header="ID" Width="70" Binding="{Binding Id}" />
 					<DataGridTextColumn Header="UID" Width="90" Binding="{Binding Uid}" />

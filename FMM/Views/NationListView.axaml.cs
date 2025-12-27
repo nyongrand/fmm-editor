@@ -3,7 +3,6 @@ using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
 using Avalonia.VisualTree;
 using FMM.ViewModels;
-using System;
 using System.Linq;
 
 namespace FMM.Views;
@@ -32,7 +31,7 @@ public partial class NationListView : UserControl
         var path = folder?.FirstOrDefault()?.Path.LocalPath;
         if (!string.IsNullOrWhiteSpace(path))
         {
-            await ViewModel.LoadFromFolderAsync(path);
+            ViewModel.FolderPath = path;
         }
     }
 
@@ -60,28 +59,6 @@ public partial class NationListView : UserControl
         if (!string.IsNullOrWhiteSpace(path))
         {
             await ViewModel.SaveAsAsync(path);
-        }
-    }
-
-    private async void CopyUid_Click(object? sender, RoutedEventArgs e)
-    {
-        var topLevel = TopLevel.GetTopLevel(this);
-        var uid = ViewModel?.SelectedNation?.Uid;
-        if (topLevel?.Clipboard != null && uid.HasValue)
-        {
-            await topLevel.Clipboard.SetTextAsync(uid.Value.ToString());
-        }
-    }
-
-    private async void CopyUidHex_Click(object? sender, RoutedEventArgs e)
-    {
-        var topLevel = TopLevel.GetTopLevel(this);
-        var uid = ViewModel?.SelectedNation?.Uid;
-        if (topLevel?.Clipboard != null && uid.HasValue)
-        {
-            var bytes = BitConverter.GetBytes(uid.Value);
-            var hex = BitConverter.ToString(bytes).Replace("-", string.Empty);
-            await topLevel.Clipboard.SetTextAsync(hex);
         }
     }
 
