@@ -1,5 +1,6 @@
 ﻿using FMMEditor.Converters;
 using FMMLibrary;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
@@ -81,6 +82,8 @@ namespace FMMEditor.Models
         public byte? SetPieces => Player?.SetPieces;
         public byte? LeftFoot => Player?.LeftFoot;
         public byte? RightFoot => Player?.RightFoot;
+        public List<short> OtherNationalities => Person.OtherNationalities;
+        public string OtherNationalityNames { get; set; } = "";
 
         public event PropertyChangedEventHandler? PropertyChanged;
 

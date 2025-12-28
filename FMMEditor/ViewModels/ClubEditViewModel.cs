@@ -5,8 +5,8 @@ using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Drawing;
+using System.Linq;
 
 namespace FMMEditor.ViewModels
 {
@@ -16,10 +16,10 @@ namespace FMMEditor.ViewModels
         public string WindowTitle => IsAddMode ? "Add New Club" : "Edit Club";
 
         public BulkObservableCollection<Nation> Nations { get; }
-        public ObservableCollection<PlayerInfo> Players { get; } = [];
+        public BulkObservableCollection<Stadium> Stadiums { get; }
+        public BulkObservableCollection<Competition> Competitions { get; }
 
         private readonly Dictionary<int, People> peopleLookup;
-        private readonly Dictionary<int, Player> playerLookup;
         private readonly Dictionary<int, string> firstNameLookup;
         private readonly Dictionary<int, string> lastNameLookup;
         private readonly Dictionary<int, string> commonNameLookup;
@@ -32,6 +32,10 @@ namespace FMMEditor.ViewModels
             new StatusOption { Value = 3, DisplayName = "Amateur" },
             new StatusOption { Value = 22, DisplayName = "Unknown" }
         ];
+
+        [Reactive] public Stadium? SelectedStadium { get; set; }
+        [Reactive] public Competition? SelectedCompetition { get; set; }
+        [Reactive] public Competition? SelectedLastLeague { get; set; }
 
         // Club fields
         [Reactive] public int? Uid { get; set; }
@@ -86,21 +90,32 @@ namespace FMMEditor.ViewModels
 
         public ClubEditViewModel(
             BulkObservableCollection<Nation> nations,
+            BulkObservableCollection<Stadium> stadiums,
+            BulkObservableCollection<Competition> competitions,
             Dictionary<int, People> peopleLookup,
-            Dictionary<int, Player> playerLookup,
             Dictionary<int, string> firstNameLookup,
             Dictionary<int, string> lastNameLookup,
             Dictionary<int, string> commonNameLookup)
         {
             Nations = nations;
+            Stadiums = stadiums;
+            Competitions = competitions;
             this.peopleLookup = peopleLookup;
-            this.playerLookup = playerLookup;
             this.firstNameLookup = firstNameLookup;
             this.lastNameLookup = lastNameLookup;
             this.commonNameLookup = commonNameLookup;
 
             this.WhenAnyValue(x => x.IsAddMode)
                 .Subscribe(_ => this.RaisePropertyChanged(nameof(WindowTitle)));
+
+            this.WhenAnyValue(x => x.SelectedStadium)
+                .Subscribe(s => Stadium = s != null ? (short?)s.Id : (short?)-1);
+
+            this.WhenAnyValue(x => x.SelectedCompetition)
+                .Subscribe(c => LeagueId = c != null ? c.Id : (short?)-1);
+
+            this.WhenAnyValue(x => x.SelectedLastLeague)
+                .Subscribe(c => LastLeague = c != null ? c.Id : (short?)-1);
         }
 
         public void InitializeForAdd()
@@ -147,12 +162,17 @@ namespace FMMEditor.ViewModels
             AttMax = c.AttMax;
             Reserves = c.Reserves;
             LeagueId = c.LeagueId;
+            SelectedCompetition = Competitions.FirstOrDefault(comp => comp.Id == c.LeagueId);
             OtherDivision = c.OtherDivision;
             OtherLastPosition = c.OtherLastPosition;
             LeaguePos = c.LeaguePos;
             Reputation = c.Reputation;
             Stadium = c.Stadium;
+            var stadium = Stadiums.FirstOrDefault(s => s.Id == c.Stadium);
+            if (stadium != null)
+                SelectedStadium = stadium;
             LastLeague = c.LastLeague;
+            SelectedLastLeague = Competitions.FirstOrDefault(comp => comp.Id == c.LastLeague);
             MainClub = c.MainClub;
             Type = c.Type;
             Gender = c.Gender;
@@ -161,7 +181,6 @@ namespace FMMEditor.ViewModels
             LoadKits(c.Kits);
             LoadAffiliates(c.Affiliates);
             LoadUnknownFields(c);
-            LoadPlayers(c.Players);
         }
 
         private void ResetToDefaults()
@@ -183,12 +202,15 @@ namespace FMMEditor.ViewModels
             AttMax = 0;
             Reserves = 0;
             LeagueId = -1;
+            SelectedCompetition = null;
             OtherDivision = -1;
             OtherLastPosition = 0;
             LeaguePos = 0;
             Reputation = 0;
             Stadium = -1;
+            SelectedStadium = null;
             LastLeague = -1;
+            SelectedLastLeague = null;
             MainClub = -1;
             Type = 0;
             Gender = 0;
@@ -197,7 +219,6 @@ namespace FMMEditor.ViewModels
             ResetKits();
             ResetAffiliates();
             ResetUnknownFields();
-            Players.Clear();
         }
 
         private void LoadColors(Color[] colors)
@@ -282,27 +303,6 @@ namespace FMMEditor.ViewModels
             Unknown7 = new int[11];
             Unknown8 = new byte[34];
             Unknown9 = new byte[41];
-        }
-
-        private void LoadPlayers(int[] playerIds)
-        {
-            Players.Clear();
-
-            if (playerIds == null || playerIds.Length == 0)
-                return;
-
-            for (int i = 0; i < playerIds.Length; i++)
-            {
-                var playerId = playerIds[i];
-                var playerName = ResolvePlayerName(playerId);
-
-                Players.Add(new PlayerInfo
-                {
-                    Index = i + 1,
-                    PlayerId = playerId,
-                    PlayerName = playerName
-                });
-            }
         }
 
         private string ResolvePlayerName(int playerId)
