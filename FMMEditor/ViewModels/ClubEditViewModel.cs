@@ -18,6 +18,7 @@ namespace FMMEditor.ViewModels
 
         public BulkObservableCollection<Nation> Nations { get; }
         public BulkObservableCollection<Stadium> Stadiums { get; }
+        public BulkObservableCollection<Competition> Competitions { get; }
         public ObservableCollection<PlayerInfo> Players { get; } = [];
 
         private readonly Dictionary<int, People> peopleLookup;
@@ -36,6 +37,8 @@ namespace FMMEditor.ViewModels
         ];
 
         [Reactive] public Stadium? SelectedStadium { get; set; }
+        [Reactive] public Competition? SelectedCompetition { get; set; }
+        [Reactive] public Competition? SelectedLastLeague { get; set; }
 
         // Club fields
         [Reactive] public int? Uid { get; set; }
@@ -91,6 +94,7 @@ namespace FMMEditor.ViewModels
         public ClubEditViewModel(
             BulkObservableCollection<Nation> nations,
             BulkObservableCollection<Stadium> stadiums,
+            BulkObservableCollection<Competition> competitions,
             Dictionary<int, People> peopleLookup,
             Dictionary<int, Player> playerLookup,
             Dictionary<int, string> firstNameLookup,
@@ -99,6 +103,7 @@ namespace FMMEditor.ViewModels
         {
             Nations = nations;
             Stadiums = stadiums;
+            Competitions = competitions;
             this.peopleLookup = peopleLookup;
             this.playerLookup = playerLookup;
             this.firstNameLookup = firstNameLookup;
@@ -110,6 +115,12 @@ namespace FMMEditor.ViewModels
 
             this.WhenAnyValue(x => x.SelectedStadium)
                 .Subscribe(s => Stadium = s != null ? (short?)s.Id : (short?)-1);
+
+            this.WhenAnyValue(x => x.SelectedCompetition)
+                .Subscribe(c => LeagueId = c != null ? (short?)c.Id : (short?)-1);
+
+            this.WhenAnyValue(x => x.SelectedLastLeague)
+                .Subscribe(c => LastLeague = c != null ? (short?)c.Id : (short?)-1);
         }
 
         public void InitializeForAdd()
@@ -156,6 +167,7 @@ namespace FMMEditor.ViewModels
             AttMax = c.AttMax;
             Reserves = c.Reserves;
             LeagueId = c.LeagueId;
+            SelectedCompetition = Competitions.FirstOrDefault(comp => comp.Id == c.LeagueId);
             OtherDivision = c.OtherDivision;
             OtherLastPosition = c.OtherLastPosition;
             LeaguePos = c.LeaguePos;
@@ -165,6 +177,7 @@ namespace FMMEditor.ViewModels
             if (stadium != null)
                 SelectedStadium = stadium;
             LastLeague = c.LastLeague;
+            SelectedLastLeague = Competitions.FirstOrDefault(comp => comp.Id == c.LastLeague);
             MainClub = c.MainClub;
             Type = c.Type;
             Gender = c.Gender;
@@ -195,6 +208,7 @@ namespace FMMEditor.ViewModels
             AttMax = 0;
             Reserves = 0;
             LeagueId = -1;
+            SelectedCompetition = null;
             OtherDivision = -1;
             OtherLastPosition = 0;
             LeaguePos = 0;
@@ -202,6 +216,7 @@ namespace FMMEditor.ViewModels
             Stadium = -1;
             SelectedStadium = null;
             LastLeague = -1;
+            SelectedLastLeague = null;
             MainClub = -1;
             Type = 0;
             Gender = 0;

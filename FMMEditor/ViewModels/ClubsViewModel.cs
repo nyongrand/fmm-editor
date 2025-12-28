@@ -44,6 +44,7 @@ namespace FMMEditor.ViewModels
 
         // Collections for display
         public BulkObservableCollection<Nation> Nations { get; } = [];
+        public BulkObservableCollection<Competition> Competitions { get; } = [];
         public BulkObservableCollection<ClubDisplayModel> ClubsList { get; } = [];
         public BulkObservableCollection<Stadium> Stadiums { get; } = [];
 
@@ -232,6 +233,7 @@ namespace FMMEditor.ViewModels
                 .Subscribe(x =>
                 {
                     competitionLookup = x.Items.ToDictionary(c => c.Id, c => c.FullName);
+                    Competitions.Reset(x.Items.OrderBy(c => c.FullName));
                     RefreshClubsDisplay();
                 });
 
@@ -299,7 +301,7 @@ namespace FMMEditor.ViewModels
 
         private async Task OpenAddClubDialogAsync()
         {
-            var viewModel = new ClubEditViewModel(Nations, Stadiums, peopleLookup, playerLookup, firstNameLookup, lastNameLookup, commonNameLookup);
+            var viewModel = new ClubEditViewModel(Nations, Stadiums, Competitions, peopleLookup, playerLookup, firstNameLookup, lastNameLookup, commonNameLookup);
             viewModel.InitializeForAdd();
 
             var view = new ClubEditView { DataContext = viewModel };
@@ -317,7 +319,7 @@ namespace FMMEditor.ViewModels
         {
             if (club == null) return;
 
-            var viewModel = new ClubEditViewModel(Nations, Stadiums, peopleLookup, playerLookup, firstNameLookup, lastNameLookup, commonNameLookup);
+            var viewModel = new ClubEditViewModel(Nations, Stadiums, Competitions, peopleLookup, playerLookup, firstNameLookup, lastNameLookup, commonNameLookup);
             viewModel.InitializeForEdit(club);
 
             var view = new ClubEditView { DataContext = viewModel };
@@ -335,7 +337,7 @@ namespace FMMEditor.ViewModels
         {
             if (club == null) return;
 
-            var viewModel = new ClubEditViewModel(Nations, Stadiums, peopleLookup, playerLookup, firstNameLookup, lastNameLookup, commonNameLookup);
+            var viewModel = new ClubEditViewModel(Nations, Stadiums, Competitions, peopleLookup, playerLookup, firstNameLookup, lastNameLookup, commonNameLookup);
             viewModel.InitializeForCopy(club);
 
             var view = new ClubEditView { DataContext = viewModel };
@@ -394,11 +396,11 @@ namespace FMMEditor.ViewModels
                 AttMin = vm.AttMin ?? 0,
                 AttMax = vm.AttMax ?? 0,
                 Reserves = vm.Reserves ?? 0,
-                LeagueId = vm.LeagueId ?? -1,
+                LeagueId = vm.SelectedCompetition?.Id ?? vm.LeagueId ?? (short)-1,
                 OtherDivision = vm.OtherDivision,
                 OtherLastPosition = vm.OtherLastPosition,
                 Stadium = vm.SelectedStadium != null ? (short)vm.SelectedStadium.Id : vm.Stadium ?? (short)-1,
-                LastLeague = vm.LastLeague ?? -1,
+                LastLeague = vm.SelectedLastLeague?.Id ?? vm.LastLeague ?? (short)-1,
                 LeaguePos = vm.LeaguePos ?? 0,
                 Reputation = vm.Reputation ?? 0,
                 MainClub = vm.MainClub ?? -1,
@@ -455,11 +457,11 @@ namespace FMMEditor.ViewModels
             existingClub.AttMin = vm.AttMin ?? 0;
             existingClub.AttMax = vm.AttMax ?? 0;
             existingClub.Reserves = vm.Reserves ?? 0;
-            existingClub.LeagueId = vm.LeagueId ?? -1;
+            existingClub.LeagueId = vm.SelectedCompetition?.Id ?? vm.LeagueId ?? (short)-1;
             existingClub.OtherDivision = vm.OtherDivision;
             existingClub.OtherLastPosition = vm.OtherLastPosition;
             existingClub.Stadium = vm.SelectedStadium != null ? (short)vm.SelectedStadium.Id : vm.Stadium ?? (short)-1;
-            existingClub.LastLeague = vm.LastLeague ?? -1;
+            existingClub.LastLeague = vm.SelectedLastLeague?.Id ?? vm.LastLeague ?? (short)-1;
             existingClub.LeaguePos = vm.LeaguePos ?? 0;
             existingClub.Reputation = vm.Reputation ?? 0;
             existingClub.MainClub = vm.MainClub ?? -1;
