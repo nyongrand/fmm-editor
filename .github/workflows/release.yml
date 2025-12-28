@@ -3,7 +3,7 @@ name: Build and Release
 on:
   push:
     tags:
-      - 'v*'
+      - "v*"
 
 permissions:
   contents: write
@@ -19,12 +19,12 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.0.x'
+          dotnet-version: "8.0.x"
 
       - name: Restore dependencies
         run: dotnet restore
 
-      - name: Publish WPF application
+      - name: Publish WPF application (x64)
         run: |
           dotnet publish FMMEditor/FMMEditor.csproj `
             -c Release `
@@ -32,7 +32,19 @@ jobs:
             --self-contained true `
             -p:PublishSingleFile=true `
             -p:IncludeNativeLibrariesForSelfExtract=true `
-            -o ./publish
+            -o ./publish/win-x64
+          Rename-Item ./publish/win-x64/FMMEditor.exe FMMEditor_x64.exe
+
+      - name: Publish WPF application (x86)
+        run: |
+          dotnet publish FMMEditor/FMMEditor.csproj `
+            -c Release `
+            -r win-x86 `
+            --self-contained true `
+            -p:PublishSingleFile=true `
+            -p:IncludeNativeLibrariesForSelfExtract=true `
+            -o ./publish/win-x86
+          Rename-Item ./publish/win-x86/FMMEditor.exe FMMEditor_x86.exe
 
       - name: Get version from tag
         id: get_version
@@ -46,6 +58,8 @@ jobs:
           name: FMMEditor ${{ steps.get_version.outputs.VERSION }}
           draft: false
           prerelease: false
-          files: ./publish/FMMEditor.exe
+          files: |
+            ./publish/win-x64/FMMEditor_x64.exe
+            ./publish/win-x86/FMMEditor_x86.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
