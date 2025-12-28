@@ -2,7 +2,263 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="FMM.NameListView">
-  Welcome to Avalonia!
+             xmlns:vm="using:FMM.ViewModels"
+             xmlns:conv="using:FMM.Converters"
+             x:Class="FMM.Views.NameListView"
+             x:DataType="vm:NameListViewModel"
+             mc:Ignorable="d"
+             d:DesignWidth="1280"
+             d:DesignHeight="720">
+
+	<Design.DataContext>
+		<vm:NameListViewModel />
+	</Design.DataContext>
+
+	<UserControl.Resources>
+		<conv:GenderToSymbolConverter x:Key="GenderToSymbolConverter" />
+	</UserControl.Resources>
+
+	<UserControl.Styles>
+		<Style Selector="Border.toolbar">
+			<Setter Property="Background" Value="#FF2B2B2B" />
+			<Setter Property="BorderBrush" Value="#33000000" />
+			<Setter Property="BorderThickness" Value="0,0,0,1" />
+		</Style>
+		<Style Selector="TextBox.search">
+			<Setter Property="Width" Value="260" />
+			<Setter Property="Padding" Value="10,0" />
+			<Setter Property="Watermark" Value="Search Name / Nation" />
+		</Style>
+		<Style Selector="Button.menu">
+			<Setter Property="Width" Value="32" />
+			<Setter Property="Height" Value="32" />
+			<Setter Property="Padding" Value="0" />
+		</Style>
+		<Style Selector="DataGrid">
+			<Setter Property="GridLinesVisibility" Value="All" />
+			<Setter Property="HeadersVisibility" Value="All" />
+			<Setter Property="RowHeight" Value="32" />
+		</Style>
+		<Style Selector="Border.dialog-card">
+			<Setter Property="Background" Value="#FF1E1E1E" />
+			<Setter Property="CornerRadius" Value="8" />
+			<Setter Property="Padding" Value="16" />
+		</Style>
+	</UserControl.Styles>
+
+	<Grid RowDefinitions="56,*,32">
+		<Border Classes="toolbar" Grid.Row="0">
+			<Grid ColumnDefinitions="Auto,*,Auto" VerticalAlignment="Center" Margin="12,0">
+				<Border Padding="12,0" CornerRadius="4" VerticalAlignment="Center">
+					<Grid ColumnDefinitions="*,Auto" VerticalAlignment="Center">
+						<TextBox Classes="search"
+								 IsEnabled="{Binding IsDatabaseLoaded}"
+								 Text="{Binding SearchQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+						<Button Grid.Column="1"
+								Margin="8,0,0,0"
+								Command="{Binding ClearSearchCommand}"
+								IsEnabled="{Binding IsDatabaseLoaded}"
+								IsVisible="{Binding HasSearchQuery}"
+								Content="X" />
+					</Grid>
+				</Border>
+
+				<TextBlock Grid.Column="0"
+						   Grid.ColumnSpan="3"
+						   HorizontalAlignment="Center"
+						   VerticalAlignment="Center"
+						   FontSize="18"
+						   FontWeight="Bold"
+						   Foreground="White"
+						   Text="FMM 26 DB Editor - Names" />
+
+				<StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+					<Button Classes="menu">
+						<Button.Content>
+							<TextBlock Text="..." FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center" />
+						</Button.Content>
+						<Button.Flyout>
+							<MenuFlyout Placement="BottomEdgeAlignedRight">
+								<MenuItem Header="Support me" Click="Donate_Click" />
+								<Separator />
+								<MenuItem Header="Load Database" Click="Load_Click" />
+								<MenuItem Header="Save" Command="{Binding SaveCommand}" IsEnabled="{Binding IsDatabaseLoaded}" />
+								<MenuItem Header="Save As..." Click="SaveAs_Click" IsEnabled="{Binding IsDatabaseLoaded}" />
+								<Separator />
+								<MenuItem Header="Exit" Click="Exit_Click" />
+							</MenuFlyout>
+						</Button.Flyout>
+					</Button>
+				</StackPanel>
+			</Grid>
+		</Border>
+
+		<Grid Grid.Row="1">
+			<Grid ColumnDefinitions="*,*,*">
+				<DataGrid Grid.Column="0"
+						  ItemsSource="{Binding FilteredFirstNames}"
+						  AutoGenerateColumns="False"
+						  SelectionMode="Single"
+						  SelectedItem="{Binding SelectedName, Mode=TwoWay}"
+						  IsVisible="{Binding IsDatabaseLoaded}">
+					<DataGrid.ContextFlyout>
+						<MenuFlyout>
+							<MenuItem Header="Add Names" Command="{Binding AddCommand}" CommandParameter="{Binding SelectedName}" />
+							<MenuItem Header="Edit Name" Command="{Binding EditCommand}" CommandParameter="{Binding SelectedName}" />
+						</MenuFlyout>
+					</DataGrid.ContextFlyout>
+
+					<DataGrid.Columns>
+						<DataGridTextColumn Header="Id" Width="60" Binding="{Binding Id}" IsReadOnly="True" />
+						<DataGridTextColumn Header="G" Width="50" Binding="{Binding Gender, Converter={StaticResource GenderToSymbolConverter}}" IsReadOnly="True" />
+						<DataGridTextColumn Header="Nation" Width="140" Binding="{Binding NationName}" IsReadOnly="True" />
+						<DataGridTextColumn Header="X2" Width="55" Binding="{Binding Unknown2}" />
+						<DataGridTextColumn Header="X3" Width="55" Binding="{Binding Unknown3}" />
+						<DataGridTextColumn Header="First Name" Width="200" Binding="{Binding Value}" />
+					</DataGrid.Columns>
+				</DataGrid>
+
+				<DataGrid Grid.Column="1"
+						  ItemsSource="{Binding FilteredSecondNames}"
+						  AutoGenerateColumns="False"
+						  SelectionMode="Single"
+						  SelectedItem="{Binding SelectedName, Mode=TwoWay}"
+						  IsVisible="{Binding IsDatabaseLoaded}">
+					<DataGrid.ContextFlyout>
+						<MenuFlyout>
+							<MenuItem Header="Add Names" Command="{Binding AddCommand}" CommandParameter="{Binding SelectedName}" />
+							<MenuItem Header="Edit Name" Command="{Binding EditCommand}" CommandParameter="{Binding SelectedName}" />
+						</MenuFlyout>
+					</DataGrid.ContextFlyout>
+
+					<DataGrid.Columns>
+						<DataGridTextColumn Header="Id" Width="60" Binding="{Binding Id}" IsReadOnly="True" />
+						<DataGridTextColumn Header="G" Width="50" Binding="{Binding Gender, Converter={StaticResource GenderToSymbolConverter}}" IsReadOnly="True" />
+						<DataGridTextColumn Header="Nation" Width="140" Binding="{Binding NationName}" IsReadOnly="True" />
+						<DataGridTextColumn Header="X2" Width="55" Binding="{Binding Unknown2}" />
+						<DataGridTextColumn Header="X3" Width="55" Binding="{Binding Unknown3}" />
+						<DataGridTextColumn Header="Second Name" Width="200" Binding="{Binding Value}" />
+					</DataGrid.Columns>
+				</DataGrid>
+
+				<DataGrid Grid.Column="2"
+						  ItemsSource="{Binding FilteredCommonNames}"
+						  AutoGenerateColumns="False"
+						  SelectionMode="Single"
+						  SelectedItem="{Binding SelectedName, Mode=TwoWay}"
+						  IsVisible="{Binding IsDatabaseLoaded}">
+					<DataGrid.ContextFlyout>
+						<MenuFlyout>
+							<MenuItem Header="Add Names" Command="{Binding AddCommand}" CommandParameter="{Binding SelectedName}" />
+							<MenuItem Header="Edit Name" Command="{Binding EditCommand}" CommandParameter="{Binding SelectedName}" />
+						</MenuFlyout>
+					</DataGrid.ContextFlyout>
+
+					<DataGrid.Columns>
+						<DataGridTextColumn Header="Id" Width="60" Binding="{Binding Id}" IsReadOnly="True" />
+						<DataGridTextColumn Header="G" Width="50" Binding="{Binding Gender, Converter={StaticResource GenderToSymbolConverter}}" IsReadOnly="True" />
+						<DataGridTextColumn Header="Nation" Width="140" Binding="{Binding NationName}" IsReadOnly="True" />
+						<DataGridTextColumn Header="X2" Width="55" Binding="{Binding Unknown2}" />
+						<DataGridTextColumn Header="X3" Width="55" Binding="{Binding Unknown3}" />
+						<DataGridTextColumn Header="Common Name" Width="200" Binding="{Binding Value}" />
+					</DataGrid.Columns>
+				</DataGrid>
+			</Grid>
+
+			<Border Grid.ColumnSpan="3" IsVisible="{Binding IsDatabaseEmpty}" Background="#11000000">
+				<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="600" Spacing="12">
+					<TextBlock FontSize="24" FontWeight="Bold" Text="No Database Loaded" TextAlignment="Center" />
+					<TextBlock FontSize="16"
+							   Text="Get started by loading an FM26 database"
+							   TextAlignment="Center"
+							   TextWrapping="Wrap" />
+					<Button Width="180" Height="36" Content="Load Database" Click="Load_Click" />
+				</StackPanel>
+			</Border>
+		</Grid>
+
+		<Border Grid.Row="2" Padding="12,6">
+			<StackPanel Orientation="Horizontal" Spacing="16">
+				<TextBlock>
+					<Run Text="Folder: " />
+					<Run Text="{Binding FolderPath}" />
+				</TextBlock>
+				<TextBlock>
+					<Run Text="First Name: " />
+					<Run Text="{Binding FirstNames.Count}" />
+				</TextBlock>
+				<TextBlock>
+					<Run Text="Second Name: " />
+					<Run Text="{Binding SecondNames.Count}" />
+				</TextBlock>
+				<TextBlock>
+					<Run Text="Common Name: " />
+					<Run Text="{Binding CommonNames.Count}" />
+				</TextBlock>
+				<TextBlock>
+					<Run Text="Status: " />
+					<Run Text="{Binding StatusMessage}" />
+				</TextBlock>
+			</StackPanel>
+		</Border>
+
+		<Grid Grid.RowSpan="3"
+			  IsVisible="{Binding ShowDialog}"
+			  Background="#99000000"
+			  Panel.ZIndex="10">
+			<Border Classes="dialog-card"
+					Width="420"
+					HorizontalAlignment="Center"
+					VerticalAlignment="Center">
+				<StackPanel Spacing="8">
+					<TextBlock FontSize="18"
+							   FontWeight="SemiBold"
+							   Text="{Binding DialogTitle}"
+							   TextAlignment="Center" />
+
+					<StackPanel Spacing="4">
+						<TextBlock Text="Country of origin" />
+						<ComboBox ItemsSource="{Binding Nations}"
+								  SelectedItem="{Binding SelectedNation, Mode=TwoWay}">
+							<ComboBox.ItemTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding Name}" />
+								</DataTemplate>
+							</ComboBox.ItemTemplate>
+						</ComboBox>
+					</StackPanel>
+
+					<StackPanel Spacing="4">
+						<TextBlock Text="Gender" />
+						<ComboBox SelectedIndex="{Binding SelectedGenderIndex, Mode=TwoWay}">
+							<ComboBoxItem Content="Male" />
+							<ComboBoxItem Content="Female" />
+						</ComboBox>
+					</StackPanel>
+
+					<StackPanel Spacing="4">
+						<TextBlock Text="Unknown" />
+						<TextBox Text="{Binding SelectedUnknown3, Mode=TwoWay}"
+								 Watermark="Valid values: 0-10, 255" />
+					</StackPanel>
+
+					<TextBox IsVisible="{Binding IsAddMode}"
+							 AcceptsReturn="True"
+							 Height="110"
+							 Text="{Binding SelectedValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+							 Watermark="Names (one per line)" />
+
+					<TextBox IsVisible="{Binding IsEditMode}"
+							 AcceptsReturn="False"
+							 Text="{Binding SelectedValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+							 Watermark="Name" />
+
+					<StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
+						<Button Width="90" Command="{Binding CancelCommand}" Content="Cancel" />
+						<Button Width="90" Command="{Binding ConfirmCommand}" Content="OK" />
+					</StackPanel>
+				</StackPanel>
+			</Border>
+		</Grid>
+	</Grid>
 </UserControl>
