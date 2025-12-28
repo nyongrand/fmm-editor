@@ -5,7 +5,6 @@ using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Drawing;
 using System.Linq;
 
@@ -19,10 +18,8 @@ namespace FMMEditor.ViewModels
         public BulkObservableCollection<Nation> Nations { get; }
         public BulkObservableCollection<Stadium> Stadiums { get; }
         public BulkObservableCollection<Competition> Competitions { get; }
-        public ObservableCollection<PlayerInfo> Players { get; } = [];
 
         private readonly Dictionary<int, People> peopleLookup;
-        private readonly Dictionary<int, Player> playerLookup;
         private readonly Dictionary<int, string> firstNameLookup;
         private readonly Dictionary<int, string> lastNameLookup;
         private readonly Dictionary<int, string> commonNameLookup;
@@ -96,7 +93,6 @@ namespace FMMEditor.ViewModels
             BulkObservableCollection<Stadium> stadiums,
             BulkObservableCollection<Competition> competitions,
             Dictionary<int, People> peopleLookup,
-            Dictionary<int, Player> playerLookup,
             Dictionary<int, string> firstNameLookup,
             Dictionary<int, string> lastNameLookup,
             Dictionary<int, string> commonNameLookup)
@@ -105,7 +101,6 @@ namespace FMMEditor.ViewModels
             Stadiums = stadiums;
             Competitions = competitions;
             this.peopleLookup = peopleLookup;
-            this.playerLookup = playerLookup;
             this.firstNameLookup = firstNameLookup;
             this.lastNameLookup = lastNameLookup;
             this.commonNameLookup = commonNameLookup;
@@ -117,10 +112,10 @@ namespace FMMEditor.ViewModels
                 .Subscribe(s => Stadium = s != null ? (short?)s.Id : (short?)-1);
 
             this.WhenAnyValue(x => x.SelectedCompetition)
-                .Subscribe(c => LeagueId = c != null ? (short?)c.Id : (short?)-1);
+                .Subscribe(c => LeagueId = c != null ? c.Id : (short?)-1);
 
             this.WhenAnyValue(x => x.SelectedLastLeague)
-                .Subscribe(c => LastLeague = c != null ? (short?)c.Id : (short?)-1);
+                .Subscribe(c => LastLeague = c != null ? c.Id : (short?)-1);
         }
 
         public void InitializeForAdd()
@@ -186,7 +181,6 @@ namespace FMMEditor.ViewModels
             LoadKits(c.Kits);
             LoadAffiliates(c.Affiliates);
             LoadUnknownFields(c);
-            LoadPlayers(c.Players);
         }
 
         private void ResetToDefaults()
@@ -225,7 +219,6 @@ namespace FMMEditor.ViewModels
             ResetKits();
             ResetAffiliates();
             ResetUnknownFields();
-            Players.Clear();
         }
 
         private void LoadColors(Color[] colors)
@@ -310,27 +303,6 @@ namespace FMMEditor.ViewModels
             Unknown7 = new int[11];
             Unknown8 = new byte[34];
             Unknown9 = new byte[41];
-        }
-
-        private void LoadPlayers(int[] playerIds)
-        {
-            Players.Clear();
-
-            if (playerIds == null || playerIds.Length == 0)
-                return;
-
-            for (int i = 0; i < playerIds.Length; i++)
-            {
-                var playerId = playerIds[i];
-                var playerName = ResolvePlayerName(playerId);
-
-                Players.Add(new PlayerInfo
-                {
-                    Index = i + 1,
-                    PlayerId = playerId,
-                    PlayerName = playerName
-                });
-            }
         }
 
         private string ResolvePlayerName(int playerId)
