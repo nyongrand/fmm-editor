@@ -49,6 +49,9 @@ namespace FMMEditor.ViewModels
         [Reactive] public int? LastNameId { get; set; }
         [Reactive] public int? CommonNameId { get; set; }
         [Reactive] public short? NationId { get; set; }
+        [Reactive] public short? SecondNationality { get; set; }
+        [Reactive] public short? ThirdNationality { get; set; }
+        [Reactive] public short OtherNationalityCount { get; set; }
         [Reactive] public int? ClubId { get; set; }
         [Reactive] public DateTime? JoinedDate { get; set; }
         [Reactive] public DateTime? DateOfBirth { get; set; }
@@ -190,6 +193,10 @@ namespace FMMEditor.ViewModels
 
             this.WhenAnyValue(x => x.IsAddMode)
                 .Subscribe(_ => this.RaisePropertyChanged(nameof(WindowTitle)));
+
+            OtherNationalities.CollectionChanged += (_, _) => UpdateOtherNationalityFieldsFromCollection();
+            this.WhenAnyValue(x => x.SecondNationality, x => x.ThirdNationality)
+                .Subscribe(_ => UpdateOtherNationalitiesFromFields());
         }
 
         private void AddDefaultLanguage()
@@ -216,13 +223,36 @@ namespace FMMEditor.ViewModels
 
         private void AddOtherNationality()
         {
-            OtherNationalities.Add(new NationalityEntry { NationId = 0 });
+            if (SecondNationality == null)
+            {
+                SecondNationality = 0;
+            }
+            else if (ThirdNationality == null)
+            {
+                ThirdNationality = 0;
+            }
         }
 
         private void RemoveOtherNationality(NationalityEntry entry)
         {
-            if (entry != null)
+            if (entry == null)
+                return;
+
+            if (OtherNationalities.Contains(entry))
+            {
                 OtherNationalities.Remove(entry);
+                return;
+            }
+
+            if (SecondNationality.HasValue && entry.NationId == SecondNationality)
+            {
+                SecondNationality = ThirdNationality;
+                ThirdNationality = null;
+            }
+            else if (ThirdNationality.HasValue && entry.NationId == ThirdNationality)
+            {
+                ThirdNationality = null;
+            }
         }
 
         public void InitializeForAdd()
@@ -245,7 +275,7 @@ namespace FMMEditor.ViewModels
 
             IsAddMode = true;
             LoadFromPerson(person);
-            
+
             // Reset IDs to generate new ones
             Uid = null;
         }
@@ -281,13 +311,18 @@ namespace FMMEditor.ViewModels
             DefaultLanguageCount = p.DefaultLanguageCount;
             OtherLanguageCount = p.OtherLanguageCount;
             RelationshipCount = p.RelationshipCount;
+            OtherNationalityCount = p.OtherNationalityCount;
 
             // Load other nationalities
-            OtherNationalities.Clear();
-            foreach (var nationId in p.OtherNationalities)
+            using (new OtherNationalitySyncScope(this))
             {
-                OtherNationalities.Add(new NationalityEntry { NationId = nationId });
+                OtherNationalities.Clear();
+                foreach (var nationId in p.OtherNationalities)
+                {
+                    OtherNationalities.Add(new NationalityEntry { NationId = nationId });
+                }
             }
+            UpdateOtherNationalityFieldsFromCollection();
 
             // Load language entries
             DefaultLanguages.Clear();
@@ -389,11 +424,16 @@ namespace FMMEditor.ViewModels
 
         private void ResetToDefaults()
         {
+            using var _ = new OtherNationalitySyncScope(this);
+
             Uid = null;
             FirstNameId = null;
             LastNameId = null;
             CommonNameId = null;
             NationId = null;
+            SecondNationality = null;
+            ThirdNationality = null;
+            OtherNationalityCount = 0;
             ClubId = null;
             JoinedDate = new DateTime(2025, 05, 30);
             DateOfBirth = new DateTime(2000, 1, 1);
@@ -421,6 +461,7 @@ namespace FMMEditor.ViewModels
             OtherNationalities.Clear();
             HasPlayer = true;  // Always create a player by default
             ResetPlayerFieldsToDefaults();
+            UpdateOtherNationalityFieldsFromCollection();
         }
 
         private void ResetPlayerFieldsToDefaults()
@@ -567,6 +608,53 @@ namespace FMMEditor.ViewModels
             InternationalRetirement = null;
             SquadNumber = null;
             PreferredSquadNumber = null;
+        }
+
+        private void UpdateOtherNationalitiesFromFields()
+        {
+            if (_isSyncingOtherNationalities)
+                return;
+
+            _isSyncingOtherNationalities = true;
+            OtherNationalities.Clear();
+            if (SecondNationality.HasValue)
+                OtherNationalities.Add(new NationalityEntry { NationId = SecondNationality.Value });
+            if (ThirdNationality.HasValue)
+                OtherNationalities.Add(new NationalityEntry { NationId = ThirdNationality.Value });
+            OtherNationalityCount = (short)OtherNationalities.Count;
+            _isSyncingOtherNationalities = false;
+        }
+
+        private void UpdateOtherNationalityFieldsFromCollection()
+        {
+            if (_isSyncingOtherNationalities)
+                return;
+
+            _isSyncingOtherNationalities = true;
+            SecondNationality = OtherNationalities.Count > 0 ? OtherNationalities[0].NationId : null;
+            ThirdNationality = OtherNationalities.Count > 1 ? OtherNationalities[1].NationId : null;
+            OtherNationalityCount = (short)OtherNationalities.Count;
+            _isSyncingOtherNationalities = false;
+        }
+
+        private bool _isSyncingOtherNationalities;
+
+        private sealed class OtherNationalitySyncScope : IDisposable
+        {
+            private readonly PersonEditViewModel _owner;
+            private readonly bool _previousState;
+
+            public OtherNationalitySyncScope(PersonEditViewModel owner)
+            {
+                _owner = owner;
+                _previousState = owner._isSyncingOtherNationalities;
+                owner._isSyncingOtherNationalities = true;
+            }
+
+            public void Dispose()
+            {
+                _owner._isSyncingOtherNationalities = _previousState;
+            }
         }
 
         public bool Validate() => FirstNameId != null && LastNameId != null && NationId != null;
