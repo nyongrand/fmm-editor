@@ -11,6 +11,16 @@ FMMEditor is a Windows desktop app for editing Football Manager Mobile 2026/FMM2
 - People: edit or duplicate players and staff; dialogs link names, nations, clubs, languages, player attributes, and positions; new people automatically get a matching player record; copy UIDs for reference.
 - Save/Save As: write updated database to the current or a new folder.
 
+## Changelog
+
+#### Version 2.26.3
+
+- Person editor supports multiple nationalities.
+- Club editor adds competition selection.
+- Club editor adds stadium selection.
+- Clubs grid adds “Always Load”.
+- FMMLibrary adds stadium, region, and currency models/parsers.
+
 ## Requirements
 
 - Windows 10 or later.
