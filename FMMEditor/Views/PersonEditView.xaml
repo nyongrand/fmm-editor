@@ -219,6 +219,8 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="8" />
                                 <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
 
                             <!--  Nation  -->
@@ -245,7 +247,7 @@
 
                             <!--  Second Nation  -->
                             <controls:FilterableComboBox
-                                Grid.Column="4"
+                                Grid.Column="2"
                                 md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
                                 md:HintAssist.Hint="Second Nationality"
                                 DisplayMemberPath="Name"
@@ -254,7 +256,29 @@
                                 IsTextSearchEnabled="False"
                                 ItemsSource="{Binding Nations}"
                                 OnlyValuesInList="True"
-                                SelectedValue="{Binding OtherNationalities[0]}"
+                                SelectedValue="{Binding SecondNationality}"
+                                SelectedValuePath="Id"
+                                StaysOpenOnEdit="True"
+                                Style="{DynamicResource MaterialDesignFilledComboBox}">
+                                <controls:FilterableComboBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <VirtualizingStackPanel VirtualizationMode="Recycling" />
+                                    </ItemsPanelTemplate>
+                                </controls:FilterableComboBox.ItemsPanel>
+                            </controls:FilterableComboBox>
+
+                            <!--  Third Nation  -->
+                            <controls:FilterableComboBox
+                                Grid.Column="4"
+                                md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
+                                md:HintAssist.Hint="Third Nationality"
+                                DisplayMemberPath="Name"
+                                FontSize="14"
+                                IsEditable="True"
+                                IsTextSearchEnabled="False"
+                                ItemsSource="{Binding Nations}"
+                                OnlyValuesInList="True"
+                                SelectedValue="{Binding ThirdNationality}"
                                 SelectedValuePath="Id"
                                 StaysOpenOnEdit="True"
                                 Style="{DynamicResource MaterialDesignFilledComboBox}">

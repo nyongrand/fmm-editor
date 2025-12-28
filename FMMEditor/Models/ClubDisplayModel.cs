@@ -1,12 +1,16 @@
 ﻿using FMMLibrary;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace FMMEditor.Models
 {
     /// <summary>
     /// Display model for Club with resolved names
     /// </summary>
-    public class ClubDisplayModel(Club club)
+    public class ClubDisplayModel(Club club) : INotifyPropertyChanged
     {
+        private bool isAlwaysLoad;
+
         public Club Club { get; set; } = club;
         public int Id => Club.Id;
         public int Uid => Club.Uid;
@@ -47,5 +51,25 @@ namespace FMMEditor.Models
         public byte Gender => Club.Gender;
         public string GenderText => Gender == 1 ? "Yes" : "No";
         public int PlayerCount => Club.Players?.Length ?? 0;
+
+        public bool IsAlwaysLoad
+        {
+            get => isAlwaysLoad;
+            set
+            {
+                if (isAlwaysLoad != value)
+                {
+                    isAlwaysLoad = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

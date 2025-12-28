@@ -94,6 +94,8 @@
                         <ColumnDefinition Width="220" />
                         <ColumnDefinition Width="16" />
                         <ColumnDefinition Width="220" />
+                        <ColumnDefinition Width="16" />
+                        <ColumnDefinition Width="220" />
                     </Grid.ColumnDefinitions>
 
                     <!--  Competitions Editor Card  -->
@@ -194,9 +196,58 @@
                         </Grid>
                     </md:Card>
 
-                    <!--  Names Editor Card  -->
+                    <!--  Nations Editor Card  -->
                     <md:Card
                         Grid.Column="4"
+                        md:ElevationAssist.Elevation="Dp4"
+                        Cursor="Hand"
+                        MouseLeftButtonUp="OpenNations_Click"
+                        UniformCornerRadius="8">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+
+                            <Border
+                                Grid.Row="0"
+                                Padding="24,32"
+                                CornerRadius="8,8,0,0">
+                                <md:PackIcon
+                                    Width="64"
+                                    Height="64"
+                                    HorizontalAlignment="Center"
+                                    Kind="Flag" />
+                            </Border>
+
+                            <StackPanel
+                                Grid.Row="1"
+                                Margin="24"
+                                VerticalAlignment="Center">
+                                <TextBlock
+                                    FontSize="20"
+                                    FontWeight="SemiBold"
+                                    Text="Nations"
+                                    TextAlignment="Center" />
+                                <TextBlock
+                                    Margin="0,8,0,16"
+                                    FontSize="14"
+                                    Text="View nation data"
+                                    TextAlignment="Center"
+                                    TextWrapping="Wrap" />
+                                <Button
+                                    Width="120"
+                                    HorizontalAlignment="Center"
+                                    Click="OpenNations_Click"
+                                    Content="OPEN"
+                                    Style="{StaticResource MaterialDesignFlatMidBgButton}" />
+                            </StackPanel>
+                        </Grid>
+                    </md:Card>
+
+                    <!--  Names Editor Card  -->
+                    <md:Card
+                        Grid.Column="6"
                         md:ElevationAssist.Elevation="Dp4"
                         Cursor="Hand"
                         MouseLeftButtonUp="OpenNames_Click"
@@ -245,7 +296,7 @@
 
                     <!--  People Editor Card  -->
                     <md:Card
-                        Grid.Column="6"
+                        Grid.Column="8"
                         md:ElevationAssist.Elevation="Dp4"
                         Cursor="Hand"
                         MouseLeftButtonUp="OpenPeople_Click"
@@ -296,8 +347,8 @@
                 <TextBlock
                     Margin="0,48,0,0"
                     FontSize="12"
-                    Text="Version 2.26.2"
-                    TextAlignment="Center" />
+                    Text="Version 2.26.3"
+                    TextAlignment="Center"/>
             </StackPanel>
         </Grid>
 

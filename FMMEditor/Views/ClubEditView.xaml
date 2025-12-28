@@ -141,6 +141,52 @@
                                 Style="{StaticResource MaterialDesignFilledComboBox}" />
                         </Grid>
 
+                        <!--  League Info  -->
+                        <TextBlock
+                            Margin="0,16,0,8"
+                            FontSize="16"
+                            FontWeight="SemiBold"
+                            Text="League Information" />
+
+                        <ComboBox
+                            Margin="0,8"
+                            md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
+                            md:HintAssist.Hint="League"
+                            DisplayMemberPath="FullName"
+                            FontSize="14"
+                            ItemsSource="{Binding Competitions}"
+                            SelectedItem="{Binding SelectedCompetition}"
+                            Style="{StaticResource MaterialDesignFilledComboBox}" />
+
+                        <Grid Margin="0,8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <ComboBox
+                                Grid.Column="0"
+                                Grid.ColumnSpan="3"
+                                md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
+                                md:HintAssist.Hint="Last League"
+                                DisplayMemberPath="FullName"
+                                FontSize="14"
+                                ItemsSource="{Binding Competitions}"
+                                SelectedItem="{Binding SelectedLastLeague}"
+                                Style="{StaticResource MaterialDesignFilledComboBox}" />
+
+                            <TextBox
+                                Grid.Column="4"
+                                md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
+                                md:HintAssist.Hint="Position"
+                                FontSize="14"
+                                Style="{StaticResource MaterialDesignFilledTextBox}"
+                                Text="{Binding LeaguePos, UpdateSourceTrigger=PropertyChanged}" />
+                        </Grid>
+
                         <!--  Facilities  -->
                         <TextBlock
                             Margin="0,16,0,8"
@@ -199,13 +245,22 @@
                                 Style="{StaticResource MaterialDesignFilledComboBox}" />
                         </Grid>
 
-
                         <!--  Attendance  -->
                         <TextBlock
                             Margin="0,16,0,8"
                             FontSize="16"
                             FontWeight="SemiBold"
-                            Text="Attendance" />
+                            Text="Stadium &amp; Attendance" />
+
+                        <ComboBox
+                            Margin="0,8"
+                            md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
+                            md:HintAssist.Hint="Stadium"
+                            DisplayMemberPath="Name"
+                            FontSize="14"
+                            ItemsSource="{Binding Stadiums}"
+                            SelectedItem="{Binding SelectedStadium}"
+                            Style="{StaticResource MaterialDesignFilledComboBox}" />
 
                         <Grid Margin="0,8">
                             <Grid.ColumnDefinitions>
@@ -240,75 +295,12 @@
                                 Text="{Binding AttMax, UpdateSourceTrigger=PropertyChanged}" />
                         </Grid>
 
-                        <!--  League Info  -->
-                        <TextBlock
-                            Margin="0,16,0,8"
-                            FontSize="16"
-                            FontWeight="SemiBold"
-                            Text="League Information" />
-
-                        <Grid Margin="0,8">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="16" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-
-                            <TextBox
-                                Grid.Column="0"
-                                md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
-                                md:HintAssist.Hint="League ID"
-                                FontSize="14"
-                                Style="{StaticResource MaterialDesignFilledTextBox}"
-                                Text="{Binding LeagueId, UpdateSourceTrigger=PropertyChanged}" />
-
-                            <TextBox
-                                Grid.Column="2"
-                                md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
-                                md:HintAssist.Hint="League Position"
-                                FontSize="14"
-                                Style="{StaticResource MaterialDesignFilledTextBox}"
-                                Text="{Binding LeaguePos, UpdateSourceTrigger=PropertyChanged}" />
-                        </Grid>
-
-                        <TextBox
-                            Margin="0,8"
-                            md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
-                            md:HintAssist.Hint="Last League ID"
-                            FontSize="14"
-                            Style="{StaticResource MaterialDesignFilledTextBox}"
-                            Text="{Binding LastLeague, UpdateSourceTrigger=PropertyChanged}" />
-
                         <!--  Other Info  -->
                         <TextBlock
                             Margin="0,16,0,8"
                             FontSize="16"
                             FontWeight="SemiBold"
                             Text="Other Information" />
-
-                        <Grid Margin="0,8">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="16" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-
-                            <TextBox
-                                Grid.Column="0"
-                                md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
-                                md:HintAssist.Hint="Stadium ID"
-                                FontSize="14"
-                                Style="{StaticResource MaterialDesignFilledTextBox}"
-                                Text="{Binding Stadium, UpdateSourceTrigger=PropertyChanged}" />
-
-                            <TextBox
-                                Grid.Column="2"
-                                md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
-                                md:HintAssist.Hint="Reserves"
-                                FontSize="14"
-                                Style="{StaticResource MaterialDesignFilledTextBox}"
-                                Text="{Binding Reserves, UpdateSourceTrigger=PropertyChanged}" />
-                        </Grid>
 
                         <TextBox
                             Margin="0,8"
@@ -317,6 +309,15 @@
                             FontSize="14"
                             Style="{StaticResource MaterialDesignFilledTextBox}"
                             Text="{Binding MainClub, UpdateSourceTrigger=PropertyChanged}" />
+
+                        <!--  Todo: Display reserves club that belong to this club  -->
+                        <TextBox
+                            Margin="0,8"
+                            md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
+                            md:HintAssist.Hint="Reserves"
+                            FontSize="14"
+                            Style="{StaticResource MaterialDesignFilledTextBox}"
+                            Text="{Binding Reserves, UpdateSourceTrigger=PropertyChanged}" />
 
                         <Grid Margin="0,8">
                             <Grid.ColumnDefinitions>

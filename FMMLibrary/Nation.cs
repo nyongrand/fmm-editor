@@ -1,182 +1,112 @@
-﻿namespace FMMLibrary
+﻿using System.Drawing;
+
+namespace FMMLibrary
 {
     /// <summary>
-    /// Represents a nation with all its properties and attributes.
+    /// Represents a nation entry in an FMM database (.dat) with identification data,
+    /// textual metadata, language list, and optional male/female national team blocks.
     /// </summary>
     public class Nation
     {
         /// <summary>
-        /// Gets or sets the unique identifier for the nation.
+        /// Unique database identifier for the nation (int32 in the file).
         /// </summary>
         public int Uid { get; set; }
 
         /// <summary>
-        /// Gets or sets the nation identifier.
+        /// Short identifier used by references elsewhere in the database (int16).
         /// </summary>
         public short Id { get; set; }
 
         /// <summary>
-        /// Gets or sets the name of the nation.
+        /// Display name of the nation (zero-terminated string in the file).
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        /// Gets or sets the terminator byte after the name.
+        /// Single terminator byte that follows <see cref="Name"/> in the binary data.
         /// </summary>
         public byte Terminator1 { get; set; }
 
         /// <summary>
-        /// Gets or sets the nationality descriptor.
+        /// Demonym / nationality adjective for the nation (zero-terminated string).
         /// </summary>
         public string Nationality { get; set; }
 
         /// <summary>
-        /// Gets or sets the terminator byte after the nationality.
+        /// Single terminator byte that follows <see cref="Nationality"/> in the binary data.
         /// </summary>
         public byte Terminator2 { get; set; }
 
         /// <summary>
-        /// Gets or sets the code name of the nation.
+        /// Internal short code name for the nation (zero-terminated string).
         /// </summary>
         public string CodeName { get; set; }
 
         /// <summary>
-        /// Gets or sets the continent identifier.
+        /// Identifier of the continent the nation belongs to.
         /// </summary>
         public short ContinentId { get; set; }
 
         /// <summary>
-        /// Capital city identifier.
+        /// Identifier of the nation's capital city.
         /// </summary>
         public short CapitalId { get; set; }
 
         /// <summary>
-        /// Gets or sets the main stadium identifier.
+        /// Identifier of the nation's primary stadium.
         /// </summary>
         public short StadiumId { get; set; }
 
         /// <summary>
-        /// The state of development of the nation.
-        /// 1 - Developed
-        /// 2 - Developing
-        /// 3 - Third World
+        /// Development state flag (1 = Developed, 2 = Developing, 3 = Third World).
         /// </summary>
-        public int StateOfDevelopment { get; set; }
+        public byte StateOfDevelopment { get; set; }
 
         /// <summary>
-        /// Gets or sets an unknown short value.
+        /// Unknown flag byte; may indicate EU membership or similar region flag.
+        /// </summary>
+        public byte Unknown1 { get; set; }
+
+        /// <summary>
+        /// Always 0x0000 in observed files (reserved padding).
         /// </summary>
         public short Unknown2 { get; set; }
 
         /// <summary>
-        /// Gets or sets an unknown byte value.
+        /// Region identifier used for grouping nations.
+        /// </summary>
+        public short Region { get; set; }
+
+        /// <summary>
+        /// Always 0x00 in observed files (reserved padding).
         /// </summary>
         public byte Unknown3 { get; set; }
 
         /// <summary>
-        /// Gets or sets the array of languages spoken in the nation (language ID and proficiency level).
+        /// Languages spoken in the nation as pairs of language ID and proficiency level.
+        /// The count is stored as a single byte in the file.
         /// </summary>
         public (short Id, byte Proficiency)[] Languages { get; set; }
 
         /// <summary>
-        /// Gets or sets whether the nation is active in the game (1 = active, 0 = inactive).
+        /// Indicates whether a male national team block follows in the file.
         /// </summary>
-        public bool HasManTeam { get; set; }
+        public bool HasMaleTeam { get; set; }
+
+        public NationalTeam? MaleTeam { get; set; }
 
         /// <summary>
-        /// Gets or sets the first national color (nullable, only if IsActive is 1).
+        /// Indicates whether a female national team block follows in the file.
         /// </summary>
-        public short? Color1 { get; set; }
+        public bool HasFemaleTeam { get; set; }
+
+        public NationalTeam? FemaleTeam { get; set; }
 
         /// <summary>
-        /// Gets or sets an unknown integer value (nullable, only if IsActive is 1).
+        /// Creates a nation by reading its binary representation from the provided reader.
         /// </summary>
-        public int? Unknown5 { get; set; }
-
-        /// <summary>
-        /// Gets or sets the second national color (nullable, only if IsActive is 1).
-        /// </summary>
-        public short? Color2 { get; set; }
-
-        /// <summary>
-        /// Gets or sets an unknown byte value (nullable, only if IsActive is 1).
-        /// </summary>
-        public byte? Unknown6 { get; set; }
-
-        /// <summary>
-        /// Gets or sets an unknown short value (nullable, only if IsActive is 1).
-        /// </summary>
-        public short? Unknown7 { get; set; }
-
-        /// <summary>
-        /// Gets or sets an unknown byte value (nullable, only if IsActive is 1).
-        /// </summary>
-        public byte? Unknown8 { get; set; }
-
-        /// <summary>
-        /// Gets or sets whether the nation has a FIFA/UEFA ranking (nullable, only if IsActive is 1).
-        /// </summary>
-        public bool? IsRanked { get; set; }
-
-        /// <summary>
-        /// Gets or sets the FIFA/UEFA ranking position (nullable, only if IsActive is 1).
-        /// </summary>
-        public short? Ranking { get; set; }
-
-        /// <summary>
-        /// Gets or sets the ranking points (nullable, only if IsActive is 1).
-        /// </summary>
-        public short? Points { get; set; }
-
-        /// <summary>
-        /// Gets or sets an unknown short value (nullable, only if IsActive is 1).
-        /// </summary>
-        public short? Unknown9 { get; set; }
-
-        /// <summary>
-        /// Gets or sets the first set of coefficient values (only if IsActive is 1).
-        /// </summary>
-        public float[] Coefficients1 { get; set; } = [];
-
-        /// <summary>
-        /// Gets or sets unknown data (11 bytes, only if IsActive is 1).
-        /// </summary>
-        public byte[] Unknown10 { get; set; } = [];
-
-        /// <summary>
-        /// Gets or sets whether the nation has a second coefficient set (1 = has coefficients, 0 = no coefficients).
-        /// </summary>
-        public bool HasWomanTeam { get; set; }
-
-        /// <summary>
-        /// Gets or sets unknown data (16 bytes, only if HasCoefficient2 is 1).
-        /// </summary>
-        public byte[] Unknown11 { get; set; } = [];
-
-        /// <summary>
-        /// Gets or sets an unknown byte value (nullable, only if HasCoefficient2 is 1).
-        /// </summary>
-        public byte? Unknown12 { get; set; }
-
-        /// <summary>
-        /// Gets or sets an unknown short value (nullable, only if HasCoefficient2 is 1).
-        /// </summary>
-        public short? Unknown13 { get; set; }
-
-        /// <summary>
-        /// Gets or sets the second set of coefficient values (only if HasCoefficient2 is 1).
-        /// </summary>
-        public float[] Coefficients2 { get; set; } = [];
-
-        /// <summary>
-        /// Gets or sets unknown data (11 bytes, only if HasCoefficient2 is 1).
-        /// </summary>
-        public byte[] Unknown14 { get; set; } = [];
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Nation"/> class by reading from a binary reader.
-        /// </summary>
-        /// <param name="reader">The binary reader containing the nation data.</param>
+        /// <param name="reader">Binary reader positioned at the start of the nation record.</param>
         public Nation(BinaryReaderEx reader)
         {
             Uid = reader.ReadInt32();
@@ -192,57 +122,27 @@
             CapitalId = reader.ReadInt16();
             StadiumId = reader.ReadInt16();
 
-            StateOfDevelopment = reader.ReadInt32();
+            StateOfDevelopment = reader.ReadByte();
+            Unknown1 = reader.ReadByte();
             Unknown2 = reader.ReadInt16();
+            Region = reader.ReadInt16();
             Unknown3 = reader.ReadByte();
 
             Languages = new (short Id, byte Proficiency)[reader.ReadByte()];
             for (int i = 0; i < Languages.Length; i++)
                 Languages[i] = (reader.ReadInt16(), reader.ReadByte());
 
-            HasManTeam = reader.ReadBoolean();
-            if (HasManTeam)
-            {
-                Color1 = reader.ReadInt16();
-                Unknown5 = reader.ReadInt32();
-                Color2 = reader.ReadInt16();
+            HasMaleTeam = reader.ReadBoolean();
+            MaleTeam = HasMaleTeam ? new NationalTeam(reader) : null;
 
-                Unknown6 = reader.ReadByte();
-                Unknown7 = reader.ReadInt16();
-                Unknown8 = reader.ReadByte();
-
-                IsRanked = reader.ReadBoolean();
-                Ranking = reader.ReadInt16();
-                Points = reader.ReadInt16();
-
-                Unknown9 = reader.ReadInt16();
-
-                Coefficients1 = new float[reader.ReadByte()];
-                for (int i = 0; i < Coefficients1.Length; i++)
-                    Coefficients1[i] = reader.ReadSingle();
-
-                Unknown10 = reader.ReadBytes(11);
-            }
-
-            HasWomanTeam = reader.ReadBoolean();
-            if (HasWomanTeam)
-            {
-                Unknown11 = reader.ReadBytes(16);
-                Unknown12 = reader.ReadByte();
-                Unknown13 = reader.ReadInt16();
-
-                Coefficients2 = new float[reader.ReadByte()];
-                for (int i = 0; i < Coefficients2.Length; i++)
-                    Coefficients2[i] = reader.ReadSingle();
-
-                Unknown14 = reader.ReadBytes(11);
-            }
+            HasFemaleTeam = reader.ReadBoolean();
+            FemaleTeam = HasFemaleTeam ? new NationalTeam(reader) : null;
         }
 
         /// <summary>
-        /// Converts the nation data to a byte array.
+        /// Serializes the nation to a byte array using the game file format.
         /// </summary>
-        /// <returns>A byte array representing the serialized nation data.</returns>
+        /// <returns>Byte array containing the serialized nation.</returns>
         public byte[] ToBytes()
         {
             using var stream = new MemoryStream();
@@ -252,9 +152,9 @@
         }
 
         /// <summary>
-        /// Writes the nation data to the specified binary writer.
+        /// Writes this nation to a binary writer using the game file layout.
         /// </summary>
-        /// <param name="writer">The binary writer to write the nation data to.</param>
+        /// <param name="writer">Binary writer to receive the nation data.</param>
         public void Write(BinaryWriterEx writer)
         {
             writer.Write(Uid);
@@ -271,7 +171,9 @@
             writer.Write(StadiumId);
 
             writer.Write(StateOfDevelopment);
+            writer.Write(Unknown1);
             writer.Write(Unknown2);
+            writer.Write(Region);
             writer.Write(Unknown3);
 
             writer.Write((byte)Languages.Length);
@@ -281,56 +183,15 @@
                 writer.Write(Languages[i].Proficiency);
             }
 
-            writer.Write(HasManTeam);
+            writer.Write(HasMaleTeam);
+            if (HasMaleTeam && MaleTeam != null)
+                MaleTeam.Write(writer);
 
-            if (HasManTeam)
-            {
-                writer.Write(Color1.Value);
-                writer.Write(Unknown5.Value);
-                writer.Write(Color2.Value);
-
-                writer.Write(Unknown6.Value);
-                writer.Write(Unknown7.Value);
-                writer.Write(Unknown8.Value);
-
-                writer.Write(IsRanked.Value);
-                writer.Write(Ranking.Value);
-                writer.Write(Points.Value);
-
-                writer.Write(Unknown9.Value);
-                writer.Write((byte)Coefficients1.Length);
-                for (int i = 0; i < Coefficients1.Length; i++)
-                {
-                    writer.Write(Coefficients1[i]);
-                }
-
-                writer.Write(Unknown10);
-            }
-
-            writer.Write(HasWomanTeam);
-            if (HasWomanTeam)
-            {
-                writer.Write(Unknown11);
-                writer.Write(Unknown12.Value);
-                writer.Write(Unknown13.Value);
-
-                writer.Write((byte)Coefficients2.Length);
-                for (int i = 0; i < Coefficients2.Length; i++)
-                {
-                    writer.Write(Coefficients2[i]);
-                }
-
-                writer.Write(Unknown14);
-            }
-
-            //writer.Write((byte)ExtraNames.Length);
-            //for (int i = 0; i < ExtraNames.Length; i++)
-            //{
-            //    writer.Write(ExtraNames[i].Item1);
-            //    writer.Write(ExtraNames[i].Item2);
-            //    writer.Write(ExtraNames[i].Item3);
-            //}
+            writer.Write(HasFemaleTeam);
+            if (HasFemaleTeam && FemaleTeam != null)
+                FemaleTeam.Write(writer);
         }
+
         public override string ToString()
         {
             return $"{Name}";

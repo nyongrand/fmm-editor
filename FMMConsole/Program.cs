@@ -93,9 +93,6 @@ using FMMLibrary;
 //var par = await Scripts.SwitchNationality("../../../db/db_archive_2603/people.dat", 58);
 //await par.Save();
 
-var peopleToAlwaysLoad = await AlwaysLoadParser.Load("../../../db/db_archive_2603/people_to_always_load_male.dat");
-var g = peopleToAlwaysLoad.Items.ToList();
-
 var peopleParser = await PeopleParser.Load("../../../db/db_archive_2603/people.dat");
 var playerParser = await PlayerParser.Load("../../../db/db_archive_2603/players.dat");
 var clubParser = await ClubParser.Load("../../../db/db_archive_2603/club.dat");
@@ -103,8 +100,7 @@ var nationParser = await NationParser.Load("../../../db/db_archive_2603/nation.d
 var fnameParser = await NameParser.Load("../../../db/db_archive_2603/first_names.dat");
 var lnameParser = await NameParser.Load("../../../db/db_archive_2603/second_names.dat");
 
-var query = from uid in peopleToAlwaysLoad.Items
-            join people in peopleParser.Items on uid equals people.Uid
+var query = from people in peopleParser.Items
             join club in clubParser.Items on people.ClubId equals club.Id
             join player in playerParser.Items on people.PlayerId equals player.Id
             join nation in nationParser.Items on people.NationId equals nation.Id
@@ -124,9 +120,9 @@ var query = from uid in peopleToAlwaysLoad.Items
 
 var players = query.ToList();
 var grouped = players
-    .Where(x => x.Uid == 103607)
+    //.Where(x => x.Uid == 103607)
     //.OrderBy(x => x.People.DateOfBirth)
-    //.GroupBy(x => x.Player.PreferredSquadNumber)
+    .GroupBy(x => x.People.OtherNationalityCount)
     //.OrderBy(x => x.Key)
     .ToList();
 
@@ -196,9 +192,9 @@ static async Task SwitchNationClubsWithTopContinentClubsAsync(int[] leagueIds, p
 
     // Filter top continent clubs
     var topClubs = clubParser.Items
-        .Where(x => x.IsWomanFlag == 0)
+        //.Where(x => x.IsWomanFlag == 0)
         .Where(x => x.MainClub == -1)
-        .Where(x => x.IsNational == 0)
+        //.Where(x => x.IsNational == 0)
         .Where(x => nationIds.Contains(x.BasedId))
         .GroupBy(x => x.BasedId)
         .OrderByDescending(g => g.Max(c => c.Reputation))
