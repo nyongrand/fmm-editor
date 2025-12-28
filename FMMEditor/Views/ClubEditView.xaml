@@ -205,7 +205,17 @@
                             Margin="0,16,0,8"
                             FontSize="16"
                             FontWeight="SemiBold"
-                            Text="Attendance" />
+                            Text="Stadium &amp; Attendance" />
+
+                        <ComboBox
+                            Margin="0,8"
+                            md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
+                            md:HintAssist.Hint="Stadium"
+                            DisplayMemberPath="Name"
+                            FontSize="14"
+                            ItemsSource="{Binding Stadiums}"
+                            SelectedItem="{Binding SelectedStadium}"
+                            Style="{StaticResource MaterialDesignFilledComboBox}" />
 
                         <Grid Margin="0,8">
                             <Grid.ColumnDefinitions>
@@ -286,30 +296,6 @@
                             FontWeight="SemiBold"
                             Text="Other Information" />
 
-                        <Grid Margin="0,8">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="16" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-
-                            <TextBox
-                                Grid.Column="0"
-                                md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
-                                md:HintAssist.Hint="Stadium ID"
-                                FontSize="14"
-                                Style="{StaticResource MaterialDesignFilledTextBox}"
-                                Text="{Binding Stadium, UpdateSourceTrigger=PropertyChanged}" />
-
-                            <TextBox
-                                Grid.Column="2"
-                                md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
-                                md:HintAssist.Hint="Reserves"
-                                FontSize="14"
-                                Style="{StaticResource MaterialDesignFilledTextBox}"
-                                Text="{Binding Reserves, UpdateSourceTrigger=PropertyChanged}" />
-                        </Grid>
-
                         <TextBox
                             Margin="0,8"
                             md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
@@ -317,6 +303,15 @@
                             FontSize="14"
                             Style="{StaticResource MaterialDesignFilledTextBox}"
                             Text="{Binding MainClub, UpdateSourceTrigger=PropertyChanged}" />
+
+                        <!--  Todo: Display reserves club that belong to this club  -->
+                        <TextBox
+                            Margin="0,8"
+                            md:HintAssist.Foreground="{DynamicResource MaterialDesign.Brush.Primary.Light}"
+                            md:HintAssist.Hint="Reserves"
+                            FontSize="14"
+                            Style="{StaticResource MaterialDesignFilledTextBox}"
+                            Text="{Binding Reserves, UpdateSourceTrigger=PropertyChanged}" />
 
                         <Grid Margin="0,8">
                             <Grid.ColumnDefinitions>

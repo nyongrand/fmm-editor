@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing;
+using System.Linq;
 
 namespace FMMEditor.ViewModels
 {
@@ -16,6 +17,7 @@ namespace FMMEditor.ViewModels
         public string WindowTitle => IsAddMode ? "Add New Club" : "Edit Club";
 
         public BulkObservableCollection<Nation> Nations { get; }
+        public BulkObservableCollection<Stadium> Stadiums { get; }
         public ObservableCollection<PlayerInfo> Players { get; } = [];
 
         private readonly Dictionary<int, People> peopleLookup;
@@ -32,6 +34,8 @@ namespace FMMEditor.ViewModels
             new StatusOption { Value = 3, DisplayName = "Amateur" },
             new StatusOption { Value = 22, DisplayName = "Unknown" }
         ];
+
+        [Reactive] public Stadium? SelectedStadium { get; set; }
 
         // Club fields
         [Reactive] public int? Uid { get; set; }
@@ -86,6 +90,7 @@ namespace FMMEditor.ViewModels
 
         public ClubEditViewModel(
             BulkObservableCollection<Nation> nations,
+            BulkObservableCollection<Stadium> stadiums,
             Dictionary<int, People> peopleLookup,
             Dictionary<int, Player> playerLookup,
             Dictionary<int, string> firstNameLookup,
@@ -93,6 +98,7 @@ namespace FMMEditor.ViewModels
             Dictionary<int, string> commonNameLookup)
         {
             Nations = nations;
+            Stadiums = stadiums;
             this.peopleLookup = peopleLookup;
             this.playerLookup = playerLookup;
             this.firstNameLookup = firstNameLookup;
@@ -101,6 +107,9 @@ namespace FMMEditor.ViewModels
 
             this.WhenAnyValue(x => x.IsAddMode)
                 .Subscribe(_ => this.RaisePropertyChanged(nameof(WindowTitle)));
+
+            this.WhenAnyValue(x => x.SelectedStadium)
+                .Subscribe(s => Stadium = s != null ? (short?)s.Id : (short?)-1);
         }
 
         public void InitializeForAdd()
@@ -152,6 +161,9 @@ namespace FMMEditor.ViewModels
             LeaguePos = c.LeaguePos;
             Reputation = c.Reputation;
             Stadium = c.Stadium;
+            var stadium = Stadiums.FirstOrDefault(s => s.Id == c.Stadium);
+            if (stadium != null)
+                SelectedStadium = stadium;
             LastLeague = c.LastLeague;
             MainClub = c.MainClub;
             Type = c.Type;
@@ -188,6 +200,7 @@ namespace FMMEditor.ViewModels
             LeaguePos = 0;
             Reputation = 0;
             Stadium = -1;
+            SelectedStadium = null;
             LastLeague = -1;
             MainClub = -1;
             Type = 0;

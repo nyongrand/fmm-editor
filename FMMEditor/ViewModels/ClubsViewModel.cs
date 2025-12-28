@@ -40,10 +40,12 @@ namespace FMMEditor.ViewModels
         public extern NameParser? CommonNameParser { [ObservableAsProperty] get; }
         public extern AlwaysLoadParser? AlwaysLoadMaleParser { [ObservableAsProperty] get; }
         public extern AlwaysLoadParser? AlwaysLoadFemaleParser { [ObservableAsProperty] get; }
+        public extern StadiumParser? StadiumParser { [ObservableAsProperty] get; }
 
         // Collections for display
         public BulkObservableCollection<Nation> Nations { get; } = [];
         public BulkObservableCollection<ClubDisplayModel> ClubsList { get; } = [];
+        public BulkObservableCollection<Stadium> Stadiums { get; } = [];
 
         // Commands
         public ReactiveCommand<Unit, string?> Load { get; private set; }
@@ -59,6 +61,7 @@ namespace FMMEditor.ViewModels
         public ReactiveCommand<string, NameParser> ParseCommonName { get; private set; }
         public ReactiveCommand<string, AlwaysLoadParser> ParseAlwaysLoadMale { get; private set; }
         public ReactiveCommand<string, AlwaysLoadParser> ParseAlwaysLoadFemale { get; private set; }
+        public ReactiveCommand<string, StadiumParser> ParseStadiums { get; private set; }
 
         // Commands for Add/Edit
         public ReactiveCommand<Unit, Unit> AddCommand { get; private set; }
@@ -138,6 +141,9 @@ namespace FMMEditor.ViewModels
             ParseAlwaysLoadFemale = ReactiveCommand.CreateFromTask<string, AlwaysLoadParser>(AlwaysLoadParser.Load);
             ParseAlwaysLoadFemale.ToPropertyEx(this, vm => vm.AlwaysLoadFemaleParser);
 
+            ParseStadiums = ReactiveCommand.CreateFromTask<string, StadiumParser>(StadiumParser.Load);
+            ParseStadiums.ToPropertyEx(this, vm => vm.StadiumParser);
+
             AddCommand = ReactiveCommand.CreateFromTask(OpenAddClubDialogAsync);
             EditCommand = ReactiveCommand.CreateFromTask<ClubDisplayModel>(OpenEditClubDialogAsync);
             CopyCommand = ReactiveCommand.CreateFromTask<ClubDisplayModel>(OpenCopyClubDialogAsync);
@@ -197,6 +203,11 @@ namespace FMMEditor.ViewModels
                 .WhereNotNull()
                 .Select(x => x + "\\clubs_to_always_load_female.dat")
                 .InvokeCommand(ParseAlwaysLoadFemale);
+
+            this.WhenAnyValue(vm => vm.FolderPath)
+                .WhereNotNull()
+                .Select(x => x + "\\stadium.dat")
+                .InvokeCommand(ParseStadiums);
 
             this.WhenAnyValue(vm => vm.FolderPath)
                 .Select(x => !string.IsNullOrEmpty(x))
@@ -275,13 +286,20 @@ namespace FMMEditor.ViewModels
                     RefreshClubsDisplay();
                 });
 
+            this.WhenAnyValue(vm => vm.StadiumParser)
+                .WhereNotNull()
+                .Subscribe(x =>
+                {
+                    Stadiums.Reset(x.Items.OrderBy(s => s.Name));
+                });
+
             this.WhenAnyValue(vm => vm.SearchQuery)
                 .Subscribe(x => clubsView.Refresh());
         }
 
         private async Task OpenAddClubDialogAsync()
         {
-            var viewModel = new ClubEditViewModel(Nations, peopleLookup, playerLookup, firstNameLookup, lastNameLookup, commonNameLookup);
+            var viewModel = new ClubEditViewModel(Nations, Stadiums, peopleLookup, playerLookup, firstNameLookup, lastNameLookup, commonNameLookup);
             viewModel.InitializeForAdd();
 
             var view = new ClubEditView { DataContext = viewModel };
@@ -299,7 +317,7 @@ namespace FMMEditor.ViewModels
         {
             if (club == null) return;
 
-            var viewModel = new ClubEditViewModel(Nations, peopleLookup, playerLookup, firstNameLookup, lastNameLookup, commonNameLookup);
+            var viewModel = new ClubEditViewModel(Nations, Stadiums, peopleLookup, playerLookup, firstNameLookup, lastNameLookup, commonNameLookup);
             viewModel.InitializeForEdit(club);
 
             var view = new ClubEditView { DataContext = viewModel };
@@ -317,7 +335,7 @@ namespace FMMEditor.ViewModels
         {
             if (club == null) return;
 
-            var viewModel = new ClubEditViewModel(Nations, peopleLookup, playerLookup, firstNameLookup, lastNameLookup, commonNameLookup);
+            var viewModel = new ClubEditViewModel(Nations, Stadiums, peopleLookup, playerLookup, firstNameLookup, lastNameLookup, commonNameLookup);
             viewModel.InitializeForCopy(club);
 
             var view = new ClubEditView { DataContext = viewModel };
@@ -379,7 +397,7 @@ namespace FMMEditor.ViewModels
                 LeagueId = vm.LeagueId ?? -1,
                 OtherDivision = vm.OtherDivision,
                 OtherLastPosition = vm.OtherLastPosition,
-                Stadium = vm.Stadium ?? -1,
+                Stadium = vm.SelectedStadium != null ? (short)vm.SelectedStadium.Id : vm.Stadium ?? (short)-1,
                 LastLeague = vm.LastLeague ?? -1,
                 LeaguePos = vm.LeaguePos ?? 0,
                 Reputation = vm.Reputation ?? 0,
@@ -440,7 +458,7 @@ namespace FMMEditor.ViewModels
             existingClub.LeagueId = vm.LeagueId ?? -1;
             existingClub.OtherDivision = vm.OtherDivision;
             existingClub.OtherLastPosition = vm.OtherLastPosition;
-            existingClub.Stadium = vm.Stadium ?? -1;
+            existingClub.Stadium = vm.SelectedStadium != null ? (short)vm.SelectedStadium.Id : vm.Stadium ?? (short)-1;
             existingClub.LastLeague = vm.LastLeague ?? -1;
             existingClub.LeaguePos = vm.LeaguePos ?? 0;
             existingClub.Reputation = vm.Reputation ?? 0;
