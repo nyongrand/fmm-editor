@@ -30,8 +30,8 @@ namespace FMMEditor.Models
             3 => "Amateur",
             _ => $"Status: {Status}"
         };
-        public byte Academy => Club.Academy;
-        public byte Facilities => Club.Facilities;
+        public sbyte Academy => Club.Academy;
+        public sbyte Facilities => Club.Facilities;
         public short AttAvg => Club.AttAvg;
         public short AttMin => Club.AttMin;
         public short AttMax => Club.AttMax;

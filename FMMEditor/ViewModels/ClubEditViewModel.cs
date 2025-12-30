@@ -48,8 +48,8 @@ namespace FMMEditor.ViewModels
         [Reactive] public short? BasedId { get; set; }
         [Reactive] public short? NationId { get; set; }
         [Reactive] public byte Status { get; set; }
-        [Reactive] public byte? Academy { get; set; }
-        [Reactive] public byte? Facilities { get; set; }
+        [Reactive] public sbyte? Academy { get; set; }
+        [Reactive] public sbyte? Facilities { get; set; }
         [Reactive] public short? AttAvg { get; set; }
         [Reactive] public short? AttMin { get; set; }
         [Reactive] public short? AttMax { get; set; }
