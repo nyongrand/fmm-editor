@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows.Controls.Primitives;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -36,6 +37,8 @@ namespace FMMEditor.Controls
 
         private string CurrentFilter = string.Empty;
         private bool TextBoxFreezed;
+        private bool isSettingItemsSource;
+        private ICollectionView? itemsView;
         protected TextBox? EditableTextBox => GetTemplateChild("PART_EditableTextBox") as TextBox;
         private readonly UserChange<bool> IsDropDownOpenUC;
 
@@ -114,7 +117,7 @@ namespace FMMEditor.Controls
         {
             if (string.IsNullOrEmpty(CurrentFilter)) return;
             CurrentFilter = "";
-            CollectionViewSource.GetDefaultView(ItemsSource).Refresh();
+            GetItemsView()?.Refresh();
         }
 
         private void FilteredComboBox_DropDownOpened(object? sender, EventArgs e)
@@ -138,16 +141,45 @@ namespace FMMEditor.Controls
 
         protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
         {
-            if (newValue != null)
+            if (isSettingItemsSource)
             {
-                var view = CollectionViewSource.GetDefaultView(newValue);
-                view.Filter += FilterItem;
+                base.OnItemsSourceChanged(oldValue, newValue);
+                return;
             }
 
-            if (oldValue != null)
+            if (itemsView != null)
             {
-                var view = CollectionViewSource.GetDefaultView(oldValue);
-                if (view != null) view.Filter -= FilterItem;
+                itemsView.Filter = null;
+                itemsView = null;
+            }
+
+            if (newValue != null)
+            {
+                if (newValue is ICollectionView view)
+                {
+                    itemsView = view;
+                }
+                else if (newValue is IList list)
+                {
+                    itemsView = new ListCollectionView(list);
+                }
+                else
+                {
+                    itemsView = CollectionViewSource.GetDefaultView(newValue);
+                }
+
+                if (itemsView != null)
+                {
+                    itemsView.Filter = FilterItem;
+                }
+
+                if (itemsView != null && !ReferenceEquals(itemsView, newValue))
+                {
+                    isSettingItemsSource = true;
+                    SetCurrentValue(ItemsSourceProperty, itemsView);
+                    isSettingItemsSource = false;
+                    return;
+                }
             }
 
             base.OnItemsSourceChanged(oldValue, newValue);
@@ -157,7 +189,8 @@ namespace FMMEditor.Controls
         {
             if (ItemsSource == null) return;
 
-            var view = CollectionViewSource.GetDefaultView(ItemsSource);
+            var view = GetItemsView();
+            if (view == null) return;
             FreezTextBoxState(() =>
             {
                 var isDropDownOpen = IsDropDownOpen;
@@ -178,6 +211,17 @@ namespace FMMEditor.Controls
                         }
                 }
             });
+        }
+
+        private ICollectionView? GetItemsView()
+        {
+            if (itemsView != null)
+                return itemsView;
+
+            if (ItemsSource == null)
+                return null;
+
+            return CollectionViewSource.GetDefaultView(ItemsSource);
         }
 
         private void FreezTextBoxState(Action action)
