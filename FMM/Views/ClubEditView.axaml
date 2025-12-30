@@ -1,0 +1,346 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:vm="using:FMM.ViewModels"
+			 xmlns:conv="using:FMM.Converters"
+			 xmlns:media="using:Avalonia.Media"
+			 x:Class="FMM.Views.ClubEditView"
+			 x:DataType="vm:ClubEditViewModel"
+			 d:DesignWidth="1100"
+			 d:DesignHeight="600"
+			 mc:Ignorable="d">
+
+	<UserControl.Resources>
+		<conv:DrawingColorToMediaColorConverter x:Key="DrawingColorToMediaColorConverter" />
+		<conv:BytesConverter x:Key="BytesConverter" />
+		<conv:ColorToHexConverter x:Key="ColorToHexConverter" />
+	</UserControl.Resources>
+
+	<Border Background="#FF1E1E1E" CornerRadius="8" Padding="0">
+		<Grid MaxHeight="600" RowDefinitions="Auto,*,Auto">
+			<Border Background="#FF2B2B2B" Padding="16">
+				<TextBlock FontSize="18"
+						   FontWeight="SemiBold"
+						   Foreground="White"
+						   Text="{Binding WindowTitle}" />
+			</Border>
+
+			<ScrollViewer Grid.Row="1" MaxHeight="600">
+				<Grid ColumnDefinitions="*,*,*">
+					<StackPanel Grid.Column="0" Margin="16" Spacing="8">
+						<TextBlock FontSize="16" FontWeight="SemiBold" Text="Basic Information" />
+
+						<TextBox Watermark="Full Name *"
+								 Text="{Binding FullName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+						<TextBox Watermark="Short Name"
+								 Text="{Binding ShortName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+						<Grid ColumnDefinitions="*,16,*">
+							<TextBox Grid.Column="0" Watermark="6 Letter Name"
+									 MaxLength="6"
+									 Text="{Binding SixLetterName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+							<TextBox Grid.Column="2" Watermark="3 Letter Name"
+									 MaxLength="3"
+									 Text="{Binding ThreeLetterName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+						</Grid>
+
+						<Grid ColumnDefinitions="*,16,*">
+							<StackPanel Grid.Column="0" Spacing="4">
+								<TextBlock FontSize="12" Text="Nation *" />
+								<ComboBox ItemsSource="{Binding Nations}"
+										  SelectedValueBinding="{Binding Id}"
+										  SelectedValue="{Binding NationId}">
+									<ComboBox.ItemTemplate>
+										<DataTemplate>
+											<TextBlock Text="{Binding Name}" FontFamily="{Binding}" />
+										</DataTemplate>
+									</ComboBox.ItemTemplate>
+								</ComboBox>
+							</StackPanel>
+							<StackPanel Grid.Column="2" Spacing="4">
+								<TextBlock FontSize="12" Text="Based Nation" />
+								<ComboBox ItemsSource="{Binding Nations}"
+										  SelectedValueBinding="{Binding Id}"
+										  SelectedValue="{Binding BasedId}">
+									<ComboBox.ItemTemplate>
+										<DataTemplate>
+											<TextBlock Text="{Binding Name}" FontFamily="{Binding}" />
+										</DataTemplate>
+									</ComboBox.ItemTemplate>
+								</ComboBox>
+							</StackPanel>
+						</Grid>
+
+						<TextBlock Margin="0,8,0,0" FontSize="16" FontWeight="SemiBold" Text="League Information" />
+
+						<StackPanel Spacing="4">
+							<TextBlock FontSize="12" Text="League" />
+							<ComboBox ItemsSource="{Binding Competitions}"
+									  SelectedItem="{Binding SelectedCompetition}">
+								<ComboBox.ItemTemplate>
+									<DataTemplate>
+										<TextBlock Text="{Binding FullName}" FontFamily="{Binding}" />
+									</DataTemplate>
+								</ComboBox.ItemTemplate>
+							</ComboBox>
+						</StackPanel>
+
+						<Grid ColumnDefinitions="*,8,*,8,*">
+							<StackPanel Grid.Column="0" Grid.ColumnSpan="3" Spacing="4">
+								<TextBlock FontSize="12" Text="Last League" />
+								<ComboBox ItemsSource="{Binding Competitions}"
+										  SelectedItem="{Binding SelectedLastLeague}">
+									<ComboBox.ItemTemplate>
+										<DataTemplate>
+											<TextBlock Text="{Binding FullName}" FontFamily="{Binding}" />
+										</DataTemplate>
+									</ComboBox.ItemTemplate>
+								</ComboBox>
+							</StackPanel>
+							<StackPanel Grid.Column="4" Spacing="4">
+								<TextBlock FontSize="12" Text="Position" />
+								<TextBox Text="{Binding LeaguePos, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+							</StackPanel>
+						</Grid>
+
+						<TextBlock Margin="0,8,0,0" FontSize="16" FontWeight="SemiBold" Text="Facilities &amp; Ratings" />
+
+						<Grid ColumnDefinitions="*,16,*">
+							<TextBox Grid.Column="0" Watermark="Academy (0-20)"
+									 Text="{Binding Academy, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+							<TextBox Grid.Column="2" Watermark="Facilities (0-20)"
+									 Text="{Binding Facilities, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+						</Grid>
+
+						<Grid ColumnDefinitions="*,16,*">
+							<TextBox Grid.Column="0" Watermark="Reputation"
+									 Text="{Binding Reputation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+							<StackPanel Grid.Column="2" Spacing="4">
+								<TextBlock FontSize="12" Text="Status" />
+								<ComboBox ItemsSource="{Binding StatusOptions}"
+										  SelectedValueBinding="{Binding Value}"
+										  SelectedValue="{Binding Status}">
+									<ComboBox.ItemTemplate>
+										<DataTemplate>
+											<TextBlock Text="{Binding DisplayName}" FontFamily="{Binding}" />
+										</DataTemplate>
+									</ComboBox.ItemTemplate>
+								</ComboBox>
+							</StackPanel>
+						</Grid>
+
+						<TextBlock Margin="0,8,0,0" FontSize="16" FontWeight="SemiBold" Text="Stadium &amp; Attendance" />
+
+						<StackPanel Spacing="4">
+							<TextBlock FontSize="12" Text="Stadium" />
+							<ComboBox ItemsSource="{Binding Stadiums}"
+									  SelectedItem="{Binding SelectedStadium}">
+								<ComboBox.ItemTemplate>
+									<DataTemplate>
+										<TextBlock Text="{Binding Name}" FontFamily="{Binding}" />
+									</DataTemplate>
+								</ComboBox.ItemTemplate>
+							</ComboBox>
+						</StackPanel>
+
+						<Grid ColumnDefinitions="*,8,*,8,*">
+							<TextBox Grid.Column="0" Watermark="Min"
+									 Text="{Binding AttMin, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+							<TextBox Grid.Column="2" Watermark="Avg"
+									 Text="{Binding AttAvg, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+							<TextBox Grid.Column="4" Watermark="Max"
+									 Text="{Binding AttMax, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+						</Grid>
+
+						<TextBlock Margin="0,8,0,0" FontSize="16" FontWeight="SemiBold" Text="Other Information" />
+
+						<TextBox Watermark="Main Club ID"
+								 Text="{Binding MainClub, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+						<TextBox Watermark="Reserves"
+								 Text="{Binding Reserves, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+						<Grid ColumnDefinitions="*,16,*">
+							<StackPanel Grid.Column="0" Spacing="4">
+								<TextBlock FontSize="12" Text="Type" />
+								<ComboBox SelectedIndex="{Binding Type}">
+									<ComboBoxItem Content="Club" />
+									<ComboBoxItem Content="National" />
+									<ComboBoxItem Content="Unknown" />
+								</ComboBox>
+							</StackPanel>
+							<StackPanel Grid.Column="2" Spacing="4">
+								<TextBlock FontSize="12" Text="Player Gender" />
+								<ComboBox SelectedIndex="{Binding Gender}">
+									<ComboBoxItem Content="Male" />
+									<ComboBoxItem Content="Female" />
+								</ComboBox>
+							</StackPanel>
+						</Grid>
+
+						<TextBlock Margin="0,8,0,0" FontSize="16" FontWeight="SemiBold" Text="Club Colors" />
+
+						<Grid ColumnDefinitions="*,8,*">
+							<StackPanel Grid.Column="0" Spacing="4">
+								<TextBlock FontSize="12" Text="Color 1" />
+								<Grid ColumnDefinitions="Auto,*">
+									<Border Width="40" Height="32" CornerRadius="4">
+										<Border.Background>
+											<media:SolidColorBrush Color="{Binding Color1, Converter={StaticResource DrawingColorToMediaColorConverter}}" />
+										</Border.Background>
+									</Border>
+									<TextBox Grid.Column="1"
+											 Margin="8,0,0,0"
+											 Watermark="Hex (RRGGBB)"
+											 Text="{Binding Color1, Converter={StaticResource ColorToHexConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+								</Grid>
+							</StackPanel>
+							<StackPanel Grid.Column="2" Spacing="4">
+								<TextBlock FontSize="12" Text="Color 2" />
+								<Grid ColumnDefinitions="Auto,*">
+									<Border Width="40" Height="32" CornerRadius="4">
+										<Border.Background>
+											<media:SolidColorBrush Color="{Binding Color2, Converter={StaticResource DrawingColorToMediaColorConverter}}" />
+										</Border.Background>
+									</Border>
+									<TextBox Grid.Column="1"
+											 Margin="8,0,0,0"
+											 Watermark="Hex (RRGGBB)"
+											 Text="{Binding Color2, Converter={StaticResource ColorToHexConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+								</Grid>
+							</StackPanel>
+						</Grid>
+
+						<Grid ColumnDefinitions="*,8,*">
+							<StackPanel Grid.Column="0" Spacing="4">
+								<TextBlock FontSize="12" Text="Color 3" />
+								<Grid ColumnDefinitions="Auto,*">
+									<Border Width="40" Height="32" CornerRadius="4">
+										<Border.Background>
+											<media:SolidColorBrush Color="{Binding Color3, Converter={StaticResource DrawingColorToMediaColorConverter}}" />
+										</Border.Background>
+									</Border>
+									<TextBox Grid.Column="1"
+											 Margin="8,0,0,0"
+											 Watermark="Hex (RRGGBB)"
+											 Text="{Binding Color3, Converter={StaticResource ColorToHexConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+								</Grid>
+							</StackPanel>
+							<StackPanel Grid.Column="2" Spacing="4">
+								<TextBlock FontSize="12" Text="Color 4" />
+								<Grid ColumnDefinitions="Auto,*">
+									<Border Width="40" Height="32" CornerRadius="4">
+										<Border.Background>
+											<media:SolidColorBrush Color="{Binding Color4, Converter={StaticResource DrawingColorToMediaColorConverter}}" />
+										</Border.Background>
+									</Border>
+									<TextBox Grid.Column="1"
+											 Margin="8,0,0,0"
+											 Watermark="Hex (RRGGBB)"
+											 Text="{Binding Color4, Converter={StaticResource ColorToHexConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+								</Grid>
+							</StackPanel>
+						</Grid>
+
+						<Grid ColumnDefinitions="*,8,*">
+							<StackPanel Grid.Column="0" Spacing="4">
+								<TextBlock FontSize="12" Text="Color 5" />
+								<Grid ColumnDefinitions="Auto,*">
+									<Border Width="40" Height="32" CornerRadius="4">
+										<Border.Background>
+											<media:SolidColorBrush Color="{Binding Color5, Converter={StaticResource DrawingColorToMediaColorConverter}}" />
+										</Border.Background>
+									</Border>
+									<TextBox Grid.Column="1"
+											 Margin="8,0,0,0"
+											 Watermark="Hex (RRGGBB)"
+											 Text="{Binding Color5, Converter={StaticResource ColorToHexConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+								</Grid>
+							</StackPanel>
+							<StackPanel Grid.Column="2" Spacing="4">
+								<TextBlock FontSize="12" Text="Color 6" />
+								<Grid ColumnDefinitions="Auto,*">
+									<Border Width="40" Height="32" CornerRadius="4">
+										<Border.Background>
+											<media:SolidColorBrush Color="{Binding Color6, Converter={StaticResource DrawingColorToMediaColorConverter}}" />
+										</Border.Background>
+									</Border>
+									<TextBox Grid.Column="1"
+											 Margin="8,0,0,0"
+											 Watermark="Hex (RRGGBB)"
+											 Text="{Binding Color6, Converter={StaticResource ColorToHexConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+								</Grid>
+							</StackPanel>
+						</Grid>
+					</StackPanel>
+
+					<StackPanel Grid.Column="1" Margin="16" Spacing="8">
+						<TextBlock FontSize="16" FontWeight="SemiBold" Text="Unknown Data Fields" />
+						<TextBlock FontSize="12" Foreground="Orange" Text="Advanced: Edit as hexadecimal values (e.g., FFA03C)" />
+
+						<CheckBox Content="Unknown4 Flag (Enable 68-byte data)"
+								  IsChecked="{Binding Unknown4Flag}" />
+
+						<TextBox Watermark="Unknown4"
+								 AcceptsReturn="True"
+								 IsEnabled="{Binding Unknown4Flag}"
+								 TextWrapping="Wrap"
+								 Text="{Binding Unknown4, Converter={StaticResource BytesConverter}, UpdateSourceTrigger=LostFocus}" />
+
+						<TextBox Watermark="Unknown5"
+								 AcceptsReturn="True"
+								 TextWrapping="Wrap"
+								 Text="{Binding Unknown5, Converter={StaticResource BytesConverter}, UpdateSourceTrigger=LostFocus}" />
+
+						<TextBox Watermark="Unknown6"
+								 AcceptsReturn="True"
+								 TextWrapping="Wrap"
+								 Text="{Binding Unknown6, Converter={StaticResource BytesConverter}, UpdateSourceTrigger=LostFocus}" />
+
+						<TextBox Watermark="Unknown7"
+								 AcceptsReturn="True"
+								 TextWrapping="Wrap"
+								 Text="{Binding Unknown7, Converter={StaticResource BytesConverter}, UpdateSourceTrigger=LostFocus}" />
+
+						<TextBox Watermark="Unknown8"
+								 AcceptsReturn="True"
+								 TextWrapping="Wrap"
+								 Text="{Binding Unknown8, Converter={StaticResource BytesConverter}, UpdateSourceTrigger=LostFocus}" />
+
+						<TextBox Watermark="Unknown9"
+								 AcceptsReturn="True"
+								 TextWrapping="Wrap"
+								 Text="{Binding Unknown9, Converter={StaticResource BytesConverter}, UpdateSourceTrigger=LostFocus}" />
+					</StackPanel>
+
+					<StackPanel Grid.Column="2" Margin="16" Spacing="8">
+						<TextBlock FontSize="16" FontWeight="SemiBold" Text="Players" />
+						<TextBlock FontSize="12" Foreground="#FFB0B0B0"
+								   Text="{Binding Players.Count, StringFormat='Total Players: {0}'}" />
+
+						<DataGrid ItemsSource="{Binding Players}"
+								  AutoGenerateColumns="False"
+								  IsReadOnly="True"
+								  GridLinesVisibility="All">
+							<DataGrid.Columns>
+								<DataGridTextColumn Header="#" Width="50" Binding="{Binding Index}" />
+								<DataGridTextColumn Header="Player Name" Width="*" Binding="{Binding PlayerName}" />
+							</DataGrid.Columns>
+						</DataGrid>
+					</StackPanel>
+				</Grid>
+			</ScrollViewer>
+
+			<StackPanel Grid.Row="2" Margin="16" HorizontalAlignment="Right" Orientation="Horizontal" Spacing="8">
+				<Button Width="90"
+						Command="{Binding SaveCommand}"
+						Content="SAVE"
+						IsDefault="True" />
+				<Button Width="90"
+						Command="{Binding CancelCommand}"
+						Content="CANCEL"
+						IsCancel="True" />
+			</StackPanel>
+		</Grid>
+	</Border>
+</UserControl>

@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:FMM.ViewModels"
              xmlns:conv="using:FMM.Converters"
+             xmlns:views="using:FMM.Views"
              x:Class="FMM.Views.ClubListView"
              x:DataType="vm:ClubListViewModel"
              mc:Ignorable="d"
@@ -147,6 +148,17 @@
 							   TextWrapping="Wrap" />
 					<Button Width="180" Height="36" Content="Load Database" Click="Load_Click" />
 				</StackPanel>
+			</Border>
+		</Grid>
+
+		<Grid Grid.RowSpan="3"
+			  IsVisible="{Binding ShowEditDialog}"
+			  Background="#99000000"
+			  Panel.ZIndex="10">
+			<Border Width="1100"
+					HorizontalAlignment="Center"
+					VerticalAlignment="Center">
+				<views:ClubEditView DataContext="{Binding EditViewModel}" />
 			</Border>
 		</Grid>
 
