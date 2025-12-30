@@ -19,14 +19,14 @@ namespace FMMEditor.ViewModels
         public string WindowTitle => IsAddMode ? "Add New Person" : "Edit Person";
 
         // Collections for ComboBoxes
-        public BulkObservableCollection<Name> FirstNames { get; }
-        public BulkObservableCollection<Name> LastNames { get; }
-        public BulkObservableCollection<Name> CommonNames { get; }
-        public BulkObservableCollection<Nation> Nations { get; }
+        public List<Name> FirstNames { get; }
+        public List<Name> LastNames { get; }
+        public List<Name> CommonNames { get; }
+        public List<Nation> Nations { get; }
         public List<ClubOption> Clubs { get; }
 
         // Language collection
-        public BulkObservableCollection<Language> AvailableLanguages { get; }
+        public List<Language> AvailableLanguages { get; }
 
         // Ethnicity options
         public List<EthnicityOption> EthnicityOptions { get; } = Enum.GetValues<Ethnicity>()
@@ -174,12 +174,12 @@ namespace FMMEditor.ViewModels
             BulkObservableCollection<Club> clubs,
             BulkObservableCollection<Language> languages)
         {
-            FirstNames = firstNames;
-            LastNames = lastNames;
-            CommonNames = commonNames;
-            Nations = nations;
+            FirstNames = [.. firstNames];
+            LastNames = [.. lastNames];
+            CommonNames = [.. commonNames];
+            Nations = [.. nations];
             Clubs = [new ClubOption(-1, "Free Agent"), .. clubs.Select(x => new ClubOption(x.Id, x.FullName))];
-            AvailableLanguages = languages;
+            AvailableLanguages = [.. languages];
 
             // Initialize language commands
             AddDefaultLanguageCommand = ReactiveCommand.Create(AddDefaultLanguage);

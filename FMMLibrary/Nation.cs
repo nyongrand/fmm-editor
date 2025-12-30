@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-
-namespace FMMLibrary
+﻿namespace FMMLibrary
 {
     /// <summary>
     /// Represents a nation entry in an FMM database (.dat) with identification data,
