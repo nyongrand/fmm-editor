@@ -93,12 +93,12 @@ using FMMLibrary;
 //var par = await Scripts.SwitchNationality("../../../db/db_archive_2603/people.dat", 58);
 //await par.Save();
 
-var peopleParser = await PeopleParser.Load("../../../db/db_archive_2603/people.dat");
-var playerParser = await PlayerParser.Load("../../../db/db_archive_2603/players.dat");
-var clubParser = await ClubParser.Load("../../../db/db_archive_2603/club.dat");
-var nationParser = await NationParser.Load("../../../db/db_archive_2603/nation.dat");
-var fnameParser = await NameParser.Load("../../../db/db_archive_2603/first_names.dat");
-var lnameParser = await NameParser.Load("../../../db/db_archive_2603/second_names.dat");
+var peopleParser = await PeopleParser.Load("../../../db/db_archive_2604/people.dat");
+var playerParser = await PlayerParser.Load("../../../db/db_archive_2604/players.dat");
+var clubParser = await ClubParser.Load("../../../db/db_archive_2604/club.dat");
+var nationParser = await NationParser.Load("../../../db/db_archive_2604/nation.dat");
+var fnameParser = await NameParser.Load("../../../db/db_archive_2604/first_names.dat");
+var lnameParser = await NameParser.Load("../../../db/db_archive_2604/second_names.dat");
 
 var query = from people in peopleParser.Items
             join club in clubParser.Items on people.ClubId equals club.Id
@@ -120,11 +120,89 @@ var query = from people in peopleParser.Items
 
 var players = query.ToList();
 var grouped = players
-    //.Where(x => x.Uid == 103607)
+    .Where(x => x.People.NationId == 771)
     //.OrderBy(x => x.People.DateOfBirth)
-    .GroupBy(x => x.People.OtherNationalityCount)
+    //.GroupBy(x => x.People.OtherNationalityCount)
     //.OrderBy(x => x.Key)
     .ToList();
+
+#region Switch W.GER to GER
+
+var ger = nationParser.Items.First(x => x.Uid == 771);
+var wger = nationParser.Items.First(x => x.Uid == 584);
+
+// change all w.ger data with ger data except except name and id
+wger.Name = ger.Name;
+wger.Nationality = ger.Nationality;
+wger.CodeName = ger.CodeName;
+wger.ContinentId = ger.ContinentId;
+wger.CapitalId = ger.CapitalId;
+wger.StadiumId = ger.StadiumId;
+wger.StateOfDevelopment = ger.StateOfDevelopment;
+wger.Unknown1 = ger.Unknown1;
+wger.Unknown2 = ger.Unknown2;
+wger.Region = ger.Region;
+wger.Unknown3 = ger.Unknown3;
+wger.Languages = ger.Languages;
+wger.HasMaleTeam = ger.HasMaleTeam;
+wger.MaleTeam = ger.MaleTeam;
+wger.HasFemaleTeam = ger.HasFemaleTeam;
+wger.FemaleTeam = ger.FemaleTeam;
+
+await nationParser.Save();
+
+//var germanyPlayers = players
+//    .Where(x => x.People.NationId == ger.Id)
+//    .ToList();
+
+//var germanyPlayersOther = players
+//    .Where(x => x.People.OtherNationalities.Contains(ger.Id))
+//    .ToList();
+
+
+// change all ger people to w.ger
+foreach (var people in peopleParser.Items.Where(x => x.NationId == ger.Id))
+{
+    people.NationId = wger.Id;
+}
+await peopleParser.Save();
+
+var cityParser = await CityParser.Load("../../../db/db_archive_2604/city.dat");
+foreach (var city in cityParser.Items.Where(x => x.NationId == ger.Id))
+{
+    city.NationId = wger.Id;
+}
+await cityParser.Save();
+
+foreach (var club in clubParser.Items.Where(x => x.BasedId == ger.Id))
+{
+    club.NationId = wger.Id;
+    club.BasedId = wger.Id;
+}
+await clubParser.Save();
+
+var competitionParser = await CompetitionParser.Load("../../../db/db_archive_2604/competition.dat");
+foreach (var competition in competitionParser.Items.Where(x => x.NationId == ger.Id))
+{
+    competition.NationId = wger.Id;
+}
+await competitionParser.Save();
+
+var languageParser = await LanguageParser.Load("../../../db/db_archive_2604/languages.dat");
+foreach (var language in languageParser.Items.Where(x => x.NationId == ger.Id))
+{
+    language.NationId = wger.Id;
+}
+await languageParser.Save();
+
+var regionParser = await RegionParser.Load("../../../db/db_archive_2604/regions.dat");
+foreach (var region in regionParser.Items.Where(x => x.NationId == ger.Id))
+{
+    region.NationId = wger.Id;
+}
+await regionParser.Save();
+
+#endregion
 
 var indonesian = players
     //.GroupBy(x => x.People.Unknown2)
