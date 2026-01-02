@@ -80,12 +80,12 @@ namespace FMMLibrary
         /// <summary>
         /// Gets or sets the academy rating.
         /// </summary>
-        public byte Academy { get; set; }
+        public sbyte Academy { get; set; }
 
         /// <summary>
         /// Gets or sets the facilities rating.
         /// </summary>
-        public byte Facilities { get; set; }
+        public sbyte Facilities { get; set; }
 
         /// <summary>
         /// Gets or sets the average attendance.
@@ -275,8 +275,8 @@ namespace FMMLibrary
             }
 
             Status = reader.ReadByte();
-            Academy = reader.ReadByte();
-            Facilities = reader.ReadByte();
+            Academy = reader.ReadSByte();
+            Facilities = reader.ReadSByte();
             AttAvg = reader.ReadInt16();
             AttMin = reader.ReadInt16();
             AttMax = reader.ReadInt16();

@@ -78,10 +78,10 @@
         public byte Temperament { get; set; }
 
         public int PlayerId { get; set; }
-        public int Unknown6b { get; set; }
-        public int Unknown6c { get; set; }
-        public int Unknown6d { get; set; }
-        public int Unknown6e { get; set; }
+        public int Unknown6b { get; set; } // Likely Manager Id
+        public int Unknown6c { get; set; } // Likely Coach Id
+        public int Unknown6d { get; set; } // Scout
+        public int Unknown6e { get; set; } // Likely Physio Id
         public int? Unknown6f { get; set; }
 
         public byte Unknown7 { get; set; }
